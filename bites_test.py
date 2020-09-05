@@ -52,6 +52,36 @@ class InitialisePathTest(unittest.TestCase):
     actual_path = initialise_path(foods)
     self.assertEqual(expected_path, actual_path)
 
+  def test_can_shuffle_two_plus_one_tokens(self):
+  # test 7
+    foods = {"apple": 2, "grapes": 1}
+    expected_paths = [
+      ["grapes", "apple", "apple"],
+      ["apple", "grapes", "apple"],
+      ["apple", "apple", "grapes"]
+      ]
+    actual_path = initialise_path(foods)
+    self.assertIn(actual_path, expected_paths)
+
+  def test_full_size_path_using_count_method_and_length(self):
+  # test 7
+    foods = {
+      "apple": 10,
+      "grapes": 10,
+      "cheese": 10,
+      "pepper": 10,
+      "bread": 10
+    }
+    expected_path_length = 50
+    path = initialise_path(foods)
+    actual_path_length = len(path)
+    self.assertEqual(actual_path_length, expected_path_length)
+    self.assertEqual(path.count("apple"), 1)
+    self.assertEqual(path.count("grapes"), 1)
+    self.assertEqual(path.count("cheese"), 10)
+    self.assertEqual(path.count("pepper"), 10)
+    self.assertEqual(path.count("bread"), 10)
+
 
 
 
