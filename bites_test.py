@@ -13,8 +13,18 @@ class InitialiseAntsTest(unittest.TestCase):
     expected_ant_positions = {"red": None, "blue": None}
     actual_ant_positions = initialise_ants(ants)
     self.assertEqual(expected_ant_positions, actual_ant_positions)
-    
-    
+
+  def test_can_initialise_five_ants(self):
+    ants = ["red", "blue", "yellow", "green", "brown"]
+    expected_ant_positions = {
+      "red": None,
+      "blue": None,
+      "yellow": None,
+      "green": None,
+      "brown": None,
+      }
+    actual_ant_positions = initialise_ants(ants)
+    self.assertEqual(expected_ant_positions, actual_ant_positions)
 
 if __name__ == '__main__':
   unittest.main()
