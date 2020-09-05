@@ -12,3 +12,7 @@ def initialise_path(foods):
     path = path + ([food] * amount)
   random.shuffle(path)
   return path
+
+def initialise_hand():
+  hand = {}
+  return hand

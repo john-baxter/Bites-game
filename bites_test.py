@@ -1,6 +1,7 @@
 import unittest
 from bites import initialise_ants
 from bites import initialise_path
+from bites import initialise_hand
 
 class InitialiseAntsTest(unittest.TestCase):
   # test 1
@@ -64,7 +65,7 @@ class InitialisePathTest(unittest.TestCase):
     self.assertIn(actual_path, expected_paths)
 
   def test_full_size_path_using_count_method_and_length(self):
-  # test 7
+  # test 8
     foods = {
       "apple": 10,
       "grapes": 10,
@@ -76,13 +77,18 @@ class InitialisePathTest(unittest.TestCase):
     path = initialise_path(foods)
     actual_path_length = len(path)
     self.assertEqual(actual_path_length, expected_path_length)
-    self.assertEqual(path.count("apple"), 1)
-    self.assertEqual(path.count("grapes"), 1)
+    self.assertEqual(path.count("apple"), 10)
+    self.assertEqual(path.count("grapes"), 10)
     self.assertEqual(path.count("cheese"), 10)
     self.assertEqual(path.count("pepper"), 10)
     self.assertEqual(path.count("bread"), 10)
 
-
+class InitialiseHandTest(unittest.TestCase):
+  def test_can_initialise_player_hand(self):
+  # test 9
+    hand = initialise_hand()
+    self.assertIsInstance(hand, dict)
+    self.assertEqual(len(hand), 0)
 
 
 
