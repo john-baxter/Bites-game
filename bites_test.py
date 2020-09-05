@@ -31,9 +31,7 @@ class InitialisePathTest(unittest.TestCase):
   def test_can_initialise_path_with_one_token(self):
     foods = {"apple": 1}
     expected_path_length = 1
-    # expected_path_tokens
-    actual_path = initialise_path(foods)
-    actual_path_length = len(actual_path)
+    actual_path_length = len(initialise_path(foods))
     self.assertEqual(expected_path_length, actual_path_length)
 
 
