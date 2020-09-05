@@ -1,3 +1,5 @@
+import random
+
 def initialise_ants(ants):
   ant_positions = {}
   for ant in ants:
@@ -5,5 +7,9 @@ def initialise_ants(ants):
   return ant_positions
   
 def initialise_path(foods):
-  path = foods.keys()
+  path = []
+  for food, amount in foods.items():
+    path = path + ([food] * amount)
+  random.shuffle(path)
+  # path = foods.keys()
   return path
