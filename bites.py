@@ -11,5 +11,4 @@ def initialise_path(foods):
   for food, amount in foods.items():
     path = path + ([food] * amount)
   random.shuffle(path)
-  # path = foods.keys()
   return path
