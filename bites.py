@@ -36,3 +36,7 @@ def move_ant(trail, ant_positions, ant):
       ant_positions[ant] += 1
 
   return ant_positions
+
+def take_food(trail, ant_positions, ant, direction):
+  return ("cheese", ['apple', 'grapes', None])
+

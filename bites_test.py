@@ -3,6 +3,7 @@ from bites import initialise_ants
 from bites import initialise_trail
 from bites import initialise_hand
 from bites import move_ant
+from bites import take_food
 
 class InitialiseAntsTest(unittest.TestCase):
   # test 1
@@ -131,6 +132,24 @@ class MoveAntTest(unittest.TestCase):
     expected_new_ant_positions = {"red": 2, "purple": 1}
     actual_new_ant_positions = move_ant(trail, ant_positions, "red")
     self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+
+class TakeFoodTest(unittest.TestCase):
+  def test_single_ant_on_trail_can_take_foot_in_front(self):
+  # test 15
+    trail = ["apple", "grapes", "cheese"]
+    ant_positions = {"purple": 1}
+    ant = "purple"
+    direction = "front"
+    expected_food = "cheese"
+    expected_new_trail = ["apple", "grapes", None]
+    (actual_food, actual_new_trail) = take_food(trail, ant_positions, ant, direction)
+    self.assertEqual(actual_food, expected_food)
+    self.assertEqual(actual_new_trail, expected_new_trail)
+
+
+
+
+
 
 if __name__ == '__main__':
   unittest.main()
