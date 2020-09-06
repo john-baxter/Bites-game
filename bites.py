@@ -38,5 +38,22 @@ def move_ant(trail, ant_positions, ant):
   return ant_positions
 
 def take_food(trail, ant_positions, ant, direction):
-  return ("cheese", ['apple', 'grapes', None])
+  
+  food_position = ant_positions[ant]
+
+  if direction == "front":
+    variation = 1
+    # food_position = ant_positions[ant] + 1
+  else:
+    variation = -1
+    # food_position = ant_positions[ant] - 1
+
+  while food_position in ant_positions.values():
+    food_position = food_position + variation
+    # food_position ++ variation
+
+  food_to_hand = trail[food_position]
+  trail[food_position] = None
+
+  return (food_to_hand, trail)
 
