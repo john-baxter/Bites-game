@@ -1,9 +1,10 @@
 import unittest
 from bites import initialise_ants
 from bites import initialise_trail
-from bites import initialise_hand
 from bites import move_ant
 from bites import take_food
+from bites import initialise_anthill
+# from bites import
 
 class InitialiseAntsTest(unittest.TestCase):
   # test 1
@@ -85,13 +86,6 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(trail.count("pepper"), 10)
     self.assertEqual(trail.count("bread"), 10)
 
-class InitialiseHandTest(unittest.TestCase):
-  def test_can_initialise_player_hand(self):
-  # test 9
-    hand = initialise_hand()
-    self.assertIsInstance(hand, dict)
-    self.assertEqual(len(hand), 0)
-
 class MoveAntTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
   # test 10
@@ -170,6 +164,29 @@ class TakeFoodTest(unittest.TestCase):
     self.assertEqual(actual_food, expected_food)
     self.assertEqual(actual_new_trail, expected_new_trail)
 
+  def test_raises_value_error_if_direction_is_wrong(self):
+  # test 18
+    trail = ["apple", "grapes", "cheese", "bread"]
+    ant_positions = {"purple": 1, "yellow": 2}
+    ant = "purple"
+    direction = "forwards"
+    self.assertRaises(ValueError, take_food, trail, ant_positions, ant, direction)
+
+class InitialiseAnthillTest(unittest.TestCase):
+  def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
+  # test 27
+    ants = ['purple', 'red', 'brown', 'yellow', 'green']
+    expected_anthill = [None, None, None, None, None]
+    actual_anthill = initialise_anthill(ants)
+    self.assertEqual(actual_anthill, expected_anthill)
+
+# TO DO
+# Continue to TD the place_ant_on_anthill method
+# class PlaceAntOnAnthillTest(unittest.TestCase):
+#   def test_first_ant_goes_to_top_spot(self):
+
+
+  
 
 
 
