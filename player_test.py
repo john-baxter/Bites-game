@@ -6,17 +6,24 @@ class InitTest(unittest.TestCase):
   # test 30
   # This test was written rertrospectively; the __init__ method came about 
   # naturally during refactoring of the code into the Player class.
-    mario = Player()
+    mario = Player("placeholder name")
     expected_mario_hand = {}
     expected_mario_score = 0
     self.assertIsInstance(mario, Player)
     self.assertEqual(mario.hand, expected_mario_hand)
     self.assertEqual(mario.score, expected_mario_score)
 
+  def test_player_instance_has_name(self):
+  # test 31
+    mario = Player("Mario Mario")
+    expected_name = "Mario Mario"
+    self.assertEqual(mario.name, "Mario Mario")
+
+
 class InitialiseHandTest(unittest.TestCase):
   def test_can_initialise_player_hand(self):
   # test 9
-    mario = Player()
+    mario = Player("placeholder name")
     # hand = initialise_hand()
     self.assertIsInstance(mario.hand, dict)
     self.assertEqual(len(mario.hand), 0)
@@ -24,7 +31,7 @@ class InitialiseHandTest(unittest.TestCase):
 class StoreFoodTest(unittest.TestCase):
   def test_can_receive_single_food_to_empty_hand(self):
   # test 19
-    mario = Player()
+    mario = Player("placeholder name")
     food = "apple"
     expected_new_hand = {"apple": 1}
     mario.store_food(food)
@@ -32,7 +39,7 @@ class StoreFoodTest(unittest.TestCase):
 
   def test_can_receive_second_token_of_same_food(self):
   # test 20
-    mario = Player()
+    mario = Player("placeholder name")
     mario.hand = {"apple": 1}
     food = "apple"
     expected_new_hand = {"apple": 2}
@@ -41,7 +48,7 @@ class StoreFoodTest(unittest.TestCase):
 
   def test_can_receive_food_not_already_in_hand(self):
     # test 21
-      mario = Player()
+      mario = Player("placeholder name")
       mario.hand = {"apple": 2}
       food = "cheese"
       expected_new_hand = {"apple": 2, "cheese": 1}
@@ -51,7 +58,7 @@ class StoreFoodTest(unittest.TestCase):
 class ScoreHandTest(unittest.TestCase):
   def test_can_score_four_points_for_one_token_in_top_slot(self):
   # test 22
-    mario = Player()
+    mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"pepper": 1}
     expected_score = 4
@@ -60,7 +67,7 @@ class ScoreHandTest(unittest.TestCase):
 
   def test_can_score_three_points_for_one_token_in_second_top_slot(self):
   # test 23
-    mario = Player()
+    mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"bread": 1}
     expected_score = 3
@@ -69,7 +76,7 @@ class ScoreHandTest(unittest.TestCase):
 
   def test_can_score_four_points_for_two_tokens_in_middle_slot(self):
   # test 24
-    mario = Player()
+    mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"cheese": 2}
     expected_score = 4
@@ -78,7 +85,7 @@ class ScoreHandTest(unittest.TestCase):
 
   def test_can_score_ten_points_for_one_of_each_token(self):
   # test 25
-    mario = Player()
+    mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {
       "apple": 1,
@@ -92,7 +99,7 @@ class ScoreHandTest(unittest.TestCase):
 
   def test_can_score_twenty_points_for_two_of_each_token(self):
   # test 26
-    mario = Player()
+    mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {
       "apple": 2,
@@ -106,7 +113,7 @@ class ScoreHandTest(unittest.TestCase):
 
   def test_typical_end_of_game_hand_gives_correct_score(self):
   # test 28
-    mario = Player()
+    mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {
       "apple": 3,
@@ -120,8 +127,8 @@ class ScoreHandTest(unittest.TestCase):
 
   def test_same_hand_gives_different_scores_for_different_anthill_configurations(self):
   # test 29
-    mario = Player()
-    luigi = Player()
+    mario = Player("placeholder name")
+    luigi = Player("placeholder name")
     anthill_a = ["red", "purple", "yellow", "brown", "green"]
     anthill_b = ["purple", "yellow", "brown", "red", "green"]
     hand = {

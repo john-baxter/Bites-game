@@ -179,6 +179,8 @@ class InitialiseAnthillTest(unittest.TestCase):
     actual_anthill = initialise_anthill()
     self.assertEqual(actual_anthill, expected_anthill)
 
+# TO DO
+# Continue to TD the place_ant_on_anthill method
 # class PlaceAntOnAnthillTest(unittest.TestCase):
 #   def test_first_ant_goes_to_top_spot(self):
 

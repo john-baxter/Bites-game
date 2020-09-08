@@ -2,7 +2,7 @@ from constants import K_COLOUR_V_FOOD_DICT
 from constants import K_FOOD_V_COLOUR_DICT
 
 class Player():
-  def __init__(self):
+  def __init__(self, name):
     """Initialises an instance of the Player class
 
     Attributes
@@ -15,6 +15,7 @@ class Player():
     score : (integer)
       A record of the points scored by this player
     """
+    self.name = name
     self.hand = self.initialise_hand()
     self.score = 0
 
