@@ -1,14 +1,52 @@
 import random
+from constants import ANTS
 from constants import K_COLOUR_V_FOOD_DICT
 # from constants import K_FOOD_V_COLOUR_DICT
   
-def initialise_ants(ants):
+def initialise_ants(ANTS):
+  """Create a record of the starting positions of each game token
+  This will show the starting positions as None, since the ants are not 
+  positioned on the train immediately.
+
+  Parameters
+  ----------
+  ANTS : (list)
+    A list containing the ID of each ant, refered to by colour
+    The list can be found at constants.py/ANTS
+    Each element is a string
+
+  Returns
+  -------
+  ant_positions : (dict)
+    A dictionary showing the starting location of each ant.
+    Initially set as None, the position will be changed throughout the game as 
+    the ant moves along the trail, the position on the trail will be defined as the 
+    index of the element in the trail list, from initialise_trail
+    Keys are strings
+    Values are integers
+  """
   ant_positions = {}
+  ants = ANTS
   for ant in ants:
     ant_positions[ant] = None
   return ant_positions
   
 def initialise_trail(foods):
+  """Create the path of tokens that the game is played on
+  
+  Parameters
+  ----------
+  foods : (dict)
+    Each type of food token to be used, and their quantities
+    The names of the foods are strings
+    The quantities are integers
+  
+  Returns
+  -------
+  trail : (list)
+    A random shuffled list of all the tokens given in the foods argument
+    Each element is a string.
+  """
   trail = []
   for food, amount in foods.items():
     trail = trail + ([food] * amount)
@@ -17,21 +55,23 @@ def initialise_trail(foods):
 
 def move_ant(trail, ant_positions, ant):
   """Move a game piece along the board.
-  The ant moves to the next available food token of its own colour.
+  The selected ant moves to the next available food token of its own colour.
 
-  Parameters:
-  -----------
+  Parameters
+  ----------
   trail : (list of strings)
     The trail contains a list of the food tokens available on the game area.
-    The types of food token can be found in ...
+    The types of food token can be found in constants.py/FOOD_TYPES
     As food tokens are removed from the game the elements are replaced with None
 
   ant_positions : (dict)
-  
-  ant : (string)
+    A dictionary showing which element of the trail list each ant is positioned at.
 
-  Returns:
-  --------
+  ant : (string)
+    The ant which the player has chosen to move this turn.
+
+  Returns
+  -------
   ant_positions : (dict)
     An updated version of the input ant_positions dictionary 
     with the moved ant showing in its new position

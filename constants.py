@@ -1,3 +1,7 @@
+ANTS = ['purple', 'red', 'brown', 'yellow', 'green']
+
+FOOD_TYPES = ['grapes', 'apple', 'bread', 'cheese', 'pepper']
+
 K_COLOUR_V_FOOD_DICT = {
   "purple": "grapes",
   "red": "apple",
