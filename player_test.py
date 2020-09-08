@@ -1,6 +1,18 @@
 import unittest
 from player import Player
 
+class InitTest(unittest.TestCase):
+  def test___init___method_works(self):
+  # test 30
+  # This test was written rertrospectively; the __init__ method came about 
+  # naturally during refactoring of the code into the Player class.
+    mario = Player()
+    expected_mario_hand = {}
+    expected_mario_score = 0
+    self.assertIsInstance(mario, Player)
+    self.assertEqual(mario.hand, expected_mario_hand)
+    self.assertEqual(mario.score, expected_mario_score)
+
 class InitialiseHandTest(unittest.TestCase):
   def test_can_initialise_player_hand(self):
   # test 9
