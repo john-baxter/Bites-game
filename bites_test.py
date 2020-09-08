@@ -1,4 +1,5 @@
 import unittest
+from constants import ANTS
 from bites import initialise_ants
 from bites import initialise_trail
 from bites import move_ant
@@ -176,7 +177,7 @@ class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
   # test 27  
     expected_anthill = [None, None, None, None, None]
-    actual_anthill = initialise_anthill()
+    actual_anthill = initialise_anthill(ANTS)
     self.assertEqual(actual_anthill, expected_anthill)
 
 # TO DO

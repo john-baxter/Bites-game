@@ -19,7 +19,6 @@ class InitTest(unittest.TestCase):
     expected_name = "Mario Mario"
     self.assertEqual(mario.name, "Mario Mario")
 
-
 class InitialiseHandTest(unittest.TestCase):
   def test_can_initialise_player_hand(self):
   # test 9

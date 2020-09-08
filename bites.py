@@ -3,14 +3,14 @@ from constants import ANTS
 from constants import K_COLOUR_V_FOOD_DICT
 # from constants import K_FOOD_V_COLOUR_DICT
   
-def initialise_ants(ANTS):
+def initialise_ants(ants):
   """Create a record of the starting positions of each insect meeple
   This will show the starting positions as None, since the ants are not 
   positioned on the train immediately.
 
   Parameters
   ----------
-  ANTS : (list)
+  ants : (list)
     A list containing the ID of each ant, refered to by colour
     The list can be found at constants.py/ANTS
     Each element is a string
@@ -26,7 +26,6 @@ def initialise_ants(ANTS):
     Values are integers
   """
   ant_positions = {}
-  ants = ANTS
   for ant in ants:
     ant_positions[ant] = None
   return ant_positions
@@ -69,6 +68,8 @@ def move_ant(trail, ant_positions, ant):
 
   ant : (string)
     The ant which the player has chosen to move this turn.
+    The list of possible ant IDs can be found at constants.py/ANTS
+    ...should be one of the keys in ant_positions
 
   Returns
   -------
@@ -112,7 +113,6 @@ def take_food(trail, ant_positions, ant, direction):
   ant : (string)
     The ID of the ant which has been moved by the user
   
-  
   direction : (string)
     The user's choice of which food token to collect.
     Can be either 'front' or 'back'
@@ -125,11 +125,6 @@ def take_food(trail, ant_positions, ant, direction):
   trail : (list)
     The newly updated list of food tokens being used in the game; 
     with the user's chosen token having been replaced with None.
-
-  unnamed_tuple : (tuple)
-    A two-element tuple containing the return values of this function
-    element[0] is food_to_hand
-    element[1] is trail
 
   Raises
   ------
@@ -154,9 +149,16 @@ def take_food(trail, ant_positions, ant, direction):
 
   return (food_to_hand, trail)
 
-def initialise_anthill():
+def initialise_anthill(ants):
   """Create the ending position for the insect meeple ready for the end of the path
 
+  Parameters
+  ----------
+  ants : (list)
+    A list containing the ID of each ant, refered to by colour
+    The list can be found at constants.py/ANTS
+    Each element is a string
+  
   Returns
   -------
   anthill : (list)
@@ -164,5 +166,5 @@ def initialise_anthill():
     ready to be filled with the ID (string) of each ant as they reach the 
     end of the trail.
   """
-  anthill = [None] * 5
+  anthill = [None] * len(ants)
   return anthill
