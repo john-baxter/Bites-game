@@ -1,13 +1,7 @@
 import random
+from constants import K_COLOUR_V_FOOD_DICT
+# from constants import K_FOOD_V_COLOUR_DICT
   
-# k_colour_v_food_dict = {
-#   "purple": "grapes",
-#   "red": "apple",
-#   "brown": "bread",
-#   "yellow": "cheese",
-#   "green": "pepper"}
-# k_food_v_colour_dict = dict((v, k) for k, v in k_colour_v_food_dict.items())
-
 def initialise_ants(ants):
   ant_positions = {}
   for ant in ants:
@@ -20,10 +14,6 @@ def initialise_trail(foods):
     trail = trail + ([food] * amount)
   random.shuffle(trail)
   return trail
-
-# def initialise_hand():
-#   hand = {}
-#   return hand
 
 def move_ant(trail, ant_positions, ant):
   """Move a game piece along the board.
@@ -51,10 +41,10 @@ def move_ant(trail, ant_positions, ant):
   else:
     ant_positions[ant] += 1
   
-  if trail[ant_positions[ant]] == k_colour_v_food_dict[ant]:
+  if trail[ant_positions[ant]] == K_COLOUR_V_FOOD_DICT[ant]:
     return ant_positions
   else:
-    while trail[ant_positions[ant]] != k_colour_v_food_dict[ant]:
+    while trail[ant_positions[ant]] != K_COLOUR_V_FOOD_DICT[ant]:
       ant_positions[ant] += 1
 
   return ant_positions
@@ -77,21 +67,6 @@ def take_food(trail, ant_positions, ant, direction):
   trail[food_position] = None
 
   return (food_to_hand, trail)
-
-# def store_food(hand, food):
-  
-#   if food in hand:
-#     hand[food] += 1
-#   else:
-#     hand[food] = 1
-  
-#   return hand
-
-# def score_hand(hand, anthill):
-#   score = 0
-#   for fruit in hand:
-#     score += anthill.index(k_food_v_colour_dict[fruit]) * hand[fruit]
-#   return score
 
 def initialise_anthill():
   anthill = [None] * 5

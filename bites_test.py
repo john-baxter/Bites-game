@@ -1,11 +1,8 @@
 import unittest
 from bites import initialise_ants
 from bites import initialise_trail
-from bites import initialise_hand
 from bites import move_ant
 from bites import take_food
-from bites import store_food
-from bites import score_hand
 from bites import initialise_anthill
 # from bites import
 
@@ -88,13 +85,6 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(trail.count("cheese"), 10)
     self.assertEqual(trail.count("pepper"), 10)
     self.assertEqual(trail.count("bread"), 10)
-
-# class InitialiseHandTest(unittest.TestCase):
-#   def test_can_initialise_player_hand(self):
-#   # test 9
-#     hand = initialise_hand()
-#     self.assertIsInstance(hand, dict)
-#     self.assertEqual(len(hand), 0)
 
 class MoveAntTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
@@ -182,82 +172,6 @@ class TakeFoodTest(unittest.TestCase):
     direction = "forwards"
     self.assertRaises(ValueError, take_food, trail, ant_positions, ant, direction)
 
-class StoreFoodTest(unittest.TestCase):
-  # def test_can_receive_single_food_to_empty_hand(self):
-  # # test 19
-  #   hand = {}
-  #   food = "apple"
-  #   expected_new_hand = {"apple": 1}
-  #   actual_new_hand = store_food(hand, food)
-  #   self.assertEqual(actual_new_hand, expected_new_hand)
-
-  # def test_can_receive_second_token_of_same_food(self):
-  # # test 20
-  #   hand = {"apple": 1}
-  #   food = "apple"
-  #   expected_new_hand = {"apple": 2}
-  #   actual_new_hand = store_food(hand, food)
-  #   self.assertEqual(actual_new_hand, expected_new_hand)
-
-  def test_can_receive_food_not_already_in_hand(self):
-  # test 21
-    hand = {"apple": 2}
-    food = "cheese"
-    expected_new_hand = {"apple": 2, "cheese": 1}
-    actual_new_hand = store_food(hand, food)
-    self.assertEqual(actual_new_hand, expected_new_hand)
-
-class ScoreHandTest(unittest.TestCase):
-  def test_can_score_four_points_for_one_token_in_top_slot(self):
-  # test 22
-    anthill = ["red", "purple", "yellow", "brown", "green"]
-    hand = {"pepper": 1}
-    expected_score = 4
-    actual_score = score_hand(hand, anthill)
-    self.assertEqual(actual_score, expected_score)
-
-  def test_can_score_three_points_for_one_token_in_second_top_slot(self):
-  # test 23
-    anthill = ["red", "purple", "yellow", "brown", "green"]
-    hand = {"bread": 1}
-    expected_score = 3
-    actual_score = score_hand(hand, anthill)
-    self.assertEqual(actual_score, expected_score)
-
-  def test_can_score_four_points_for_two_tokens_in_middle_slot(self):
-  # test 24
-    anthill = ["red", "purple", "yellow", "brown", "green"]
-    hand = {"cheese": 2}
-    expected_score = 4
-    actual_score = score_hand(hand, anthill)
-    self.assertEqual(actual_score, expected_score)
-
-  def test_can_score_ten_points_for_one_of_each_token(self):
-  # test 25
-    anthill = ["red", "purple", "yellow", "brown", "green"]
-    hand = {
-      "apple": 1,
-      "grapes": 1,
-      "cheese": 1,
-      "bread": 1,
-      "pepper": 1}
-    expected_score = 10
-    actual_score = score_hand(hand, anthill)
-    self.assertEqual(actual_score, expected_score)
-
-  def test_can_score_twenty_points_for_two_of_each_token(self):
-  # test 26
-    anthill = ["red", "purple", "yellow", "brown", "green"]
-    hand = {
-      "apple": 2,
-      "grapes": 2,
-      "cheese": 2,
-      "bread": 2,
-      "pepper": 2}
-    expected_score = 20
-    actual_score = score_hand(hand, anthill)
-    self.assertEqual(actual_score, expected_score)
-
 class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
   # test 27  
@@ -265,8 +179,8 @@ class InitialiseAnthillTest(unittest.TestCase):
     actual_anthill = initialise_anthill()
     self.assertEqual(actual_anthill, expected_anthill)
 
-class PlaceAntOnAnthillTest(unittest.TestCase):
-  def test_first_ant_goes_to_top_spot(self):
+# class PlaceAntOnAnthillTest(unittest.TestCase):
+#   def test_first_ant_goes_to_top_spot(self):
 
 
   

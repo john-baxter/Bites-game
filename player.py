@@ -4,6 +4,7 @@ from constants import K_FOOD_V_COLOUR_DICT
 class Player():
   def __init__(self):
     self.hand = self.initialise_hand()
+    self.score = 0
 
   def initialise_hand(self):
     hand = {}
@@ -16,7 +17,6 @@ class Player():
       self.hand[food] = 1
     
   def score_hand(self, anthill):
-    score = 0
-    for fruit in self.hand:
-      score += anthill.index(K_FOOD_V_COLOUR_DICT[fruit]) * self.hand[fruit]
-    return score
+    self.score = 0
+    for food in self.hand:
+      self.score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
