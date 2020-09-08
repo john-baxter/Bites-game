@@ -15,7 +15,6 @@ Values are food IDs as strings
 
 
 ANTS = K_COLOUR_V_FOOD_DICT.keys()
-# ANTS = ['purple', 'red', 'brown', 'yellow', 'green']
 """A list of ID for the insect meeple
 
 The ants will be identified by their colour.

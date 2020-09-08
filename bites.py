@@ -6,7 +6,7 @@ from constants import K_COLOUR_V_FOOD_DICT
 def initialise_ants(ants):
   """Create a record of the starting positions of each insect meeple
   This will show the starting positions as None, since the ants are not 
-  positioned on the train immediately.
+  positioned on the trail immediately.
 
   Parameters
   ----------
@@ -93,7 +93,7 @@ def move_ant(trail, ant_positions, ant):
 def take_food(trail, ant_positions, ant, direction):
   """Collect a token from the game path
   Allows the user to choose what food token to collect after moving an ant.
-  Replaces the removed token with None; keeping the lenght of the 
+  Replaces the removed token with None; keeping the length of the 
   trail consistent through the game.
 
   Parameters
@@ -162,9 +162,9 @@ def initialise_anthill(ants):
   Returns
   -------
   anthill : (list)
-    A list of length five, initially populated with each element as None; 
-    ready to be filled with the ID (string) of each ant as they reach the 
-    end of the trail.
+    A list of equivalent length to the ants parameter, initially populated with each 
+    element as None; ready to be filled with the ID (string) of each ant as they reach 
+    the end of the trail.
   """
   anthill = [None] * len(ants)
   return anthill

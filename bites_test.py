@@ -1,5 +1,4 @@
 import unittest
-from constants import ANTS
 from bites import initialise_ants
 from bites import initialise_trail
 from bites import move_ant
@@ -175,9 +174,10 @@ class TakeFoodTest(unittest.TestCase):
 
 class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
-  # test 27  
+  # test 27
+    ants = ['purple', 'red', 'brown', 'yellow', 'green']
     expected_anthill = [None, None, None, None, None]
-    actual_anthill = initialise_anthill(ANTS)
+    actual_anthill = initialise_anthill(ants)
     self.assertEqual(actual_anthill, expected_anthill)
 
 # TO DO

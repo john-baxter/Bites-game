@@ -62,7 +62,7 @@ class Player():
     ---------
     anthill : (list)
       A list recording which ant is in which spot on the anthill at the end of the game.
-      The inxex of each ant will be used as the value of each of the corresponding 
+      The index of each ant will be used as the value of each of the corresponding 
       food token in a player's hand.
       Each element is a string
 
