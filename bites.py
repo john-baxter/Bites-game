@@ -4,7 +4,7 @@ from constants import K_COLOUR_V_FOOD_DICT
 # from constants import K_FOOD_V_COLOUR_DICT
   
 def initialise_ants(ANTS):
-  """Create a record of the starting positions of each game token
+  """Create a record of the starting positions of each insect meeple
   This will show the starting positions as None, since the ants are not 
   positioned on the train immediately.
 
@@ -54,7 +54,7 @@ def initialise_trail(foods):
   return trail
 
 def move_ant(trail, ant_positions, ant):
-  """Move a game piece along the board.
+  """Move an insect meeple along the board.
   The selected ant moves to the next available food token of its own colour.
 
   Parameters
@@ -90,7 +90,53 @@ def move_ant(trail, ant_positions, ant):
   return ant_positions
 
 def take_food(trail, ant_positions, ant, direction):
+  """Collect a token from the game path
+  Allows the user to choose what food token to collect after moving an ant.
+  Replaces the removed token with None; keeping the lenght of the 
+  trail consistent through the game.
+
+  Parameters
+  ----------
+  trail : (list)
+    The shuffled list of all food tiles being used in the game; 
+    will be interspersed with None at indices where food has already been collected
+    Each element is a string
   
+  ant_positions : (dict)
+    A dictionary showing the starting location of each ant.
+    The position on the trail will be defined as the index of the 
+    element in the trail list.
+    Keys are strings
+    Values are integers
+
+  ant : (string)
+    The ID of the ant which has been moved by the user
+  
+  
+  direction : (string)
+    The user's choice of which food token to collect.
+    Can be either 'front' or 'back'
+
+  Returns
+  -------
+  food_to_hand : (string)
+    The food token chosen by the user.
+
+  trail : (list)
+    The newly updated list of food tokens being used in the game; 
+    with the user's chosen token having been replaced with None.
+
+  unnamed_tuple : (tuple)
+    A two-element tuple containing the return values of this function
+    element[0] is food_to_hand
+    element[1] is trail
+
+  Raises
+  ------
+  ValueError
+    If the user enters something other than 'front' or 'back' when 
+    indicating choice of direction.
+  """
   food_position = ant_positions[ant]
 
   if direction == "front":
@@ -109,5 +155,14 @@ def take_food(trail, ant_positions, ant, direction):
   return (food_to_hand, trail)
 
 def initialise_anthill():
+  """Create the ending position for the insect meeple ready for the end of the path
+
+  Returns
+  -------
+  anthill : (list)
+    A list of length five, initially populated with each element as None; 
+    ready to be filled with the ID (string) of each ant as they reach the 
+    end of the trail.
+  """
   anthill = [None] * 5
   return anthill
