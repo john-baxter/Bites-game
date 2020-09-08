@@ -66,7 +66,6 @@ class Player():
       food token in a player's hand.
       Each element is a string
 
-    
     Updates
     -------
     score : (integer)

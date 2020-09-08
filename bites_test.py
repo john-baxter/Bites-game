@@ -185,13 +185,5 @@ class InitialiseAnthillTest(unittest.TestCase):
 # class PlaceAntOnAnthillTest(unittest.TestCase):
 #   def test_first_ant_goes_to_top_spot(self):
 
-
-  
-
-
-
-
-
-
 if __name__ == '__main__':
   unittest.main()

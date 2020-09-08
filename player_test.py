@@ -146,19 +146,5 @@ class ScoreHandTest(unittest.TestCase):
     self.assertEqual(mario.score, expected_score_a)
     self.assertEqual(luigi.score, expected_score_b)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
   unittest.main()
