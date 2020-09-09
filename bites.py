@@ -194,7 +194,7 @@ def place_ant_on_anthill(anthill, ant):
     ant ID (string) in the appropriate place.
   """
   for i in range(len(anthill)-1, -1, -1):
-    if anthill[i] != None:
+    if anthill[i] is not None:
       continue
     else:
       anthill[i] = ant
