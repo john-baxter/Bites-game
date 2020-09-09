@@ -1,7 +1,7 @@
 import unittest
 from player import Player
 
-class InitTest(unittest.TestCase):
+class PlayerInitTest(unittest.TestCase):
   def test___init___method_works(self):
   # test 30
   # This test was written rertrospectively; the __init__ method came about 
@@ -23,7 +23,6 @@ class InitialiseHandTest(unittest.TestCase):
   def test_can_initialise_player_hand(self):
   # test 9
     mario = Player("placeholder name")
-    # hand = initialise_hand()
     self.assertIsInstance(mario.hand, dict)
     self.assertEqual(len(mario.hand), 0)
 

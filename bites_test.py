@@ -1,30 +1,34 @@
 import unittest
-from bites import initialise_ants
-from bites import initialise_trail
+from constants import ANTS
+from constants import TOKENS_FOR_TRAIL
+from bites import Bites
 from bites import move_ant
 from bites import take_food
-from bites import initialise_anthill
 from bites import place_ant_on_anthill
 # from bites import
+
+#TO DO
+# class BitesInitTest(unittest.TestCase):
 
 class InitialiseAntsTest(unittest.TestCase):
   # test 1
   def test_can_initialise_one_ant(self):
     ants = ["red"]
+    bites_game = Bites(ants, TOKENS_FOR_TRAIL)
     expected_ant_positions = {"red": None}
-    actual_ant_positions = initialise_ants(ants)
-    self.assertEqual(expected_ant_positions, actual_ant_positions)
+    self.assertEqual(bites_game.ants, expected_ant_positions)
 
   def test_can_initialise_two_ants(self):
   # test 2
     ants = ["red", "purple"]
+    bites_game = Bites(ants, TOKENS_FOR_TRAIL)
     expected_ant_positions = {"red": None, "purple": None}
-    actual_ant_positions = initialise_ants(ants)
-    self.assertEqual(expected_ant_positions, actual_ant_positions)
+    self.assertEqual(bites_game.ants, expected_ant_positions)
 
   def test_can_initialise_five_ants(self):
   # test 3
     ants = ["red", "purple", "yellow", "green", "brown"]
+    bites_game = Bites(ants, TOKENS_FOR_TRAIL)
     expected_ant_positions = {
       "red": None,
       "purple": None,
@@ -32,60 +36,58 @@ class InitialiseAntsTest(unittest.TestCase):
       "green": None,
       "brown": None,
       }
-    actual_ant_positions = initialise_ants(ants)
-    self.assertEqual(expected_ant_positions, actual_ant_positions)
+    self.assertEqual(bites_game.ants, expected_ant_positions)
 
 class InitialiseTrailTest(unittest.TestCase):
   # test 4
   def test_can_initialise_trail_with_one_token(self):
     foods = {"apple": 1}
+    bites_game = Bites(ANTS, foods)
     expected_trail = ["apple"]
-    actual_trail = initialise_trail(foods)
-    self.assertEqual(expected_trail, actual_trail)
+    self.assertEqual(bites_game.trail, expected_trail)
 
   def test_can_initialise_trail_with_two_different_tokens(self):
   # test 5
     foods = {"apple": 1, "grapes": 1}
+    bites_game = Bites(ANTS, foods)
     expected_trails = [["apple", "grapes"], ["grapes", "apple"]]
-    actual_trail = initialise_trail(foods)
-    self.assertIn(actual_trail, expected_trails)
+    self.assertIn(bites_game.trail, expected_trails)
 
   def test_can_initialise_trail_with_five_of_same_token(self):
   # test 6
     foods = {"apple": 5}
+    bites_game = Bites(ANTS, foods)
     expected_trail = ["apple", "apple", "apple", "apple", "apple"]
-    actual_trail = initialise_trail(foods)
-    self.assertEqual(expected_trail, actual_trail)
+    self.assertEqual(bites_game.trail, expected_trail)
 
   def test_can_shuffle_two_plus_one_tokens(self):
   # test 7
     foods = {"apple": 2, "grapes": 1}
+    bites_game = Bites(ANTS, foods)
     expected_trails = [
       ["grapes", "apple", "apple"],
       ["apple", "grapes", "apple"],
       ["apple", "apple", "grapes"]
       ]
-    actual_trail = initialise_trail(foods)
-    self.assertIn(actual_trail, expected_trails)
+    self.assertIn(bites_game.trail, expected_trails)
 
   def test_full_size_trail_using_count_method_and_length(self):
   # test 8
     foods = {
-      "apple": 10,
-      "grapes": 10,
-      "cheese": 10,
-      "pepper": 10,
-      "bread": 10
+      "apple": 9,
+      "grapes": 9,
+      "cheese": 9,
+      "pepper": 9,
+      "bread": 9
     }
-    expected_trail_length = 50
-    trail = initialise_trail(foods)
-    actual_trail_length = len(trail)
-    self.assertEqual(actual_trail_length, expected_trail_length)
-    self.assertEqual(trail.count("apple"), 10)
-    self.assertEqual(trail.count("grapes"), 10)
-    self.assertEqual(trail.count("cheese"), 10)
-    self.assertEqual(trail.count("pepper"), 10)
-    self.assertEqual(trail.count("bread"), 10)
+    bites_game = Bites(ANTS, foods)
+    expected_trail_length = 45
+    self.assertEqual(len(bites_game.trail), expected_trail_length)
+    self.assertEqual(bites_game.trail.count("apple"), 9)
+    self.assertEqual(bites_game.trail.count("grapes"), 9)
+    self.assertEqual(bites_game.trail.count("cheese"), 9)
+    self.assertEqual(bites_game.trail.count("pepper"), 9)
+    self.assertEqual(bites_game.trail.count("bread"), 9)
 
 class MoveAntTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
@@ -177,9 +179,9 @@ class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
   # test 27
     ants = ['purple', 'red', 'brown', 'yellow', 'green']
+    bites_game = Bites(ants, TOKENS_FOR_TRAIL)
     expected_anthill = [None, None, None, None, None]
-    actual_anthill = initialise_anthill(ants)
-    self.assertEqual(actual_anthill, expected_anthill)
+    self.assertEqual(bites_game.anthill, expected_anthill)
 
 class PlaceAntOnAnthillTest(unittest.TestCase):
   def test_first_ant_is_red_and_goes_to_top_spot(self):
