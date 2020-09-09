@@ -170,6 +170,29 @@ def initialise_anthill(ants):
   return anthill
 
 def place_ant_on_anthill(anthill, ant):
+  """Insect meeple goes on correct level of home structure
+
+  Places ant onto appropriate step of the anthill structure when it travels beyond 
+  the end of the trail. This determines how many points the corresponding food tokens 
+  will be worth.
+
+  Parameters
+  ----------
+  anthill : (list)
+    A list with the same length as the number of ants in the game. 
+    Initialised with each element as None.
+    Elements will be changed into the IDs of the ants as they reach the anthill.
+    Each element is None or string.
+
+  ant : (string)
+    The ID of the ant which is being placed onto the anthill.
+
+  Returns
+  -------
+  anthill : (list)
+    Newly updated version of the anthill list; showing one fewer None and one more 
+    ant ID (string) in the appropriate place.
+  """
   for i in range(len(anthill)-1, -1, -1):
     if anthill[i] != None:
       continue
