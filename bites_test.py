@@ -208,6 +208,15 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     actual_new_anthill = place_ant_on_anthill(anthill, ant)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
 
+  def test_four_spots_occupied_add_fifth_ant(self):
+  # test 35
+    anthill = [None, "purple", "yellow", "brown", "red"]
+    ant = "green"
+    expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
+    actual_new_anthill = place_ant_on_anthill(anthill, ant)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+
+
 
 if __name__ == '__main__':
   unittest.main()
