@@ -4,6 +4,7 @@ from bites import initialise_trail
 from bites import move_ant
 from bites import take_food
 from bites import initialise_anthill
+from bites import place_ant_on_anthill
 # from bites import
 
 class InitialiseAntsTest(unittest.TestCase):
@@ -182,8 +183,14 @@ class InitialiseAnthillTest(unittest.TestCase):
 
 # TO DO
 # Continue to TD the place_ant_on_anthill method
-# class PlaceAntOnAnthillTest(unittest.TestCase):
-#   def test_first_ant_goes_to_top_spot(self):
+class PlaceAntOnAnthillTest(unittest.TestCase):
+  def test_first_ant_goes_to_top_spot(self):
+  # test 32
+    anthill = [None, None, None, None, None]
+    ant = "red"
+    expected_new_anthill = [None, None, None, None, "red"]
+    actual_new_anthill = place_ant_on_anthill(anthill, ant)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
 
 if __name__ == '__main__':
   unittest.main()

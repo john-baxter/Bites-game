@@ -168,3 +168,7 @@ def initialise_anthill(ants):
   """
   anthill = [None] * len(ants)
   return anthill
+
+def place_ant_on_anthill(anthill, ant):
+  new_anthill = [None, None, None, None, "red"]
+  return new_anthill
