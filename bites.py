@@ -170,16 +170,11 @@ def initialise_anthill(ants):
   return anthill
 
 def place_ant_on_anthill(anthill, ant):
-  anthill.reverse()
-
-  i = 0
-  for i in range(len(anthill)):
+  for i in range(len(anthill)-1, -1, -1):
     if anthill[i] != None:
       continue
     else:
       anthill[i] = ant
       break
-
-  anthill.reverse()
 
   return anthill
