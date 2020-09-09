@@ -4,6 +4,7 @@ from bites import initialise_trail
 from bites import move_ant
 from bites import take_food
 from bites import initialise_anthill
+from bites import place_ant_on_anthill
 # from bites import
 
 class InitialiseAntsTest(unittest.TestCase):
@@ -180,10 +181,40 @@ class InitialiseAnthillTest(unittest.TestCase):
     actual_anthill = initialise_anthill(ants)
     self.assertEqual(actual_anthill, expected_anthill)
 
-# TO DO
-# Continue to TD the place_ant_on_anthill method
-# class PlaceAntOnAnthillTest(unittest.TestCase):
-#   def test_first_ant_goes_to_top_spot(self):
+class PlaceAntOnAnthillTest(unittest.TestCase):
+  def test_first_ant_is_red_and_goes_to_top_spot(self):
+  # test 32
+    anthill = [None, None, None, None, None]
+    ant = "red"
+    expected_new_anthill = [None, None, None, None, "red"]
+    actual_new_anthill = place_ant_on_anthill(anthill, ant)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+
+  def test_first_ant_is_green_and_goes_to_top_spot(self):
+  # test 33
+    anthill = [None, None, None, None, None]
+    ant = "green"
+    expected_new_anthill = [None, None, None, None, "green"]
+    actual_new_anthill = place_ant_on_anthill(anthill, ant)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+
+  def test_top_spot_occupied_second_ant_is_added(self):
+  # test 34
+    anthill = [None, None, None, None, "red"]
+    ant = "green"
+    expected_new_anthill = [None, None, None, "green", "red"]
+    actual_new_anthill = place_ant_on_anthill(anthill, ant)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+
+  def test_four_spots_occupied_add_fifth_ant(self):
+  # test 35
+    anthill = [None, "purple", "yellow", "brown", "red"]
+    ant = "green"
+    expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
+    actual_new_anthill = place_ant_on_anthill(anthill, ant)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+
+
 
 if __name__ == '__main__':
   unittest.main()
