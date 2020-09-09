@@ -170,5 +170,11 @@ def initialise_anthill(ants):
   return anthill
 
 def place_ant_on_anthill(anthill, ant):
-  new_anthill = [None, None, None, None, "red"]
-  return new_anthill
+  
+  if anthill[-1] is None:
+    anthill[-1] = ant
+  else:
+    anthill[-2] = ant
+
+  # new_anthill = [None, None, None, None, ant]
+  return anthill

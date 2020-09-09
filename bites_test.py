@@ -184,13 +184,30 @@ class InitialiseAnthillTest(unittest.TestCase):
 # TO DO
 # Continue to TD the place_ant_on_anthill method
 class PlaceAntOnAnthillTest(unittest.TestCase):
-  def test_first_ant_goes_to_top_spot(self):
+  def test_first_ant_is_red_and_goes_to_top_spot(self):
   # test 32
     anthill = [None, None, None, None, None]
     ant = "red"
     expected_new_anthill = [None, None, None, None, "red"]
     actual_new_anthill = place_ant_on_anthill(anthill, ant)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
+
+  def test_first_ant_is_green_and_goes_to_top_spot(self):
+  # test 33
+    anthill = [None, None, None, None, None]
+    ant = "green"
+    expected_new_anthill = [None, None, None, None, "green"]
+    actual_new_anthill = place_ant_on_anthill(anthill, ant)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+
+  def test_top_spot_occupied_second_ant_is_added(self):
+  # test 34
+    anthill = [None, None, None, None, "red"]
+    ant = "green"
+    expected_new_anthill = [None, None, None, "green", "red"]
+    actual_new_anthill = place_ant_on_anthill(anthill, ant)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+
 
 if __name__ == '__main__':
   unittest.main()
