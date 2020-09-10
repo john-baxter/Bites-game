@@ -5,6 +5,11 @@ class Player():
   def __init__(self, name):
     """Initialises an instance of the Player class
 
+    Arguments
+    ---------
+    name : (string)
+      The name of the player
+    
     Attributes
     ----------
     hand : (dict)

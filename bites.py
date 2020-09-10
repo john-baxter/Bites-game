@@ -1,15 +1,45 @@
 import random
-from constants import ANTS
-from constants import FOOD_TYPES
 from constants import K_COLOUR_V_FOOD_DICT
-# from constants import K_FOOD_V_COLOUR_DICT
 
 class Bites():
   def __init__(self, ants, tokens_for_trail):
-    self.ants = self.initialise_ants(ants)
+    """Initialises an instance of the Bites class
+
+    This is the equivalent of setting up the game on the table ready to start playing.
+
+    Arguments
+    ---------
+    ants : (list)
+      The list of the ants which will be used for the game. 
+      Each element is a string.
+
+    tokens_for_trail : (dict)
+      The names of each type of food token and their quantities
+      The keys are names of food as strings.
+      The values are the amount of the food as integers.
+    
+    Attributes
+    ----------
+    ant_positions : (dict)
+      The current position of each ant
+      Initialised with each position as None and will be updated through the 
+      game refering to the index of the trail list element the ant is positioned at.
+      Keys are ant IDs as strings
+      Values are integers or None
+
+    trail : (list)
+      A random shuffled list of all the tokens given in the tokens_for_trail argument
+      Each element is a string.
+
+
+    anthill : (list)
+      A list of equivalent length to the ants parameter, initially populated with each 
+      element as None; ready to be filled with the ID (string) of each ant as they reach 
+      the end of the trail.
+    """
+    self.ant_positions = self.initialise_ants(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
-    pass
 
   def initialise_ants(self, ants):
     """Create a record of the starting positions of each insect meeple
@@ -20,7 +50,7 @@ class Bites():
     ----------
     ants : (list)
       A list containing the ID of each ant, refered to by colour
-      The list can be found at constants.py/ANTS
+      The list can be found at constants.ANTS
       Each element is a string
 
     Returns
@@ -63,7 +93,7 @@ class Bites():
     
     Parameters
     ----------
-    foods : (dict)
+    tokens_for_trail : (dict)
       Each type of food token to be used, and their quantities
       The names of the foods are strings
       The quantities are integers
@@ -71,7 +101,7 @@ class Bites():
     Returns
     -------
     trail : (list)
-      A random shuffled list of all the tokens given in the foods argument
+      A random shuffled list of all the tokens given in the tokens_for_trail argument
       Each element is a string.
     """
     trail = []
