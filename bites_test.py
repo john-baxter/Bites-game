@@ -7,8 +7,27 @@ from bites import take_food
 from bites import place_ant_on_anthill
 # from bites import
 
-#TO DO
-# class BitesInitTest(unittest.TestCase):
+class BitesInitTest(unittest.TestCase):
+  def test___init___method_works(self):
+  # test 36
+  # This test was written rertrospectively; the __init__ method came about 
+  # naturally during refactoring of the code into the Bites class.
+    test_ants = ['purple', 'yellow']
+    test_tokens = {
+      'grapes': 1,
+      'cheese': 1}
+    bites_game = Bites(test_ants, test_tokens)
+    expected_ants = {
+      'purple': None,
+      'yellow': None}
+    expected_trails = [
+      ['grapes', 'cheese'],
+      ['cheese', 'grapes']]
+    expected_anthill = [None, None]
+    self.assertIsInstance(bites_game, Bites)
+    self.assertEqual(bites_game.ants, expected_ants)
+    self.assertIn(bites_game.trail, expected_trails)
+    self.assertEqual(bites_game.anthill, expected_anthill)
 
 class InitialiseAntsTest(unittest.TestCase):
   # test 1
@@ -215,8 +234,6 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
     actual_new_anthill = place_ant_on_anthill(anthill, ant)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
-
-
 
 if __name__ == '__main__':
   unittest.main()
