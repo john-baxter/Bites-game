@@ -3,6 +3,7 @@ from bites import Bites
 from bites import move_ant
 from bites import take_food
 from bites import place_ant_on_anthill
+from bites import user_makes_choice
 # from bites import
 
 class BitesInitTest(unittest.TestCase):
@@ -241,6 +242,15 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
     actual_new_anthill = place_ant_on_anthill(anthill, ant)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
+
+class UserMakesChoiceTest(unittest.TestCase):
+  def test_adds_element_from_list_len_one_as_value_to_key_of_1(self):
+  # test 37
+    input_list = ["option a"]
+    expected_output_dict = {1: "option a"}
+    actual_output_dict = user_makes_choice(input_list)
+    self.assertEqual(actual_output_dict, expected_output_dict)
+
 
 if __name__ == '__main__':
   unittest.main()
