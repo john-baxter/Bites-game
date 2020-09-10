@@ -240,6 +240,5 @@ def place_ant_on_anthill(anthill, ant):
 
   return anthill
 
-def user_makes_choice(input_list):
-  output_dict = {1: "option a"}
-  return output_dict
+def user_makes_choice():
+  pass

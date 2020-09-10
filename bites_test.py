@@ -1,4 +1,6 @@
 import unittest
+from unittest import mock
+# from contextlib import contextmanager
 from bites import Bites
 from bites import move_ant
 from bites import take_food
@@ -243,13 +245,29 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     actual_new_anthill = place_ant_on_anthill(anthill, ant)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
 
+# @contextmanager
+# def mockRawInput(mock):
+#   original_raw_input = __builtins__.raw_input()
+#   __builtins__.raw_input() = lambda _: mock
+#   yeild
+#   __builtins__.raw_input() = original_raw_input
+
+
 class UserMakesChoiceTest(unittest.TestCase):
-  def test_adds_element_from_list_len_one_as_value_to_key_of_1(self):
+  def setUp(self):
+    self.patcher = mock.patch('bites.user_makes_choice', return_value="red")
+    self.patcher.start()
+  
+  # @unittest.mock.patch('bites.user_makes_choice', return_value="red")
+  def test_returns_user_input(self):
   # test 37
-    input_list = ["option a"]
-    expected_output_dict = {1: "option a"}
-    actual_output_dict = user_makes_choice(input_list)
-    self.assertEqual(actual_output_dict, expected_output_dict)
+    expected_result = "red"
+    actual_result = user_makes_choice()
+    self.assertEqual(actual_result, expected_result)
+
+  def tearDown(self):
+    self.patcher.stop()
+
 
 
 if __name__ == '__main__':
