@@ -5,6 +5,11 @@ class Player():
   def __init__(self, name):
     """Initialises an instance of the Player class
 
+    Arguments
+    ---------
+    name : (string)
+      The name of the player
+    
     Attributes
     ----------
     hand : (dict)
@@ -69,8 +74,8 @@ class Player():
     Updates
     -------
     score : (integer)
-      An integer  showing the player's points total. Will be initialised at 0 and 
-      will be updated  at the end of the game.
+      An integer showing the player's points total. Will be initialised at 0 and 
+      will be updated at the end of the game.
     """
     self.score = 0
     for food in self.hand:

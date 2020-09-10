@@ -24,13 +24,13 @@ Each element is a string
 
 
 FOOD_TYPES = K_COLOUR_V_FOOD_DICT.values()
-# FOOD_TYPES = ['grapes', 'apple', 'bread', 'cheese', 'pepper']
 """A list of the types of token used for the trail
 
 The food tokens will be labelled according to the name of the food idem depicted.
 The order in this list is not important.
 Each name is written in singular form except 'grapes'; this is in reflection of the 
-real game pieces.
+real game pieces (but is a deviation from the nomenclature in the game literature, 
+which uses singular form for all).
 Each element is a string
 """
 
@@ -44,4 +44,20 @@ This contains the same pairs as K_COLOUR_V_FOOD_DICT with the keys
 and values interchanged.
 Keys are food IDs as strings.
 Values are ant colours as strings.
+"""
+
+
+NUMBER_OF_EACH_FOOD_TOKEN = 9
+"""As per the standard rules of the game, there are this many of each standard 
+food token.
+"""
+
+
+TOKENS_FOR_TRAIL = {i : NUMBER_OF_EACH_FOOD_TOKEN for i in FOOD_TYPES}
+"""The standard number of each standard food token
+
+A dictionary showing how many of each standard food token will be 
+used as per the rules.
+Keys are foods as strings
+Values are integers
 """
