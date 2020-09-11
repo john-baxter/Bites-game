@@ -240,6 +240,6 @@ def place_ant_on_anthill(anthill, ant):
 
   return anthill
 
-def user_makes_choice():
+def choose_ant_to_move():
   user_choice = input("Pick something: ")
   return user_choice

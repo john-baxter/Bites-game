@@ -5,7 +5,7 @@ from bites import Bites
 from bites import move_ant
 from bites import take_food
 from bites import place_ant_on_anthill
-from bites import user_makes_choice
+from bites import choose_ant_to_move
 # from bites import
 
 class BitesInitTest(unittest.TestCase):
@@ -245,39 +245,17 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     actual_new_anthill = place_ant_on_anthill(anthill, ant)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
 
-# @contextmanager
-# def mockRawInput(mock):
-#   original_raw_input = __builtins__.raw_input()
-#   __builtins__.raw_input() = lambda _: mock
-#   yeild
-#   __builtins__.raw_input() = original_raw_input
-
-
-class UserMakesChoiceTest(unittest.TestCase):
-  # def setUp(self):
-  #   self.patcher = mock.patch('input', return_value="red")
-  #   self.patcher.start()
-  
-  # @unittest.mock.patch('bites.user_makes_choice', return_value="red")
+class ChooseAntToMoveTest(unittest.TestCase):
   def test_returns_user_input(self):
   # test 37
-    # expected_result = "red"
+    expected_result = "red"
     input_patcher = mock.patch('builtins.input', return_value = "red")
     InputMock = input_patcher.start()
-    # input_mock = InputMock()
-    actual_result = user_makes_choice()
-
-    # This is the bit that I think is wrong, it looks like I've not figured 
-    # out how to reference the mock object from above.
-    expected_result = "red"
-    
-    
+    actual_result = choose_ant_to_move()
     self.assertEqual(actual_result, expected_result)
     InputMock.assert_called_once_with("Pick something: ")
     input_patcher.stop()
 
-  # def tearDown(self):
-  #   self.patcher.stop()
 
 
 
