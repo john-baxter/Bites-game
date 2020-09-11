@@ -246,7 +246,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     self.assertEqual(actual_new_anthill, expected_new_anthill)
 
 class ChooseAntToMoveTest(unittest.TestCase):
-  def test_returns_user_input(self):
+  def test_returns_user_input_for_input_is_red(self):
   # test 37
     expected_result = "red"
     input_patcher = mock.patch('builtins.input', return_value = "red")
@@ -256,7 +256,23 @@ class ChooseAntToMoveTest(unittest.TestCase):
     InputMock.assert_called_once_with("Pick something: ")
     input_patcher.stop()
 
+  def test_raises_error_with_wrong_input(self):
+  # test 38
+    input_patcher = mock.patch('builtins.input', return_value = "blue")
+    InputMock = input_patcher.start()
+    self.assertRaises(ValueError, choose_ant_to_move)
+    InputMock.assert_called_once_with("Pick something: ")
+    input_patcher.stop()
 
+  def test_returns_user_input_for_input_is_yellow(self):
+  # test 39
+    expected_result = "yellow"
+    input_patcher = mock.patch('builtins.input', return_value = "yellow")
+    InputMock = input_patcher.start()
+    actual_result = choose_ant_to_move()
+    self.assertEqual(actual_result, expected_result)
+    InputMock.assert_called_once_with("Pick something: ")
+    input_patcher.stop()
 
 
 if __name__ == '__main__':

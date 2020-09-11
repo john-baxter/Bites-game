@@ -242,4 +242,7 @@ def place_ant_on_anthill(anthill, ant):
 
 def choose_ant_to_move():
   user_choice = input("Pick something: ")
-  return user_choice
+  if user_choice == "red" or user_choice == "yellow":
+    return user_choice
+  else:
+    raise(ValueError("%s is not a valid ant colour" % user_choice))
