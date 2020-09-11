@@ -254,19 +254,30 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
 
 
 class UserMakesChoiceTest(unittest.TestCase):
-  def setUp(self):
-    self.patcher = mock.patch('bites.user_makes_choice', return_value="red")
-    self.patcher.start()
+  # def setUp(self):
+  #   self.patcher = mock.patch('input', return_value="red")
+  #   self.patcher.start()
   
   # @unittest.mock.patch('bites.user_makes_choice', return_value="red")
   def test_returns_user_input(self):
   # test 37
-    expected_result = "red"
+    # expected_result = "red"
+    input_patcher = mock.patch('builtins.input', return_value = "red")
+    InputMock = input_patcher.start()
+    # input_mock = InputMock()
     actual_result = user_makes_choice()
-    self.assertEqual(actual_result, expected_result)
 
-  def tearDown(self):
-    self.patcher.stop()
+    # This is the bit that I think is wrong, it looks like I've not figured 
+    # out how to reference the mock object from above.
+    expected_result = "red"
+    
+    
+    self.assertEqual(actual_result, expected_result)
+    InputMock.assert_called_once_with("Pick something: ")
+    input_patcher.stop()
+
+  # def tearDown(self):
+  #   self.patcher.stop()
 
 
 
