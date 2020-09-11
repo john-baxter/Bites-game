@@ -241,9 +241,29 @@ def place_ant_on_anthill(anthill, ant):
   return anthill
 
 def choose_ant_to_move(allowed_choices):
-  user_choice = input("Pick something: ")
-  if user_choice in allowed_choices:
-  # == "red" or user_choice == "yellow":
-    return user_choice
-  else:
-    raise(ValueError("%s is not a valid ant colour" % user_choice))
+  
+  # while 1:
+  #   user_choice = input("Pick something: ")
+  #   if user_choice not in allowed_choices:
+  #     print(user_choice)
+  #     print("Please try again")
+  #   else:  
+  #     break
+  #   # else:
+  # return user_choice
+      # user_choice = user_choice
+
+  user_choice = None
+  while user_choice not in allowed_choices:
+    user_choice = input("Pick something: ")
+  
+  return user_choice
+    
+
+    # pass
+    # while user_choice not in allowed_choices:
+    #   user_choice = input("Pick something: ")
+    #   if user_choice in allowed_choices:
+    #     break
+    
+    # raise(ValueError("%s is not a valid ant colour" % user_choice))
