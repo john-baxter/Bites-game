@@ -248,28 +248,31 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
 class ChooseAntToMoveTest(unittest.TestCase):
   def test_returns_user_input_for_input_is_red(self):
   # test 37
+    allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
     expected_result = "red"
     input_patcher = mock.patch('builtins.input', return_value = "red")
     InputMock = input_patcher.start()
-    actual_result = choose_ant_to_move()
+    actual_result = choose_ant_to_move(allowed_choices)
     self.assertEqual(actual_result, expected_result)
     InputMock.assert_called_once_with("Pick something: ")
     input_patcher.stop()
 
   def test_raises_error_with_wrong_input(self):
-  # test 38
+  # # test 38
+    allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
     input_patcher = mock.patch('builtins.input', return_value = "blue")
     InputMock = input_patcher.start()
-    self.assertRaises(ValueError, choose_ant_to_move)
+    self.assertRaises(ValueError, choose_ant_to_move, allowed_choices)
     InputMock.assert_called_once_with("Pick something: ")
     input_patcher.stop()
 
   def test_returns_user_input_for_input_is_yellow(self):
   # test 39
+    allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
     expected_result = "yellow"
     input_patcher = mock.patch('builtins.input', return_value = "yellow")
     InputMock = input_patcher.start()
-    actual_result = choose_ant_to_move()
+    actual_result = choose_ant_to_move(allowed_choices)
     self.assertEqual(actual_result, expected_result)
     InputMock.assert_called_once_with("Pick something: ")
     input_patcher.stop()

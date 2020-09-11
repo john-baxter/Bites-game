@@ -240,9 +240,10 @@ def place_ant_on_anthill(anthill, ant):
 
   return anthill
 
-def choose_ant_to_move():
+def choose_ant_to_move(allowed_choices):
   user_choice = input("Pick something: ")
-  if user_choice == "red" or user_choice == "yellow":
+  if user_choice in allowed_choices:
+  # == "red" or user_choice == "yellow":
     return user_choice
   else:
     raise(ValueError("%s is not a valid ant colour" % user_choice))
