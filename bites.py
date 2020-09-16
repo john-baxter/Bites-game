@@ -240,24 +240,24 @@ def place_ant_on_anthill(anthill, ant):
 
   return anthill
 
-def choose_ant_to_move(allowed_choices):
-  """Player chooses which colour of insect meeple to move this turn
+# def choose_ant_to_move(allowed_choices):
+#   """Player chooses which colour of insect meeple to move this turn
 
-  Checks player input against a list of available options.
+#   Checks player input against a list of available options.
 
-  Parameters
-  ----------
-  alowed_choices : (list)
-    A list containing the possible options available to the player.
-    Elements are the IDs of the ants as strings.
+#   Parameters
+#   ----------
+#   alowed_choices : (list)
+#     A list containing the possible options available to the player.
+#     Elements are the IDs of the ants as strings.
 
-  Returns
-  -------
-  user_choice : (string)
-    The ID of the ant the player has chosen to move
+#   Returns
+#   -------
+#   user_choice : (string)
+#     The ID of the ant the player has chosen to move
 
-  """
-  user_choice = None
-  while user_choice not in allowed_choices:
-    user_choice = input("Pick something: ")
-  return user_choice
+#   """
+#   user_choice = None
+#   while user_choice not in allowed_choices:
+#     user_choice = input("Pick something: ")
+#   return user_choice
