@@ -246,6 +246,8 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     self.assertEqual(actual_new_anthill, expected_new_anthill)
 
 class ChooseAntToMoveTest(unittest.TestCase):
+  def setUp(self)
+  
   def test_returns_user_input_for_input_is_red(self):
   # test 37
     allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
@@ -257,6 +259,10 @@ class ChooseAntToMoveTest(unittest.TestCase):
     InputMock.assert_called_once_with("Pick something: ")
     input_patcher.stop()
 
+  """
+  Test 38 has been superceeded by test 40; function no longer raises 
+  an error since the while loop was added
+  """
   # def test_raises_error_with_wrong_input(self):
   # # test 38
   #   allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
@@ -270,8 +276,7 @@ class ChooseAntToMoveTest(unittest.TestCase):
   # test 39
     allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
     expected_result = "yellow"
-    input_patcher = mock.patch('builtins.input', side_effect = ["yellow"])
-    # input_patcher = mock.patch('builtins.input', return_value = "yellow")
+    input_patcher = mock.patch('builtins.input', return_value = "yellow")
     InputMock = input_patcher.start()
     actual_result = choose_ant_to_move(allowed_choices)
     self.assertEqual(actual_result, expected_result)
