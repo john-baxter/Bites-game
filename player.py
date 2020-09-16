@@ -97,12 +97,14 @@ class Player():
     user_choice : (string)
       The ID of the ant the player has chosen to move
     """
-    self.user_choice = None
-    while self.user_choice not in allowed_choices:
-      self.user_choice = input("Pick something: ")
-    return self.user_choice
+    self.user_choice_ant = None
+    while self.user_choice_ant not in allowed_choices:
+      self.user_choice_ant = input("Pick something: ")
+    return self.user_choice_ant
 
   def choose_direction_to_pick_food(self, allowed_choices):
-    # pass
-    self.user_choice = input("Pick a direction: ")
-    return self.user_choice
+    self.user_choice_direction = input("Pick a direction: ")
+    if self.user_choice_direction not in allowed_choices:
+      raise(ValueError("%s is not a valid direction" % self.user_choice_direction))
+    else:
+      return self.user_choice_direction
