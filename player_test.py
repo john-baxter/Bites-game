@@ -196,5 +196,24 @@ class ChooseAntToMoveTest(unittest.TestCase):
     self.assertEqual(InputMock.call_count, 2)
     input_patcher.stop()
 
+class ChooseDirectionToPickFoodTest(unittest.TestCase):
+  def test_something(self):
+  # test 41
+    mario = Player("placeholder name")
+    allowed_choices = ['front', 'back']
+    expected_result = "front"
+    input_patcher = mock.patch('builtins.input', return_value = "front")
+    InputMock = input_patcher.start()
+
+    mario.choose_direction_to_pick_food(allowed_choices)
+
+    self.assertEqual(mario.user_choice, expected_result)
+    InputMock.assert_called_once_with("Pick a direction: ")
+
+    input_patcher.stop()
+
+
+
+
 if __name__ == '__main__':
   unittest.main()

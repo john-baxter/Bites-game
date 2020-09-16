@@ -101,3 +101,8 @@ class Player():
     while self.user_choice not in allowed_choices:
       self.user_choice = input("Pick something: ")
     return self.user_choice
+
+  def choose_direction_to_pick_food(self, allowed_choices):
+    # pass
+    self.user_choice = input("Pick a direction: ")
+    return self.user_choice
