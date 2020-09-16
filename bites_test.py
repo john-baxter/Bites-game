@@ -1,11 +1,8 @@
 import unittest
-# from unittest import mock
-# from contextlib import contextmanager
 from bites import Bites
 from bites import move_ant
 from bites import take_food
 from bites import place_ant_on_anthill
-# from bites import choose_ant_to_move
 # from bites import
 
 class BitesInitTest(unittest.TestCase):
@@ -244,59 +241,6 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
     actual_new_anthill = place_ant_on_anthill(anthill, ant)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
-
-# class ChooseAntToMoveTest(unittest.TestCase):
-#   def setUp(self)
-  
-#   def test_returns_user_input_for_input_is_red(self):
-#   # test 37
-#     allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
-#     expected_result = "red"
-#     input_patcher = mock.patch('builtins.input', return_value = "red")
-#     InputMock = input_patcher.start()
-#     actual_result = choose_ant_to_move(allowed_choices)
-#     self.assertEqual(actual_result, expected_result)
-#     InputMock.assert_called_once_with("Pick something: ")
-#     input_patcher.stop()
-
-#   """
-#   Test 38 has been superceeded by test 40; function no longer raises 
-#   an error since the while loop was added
-#   """
-#   # def test_raises_error_with_wrong_input(self):
-#   # # test 38
-#   #   allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
-#   #   input_patcher = mock.patch('builtins.input', return_value = "blue")
-#   #   InputMock = input_patcher.start()
-#   #   self.assertRaises(ValueError, choose_ant_to_move, allowed_choices)
-#   #   InputMock.assert_called_once_with("Pick something: ")
-#   #   input_patcher.stop()
-
-#   def test_returns_user_input_for_input_is_yellow(self):
-#   # test 39
-#     allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
-#     expected_result = "yellow"
-#     input_patcher = mock.patch('builtins.input', return_value = "yellow")
-#     InputMock = input_patcher.start()
-#     actual_result = choose_ant_to_move(allowed_choices)
-#     self.assertEqual(actual_result, expected_result)
-#     InputMock.assert_called_once_with("Pick something: ")
-#     input_patcher.stop()
-
-#   def test_user_can_make_another_choice_if_wrong_input(self):
-#   # test 40
-#     allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
-#     expected_result = "red"
-#     input_patcher = mock.patch('builtins.input', side_effect = ["blue", "red"])
-#     InputMock = input_patcher.start()
-#     actual_result = choose_ant_to_move(allowed_choices)
-#     self.assertEqual(actual_result, expected_result)
-#     # InputMock.assert_called_once_with("Pick something: ")
-#     input_patcher.stop()
-
-
-
-
 
 if __name__ == '__main__':
   unittest.main()

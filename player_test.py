@@ -147,8 +147,6 @@ class ScoreHandTest(unittest.TestCase):
     self.assertEqual(luigi.score, expected_score_b)
 
 class ChooseAntToMoveTest(unittest.TestCase):
-  # def setUp(self)
-  
   def test_returns_user_input_for_input_is_red(self):
   # test 37
     mario = Player("placeholder name")
@@ -196,9 +194,7 @@ class ChooseAntToMoveTest(unittest.TestCase):
     mario.choose_ant_to_move(allowed_choices)
     self.assertEqual(mario.user_choice, expected_result)
     self.assertEqual(InputMock.call_count, 2)
-    # InputMock.assert_called_once_with("Pick something: ")
     input_patcher.stop()
-
 
 if __name__ == '__main__':
   unittest.main()

@@ -81,8 +81,6 @@ class Player():
     for food in self.hand:
       self.score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
 
-
-
   def choose_ant_to_move(self, allowed_choices):
     """Player chooses which colour of insect meeple to move this turn
 
@@ -98,7 +96,6 @@ class Player():
     -------
     user_choice : (string)
       The ID of the ant the player has chosen to move
-
     """
     self.user_choice = None
     while self.user_choice not in allowed_choices:
