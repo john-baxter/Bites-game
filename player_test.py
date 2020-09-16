@@ -220,18 +220,32 @@ class ChooseDirectionToPickFoodTest(unittest.TestCase):
     self.assertEqual(mario.user_choice_direction, expected_result)
     InputMock.assert_called_once_with("Pick a direction: ")
     input_patcher.stop()
+  
+  """
+  Test 43 has been superceeded by test 44; function no longer raises 
+  an error since the while loop was added
+  """
+  # def test_raises_error_with_wrong_input(self):
+  # # test 43
+  #   mario = Player("placeholder name")
+  #   allowed_choices = ['front', 'back']
+  #   input_patcher = mock.patch('builtins.input', return_value = "fromt")
+  #   InputMock = input_patcher.start()
+  #   self.assertRaises(ValueError, mario.choose_direction_to_pick_food, allowed_choices)
+  #   InputMock.assert_called_once_with("Pick a direction: ")
+  #   input_patcher.stop()
 
-  def test_raises_error_with_wrong_input(self):
-  # test 43
+  def test_user_can_make_another_choice_if_typo_during_input(self):
+  # test 44
     mario = Player("placeholder name")
     allowed_choices = ['front', 'back']
-    input_patcher = mock.patch('builtins.input', return_value = "fromt")
+    expected_result = "front"
+    input_patcher = mock.patch('builtins.input', side_effect = ["fromt", "front"])
     InputMock = input_patcher.start()
-    self.assertRaises(ValueError, mario.choose_direction_to_pick_food, allowed_choices)
-    InputMock.assert_called_once_with("Pick a direction: ")
+    mario.choose_direction_to_pick_food(allowed_choices)
+    self.assertEqual(mario.user_choice_direction, expected_result)
+    self.assertEqual(InputMock.call_count, 2)
     input_patcher.stop()
-
-
 
 
 if __name__ == '__main__':
