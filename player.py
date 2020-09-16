@@ -88,16 +88,39 @@ class Player():
 
     Parameters
     ----------
-    alowed_choices : (list)
+    allowed_choices : (list)
       A list containing the possible options available to the player.
       Elements are the IDs of the ants as strings.
 
     Returns
     -------
-    user_choice : (string)
+    user_choice_ant : (string)
       The ID of the ant the player has chosen to move
     """
-    self.user_choice = None
-    while self.user_choice not in allowed_choices:
-      self.user_choice = input("Pick something: ")
-    return self.user_choice
+    self.user_choice_ant = None
+    while self.user_choice_ant not in allowed_choices:
+      self.user_choice_ant = input("Pick something: ")
+    return self.user_choice_ant
+
+  def choose_direction_to_pick_food(self, allowed_choices):
+    """Player chooses which direction to collect food token from.
+
+    Player choice will be relative to the ant's new position immediately 
+    after a movement.
+    Checks player input against a list of available options.
+
+    Parameters
+    ----------
+    allowed_choices : (list)
+      A list containing the possible options available to the player.
+      Elements are the IDs of the ants as strings.
+
+    Returns
+    -------
+    user_choice_direction : (string)
+      The user's choice of which direction to collect the food token from.
+   """
+    self.user_choice_direction = None
+    while self.user_choice_direction not in allowed_choices:
+      self.user_choice_direction = input("Pick a direction: ")
+    return self.user_choice_direction
