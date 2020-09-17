@@ -123,5 +123,5 @@ class Player():
    """
     self.user_choice_direction = None
     while self.user_choice_direction not in allowed_choices:
-      self.user_choice_direction = input("Pick a direction: ")
+      self.user_choice_direction = input("%s; please pick a direction to collect food from: " % self.name)
     return self.user_choice_direction
