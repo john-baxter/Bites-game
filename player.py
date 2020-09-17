@@ -84,6 +84,7 @@ class Player():
   def choose_ant_to_move(self, allowed_choices):
     """Player chooses which colour of insect meeple to move this turn
 
+    Addresses player by name and asks them for their choice of ant.
     Checks player input against a list of available options.
 
     Parameters
@@ -99,7 +100,7 @@ class Player():
     """
     self.user_choice_ant = None
     while self.user_choice_ant not in allowed_choices:
-      self.user_choice_ant = input("Pick something: ")
+      self.user_choice_ant = input("%s; please enter your choice of ant: " % self.name)
     return self.user_choice_ant
 
   def choose_direction_to_pick_food(self, allowed_choices):

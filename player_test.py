@@ -156,7 +156,7 @@ class ChooseAntToMoveTest(unittest.TestCase):
     InputMock = input_patcher.start()
     mario.choose_ant_to_move(allowed_choices)
     self.assertEqual(mario.user_choice_ant, expected_result)
-    InputMock.assert_called_once_with("Pick something: ")
+    self.assertEqual(InputMock.call_count, 1)
     input_patcher.stop()
 
   """
@@ -181,7 +181,7 @@ class ChooseAntToMoveTest(unittest.TestCase):
     InputMock = input_patcher.start()
     mario.choose_ant_to_move(allowed_choices)
     self.assertEqual(mario.user_choice_ant, expected_result)
-    InputMock.assert_called_once_with("Pick something: ")
+    self.assertEqual(InputMock.call_count, 1)
     input_patcher.stop()
 
   def test_user_can_make_another_choice_if_wrong_input(self):
@@ -194,6 +194,18 @@ class ChooseAntToMoveTest(unittest.TestCase):
     mario.choose_ant_to_move(allowed_choices)
     self.assertEqual(mario.user_choice_ant, expected_result)
     self.assertEqual(InputMock.call_count, 2)
+    input_patcher.stop()
+
+  def test_addrsses_user_by_name_when_asking_for_ant_choice(self):
+  # test 45
+    mario = Player("mario")
+    allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
+    expected_result = "red"
+    input_patcher = mock.patch('builtins.input', return_value = "red")
+    InputMock = input_patcher.start()
+    mario.choose_ant_to_move(allowed_choices)
+    self.assertEqual(mario.user_choice_ant, expected_result)
+    InputMock.assert_called_once_with("mario; please enter your choice of ant: ")
     input_patcher.stop()
 
 class ChooseDirectionToPickFoodTest(unittest.TestCase):
