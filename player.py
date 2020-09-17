@@ -106,6 +106,7 @@ class Player():
   def choose_direction_to_pick_food(self, allowed_choices):
     """Player chooses which direction to collect food token from.
 
+    Addresses player by name and asks them for their chosen direction.
     Player choice will be relative to the ant's new position immediately 
     after a movement.
     Checks player input against a list of available options.
