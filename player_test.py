@@ -219,7 +219,6 @@ class ChooseDirectionToPickFoodTest(unittest.TestCase):
     mario.choose_direction_to_pick_food(allowed_choices)
     self.assertEqual(mario.user_choice_direction, expected_result)
     self.assertEqual(InputMock.call_count, 1)
-    # InputMock.assert_called_once_with("Pick a direction: ")
     input_patcher.stop()
 
   def test_returns_user_input_for_input_is_back(self):
@@ -232,7 +231,6 @@ class ChooseDirectionToPickFoodTest(unittest.TestCase):
     mario.choose_direction_to_pick_food(allowed_choices)
     self.assertEqual(mario.user_choice_direction, expected_result)
     self.assertEqual(InputMock.call_count, 1)
-    # InputMock.assert_called_once_with("Pick a direction: ")
     input_patcher.stop()
   
   """
