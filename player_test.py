@@ -196,7 +196,7 @@ class ChooseAntToMoveTest(unittest.TestCase):
     self.assertEqual(InputMock.call_count, 2)
     input_patcher.stop()
 
-  def test_addrsses_user_by_name_when_asking_for_ant_choice(self):
+  def test_addresses_user_by_name_when_asking_for_ant_choice(self):
   # test 45
     mario = Player("mario")
     allowed_choices = ['red', 'yellow', 'green', 'purple', 'brown']
