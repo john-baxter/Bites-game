@@ -397,4 +397,4 @@ class TakeFoodFromTrailTest(unittest.TestCase):
     self.assertRaises(ValueError, mario.take_food_from_trail, trail, ant_positions, ant, direction)
 
 if __name__ == '__main__':
-  unittest.main()
+  unittest.main(verbosity = 1)

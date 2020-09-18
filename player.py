@@ -12,6 +12,9 @@ class Player():
     
     Attributes
     ----------
+    name : (string)
+      Each player will be identified by their name
+
     hand : (dict)
       An empty dictionary ready to be populated with the food tokens collected by the player during the game
       keys will be the ID of the food as strings
@@ -47,8 +50,8 @@ class Player():
     Updates
     -------
     hand : (dict)
-      Dictionary of all food tokens held by the player at tyhe current time. 
-      will be used to calculate score at end of game.
+      Dictionary of all food tokens held by the player at the current time. 
+      Will be used to calculate score at end of game.
       Keys are food types as strings.
       Values are integers.
     """
