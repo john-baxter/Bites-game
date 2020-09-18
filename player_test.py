@@ -407,6 +407,16 @@ class MoveAntTest(unittest.TestCase):
     expected_new_ant_positions = {"red": 0}
     self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_new_ant_positions)
 
+  def test_can_use_move_ant_along_trail_to_make_typical_move(self):
+  # test 48
+    mario = Player("mario")
+    trail = ["apple", "grapes", "apple"]
+    ant_positions = {"red": 0}
+    anthill = []
+    ant = "red"
+    expected_new_ant_positions = {"red": 2}
+    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_new_ant_positions)
+
 
 
 

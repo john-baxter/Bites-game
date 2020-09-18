@@ -263,5 +263,8 @@ class Player():
   def move_ant(self, trail, ant_positions, anthill, ant):
     if ant_positions[ant] is None:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
+    elif type(ant_positions[ant]) is int:
+      ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
+
     
     return ant_positions
