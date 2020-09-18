@@ -417,11 +417,15 @@ class MoveAntTest(unittest.TestCase):
     expected_new_ant_positions = {"red": 2}
     self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_new_ant_positions)
 
-
-
-
-
-
+  def test_can_use_place_ant_on_anthill_to_make_ants_final_move(self):
+  # test 49
+    mario = Player("mario")
+    trail = ["apple", "grapes", "apple"]
+    ant_positions = {"red": 0, "purple": 1}
+    anthill = [None, None, None, None, None]
+    ant = "purple"
+    expected_new_anthill = [None, None, None, None, "purple"]
+    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_new_anthill)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 1)

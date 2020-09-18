@@ -263,8 +263,10 @@ class Player():
   def move_ant(self, trail, ant_positions, anthill, ant):
     if ant_positions[ant] is None:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
-    elif type(ant_positions[ant]) is int:
+    elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]+1:]:
+      ant_positions = self.place_ant_on_anthill(anthill, ant)
+    else:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
-
     
     return ant_positions
+    
