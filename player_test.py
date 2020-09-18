@@ -396,5 +396,22 @@ class TakeFoodFromTrailTest(unittest.TestCase):
     direction = "forwards"
     self.assertRaises(ValueError, mario.take_food_from_trail, trail, ant_positions, ant, direction)
 
+class MoveAntTest(unittest.TestCase):
+  def test_can_use_move_ant_along_trail_for_ants_first_move(self):
+  # test 47
+    mario = Player("mario")
+    trail = ["apple"]
+    ant_positions = {"red": None}
+    anthill = []
+    ant = "red"
+    expected_new_ant_positions = {"red": 0}
+    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_new_ant_positions)
+
+
+
+
+
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 1)

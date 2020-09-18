@@ -259,3 +259,9 @@ class Player():
     trail[food_position] = None
 
     return (food_to_hand, trail)
+
+  def move_ant(self, trail, ant_positions, anthill, ant):
+    if ant_positions[ant] is None:
+      ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
+    
+    return ant_positions
