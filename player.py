@@ -265,13 +265,9 @@ class Player():
   def move_ant(self, trail, ant_positions, anthill, ant):
     if ant_positions[ant] is None:
       return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
-      # ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
     elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]+1:]:
       return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)
-      # ant_positions = self.place_ant_on_anthill(ant_positions, anthill, ant)
     else:
       return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
-      # ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
     
     return return_tuple
-    # return ant_positions
