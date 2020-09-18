@@ -168,7 +168,7 @@ class Player():
 
     return ant_positions
 
-  def place_ant_on_anthill(self, anthill, ant):
+  def place_ant_on_anthill(self, ant_positions, anthill, ant):
     """Insect meeple goes on correct level of home structure
 
     Places ant onto appropriate step of the anthill structure when it travels beyond 
@@ -199,7 +199,9 @@ class Player():
         anthill[i] = ant
         break
 
-    return anthill
+    ant_positions[ant] = "anthill"
+    
+    return (anthill, ant_positions)
 
   def take_food_from_trail(self, trail, ant_positions, ant, direction):
     """Collect a token from the game path
@@ -262,11 +264,14 @@ class Player():
 
   def move_ant(self, trail, ant_positions, anthill, ant):
     if ant_positions[ant] is None:
-      ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
+      return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
+      # ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
     elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]+1:]:
-      ant_positions = self.place_ant_on_anthill(anthill, ant)
+      return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)
+      # ant_positions = self.place_ant_on_anthill(ant_positions, anthill, ant)
     else:
-      ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
+      return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
+      # ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
     
-    return ant_positions
-    
+    return return_tuple
+    # return ant_positions
