@@ -271,5 +271,130 @@ class ChooseDirectionToPickFoodTest(unittest.TestCase):
     InputMock.assert_called_once_with("mario; please pick a direction to collect food from: ")
     input_patcher.stop()
 
+class MoveAntAlongTrailTest(unittest.TestCase):
+  def test_can_move_onto_trail_of_length_one(self):
+  # test 10
+    mario = Player("mario")
+    trail = ["apple"]
+    ant_positions = {"red": None}
+    ant = "red"
+    expected_new_ant_positions = {"red": 0}
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
+
+  def test_can_move_onto_adjacent_position(self):
+  # test 11
+    mario = Player("mario")
+    ant_positions = {"red": 0}
+    trail = ["apple", "apple"]
+    ant = "red"
+    expected_new_ant_positions = {"red": 1}
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
+
+  def test_ant_moves_past_wrong_food_tokens(self):
+  # test 12
+    mario = Player("mario")
+    ant_positions = {"red": 0}
+    trail = ["apple", "grapes", "apple"]
+    ant = "red"
+    expected_new_ant_positions = {"red": 2}
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
+
+  def test_ant_moves_past_missing_food_tokens(self):
+  # test 13
+    mario = Player("mario")
+    ant_positions = {"red": 0}
+    trail = ["apple", None, "apple"]
+    ant = "red"
+    expected_new_ant_positions = {"red": 2}
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
+
+  def test_only_intended_ant_moves(self):
+  # test 14
+    mario = Player("mario")
+    ant_positions = {"red": 0, "purple": 1}
+    trail = ["apple", "grapes", "apple"]
+    ant = "red"
+    expected_new_ant_positions = {"red": 2, "purple": 1}
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
+
+class PlaceAntOnAnthillTest(unittest.TestCase):
+  def test_first_ant_is_red_and_goes_to_top_spot(self):
+  # test 32
+    mario = Player("mario")
+    anthill = [None, None, None, None, None]
+    ant = "red"
+    expected_new_anthill = [None, None, None, None, "red"]
+    self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
+
+  def test_first_ant_is_green_and_goes_to_top_spot(self):
+  # test 33
+    mario = Player("mario")
+    anthill = [None, None, None, None, None]
+    ant = "green"
+    expected_new_anthill = [None, None, None, None, "green"]
+    self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
+
+  def test_top_spot_occupied_second_ant_is_added(self):
+  # test 34
+    mario = Player("mario")
+    anthill = [None, None, None, None, "red"]
+    ant = "green"
+    expected_new_anthill = [None, None, None, "green", "red"]
+    self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
+
+  def test_four_spots_occupied_add_fifth_ant(self):
+  # test 35
+    mario = Player("mario")
+    anthill = [None, "purple", "yellow", "brown", "red"]
+    ant = "green"
+    expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
+    self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
+
+class TakeFoodFromTrailTest(unittest.TestCase):
+  def test_single_ant_on_trail_can_take_food_in_front(self):
+  # test 15
+    mario = Player("mario")
+    trail = ["apple", "grapes", "cheese"]
+    ant_positions = {"purple": 1}
+    ant = "purple"
+    direction = "front"
+    expected_food = "cheese"
+    expected_new_trail = ["apple", "grapes", None]
+    expected_tuple = (expected_food, expected_new_trail)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
+
+  def test_single_ant_on_trail_can_take_food_behind(self):
+  # test 16
+    mario = Player("mario")
+    trail = ["apple", "grapes", "cheese"]
+    ant_positions = {"purple": 1}
+    ant = "purple"
+    direction = "back"
+    expected_food = "apple"
+    expected_new_trail = [None, "grapes", "cheese"]
+    expected_tuple = (expected_food, expected_new_trail)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
+
+  def test_adjacent_food_is_blocked_by_presence_of_other_ant(self):
+  # test 17
+    mario = Player("mario")
+    trail = ["apple", "grapes", "cheese", "bread"]
+    ant_positions = {"purple": 1, "yellow": 2}
+    ant = "purple"
+    direction = "front"
+    expected_food = "bread"
+    expected_new_trail = ["apple", "grapes", "cheese", None]
+    expected_tuple = (expected_food, expected_new_trail)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
+
+  def test_raises_value_error_if_direction_is_wrong(self):
+  # test 18
+    mario = Player("mario")
+    trail = ["apple", "grapes", "cheese", "bread"]
+    ant_positions = {"purple": 1, "yellow": 2}
+    ant = "purple"
+    direction = "forwards"
+    self.assertRaises(ValueError, mario.take_food_from_trail, trail, ant_positions, ant, direction)
+
 if __name__ == '__main__':
-  unittest.main()
+  unittest.main(verbosity = 1)
