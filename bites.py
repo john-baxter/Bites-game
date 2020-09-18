@@ -110,44 +110,6 @@ class Bites():
     random.shuffle(trail)
     return trail
 
-def move_ant(trail, ant_positions, ant):
-  """Move an insect meeple along the board.
-  The selected ant moves to the next available food token of its own colour.
-
-  Parameters
-  ----------
-  trail : (list of strings)
-    The trail contains a list of the food tokens available on the game area.
-    The types of food token can be found in constants.py/FOOD_TYPES
-    As food tokens are removed from the game the elements are replaced with None
-
-  ant_positions : (dict)
-    A dictionary showing which element of the trail list each ant is positioned at.
-
-  ant : (string)
-    The ant which the player has chosen to move this turn.
-    The list of possible ant IDs can be found at constants.py/ANTS
-    ...should be one of the keys in ant_positions
-
-  Returns
-  -------
-  ant_positions : (dict)
-    An updated version of the input ant_positions dictionary 
-    with the moved ant showing in its new position
-  """
-  if ant_positions[ant] is None:
-    ant_positions[ant] = 0
-  else:
-    ant_positions[ant] += 1
-  
-  if trail[ant_positions[ant]] == K_COLOUR_V_FOOD_DICT[ant]:
-    return ant_positions
-  else:
-    while trail[ant_positions[ant]] != K_COLOUR_V_FOOD_DICT[ant]:
-      ant_positions[ant] += 1
-
-  return ant_positions
-
 def take_food(trail, ant_positions, ant, direction):
   """Collect a token from the game path
   Allows the user to choose what food token to collect after moving an ant.

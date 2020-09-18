@@ -271,5 +271,51 @@ class ChooseDirectionToPickFoodTest(unittest.TestCase):
     InputMock.assert_called_once_with("mario; please pick a direction to collect food from: ")
     input_patcher.stop()
 
+class MoveAntTest(unittest.TestCase):
+  def test_can_move_onto_trail_of_length_one(self):
+  # test 10
+    mario = Player("mario")
+    trail = ["apple"]
+    ant_positions = {"red": None}
+    ant = "red"
+    expected_new_ant_positions = {"red": 0}
+    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+
+  def test_can_move_onto_adjacent_position(self):
+  # test 11
+    mario = Player("mario")
+    ant_positions = {"red": 0}
+    trail = ["apple", "apple"]
+    ant = "red"
+    expected_new_ant_positions = {"red": 1}
+    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+
+  def test_ant_moves_past_wrong_food_tokens(self):
+  # test 12
+    mario = Player("mario")
+    ant_positions = {"red": 0}
+    trail = ["apple", "grapes", "apple"]
+    ant = "red"
+    expected_new_ant_positions = {"red": 2}
+    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+
+  def test_ant_moves_past_missing_food_tokens(self):
+  # test 13
+    mario = Player("mario")
+    ant_positions = {"red": 0}
+    trail = ["apple", None, "apple"]
+    ant = "red"
+    expected_new_ant_positions = {"red": 2}
+    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+
+  def test_only_intended_ant_moves(self):
+  # test 14
+    mario = Player("mario")
+    ant_positions = {"red": 0, "purple": 1}
+    trail = ["apple", "grapes", "apple"]
+    ant = "red"
+    expected_new_ant_positions = {"red": 2, "purple": 1}
+    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+
 if __name__ == '__main__':
   unittest.main()

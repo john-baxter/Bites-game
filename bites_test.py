@@ -1,6 +1,5 @@
 import unittest
 from bites import Bites
-from bites import move_ant
 from bites import take_food
 from bites import place_ant_on_anthill
 # from bites import
@@ -113,47 +112,6 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail.count("cheese"), 9)
     self.assertEqual(bites_game.trail.count("pepper"), 9)
     self.assertEqual(bites_game.trail.count("bread"), 9)
-
-class MoveAntTest(unittest.TestCase):
-  def test_can_move_onto_trail_of_length_one(self):
-  # test 10
-    ant_positions = {"red": None}
-    trail = ["apple"]
-    expected_new_ant_positions = {"red": 0}
-    actual_new_ant_positions = move_ant(trail, ant_positions, "red")
-    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
-
-  def test_can_move_onto_adjacent_position(self):
-  # test 11
-    ant_positions = {"red": 0}
-    trail = ["apple", "apple"]
-    expected_new_ant_positions = {"red": 1}
-    actual_new_ant_positions = move_ant(trail, ant_positions, "red")
-    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
-
-  def test_ant_moves_past_wrong_food_tokens(self):
-  # test 12
-    ant_positions = {"red": 0}
-    trail = ["apple", "grapes", "apple"]
-    expected_new_ant_positions = {"red": 2}
-    actual_new_ant_positions = move_ant(trail, ant_positions, "red")
-    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
-
-  def test_ant_moves_past_missing_food_tokens(self):
-  # test 13
-    ant_positions = {"red": 0}
-    trail = ["apple", None, "apple"]
-    expected_new_ant_positions = {"red": 2}
-    actual_new_ant_positions = move_ant(trail, ant_positions, "red")
-    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
-
-  def test_only_intended_ant_moves(self):
-  # test 14
-    ant_positions = {"red": 0, "purple": 1}
-    trail = ["apple", "grapes", "apple"]
-    expected_new_ant_positions = {"red": 2, "purple": 1}
-    actual_new_ant_positions = move_ant(trail, ant_positions, "red")
-    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
 
 class TakeFoodTest(unittest.TestCase):
   def test_single_ant_on_trail_can_take_food_in_front(self):
