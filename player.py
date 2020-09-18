@@ -164,3 +164,4 @@ class Player():
         ant_positions[ant] += 1
 
     return ant_positions
+
