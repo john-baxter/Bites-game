@@ -174,9 +174,16 @@ class Player():
     Places ant onto appropriate step of the anthill structure when it travels beyond 
     the end of the trail. This determines how many points the corresponding food tokens 
     will be worth.
+    The ant position dictionary will be updated to show the corresponding ant's 
+    position as "anthill"
 
     Parameters
     ----------
+    ant_positions : (dict)
+      A dictionary with the  positions of the ants along - or not on - the trail of food.
+      Keys are ant IDs as strings
+      Values are and position as None or int or "anthill"
+
     anthill : (list)
       A list with the same length as the number of ants in the game. 
       Initialised with each element as None.
@@ -188,6 +195,13 @@ class Player():
 
     Returns
     -------
+    ant_positions : (dict)
+      Newly updated dictionary of ant positions
+      Any ants that have been moved onto the anthill will have their positions changed 
+      to "anthill"
+      Keys are ant IDs as strings
+      Values are and position as None or int or "anthill"
+
     anthill : (list)
       Newly updated version of the anthill list; showing one fewer None and one more 
       ant ID (string) in the appropriate place.
