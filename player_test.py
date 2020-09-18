@@ -317,5 +317,38 @@ class MoveAntTest(unittest.TestCase):
     expected_new_ant_positions = {"red": 2, "purple": 1}
     self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
 
+class PlaceAntOnAnthillTest(unittest.TestCase):
+  def test_first_ant_is_red_and_goes_to_top_spot(self):
+  # test 32
+    mario = Player("mario")
+    anthill = [None, None, None, None, None]
+    ant = "red"
+    expected_new_anthill = [None, None, None, None, "red"]
+    self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
+
+  def test_first_ant_is_green_and_goes_to_top_spot(self):
+  # test 33
+    mario = Player("mario")
+    anthill = [None, None, None, None, None]
+    ant = "green"
+    expected_new_anthill = [None, None, None, None, "green"]
+    self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
+
+  def test_top_spot_occupied_second_ant_is_added(self):
+  # test 34
+    mario = Player("mario")
+    anthill = [None, None, None, None, "red"]
+    ant = "green"
+    expected_new_anthill = [None, None, None, "green", "red"]
+    self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
+
+  def test_four_spots_occupied_add_fifth_ant(self):
+  # test 35
+    mario = Player("mario")
+    anthill = [None, "purple", "yellow", "brown", "red"]
+    ant = "green"
+    expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
+    self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
+
 if __name__ == '__main__':
   unittest.main()
