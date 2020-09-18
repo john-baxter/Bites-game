@@ -198,7 +198,7 @@ class Player():
 
     return anthill
 
-  def take_food(self, trail, ant_positions, ant, direction):
+  def take_food_from_trail(self, trail, ant_positions, ant, direction):
     """Collect a token from the game path
     Allows the user to choose what food token to collect after moving an ant.
     Replaces the removed token with None; keeping the length of the 

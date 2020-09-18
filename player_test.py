@@ -350,7 +350,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
     self.assertEqual(mario.place_ant_on_anthill(anthill, ant), expected_new_anthill)
 
-class TakeFoodTest(unittest.TestCase):
+class TakeFoodFromTrailTest(unittest.TestCase):
   def test_single_ant_on_trail_can_take_food_in_front(self):
   # test 15
     mario = Player("mario")
@@ -361,7 +361,7 @@ class TakeFoodTest(unittest.TestCase):
     expected_food = "cheese"
     expected_new_trail = ["apple", "grapes", None]
     expected_tuple = (expected_food, expected_new_trail)
-    self.assertEqual(mario.take_food(trail, ant_positions, ant, direction), expected_tuple)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
 
   def test_single_ant_on_trail_can_take_food_behind(self):
   # test 16
@@ -373,7 +373,7 @@ class TakeFoodTest(unittest.TestCase):
     expected_food = "apple"
     expected_new_trail = [None, "grapes", "cheese"]
     expected_tuple = (expected_food, expected_new_trail)
-    self.assertEqual(mario.take_food(trail, ant_positions, ant, direction), expected_tuple)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
 
   def test_adjacent_food_is_blocked_by_presence_of_other_ant(self):
   # test 17
@@ -385,7 +385,7 @@ class TakeFoodTest(unittest.TestCase):
     expected_food = "bread"
     expected_new_trail = ["apple", "grapes", "cheese", None]
     expected_tuple = (expected_food, expected_new_trail)
-    self.assertEqual(mario.take_food(trail, ant_positions, ant, direction), expected_tuple)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
 
   def test_raises_value_error_if_direction_is_wrong(self):
   # test 18
@@ -394,7 +394,7 @@ class TakeFoodTest(unittest.TestCase):
     ant_positions = {"purple": 1, "yellow": 2}
     ant = "purple"
     direction = "forwards"
-    self.assertRaises(ValueError, mario.take_food, trail, ant_positions, ant, direction)
+    self.assertRaises(ValueError, mario.take_food_from_trail, trail, ant_positions, ant, direction)
 
 if __name__ == '__main__':
   unittest.main()
