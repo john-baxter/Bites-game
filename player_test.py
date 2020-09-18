@@ -271,7 +271,7 @@ class ChooseDirectionToPickFoodTest(unittest.TestCase):
     InputMock.assert_called_once_with("mario; please pick a direction to collect food from: ")
     input_patcher.stop()
 
-class MoveAntTest(unittest.TestCase):
+class MoveAntAlongTrailTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
   # test 10
     mario = Player("mario")
@@ -279,7 +279,7 @@ class MoveAntTest(unittest.TestCase):
     ant_positions = {"red": None}
     ant = "red"
     expected_new_ant_positions = {"red": 0}
-    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
 
   def test_can_move_onto_adjacent_position(self):
   # test 11
@@ -288,7 +288,7 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple", "apple"]
     ant = "red"
     expected_new_ant_positions = {"red": 1}
-    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
 
   def test_ant_moves_past_wrong_food_tokens(self):
   # test 12
@@ -297,7 +297,7 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple", "grapes", "apple"]
     ant = "red"
     expected_new_ant_positions = {"red": 2}
-    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
 
   def test_ant_moves_past_missing_food_tokens(self):
   # test 13
@@ -306,7 +306,7 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple", None, "apple"]
     ant = "red"
     expected_new_ant_positions = {"red": 2}
-    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
 
   def test_only_intended_ant_moves(self):
   # test 14
@@ -315,7 +315,7 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple", "grapes", "apple"]
     ant = "red"
     expected_new_ant_positions = {"red": 2, "purple": 1}
-    self.assertEqual(mario.move_ant(trail, ant_positions, ant), expected_new_ant_positions)
+    self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
 
 class PlaceAntOnAnthillTest(unittest.TestCase):
   def test_first_ant_is_red_and_goes_to_top_spot(self):

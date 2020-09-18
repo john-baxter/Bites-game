@@ -127,7 +127,7 @@ class Player():
       self.user_choice_direction = input("%s; please pick a direction to collect food from: " % self.name)
     return self.user_choice_direction
 
-  def move_ant(self, trail, ant_positions, ant):
+  def move_ant_along_trail(self, trail, ant_positions, ant):
     """Move an insect meeple along the board.
     The selected ant moves to the next available food token of its own colour.
 
