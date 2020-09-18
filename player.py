@@ -197,3 +197,62 @@ class Player():
         break
 
     return anthill
+
+  def take_food(self, trail, ant_positions, ant, direction):
+    """Collect a token from the game path
+    Allows the user to choose what food token to collect after moving an ant.
+    Replaces the removed token with None; keeping the length of the 
+    trail consistent through the game.
+
+    Parameters
+    ----------
+    trail : (list)
+      The shuffled list of all food tiles being used in the game; 
+      will be interspersed with None at indices where food has already been collected
+      Each element is a string
+    
+    ant_positions : (dict)
+      A dictionary showing the starting location of each ant.
+      The position on the trail will be defined as the index of the 
+      element in the trail list.
+      Keys are strings
+      Values are integers
+
+    ant : (string)
+      The ID of the ant which has been moved by the user
+    
+    direction : (string)
+      The user's choice of which food token to collect.
+      Can be either 'front' or 'back'
+
+    Returns
+    -------
+    food_to_hand : (string)
+      The food token chosen by the user.
+
+    trail : (list)
+      The newly updated list of food tokens being used in the game; 
+      with the user's chosen token having been replaced with None.
+
+    Raises
+    ------
+    ValueError
+      If the user enters something other than 'front' or 'back' when 
+      indicating choice of direction.
+    """
+    food_position = ant_positions[ant]
+
+    if direction == "front":
+      variation = 1
+    elif direction == "back":
+      variation = -1
+    else:
+      raise(ValueError("Direction should be 'front' or 'back'."))
+
+    while food_position in ant_positions.values():
+      food_position = food_position + variation
+
+    food_to_hand = trail[food_position]
+    trail[food_position] = None
+
+    return (food_to_hand, trail)

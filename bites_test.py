@@ -1,6 +1,5 @@
 import unittest
 from bites import Bites
-from bites import take_food
 # from bites import
 
 class BitesInitTest(unittest.TestCase):
@@ -111,51 +110,6 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail.count("cheese"), 9)
     self.assertEqual(bites_game.trail.count("pepper"), 9)
     self.assertEqual(bites_game.trail.count("bread"), 9)
-
-class TakeFoodTest(unittest.TestCase):
-  def test_single_ant_on_trail_can_take_food_in_front(self):
-  # test 15
-    trail = ["apple", "grapes", "cheese"]
-    ant_positions = {"purple": 1}
-    ant = "purple"
-    direction = "front"
-    expected_food = "cheese"
-    expected_new_trail = ["apple", "grapes", None]
-    (actual_food, actual_new_trail) = take_food(trail, ant_positions, ant, direction)
-    self.assertEqual(actual_food, expected_food)
-    self.assertEqual(actual_new_trail, expected_new_trail)
-
-  def test_single_ant_on_trail_can_take_food_behind(self):
-  # test 16
-    trail = ["apple", "grapes", "cheese"]
-    ant_positions = {"purple": 1}
-    ant = "purple"
-    direction = "back"
-    expected_food = "apple"
-    expected_new_trail = [None, "grapes", "cheese"]
-    (actual_food, actual_new_trail) = take_food(trail, ant_positions, ant, direction)
-    self.assertEqual(actual_food, expected_food)
-    self.assertEqual(actual_new_trail, expected_new_trail)
-
-  def test_adjacent_food_is_blocked_by_presence_of_other_ant(self):
-  # test 17
-    trail = ["apple", "grapes", "cheese", "bread"]
-    ant_positions = {"purple": 1, "yellow": 2}
-    ant = "purple"
-    direction = "front"
-    expected_food = "bread"
-    expected_new_trail = ["apple", "grapes", "cheese", None]
-    (actual_food, actual_new_trail) = take_food(trail, ant_positions, ant, direction)
-    self.assertEqual(actual_food, expected_food)
-    self.assertEqual(actual_new_trail, expected_new_trail)
-
-  def test_raises_value_error_if_direction_is_wrong(self):
-  # test 18
-    trail = ["apple", "grapes", "cheese", "bread"]
-    ant_positions = {"purple": 1, "yellow": 2}
-    ant = "purple"
-    direction = "forwards"
-    self.assertRaises(ValueError, take_food, trail, ant_positions, ant, direction)
 
 class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
