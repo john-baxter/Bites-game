@@ -168,15 +168,22 @@ class Player():
 
     return ant_positions
 
-  def place_ant_on_anthill(self, anthill, ant):
+  def place_ant_on_anthill(self, ant_positions, anthill, ant):
     """Insect meeple goes on correct level of home structure
 
     Places ant onto appropriate step of the anthill structure when it travels beyond 
     the end of the trail. This determines how many points the corresponding food tokens 
     will be worth.
+    The ant position dictionary will be updated to show the corresponding ant's 
+    position as "anthill"
 
     Parameters
     ----------
+    ant_positions : (dict)
+      A dictionary with the  positions of the ants along - or not on - the trail of food.
+      Keys are ant IDs as strings
+      Values are and position as None or int or "anthill"
+
     anthill : (list)
       A list with the same length as the number of ants in the game. 
       Initialised with each element as None.
@@ -188,6 +195,13 @@ class Player():
 
     Returns
     -------
+    ant_positions : (dict)
+      Newly updated dictionary of ant positions
+      Any ants that have been moved onto the anthill will have their positions changed 
+      to "anthill"
+      Keys are ant IDs as strings
+      Values are and position as None or int or "anthill"
+
     anthill : (list)
       Newly updated version of the anthill list; showing one fewer None and one more 
       ant ID (string) in the appropriate place.
@@ -199,7 +213,9 @@ class Player():
         anthill[i] = ant
         break
 
-    return anthill
+    ant_positions[ant] = "anthill"
+    
+    return (anthill, ant_positions)
 
   def take_food_from_trail(self, trail, ant_positions, ant, direction):
     """Collect a token from the game path
@@ -259,3 +275,60 @@ class Player():
     trail[food_position] = None
 
     return (food_to_hand, trail)
+
+  def move_ant(self, trail, ant_positions, anthill, ant):
+    """Asseses the layout and calls the appropriate method to advance the insect
+
+    Has control flow to account for ants which are: 
+      -not yet on the trail moving onto the trail
+      -already on the trail and moving further along the trail
+      -on the trail and moving past the end onto the anthill
+
+    Parameters
+    ----------
+    trail : (list)
+      The trail contains a list of the food tokens available on the game area.
+      The types of food token can be found in constants.py/FOOD_TYPES
+      As food tokens are removed from the game the elements are replaced with None
+
+    ant_positions : (dict)
+      A dictionary showing the starting location of each ant.
+      The position on the trail will be defined as the index of the 
+      element in the trail list.
+      Keys are strings
+      Values are integers
+
+    anthill : (list)
+      A list with the same length as the number of ants in the game. 
+      Initialised with each element as None.
+      Elements will be changed into the IDs of the ants as they reach the anthill.
+      Each element is None or string.
+
+    ant : (string)
+      The ID of the ant which is being placed onto the anthill.
+
+    Returns
+    -------
+    return_tuple : (tuple)
+      A tuple consisting of:
+        anthill : (list)
+          Newly updated if any new ants have been placed
+          Returned without any updates if not
+          A list of same length as the number of ants in the game showing their 
+          positions on the anthill, with vacant spots being None
+
+        ant_positions : (dict)
+          Newly updated dictionary of ant positions
+          Any ants that have been moved onto the anthill will have their positions changed 
+          to "anthill"
+          Keys are ant IDs as strings
+          Values are and position as None or int or "anthill"
+    """
+    if ant_positions[ant] is None:
+      return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
+    elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]+1:]:
+      return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)
+    else:
+      return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
+    
+    return return_tuple
