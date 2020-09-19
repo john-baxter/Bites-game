@@ -309,18 +309,20 @@ class Player():
 
     Returns
     -------
-    anthill : (list)
-      Newly updated if any new ants have been placed
-      Returned without any updates if not
-      A list of same length as the number of ants in the game showing their 
-      positions on the anthill, with vacant spots being None
+    return_tuple : (tuple)
+      A tuple consisting of:
+        anthill : (list)
+          Newly updated if any new ants have been placed
+          Returned without any updates if not
+          A list of same length as the number of ants in the game showing their 
+          positions on the anthill, with vacant spots being None
 
-    ant_positions : (dict)
-      Newly updated dictionary of ant positions
-      Any ants that have been moved onto the anthill will have their positions changed 
-      to "anthill"
-      Keys are ant IDs as strings
-      Values are and position as None or int or "anthill"
+        ant_positions : (dict)
+          Newly updated dictionary of ant positions
+          Any ants that have been moved onto the anthill will have their positions changed 
+          to "anthill"
+          Keys are ant IDs as strings
+          Values are and position as None or int or "anthill"
     """
     if ant_positions[ant] is None:
       return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
