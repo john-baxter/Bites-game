@@ -261,7 +261,10 @@ class Player():
       -not yet on the trail moving onto the trail
       -already on the trail and moving further along the trail
       -on the trail and moving past the end onto the anthill
-
+      -not yet on the trail moving straight to the anthill (edge case where 
+          all of one type of food has been removed before that colour of ant 
+          has made any moves.)
+      
     Parameters
     ----------
     trail : (list)
@@ -300,9 +303,11 @@ class Player():
           Any ants that have been moved onto the anthill will have their positions changed 
           to "anthill"
           Keys are ant IDs as strings
-          Values are and position as None or int or "anthill"
+          Values are ant position as None or int or "anthill"
     """
-    if ant_positions[ant] is None:
+    if ant_positions[ant] is None and K_COLOUR_V_FOOD_DICT[ant] not in trail:
+      return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)
+    elif ant_positions[ant] is None:
       return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
     elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]+1:]:
       return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)

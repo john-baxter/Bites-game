@@ -461,5 +461,17 @@ class MoveAntTest(unittest.TestCase):
     expected_tuple  = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
 
+  def test_ant_moves_from_start_to_anthill_if_none_of_its_food_in_trail(self):
+  # test 51
+    mario = Player("mario")
+    trail = ["apple", "grapes", "cheese", "bread"]
+    ant_positions = {"green": None}
+    anthill = [None, None, None, None, None]
+    ant = "green"
+    expected_new_anthill = [None, None, None, None, "green"]
+    expected_new_ant_positions = {"green": "anthill"}
+    expected_tuple  = (expected_new_anthill, expected_new_ant_positions)
+    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
+
 if __name__ == '__main__':
   unittest.main(verbosity = 1)
