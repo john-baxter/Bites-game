@@ -84,51 +84,29 @@ class Player():
     for food in self.hand:
       self.score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
 
-  def choose_ant_to_move(self, allowed_choices):
-    """Player chooses which colour of insect meeple to move this turn
+  def make_choice(self, allowed_choices, prompt_text):
+    """Used any time the player needs to make a choice
 
-    Addresses player by name and asks them for their choice of ant.
+    Addresses player by name and asks them for their choice of ant or food etc.
     Checks player input against a list of available options.
 
     Parameters
     ----------
     allowed_choices : (list)
       A list containing the possible options available to the player.
-      Elements are the IDs of the ants as strings.
+
+    prompt_text : (string)
+      A sentence which will prompt the player to make the appropriate choice
 
     Returns
     -------
-    user_choice_ant : (string)
-      The ID of the ant the player has chosen to move
+    user_choice : (string)
+      The ID of the choice the player has made
     """
-    self.user_choice_ant = None
-    while self.user_choice_ant not in allowed_choices:
-      self.user_choice_ant = input("%s; please enter your choice of ant: " % self.name)
-    return self.user_choice_ant
-
-  def choose_direction_to_pick_food(self, allowed_choices):
-    """Player chooses which direction to collect food token from.
-
-    Addresses player by name and asks them for their chosen direction.
-    Player choice will be relative to the ant's new position immediately 
-    after a movement.
-    Checks player input against a list of available options.
-
-    Parameters
-    ----------
-    allowed_choices : (list)
-      A list containing the possible options available to the player.
-      Elements are the IDs of the ants as strings.
-
-    Returns
-    -------
-    user_choice_direction : (string)
-      The user's choice of which direction to collect the food token from.
-   """
-    self.user_choice_direction = None
-    while self.user_choice_direction not in allowed_choices:
-      self.user_choice_direction = input("%s; please pick a direction to collect food from: " % self.name)
-    return self.user_choice_direction
+    self.user_choice = None
+    while self.user_choice not in allowed_choices:
+      self.user_choice = input("%s; %s: " % (self.name, prompt_text))
+    return self.user_choice
 
   def move_ant_along_trail(self, trail, ant_positions, ant):
     """Move an insect meeple along the board.
