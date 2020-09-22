@@ -12,3 +12,8 @@ What if the allowed_choices is an empty list
 What if the allowed_choices is a list of something that's not strings (e.g. ints, floats, bools)
 What if the allowed_choices is not a list (e.g. it's None, or a single string, or a single number)
 What if the user types a number
+
+Update readme.md
+  specift python version
+  give list of packages used
+  

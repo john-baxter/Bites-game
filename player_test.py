@@ -481,9 +481,16 @@ class DefineAllowedChoicesAnts(unittest.TestCase):
     self.assertIsInstance(mario.define_allowed_choices_ants(ant_positions), list)
 
   def test_one_ant_hasnt_moved_yet_list_contains_that_choice(self):
-  # test 52
+  # test 53
     mario = Player("mario")
     ant_positions = {"green": None}
+    expected_allowed_choices = ["green"]
+    self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
+
+  def test_one_ant_on_trail_list_contains_that_choice(self):
+  # test 54
+    mario = Player("mario")
+    ant_positions = {"green": 39}
     expected_allowed_choices = ["green"]
     self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
 
