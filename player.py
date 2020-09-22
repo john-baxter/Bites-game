@@ -316,6 +316,6 @@ class Player():
     
     return return_tuple
 
-  def define_allowed_choices_ants(self):
-    allowed_choices_ants = []
+  def define_allowed_choices_ants(self, ant_positions):
+    allowed_choices_ants = list(ant_positions.keys())
     return allowed_choices_ants
