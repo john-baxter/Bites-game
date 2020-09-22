@@ -553,6 +553,18 @@ class DefineAllowedChoicesDirection(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
+  def test_ant_is_in_trail_but_has_only_empty_spaces_behind_returns_only_front(self):
+  # test 62
+    mario = Player("mario")
+    ant = "green"
+    trail = [None, "pepper", "apple", "cheese"]
+    ant_positions = {"green": 1}
+    expected_allowed_choices = ["front"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+
+
 
 
 
