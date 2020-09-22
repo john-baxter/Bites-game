@@ -349,9 +349,7 @@ class Player():
       if type(i) is str:
         food_before_ant = True
 
-    if ant_positions[ant] == 0:
-      allowed_choices_direction = ["front"]
-    elif food_before_ant == False:
+    if food_before_ant == False:
       allowed_choices_direction = ["front"]
     elif ant_positions[ant] == len(trail)-1:
       allowed_choices_direction = ["back"]
