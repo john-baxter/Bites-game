@@ -342,17 +342,16 @@ class Player():
     return allowed_choices_ants
 
   def define_allowed_choices_direction(self, ant, trail, ant_positions):
-    
-    food_before_ant = False
+    allowed_choices_direction = []
+
+    for i in trail[ant_positions[ant]+1:]:
+      if type(i) is str:
+        allowed_choices_direction.append("front")
+        break
 
     for i in trail[:ant_positions[ant]]:
       if type(i) is str:
-        food_before_ant = True
+        allowed_choices_direction.append("back")
+        break
 
-    if food_before_ant == False:
-      allowed_choices_direction = ["front"]
-    elif ant_positions[ant] == len(trail)-1:
-      allowed_choices_direction = ["back"]
-    else:
-      allowed_choices_direction = ["front", "back"]
     return allowed_choices_direction
