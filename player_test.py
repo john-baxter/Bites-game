@@ -515,5 +515,11 @@ class DefineAllowedChoicesAnts(unittest.TestCase):
     expected_allowed_choices = ["green", "red"]
     self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
 
+class DefineAllowedChoicesDirection(unittest.TestCase):
+  def test_define_allowed_choices_direction_returns_a_list(self):
+  # test 58
+    mario = Player("mario")
+    self.assertIsInstance(mario.define_allowed_choices_direction(), list)
+
 if __name__ == '__main__':
   unittest.main(verbosity = 1)
