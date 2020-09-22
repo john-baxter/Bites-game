@@ -508,6 +508,13 @@ class DefineAllowedChoicesAnts(unittest.TestCase):
     expected_allowed_choices = []
     self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
 
+  def test_ants_at_start_and_on_trail_and_on_anthill_includes_only_ants_at_start_and_on_trail(self):
+  # test 57
+    mario = Player("mario")
+    ant_positions = {"green": None, "red": 39, "purple": "anthill"}
+    expected_allowed_choices = ["green", "red"]
+    self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
+
 
 
 if __name__ == '__main__':
