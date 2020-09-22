@@ -317,5 +317,5 @@ class Player():
     return return_tuple
 
   def define_allowed_choices_ants(self, ant_positions):
-    allowed_choices_ants = list(ant_positions.keys())
+    allowed_choices_ants = [k for k, v in ant_positions.items() if v != "anthill"]
     return allowed_choices_ants
