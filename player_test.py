@@ -573,12 +573,5 @@ class DefineAllowedChoicesDirection(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
-
-
-
-
-
-
-
 if __name__ == '__main__':
   unittest.main(verbosity = 1)

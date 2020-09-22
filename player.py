@@ -342,6 +342,34 @@ class Player():
     return allowed_choices_ants
 
   def define_allowed_choices_direction(self, ant, trail, ant_positions):
+    """Provides the list of permitted food-picking options to the player
+
+    Determines whether player can choose food from in front, behind or both.
+
+    Parameters
+    ----------
+    ant : (string)
+      The ID of the ant which is being placed onto the anthill.
+
+    trail : (list)
+      The trail contains a list of the food tokens available on the game area.
+      The types of food token can be found in constants.py/FOOD_TYPES
+      As food tokens are removed from the game the elements are replaced with None
+    
+    ant_positions : (dict)
+      A dictionary showing the starting location of each ant.
+      The position on the trail will be defined as the index of the 
+      element in the trail list.
+      Keys are strings
+      Values are ant position as None or int or "anthill"
+
+    Returns
+    -------
+    allowed_choices_direction : (list)
+      A list of all directions in which food is available for the player to 
+      collect from the trail.
+      Elements are strings.
+    """
     allowed_choices_direction = []
 
     if any([type(food) is str for food in trail[ant_positions[ant]+1:]]):
