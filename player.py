@@ -315,3 +315,7 @@ class Player():
       return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
     
     return return_tuple
+
+  def define_allowed_choices_ants(self):
+    allowed_choices_ants = []
+    return allowed_choices_ants

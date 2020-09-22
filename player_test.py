@@ -473,5 +473,12 @@ class MoveAntTest(unittest.TestCase):
     expected_tuple  = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
 
+class DefineAllowedChoicesAnts(unittest.TestCase):
+  def test_define_allowed_choices_ants_returns_a_list(self):
+  # test 52
+    mario = Player("mario")
+    self.assertIsInstance(mario.define_allowed_choices_ants(), list)
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 1)
