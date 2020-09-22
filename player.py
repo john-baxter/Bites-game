@@ -341,6 +341,6 @@ class Player():
     allowed_choices_ants = [k for k, v in ant_positions.items() if v != "anthill"]
     return allowed_choices_ants
 
-  def define_allowed_choices_direction(self):
-    allowed_choices_direction = []
+  def define_allowed_choices_direction(self, ant, trail, ant_positions):
+    allowed_choices_direction = ["front", "back"]
     return allowed_choices_direction

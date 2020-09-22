@@ -519,7 +519,26 @@ class DefineAllowedChoicesDirection(unittest.TestCase):
   def test_define_allowed_choices_direction_returns_a_list(self):
   # test 58
     mario = Player("mario")
-    self.assertIsInstance(mario.define_allowed_choices_direction(), list)
+    ant = "red"
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"red": 1}
+    self.assertIsInstance(mario.define_allowed_choices_direction(ant, trail, ant_positions), list)
+
+  def test_ant_has_valid_choices_immediately_adjacent_in_both_directions(self):
+  # test 59
+    mario = Player("mario")
+    ant = "red"
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"red": 1}
+    expected_allowed_choices = ["front", "back"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 1)
