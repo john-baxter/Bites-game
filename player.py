@@ -344,6 +344,8 @@ class Player():
   def define_allowed_choices_direction(self, ant, trail, ant_positions):
     if ant_positions[ant] == 0:
       allowed_choices_direction = ["front"]
+    elif ant_positions[ant] == len(trail)-1:
+      allowed_choices_direction = ["back"]
     else:
       allowed_choices_direction = ["front", "back"]
     return allowed_choices_direction
