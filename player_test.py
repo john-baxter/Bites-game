@@ -494,6 +494,12 @@ class DefineAllowedChoicesAnts(unittest.TestCase):
     expected_allowed_choices = ["green"]
     self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
 
+  def test_two_valid_ants_list_contains_both_choices(self):
+  # test 55
+    mario = Player("mario")
+    ant_positions = {"green": 39, "red": None}
+    expected_allowed_choices = ["green", "red"]
+    self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 1)
