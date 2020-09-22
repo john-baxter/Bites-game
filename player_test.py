@@ -515,7 +515,5 @@ class DefineAllowedChoicesAnts(unittest.TestCase):
     expected_allowed_choices = ["green", "red"]
     self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
 
-
-
 if __name__ == '__main__':
   unittest.main(verbosity = 1)

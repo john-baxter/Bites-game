@@ -277,7 +277,7 @@ class Player():
       The position on the trail will be defined as the index of the 
       element in the trail list.
       Keys are strings
-      Values are integers
+      Values are ant position as None or int or "anthill"
 
     anthill : (list)
       A list with the same length as the number of ants in the game. 
@@ -317,5 +317,26 @@ class Player():
     return return_tuple
 
   def define_allowed_choices_ants(self, ant_positions):
+    """Provides the list of permitted movement options to the player
+
+    Filters out ants that are positioned on the anthill and; all other ants are 
+    legitimate choices
+
+    Parameters
+    ----------
+    ant_positions : (dict)
+      A dictionary showing the starting location of each ant.
+      The position on the trail will be defined as the index of the 
+      element in the trail list.
+      Keys are strings
+      Values are ant position as None or int or "anthill"
+
+    Returns
+    -------
+    allowed_choices_ants : (list)
+      A list of all ants that are able to be moved, includes any ant that has not 
+      yet been moved and any ant which is on the trail. Excludes ants already on the anthill.
+      Elements are strings.
+    """
     allowed_choices_ants = [k for k, v in ant_positions.items() if v != "anthill"]
     return allowed_choices_ants
