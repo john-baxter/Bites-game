@@ -533,6 +533,15 @@ class DefineAllowedChoicesDirection(unittest.TestCase):
     expected_allowed_choices = ["front", "back"]
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
 
+  def test_ant_has_valid_choice_only_in_front_does_not_return_back(self):
+  # test 60
+    mario = Player("mario")
+    ant = "green"
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"green": 0}
+    expected_allowed_choices = ["front"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
 
 
