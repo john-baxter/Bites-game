@@ -375,10 +375,14 @@ class Player():
     trail_slice_pre_ant = trail[:ant_positions[ant]]
     trail_slice_post_ant = trail[ant_positions[ant]+1:]
 
-    if any([type(food) is str for food in trail_slice_post_ant]):
+    # if any([type(food) is str and trail.index(trail_slice_post_ant.index(food) + ant_positions[ant] + 1) not in ant_positions.values() for food in trail_slice_post_ant]):
+    for food in trail_slice_post_ant:
+      if type(food) is str and trail_slice_post_ant.index(food)+ant_positions[ant]+1 not in ant_positions.values():
         allowed_choices_direction.append("front")
-    
+        break
+
     if any([type(food) is str and trail.index(food) not in ant_positions.values() for food in trail_slice_pre_ant]):
         allowed_choices_direction.append("back")
 
     return allowed_choices_direction
+    

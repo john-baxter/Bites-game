@@ -473,7 +473,7 @@ class MoveAntTest(unittest.TestCase):
     expected_tuple  = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
 
-class DefineAllowedChoicesAnts(unittest.TestCase):
+class DefineAllowedChoicesAntsTest(unittest.TestCase):
   def test_define_allowed_choices_ants_returns_a_list(self):
   # test 52
     mario = Player("mario")
@@ -515,7 +515,7 @@ class DefineAllowedChoicesAnts(unittest.TestCase):
     expected_allowed_choices = ["green", "red"]
     self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
 
-class DefineAllowedChoicesDirection(unittest.TestCase):
+class DefineAllowedChoicesDirectionTest(unittest.TestCase):
   def test_define_allowed_choices_direction_returns_a_list(self):
   # test 58
     mario = Player("mario")
@@ -583,6 +583,15 @@ class DefineAllowedChoicesDirection(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertNotIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
+  def test_presence_of_other_ants_invalidates_food_so_direction_front_not_included(self):
+  # test 65
+    mario = Player("mario")
+    ant = "yellow"
+    trail = ["pepper", "apple", "cheese", None, "grapes", None]
+    ant_positions = {"yellow": 2, "purple": 4}
+    expected_allowed_choices = ["back"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
 if __name__ == '__main__':
-  unittest.main(verbosity = 1)
+  unittest.main(verbosity = 2)
