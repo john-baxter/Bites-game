@@ -390,3 +390,7 @@ class Player():
         break
 
     return allowed_choices_direction
+
+  def take_turn(self):
+    pass
+    

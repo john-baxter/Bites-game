@@ -593,5 +593,24 @@ class DefineAllowedChoicesDirectionTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
+class TakeTurnTest(unittest.TestCase):
+  def test_single_ant_moves_to_centre_of_three_element_trail_picks_front(self):
+  # test 66
+    mario = Player("mario")
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"red": None}
+    input_patcher = mock.patch('builtins.input', side_effect = ["red", "front"])
+    input_mock = input_patcher.start()
+
+    expected_new_hand = {"cheese": 1}
+    expected_new_trail = ["pepper", "apple", None]
+    expected_new_ant_positions = {"red": 1}
+    # expected
+    # expected
+    self.assertEqual(mario.take_turn(), (expected_new_hand, expected_new_trail, expected_new_ant_positions))
+
+    input_patcher.stop()
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
