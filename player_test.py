@@ -573,7 +573,7 @@ class DefineAllowedChoicesDirection(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
-  def test_presence_of_other_ants_invalidates_food_so_direction_front_not_included(self):
+  def test_presence_of_other_ants_invalidates_food_so_direction_back_not_included(self):
   # test 64
     mario = Player("mario")
     ant = "green"
