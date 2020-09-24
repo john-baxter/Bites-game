@@ -64,6 +64,10 @@ Values are integers
 
 
 PROMPT_TEXT_ANT_CHOICE  = "please enter your choice of ant"
-
+"""The text which will be contained in the question when asking the user to choose which ant to move.
+"""
 
 PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"
+"""The text which will be contained in the question when asking the user to choose which 
+direction to collect food from.
+"""
