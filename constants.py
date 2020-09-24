@@ -61,3 +61,9 @@ used as per the rules.
 Keys are foods as strings
 Values are integers
 """
+
+
+PROMPT_TEXT_ANT_CHOICE  = "please enter your choice of ant"
+
+
+PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"

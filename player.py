@@ -1,5 +1,7 @@
 from constants import K_COLOUR_V_FOOD_DICT
 from constants import K_FOOD_V_COLOUR_DICT
+from constants import PROMPT_TEXT_ANT_CHOICE
+from constants import PROMPT_TEXT_DIRECTION_CHOICE
 
 class Player():
   def __init__(self, name):
@@ -391,6 +393,12 @@ class Player():
 
     return allowed_choices_direction
 
-  def take_turn(self):
-    pass
-    
+  def take_turn(self, trail, ant_positions, anthill):
+    self.allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
+    self.ant = self.make_choice(self.allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
+    self.anthill_antpositions_tuple = self.move_ant(trail, ant_positions, anthill, self.ant)
+    self.allowed_choices_direction = self.define_allowed_choices_direction(self.ant, trail, ant_positions)
+    self.direction = self.make_choice(self.allowed_choices_direction, PROMPT_TEXT_DIRECTION_CHOICE)
+    self.foodtohand_trail_tuple = self.take_food_from_trail(trail, ant_positions, self.ant, self.direction)
+    self.store_food(self.foodtohand_trail_tuple[0])
+    return (self.foodtohand_trail_tuple[1], ant_positions)
