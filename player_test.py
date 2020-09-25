@@ -473,5 +473,223 @@ class MoveAntTest(unittest.TestCase):
     expected_tuple  = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
 
+class DefineAllowedChoicesAntsTest(unittest.TestCase):
+  def test_define_allowed_choices_ants_returns_a_list(self):
+  # test 52
+    mario = Player("mario")
+    ant_positions = {"green": None}
+    self.assertIsInstance(mario.define_allowed_choices_ants(ant_positions), list)
+
+  def test_one_ant_hasnt_moved_yet_list_contains_that_choice(self):
+  # test 53
+    mario = Player("mario")
+    ant_positions = {"green": None}
+    expected_allowed_choices = ["green"]
+    self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
+
+  def test_one_ant_on_trail_list_contains_that_choice(self):
+  # test 54
+    mario = Player("mario")
+    ant_positions = {"green": 39}
+    expected_allowed_choices = ["green"]
+    self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
+
+  def test_two_valid_ants_list_contains_both_choices(self):
+  # test 55
+    mario = Player("mario")
+    ant_positions = {"green": 39, "red": None}
+    expected_allowed_choices = ["green", "red"]
+    self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
+
+  def test_single_ant_already_on_anthill_is_not_included(self):
+  # test 56
+    mario = Player("mario")
+    ant_positions = {"green": "anthill"}
+    expected_allowed_choices = []
+    self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
+
+  def test_ants_at_start_and_on_trail_and_on_anthill_includes_only_ants_at_start_and_on_trail(self):
+  # test 57
+    mario = Player("mario")
+    ant_positions = {"green": None, "red": 39, "purple": "anthill"}
+    expected_allowed_choices = ["green", "red"]
+    self.assertEqual(mario.define_allowed_choices_ants(ant_positions), expected_allowed_choices)
+
+class DefineAllowedChoicesDirectionTest(unittest.TestCase):
+  def test_define_allowed_choices_direction_returns_a_list(self):
+  # test 58
+    mario = Player("mario")
+    ant = "red"
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"red": 1}
+    self.assertIsInstance(mario.define_allowed_choices_direction(ant, trail, ant_positions), list)
+
+  def test_ant_has_valid_choices_immediately_adjacent_in_both_directions(self):
+  # test 59
+    mario = Player("mario")
+    ant = "red"
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"red": 1}
+    expected_allowed_choices = ["front", "back"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+
+  def test_ant_has_valid_choice_only_in_front_does_not_return_back(self):
+  # test 60
+    mario = Player("mario")
+    ant = "green"
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"green": 0}
+    expected_allowed_choices = ["front"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+  def test_ant_has_valid_choice_only_behind_does_not_return_front(self):
+  # test 61
+    mario = Player("mario")
+    ant = "yellow"
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"yellow": 2}
+    expected_allowed_choices = ["back"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+  def test_ant_is_in_trail_but_has_only_empty_spaces_behind_returns_only_front(self):
+  # test 62
+    mario = Player("mario")
+    ant = "green"
+    trail = [None, "pepper", "apple", "cheese"]
+    ant_positions = {"green": 1}
+    expected_allowed_choices = ["front"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+  def test_ant_is_in_trail_but_has_only_empty_spaces_in_front_returns_only_back(self):
+  # test 63
+    mario = Player("mario")
+    ant = "yellow"
+    trail = ["pepper", "apple", "cheese", None]
+    ant_positions = {"yellow": 2}
+    expected_allowed_choices = ["back"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+  def test_presence_of_other_ants_invalidates_food_so_direction_back_not_included(self):
+  # test 64
+    mario = Player("mario")
+    ant = "green"
+    trail = [None, "grapes", None, "pepper", "apple", "cheese"]
+    ant_positions = {"green": 3, "purple": 1}
+    expected_allowed_choices = ["front"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+  def test_presence_of_other_ants_invalidates_food_so_direction_front_not_included(self):
+  # test 65
+    mario = Player("mario")
+    ant = "yellow"
+    trail = ["pepper", "apple", "cheese", None, "grapes", None]
+    ant_positions = {"yellow": 2, "purple": 4}
+    expected_allowed_choices = ["back"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+class TakeTurnTest(unittest.TestCase):
+  def test_single_ant_moves_to_centre_of_three_element_trail_picks_front(self):
+  # test 66
+    # Given
+    anthill = [None]
+    mario = Player("mario")
+    trail = ["pepper", "apple", "cheese"]
+    ant_positions = {"red": None}
+    input_patcher = mock.patch('builtins.input', side_effect = ["red", "front"])
+    input_mock = input_patcher.start()
+    # When
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
+      mario.take_turn(trail, ant_positions, anthill)
+    # Then
+    expected_new_hand = {"cheese": 1}
+    expected_new_trail = ["pepper", "apple", None]
+    expected_new_ant_positions = {"red": 1}
+    expected_new_anthill = [None]
+    self.assertEqual(actual_new_trail, expected_new_trail)
+    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+    self.assertEqual(mario.hand, expected_new_hand)
+    input_patcher.stop()
+
+  def test_single_ant_moves_from_centre_of_three_element_trail_onto_anthill(self):
+  # test 67
+    # Given
+    anthill = [None]
+    mario = Player("mario")
+    mario.hand = {"cheese": 1}
+    trail = ["pepper", "apple", None]
+    ant_positions = {"red": 1}
+    input_patcher = mock.patch('builtins.input', return_value = "red")
+    input_mock = input_patcher.start()
+    # When
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
+      mario.take_turn(trail, ant_positions, anthill)
+    # Then
+    expected_new_trail = trail
+    expected_new_ant_positions = {"red": "anthill"}
+    expected_new_anthill = ["red"]
+    self.assertEqual(actual_new_trail, expected_new_trail)
+    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+    self.assertEqual(mario.hand, {"cheese": 1})
+    input_patcher.stop()
+
+class GoesToAnthillTest(unittest.TestCase):
+  def test_returns_true_when_ant_is_at_end_of_trail(self):
+  # test 68
+    mario = Player("mario")
+    trail = ["pepper", "apple", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 2}
+    actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
+    expected_return = True
+    self.assertEqual(actual_return, expected_return)
+
+  def test_returns_false_when_ant_is_not_at_end_of_trail_and_correct_food_is_in_front_of_it(self):
+  # test 69
+    mario = Player("mario")
+    trail = ["pepper", "apple", "cheese", "pepper", "apple", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 2}
+    actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
+    expected_return = False
+    self.assertEqual(actual_return, expected_return)
+
+  def test_returns_false_when_ant_is_before_trail_and_correct_food_is_in_trail(self):
+  # test 70
+    mario = Player("mario")
+    trail = ["pepper", "apple", "cheese", "pepper", "apple"]
+    ant = "yellow"
+    ant_positions = {"yellow": None}
+    actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
+    expected_return = False
+    self.assertEqual(actual_return, expected_return)
+
+  def test_returns_true_when_ant_is_before_trail_and_correct_food_is_not_in_trail(self):
+  # test 71
+    mario = Player("mario")
+    trail = ["pepper", "apple", "pepper", "apple"]
+    ant = "yellow"
+    ant_positions = {"yellow": None}
+    actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
+    expected_return = True
+    self.assertEqual(actual_return, expected_return)
+
+  def test_ant_is_not_at_end_but_none_of_correct_food_remains_in_trail(self):
+  # test 72
+    mario = Player("mario")
+    trail = ["pepper", "apple", "pepper", "cheese", "apple"]
+    ant = "yellow"
+    ant_positions = {"yellow": 3}
+    actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
+    expected_return = True
+    self.assertEqual(actual_return, expected_return)
+
 if __name__ == '__main__':
-  unittest.main(verbosity = 1)
+  unittest.main(verbosity = 2)

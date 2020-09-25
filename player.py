@@ -1,5 +1,7 @@
 from constants import K_COLOUR_V_FOOD_DICT
 from constants import K_FOOD_V_COLOUR_DICT
+from constants import PROMPT_TEXT_ANT_CHOICE
+from constants import PROMPT_TEXT_DIRECTION_CHOICE
 
 class Player():
   def __init__(self, name):
@@ -277,7 +279,7 @@ class Player():
       The position on the trail will be defined as the index of the 
       element in the trail list.
       Keys are strings
-      Values are integers
+      Values are ant position as None or int or "anthill"
 
     anthill : (list)
       A list with the same length as the number of ants in the game. 
@@ -315,3 +317,162 @@ class Player():
       return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
     
     return return_tuple
+
+  def define_allowed_choices_ants(self, ant_positions):
+    """Provides the list of permitted movement options to the player
+
+    Filters out ants that are positioned on the anthill; all other ants are 
+    legitimate choices
+
+    Parameters
+    ----------
+    ant_positions : (dict)
+      A dictionary showing the starting location of each ant.
+      The position on the trail will be defined as the index of the 
+      element in the trail list.
+      Keys are strings
+      Values are ant position as None or int or "anthill"
+
+    Returns
+    -------
+    allowed_choices_ants : (list)
+      A list of all ants that are able to be moved, includes any ant that has not 
+      yet been moved and any ant which is on the trail. Excludes ants already on the anthill.
+      Elements are strings.
+    """
+    allowed_choices_ants = [k for k, v in ant_positions.items() if v != "anthill"]
+    return allowed_choices_ants
+
+  def define_allowed_choices_direction(self, ant, trail, ant_positions):
+    """Provides the list of permitted food-picking options to the player
+
+    Determines whether player can choose food from in front, behind or both.
+
+    Parameters
+    ----------
+    ant : (string)
+      The ID of the ant which is being placed onto the anthill.
+
+    trail : (list)
+      The trail contains a list of the food tokens available on the game area.
+      The types of food token can be found in constants.py/FOOD_TYPES
+      As food tokens are removed from the game the elements are replaced with None
+    
+    ant_positions : (dict)
+      A dictionary showing the starting location of each ant.
+      The position on the trail will be defined as the index of the 
+      element in the trail list.
+      Keys are strings
+      Values are ant position as None or int or "anthill"
+
+    Returns
+    -------
+    allowed_choices_direction : (list)
+      A list of all directions in which food is available for the player to 
+      collect from the trail.
+      Elements are strings.
+    """
+    allowed_choices_direction = []
+    
+    trail_slice_pre_ant = trail[:ant_positions[ant]]
+    trail_slice_post_ant = trail[ant_positions[ant]+1:]
+
+    for food in trail_slice_post_ant:
+      is_str = type(food) is str
+      has_no_ant = trail_slice_post_ant.index(food) + ant_positions[ant] + 1 not in ant_positions.values()
+      if is_str and has_no_ant:
+        allowed_choices_direction.append("front")
+        break
+
+    for food in trail_slice_pre_ant:
+      is_str = type(food) is str
+      has_no_ant = trail_slice_pre_ant.index(food) not in ant_positions.values()
+      if is_str and has_no_ant:
+        allowed_choices_direction.append("back")
+        break
+
+    return allowed_choices_direction
+
+  def take_turn(self, trail, ant_positions, anthill):
+    """Perform necessary steps to complete one player's move
+
+    Parameters
+    ----------
+    trail : (list)
+      The shuffled list of all the food tiles being used in the game.
+      Elements are food types as strings or None.
+    
+    ant_positions : (dict)
+      Dictionary containing the current locations of each ant.
+      Keys are ants as strings.
+      Values are ant positions as None, int or "anthill" (str).
+
+    anthill : (list)
+      List of equivalent length as the number of ants in the game. 
+      Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
+      Elements are None or ant IDs as strings.
+
+    Returns
+    -------
+    trail : (list)
+      The newly updated (if neccessary) food trail.
+      Elements are food types as strings or None
+    
+    ant_positions : (dict)
+      The newly updated dictionary showing the positions of the ants. 
+      Keys are ant IDs as strings.
+      Values are None, int or "anthill" (str).
+    
+    anthill : (list)
+      The newly updated (if neccessary) anthill list
+      Elements are None or ant IDs as strings.
+    """
+    allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
+    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
+
+    if self.goes_to_anthill(ant, trail, ant_positions):
+      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, ant)
+    else:
+      ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
+      allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
+      direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_DIRECTION_CHOICE)
+      (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
+      self.store_food(food_to_hand)
+
+    return (trail, ant_positions, anthill)
+
+  def goes_to_anthill(self, ant, trail, ant_positions):
+    """Defines whether the chosen ant will move onto the anthill or not.
+
+    Parameters
+    ----------
+    ant : (string)
+      The ID of the ant which has been chosen to be moved.
+
+    trail : (list)
+      The trail contains a list of the food tokens available on the game area.
+      The types of food token can be found in constants.py/FOOD_TYPES
+      As food tokens are removed from the game the elements are replaced with None
+
+    ant_positions : (dict)
+      A dictionary showing the starting location of each ant.
+      The position on the trail will be defined as the index of the 
+      element in the trail list.
+      Keys are strings
+      Values are ant position as None or int or "anthill"
+
+    Returns
+    -------
+    (boolean)
+      True if the chosen ant's next (current) move will result in it being placed on the anthill.
+      False if the chosen ant's next (current) move will result in it being moved along the trail.
+    """
+    if ant_positions[ant] == None:
+      trail_to_check = trail
+    else:
+      trail_to_check = trail[ant_positions[ant]+1:]
+
+    if K_COLOUR_V_FOOD_DICT[ant] not in trail_to_check:
+      return True
+    else:
+      return False
