@@ -440,6 +440,8 @@ class Player():
   def goes_to_anthill(self, ant, trail, ant_positions):
     if ant_positions[ant] == len(trail) - 1:
       return True
+    elif K_COLOUR_V_FOOD_DICT[ant] not in trail:
+      return True
     else:
       return False
 
