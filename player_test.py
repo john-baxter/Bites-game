@@ -636,7 +636,6 @@ class TakeTurnTest(unittest.TestCase):
 class GoesToAnthillTest(unittest.TestCase):
   def test_returns_true_when_ant_is_at_end_of_trail(self):
   # test 68
-    # anthill = [None]
     mario = Player("mario")
     trail = ["pepper", "apple", "cheese"]
     ant = "yellow"
@@ -644,6 +643,17 @@ class GoesToAnthillTest(unittest.TestCase):
     actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
     expected_return = True
     self.assertEqual(actual_return, expected_return)
+
+  def test_returns_false_when_ant_is_not_at_end_of_trail(self):
+  # test 69
+    mario = Player("mario")
+    trail = ["pepper", "apple", "cheese", "pepper", "apple"]
+    ant = "yellow"
+    ant_positions = {"yellow": 2}
+    actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
+    expected_return = False
+    self.assertEqual(actual_return, expected_return)
+
 
 
 

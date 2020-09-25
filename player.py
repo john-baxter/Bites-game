@@ -438,5 +438,8 @@ class Player():
     return (trail, ant_positions)
 
   def goes_to_anthill(self, ant, trail, ant_positions):
-    return True
+    if ant_positions[ant] == len(trail) - 1:
+      return True
+    else:
+      return False
 
