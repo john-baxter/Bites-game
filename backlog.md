@@ -14,7 +14,5 @@ What if the allowed_choices is not a list (e.g. it's None, or a single string, o
 What if the user types a number
 
 Update readme.md
-  specift python version
+  specify python version
   give list of packages used
-
-Edgecase in define_allowed_direction where ant has food 'behind' (eg) it but those food have ants on them so they are not accessible.

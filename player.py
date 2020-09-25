@@ -321,7 +321,7 @@ class Player():
   def define_allowed_choices_ants(self, ant_positions):
     """Provides the list of permitted movement options to the player
 
-    Filters out ants that are positioned on the anthill and; all other ants are 
+    Filters out ants that are positioned on the anthill; all other ants are 
     legitimate choices
 
     Parameters
