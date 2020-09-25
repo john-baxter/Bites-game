@@ -609,29 +609,41 @@ class TakeTurnTest(unittest.TestCase):
     self.assertEqual(mario.hand, expected_new_hand)
     input_patcher.stop()
 
-  def test_single_ant_moves_from_centre_of_three_element_trail_onto_anthill(self):
-  # test 67
-    # Given
-    anthill = [None]
+  # def test_single_ant_moves_from_centre_of_three_element_trail_onto_anthill(self):
+  # # test 67
+  #   # Given
+  #   anthill = [None]
+  #   mario = Player("mario")
+  #   mario.hand = {"cheese": 1}
+  #   trail = ["pepper", "apple", None]
+  #   ant_positions = {"red": 1}
+  #   input_patcher = mock.patch('builtins.input', return_value = "red")
+  #   input_mock = input_patcher.start()
+  #   # When
+  #   (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
+  #     mario.take_turn(trail, ant_positions, anthill)
+  #   # Then
+  #   expected_new_trail = trail
+  #   expected_new_ant_positions = {"red": "anthill"}
+  #   expected_new_anthill = ["red"]
+  #   # self.assertEqual(mario.take_turn(trail, ant_positions, anthill), (expected_new_trail, expected_new_ant_positions, expected_new_anthill))
+  #   self.assertEqual(actual_new_trail, expected_new_trail)
+  #   self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+  #   self.assertEqual(actual_new_anthill, expected_new_anthill)
+  #   self.assertEqual(mario.hand, {"cheese": 1})
+  #   input_patcher.stop()
+
+class GoesToAnthillTest(unittest.TestCase):
+  def test_returns_true_when_ant_is_at_end_of_trail(self):
+  # test 68
+    # anthill = [None]
     mario = Player("mario")
-    mario.hand = {"cheese": 1}
-    trail = ["pepper", "apple", None]
-    ant_positions = {"red": 1}
-    input_patcher = mock.patch('builtins.input', return_value = "red")
-    input_mock = input_patcher.start()
-    # When
-    (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
-      mario.take_turn(trail, ant_positions, anthill)
-    # Then
-    expected_new_trail = trail
-    expected_new_ant_positions = {"red": "anthill"}
-    expected_new_anthill = ["red"]
-    # self.assertEqual(mario.take_turn(trail, ant_positions, anthill), (expected_new_trail, expected_new_ant_positions, expected_new_anthill))
-    self.assertEqual(actual_new_trail, expected_new_trail)
-    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
-    self.assertEqual(actual_new_anthill, expected_new_anthill)
-    self.assertEqual(mario.hand, {"cheese": 1})
-    input_patcher.stop()
+    trail = ["pepper", "apple", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 2}
+    actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
+    expected_return = True
+    self.assertEqual(actual_return, expected_return)
 
 
 

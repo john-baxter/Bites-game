@@ -376,10 +376,10 @@ class Player():
     
     """*********************************************
     """
-    print("************************")
-    print(ant_positions)
-    print(ant)
-    print(trail)
+    # print("************************")
+    # print(ant_positions)
+    # print(ant)
+    # print(trail)
     trail_slice_pre_ant = trail[:ant_positions[ant]]
 
     """*********************************************
@@ -436,3 +436,7 @@ class Player():
     (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
     self.store_food(food_to_hand)
     return (trail, ant_positions)
+
+  def goes_to_anthill(self, ant, trail, ant_positions):
+    return True
+
