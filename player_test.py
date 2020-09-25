@@ -654,6 +654,17 @@ class GoesToAnthillTest(unittest.TestCase):
     expected_return = False
     self.assertEqual(actual_return, expected_return)
 
+  def test_returns_false_when_ant_is_before_trail_and_correct_food_is_in_trail(self):
+  # test 70
+    mario = Player("mario")
+    trail = ["pepper", "apple", "cheese", "pepper", "apple"]
+    ant = "yellow"
+    ant_positions = {"yellow": None}
+    actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
+    expected_return = False
+    self.assertEqual(actual_return, expected_return)
+
+
 
 
 
