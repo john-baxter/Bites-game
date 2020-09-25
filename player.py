@@ -406,7 +406,17 @@ class Player():
   def take_turn(self, trail, ant_positions, anthill):
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
-    (anthill, ant_positions) = self.move_ant(trail, ant_positions, anthill, ant)
+    # (anthill, ant_positions) = self.move_ant(trail, ant_positions, anthill, ant)
+
+    if self.goes_to_anthill(ant, trail, ant_positions):
+      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, ant)
+    else:
+      ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
+      allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
+      direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_DIRECTION_CHOICE)
+      (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
+      self.store_food(food_to_hand)
+
 
     """
 
@@ -428,16 +438,31 @@ class Player():
     """******************************************************
     """
     # Put IF statement to account for the fact there is no choice of direction when ant is (ie has just moved) on the anthill
-    allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
+    # allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
 
     """******************************************************
     """
-    direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_DIRECTION_CHOICE)
-    (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
-    self.store_food(food_to_hand)
+    # direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_DIRECTION_CHOICE)
+    # (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
+    # self.store_food(food_to_hand)
     return (trail, ant_positions)
 
   def goes_to_anthill(self, ant, trail, ant_positions):
+    """Defines whether the chosen ant will move onto the anthill or not.
+
+    Parameters
+    ----------
+    ant
+    trail
+    ant_positions
+
+    Returns
+    -------
+    (boolean)
+      True
+      False
+
+    """
     if ant_positions[ant] == None:
       trail_to_check = trail
     else:
@@ -447,13 +472,3 @@ class Player():
       return True
     else:
       return False
-    
-    # if ant_positions[ant] == len(trail) - 1:
-    #   return True
-    # elif K_COLOUR_V_FOOD_DICT[ant] not in trail:
-    #   return True
-    # elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]:]+1:
-    #   return True
-    # else:
-    #   return False
-
