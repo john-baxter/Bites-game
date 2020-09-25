@@ -442,6 +442,8 @@ class Player():
       return True
     elif K_COLOUR_V_FOOD_DICT[ant] not in trail:
       return True
+    elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]:]+1:
+      return True
     else:
       return False
 
