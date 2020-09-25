@@ -374,17 +374,7 @@ class Player():
     """
     allowed_choices_direction = []
     
-    """*********************************************
-    """
-    # print("************************")
-    # print(ant_positions)
-    # print(ant)
-    # print(trail)
     trail_slice_pre_ant = trail[:ant_positions[ant]]
-
-    """*********************************************
-    """
-
     trail_slice_post_ant = trail[ant_positions[ant]+1:]
 
     for food in trail_slice_post_ant:
@@ -404,6 +394,39 @@ class Player():
     return allowed_choices_direction
 
   def take_turn(self, trail, ant_positions, anthill):
+    """Perform necessary steps to complete one player's move
+
+    Parameters
+    ----------
+    trail : (list)
+      The shuffled list of all the food tiles being used in the game.
+      Elements are food types as strings or None.
+    
+    ant_positions : (dict)
+      Dictionary containing the current locations of each ant.
+      Keys are ants as strings.
+      Values are ant positions as None, int or "anthill" (str).
+
+    anthill : (list)
+      List of equivalent length as the number of ants in the game. 
+      Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
+      Elements are None or ant IDs as strings.
+
+    Returns
+    -------
+    trail : (list)
+      The newly updated (if neccessary) food trail.
+      Elements are food types as strings or None
+    
+    ant_positions : (dict)
+      The newly updated dictionary showing the positions of the ants. 
+      Keys are ant IDs as strings.
+      Values are None, int or "anthill" (str).
+    
+    anthill : (list)
+      The newly updated (if neccessary) anthill list
+      Elements are None or ant IDs as strings.
+    """
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
 

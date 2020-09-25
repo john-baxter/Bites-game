@@ -691,12 +691,5 @@ class GoesToAnthillTest(unittest.TestCase):
     expected_return = True
     self.assertEqual(actual_return, expected_return)
 
-  
-
-
-
-
-
-
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
