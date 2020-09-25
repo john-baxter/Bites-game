@@ -419,6 +419,31 @@ class Player():
     return (trail, ant_positions, anthill)
 
   def goes_to_anthill(self, ant, trail, ant_positions):
+    """Defines whether the chosen ant will move onto the anthill or not.
+
+    Parameters
+    ----------
+    ant : (string)
+      The ID of the ant which has been chosen to be moved.
+
+    trail : (list)
+      The trail contains a list of the food tokens available on the game area.
+      The types of food token can be found in constants.py/FOOD_TYPES
+      As food tokens are removed from the game the elements are replaced with None
+
+    ant_positions : (dict)
+      A dictionary showing the starting location of each ant.
+      The position on the trail will be defined as the index of the 
+      element in the trail list.
+      Keys are strings
+      Values are ant position as None or int or "anthill"
+
+    Returns
+    -------
+    (boolean)
+      True if the chosen ant's next (current) move will result in it being placed on the anthill.
+      False if the chosen ant's next (current) move will result in it being moved along the trail.
+    """
     if ant_positions[ant] == None:
       trail_to_check = trail
     else:
