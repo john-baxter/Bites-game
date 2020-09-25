@@ -438,12 +438,22 @@ class Player():
     return (trail, ant_positions)
 
   def goes_to_anthill(self, ant, trail, ant_positions):
-    if ant_positions[ant] == len(trail) - 1:
-      return True
-    elif K_COLOUR_V_FOOD_DICT[ant] not in trail:
-      return True
-    elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]:]+1:
+    if ant_positions[ant] == None:
+      trail_to_check = trail
+    else:
+      trail_to_check = trail[ant_positions[ant]+1:]
+
+    if K_COLOUR_V_FOOD_DICT[ant] not in trail_to_check:
       return True
     else:
       return False
+    
+    # if ant_positions[ant] == len(trail) - 1:
+    #   return True
+    # elif K_COLOUR_V_FOOD_DICT[ant] not in trail:
+    #   return True
+    # elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]:]+1:
+    #   return True
+    # else:
+    #   return False
 
