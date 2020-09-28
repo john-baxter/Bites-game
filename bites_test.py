@@ -192,8 +192,44 @@ class ToBeReassignedTest(unittest.TestCase):
           "brown": None,
           "purple": None})
     self.assertEqual(bites_game.anthill, [None, None, None, None, None])
+    # players = [FakePlayer(), FakePlayer()]
+    # ants = ["red", "yellow", "green", "brown", "purple"]
+    # tokens_for_trail = {}
+    # bites_game = Bites(ants, tokens_for_trail, players)
+    # bites_game.trail = ["apple", "apple"]
+    # bites_game.ant_positions = {
+    #   "red": None,
+    #   "yellow": None,
+    #   "green": None,
+    #   "brown": None,
+    #   "purple": None}
 
+    # bites_game.play()
 
+    # self.assertEqual(bites_game.players[0].callback, ["take turn"])
+    # self.assertEqual(bites_game.players[1].callback, [])
+    # self.assertEqual(bites_game.trail, ["apple", None])
+    # self.assertEqual(bites_game.ant_positions, {
+    #       "red": 0,
+    #       "yellow": None,
+    #       "green": None,
+    #       "brown": None,
+    #       "purple": None})
+    # self.assertEqual(bites_game.anthill, [None, None, None, None, None])
+
+  def test_one_whole_round_is_played(self):
+    pass
+
+  def test_two_full_rounds_are_played(self):
+    pass
+
+  def test_the_game_is_played_until_all_ants_are_on_the_anthill(self):
+    pass
+
+  def test_final_scores_are_printed_at_the_end_of_the_game(self):
+    pass
+
+  
 
 
 
