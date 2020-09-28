@@ -1,6 +1,5 @@
 import unittest
 from bites import Bites
-# from bites import
 
 class BitesInitTest(unittest.TestCase):
   def test___init___method_works(self):

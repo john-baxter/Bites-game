@@ -17,6 +17,10 @@ class Bites():
       The names of each type of food token and their quantities
       The keys are names of food as strings.
       The values are the amount of the food as integers.
+
+    players : (list)
+      A list of Player objects representing the players of this game.
+      Elements are instances of the Player class
     
     Attributes
     ----------
@@ -31,11 +35,14 @@ class Bites():
       A random shuffled list of all the tokens given in the tokens_for_trail argument
       Each element is a string.
 
-
     anthill : (list)
       A list of equivalent length to the ants parameter, initially populated with each 
       element as None; ready to be filled with the ID (string) of each ant as they reach 
       the end of the trail.
+
+    players : (list)
+      A list of Player objects representing the players of this game.
+      Elements are instances of the Player class
     """
     self.ant_positions = self.initialise_ants(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
@@ -115,4 +122,3 @@ class Bites():
     (self.trail, self.ant_positions, self.anthill) = \
       self.players[0].take_turn(
         self.trail, self.ant_positions, self.anthill)
-
