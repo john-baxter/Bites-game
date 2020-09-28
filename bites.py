@@ -2,7 +2,7 @@ import random
 from constants import K_COLOUR_V_FOOD_DICT
 
 class Bites():
-  def __init__(self, ants, tokens_for_trail):
+  def __init__(self, ants, tokens_for_trail, player):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -40,6 +40,7 @@ class Bites():
     self.ant_positions = self.initialise_ants(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
+    self.players = [player]
 
   def initialise_ants(self, ants):
     """Create a record of the starting positions of each insect meeple

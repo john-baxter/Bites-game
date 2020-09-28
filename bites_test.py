@@ -120,5 +120,18 @@ class InitialiseAnthillTest(unittest.TestCase):
     expected_anthill = [None, None, None, None, None]
     self.assertEqual(bites_game.anthill, expected_anthill)
 
+class ToBeReassignedTest(unittest.TestCase):
+  def test_bites_class_can_receive_instance_of_player_class(self):
+  # test 73
+    class FakePlayer():
+      pass
+
+    mario = FakePlayer()
+    ants = []
+    tokens_for_trail = {}
+    play_bites = Bites(ants, tokens_for_trail, mario)
+
+    self.assertIsInstance(play_bites.players[0], FakePlayer)
+
 if __name__ == '__main__':
   unittest.main()
