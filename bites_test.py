@@ -11,7 +11,8 @@ class BitesInitTest(unittest.TestCase):
     test_tokens = {
       'grapes': 1,
       'cheese': 1}
-    bites_game = Bites(test_ants, test_tokens)
+    test_players = []
+    bites_game = Bites(test_ants, test_tokens, test_players)
     expected_ants = {
       'purple': None,
       'yellow': None}
@@ -24,12 +25,42 @@ class BitesInitTest(unittest.TestCase):
     self.assertIn(bites_game.trail, expected_trails)
     self.assertEqual(bites_game.anthill, expected_anthill)
 
+  def test_bites_class_can_receive_instance_of_player_class(self):
+  # test 73
+    class FakePlayer():
+      pass
+
+    mario = FakePlayer()
+    ants = []
+    tokens_for_trail = {}
+    bites_game = Bites(ants, tokens_for_trail, [mario])
+
+    self.assertIsInstance(bites_game.players[0], FakePlayer)
+
+  def test_bites_class_can_receive_two_instances_of_player(self):
+  # test 74
+    class FakePlayer():
+      def __init__(self, name):
+        self.name = name
+
+    mario = FakePlayer("mario")
+    luigi = FakePlayer("luigi")
+    players = [mario, luigi]
+    ants = []
+    tokens_for_trail = {}
+    bites_game = Bites(ants, tokens_for_trail, players)
+
+    self.assertEqual(len(bites_game.players), 2)
+    self.assertEqual(bites_game.players[0].name, "mario")
+    self.assertEqual(bites_game.players[1].name, "luigi")
+
 class InitialiseAntsTest(unittest.TestCase):
   # test 1
   def test_can_initialise_one_ant(self):
     ants = ["red"]
     tokens_for_trail = {}
-    bites_game = Bites(ants, tokens_for_trail)
+    players = []
+    bites_game = Bites(ants, tokens_for_trail, players)
     expected_ant_positions = {"red": None}
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
@@ -37,7 +68,8 @@ class InitialiseAntsTest(unittest.TestCase):
   # test 2
     ants = ["red", "purple"]
     tokens_for_trail = {}
-    bites_game = Bites(ants, tokens_for_trail)
+    players = []
+    bites_game = Bites(ants, tokens_for_trail, players)
     expected_ant_positions = {"red": None, "purple": None}
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
@@ -45,7 +77,8 @@ class InitialiseAntsTest(unittest.TestCase):
   # test 3
     ants = ["red", "purple", "yellow", "green", "brown"]
     tokens_for_trail = {}
-    bites_game = Bites(ants, tokens_for_trail)
+    players = []
+    bites_game = Bites(ants, tokens_for_trail, players)
     expected_ant_positions = {
       "red": None,
       "purple": None,
@@ -60,7 +93,8 @@ class InitialiseTrailTest(unittest.TestCase):
   def test_can_initialise_trail_with_one_token(self):
     foods = {"apple": 1}
     ants = []
-    bites_game = Bites(ants, foods)
+    players = []
+    bites_game = Bites(ants, foods, players)
     expected_trail = ["apple"]
     self.assertEqual(bites_game.trail, expected_trail)
 
@@ -68,7 +102,8 @@ class InitialiseTrailTest(unittest.TestCase):
   # test 5
     foods = {"apple": 1, "grapes": 1}
     ants = []
-    bites_game = Bites(ants, foods)
+    players = []
+    bites_game = Bites(ants, foods, players)
     expected_trails = [["apple", "grapes"], ["grapes", "apple"]]
     self.assertIn(bites_game.trail, expected_trails)
 
@@ -76,7 +111,8 @@ class InitialiseTrailTest(unittest.TestCase):
   # test 6
     foods = {"apple": 5}
     ants = []
-    bites_game = Bites(ants, foods)
+    players = []
+    bites_game = Bites(ants, foods, players)
     expected_trail = ["apple", "apple", "apple", "apple", "apple"]
     self.assertEqual(bites_game.trail, expected_trail)
 
@@ -84,7 +120,8 @@ class InitialiseTrailTest(unittest.TestCase):
   # test 7
     foods = {"apple": 2, "grapes": 1}
     ants = []
-    bites_game = Bites(ants, foods)
+    players = []
+    bites_game = Bites(ants, foods, players)
     expected_trails = [
       ["grapes", "apple", "apple"],
       ["apple", "grapes", "apple"],
@@ -102,7 +139,8 @@ class InitialiseTrailTest(unittest.TestCase):
       "bread": 9
     }
     ants = []
-    bites_game = Bites(ants, foods)
+    players = []
+    bites_game = Bites(ants, foods, players)
     expected_trail_length = 45
     self.assertEqual(len(bites_game.trail), expected_trail_length)
     self.assertEqual(bites_game.trail.count("apple"), 9)
@@ -116,40 +154,12 @@ class InitialiseAnthillTest(unittest.TestCase):
   # test 27
     ants = ['purple', 'red', 'brown', 'yellow', 'green']
     tokens_for_trail = {}
-    bites_game = Bites(ants, tokens_for_trail)
+    players = []
+    bites_game = Bites(ants, tokens_for_trail, players)
     expected_anthill = [None, None, None, None, None]
     self.assertEqual(bites_game.anthill, expected_anthill)
 
-class ToBeReassignedTest(unittest.TestCase):
-  def test_bites_class_can_receive_instance_of_player_class(self):
-  # test 73
-    class FakePlayer():
-      pass
-
-    mario = FakePlayer()
-    ants = []
-    tokens_for_trail = {}
-    play_bites = Bites(ants, tokens_for_trail, [mario])
-
-    self.assertIsInstance(play_bites.players[0], FakePlayer)
-
-  def test_bites_class_can_receive_two_instances_of_player(self):
-  # test 74
-    class FakePlayer():
-      def __init__(self, name):
-        self.name = name
-
-    mario = FakePlayer("mario")
-    luigi = FakePlayer("luigi")
-    players = [mario, luigi]
-    ants = []
-    tokens_for_trail = {}
-    play_bites = Bites(ants, tokens_for_trail, players)
-
-    self.assertEqual(len(play_bites.players), 2)
-    self.assertEqual(play_bites.players[0].name, "mario")
-    self.assertEqual(play_bites.players[1].name, "luigi")
-
+class PlayTest(unittest.TestCase):
   def test_first_player_takes_one_turn(self):
   # test 75
     class FakePlayer():
