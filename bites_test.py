@@ -129,9 +129,77 @@ class ToBeReassignedTest(unittest.TestCase):
     mario = FakePlayer()
     ants = []
     tokens_for_trail = {}
-    play_bites = Bites(ants, tokens_for_trail, mario)
+    play_bites = Bites(ants, tokens_for_trail, [mario])
 
     self.assertIsInstance(play_bites.players[0], FakePlayer)
+
+  def test_bites_class_can_receive_two_instances_of_player(self):
+  # test 74
+    class FakePlayer():
+      def __init__(self, name):
+        self.name = name
+
+    mario = FakePlayer("mario")
+    luigi = FakePlayer("luigi")
+    players = [mario, luigi]
+    ants = []
+    tokens_for_trail = {}
+    play_bites = Bites(ants, tokens_for_trail, players)
+
+    self.assertEqual(len(play_bites.players), 2)
+    self.assertEqual(play_bites.players[0].name, "mario")
+    self.assertEqual(play_bites.players[1].name, "luigi")
+
+  def test_first_player_takes_one_turn(self):
+  # test 75
+    class FakePlayer():
+      def __init__(self):
+        self.callback = []
+
+      def take_turn(self, trail, ant_positions, anthill):
+        self.callback.append("take turn")
+        new_trail = ["apple", None]
+        new_ant_positions = {
+          "red": 0,
+          "yellow": None,
+          "green": None,
+          "brown": None,
+          "purple": None}
+        new_anthill = [None, None, None, None, None]
+        return (new_trail, new_ant_positions, new_anthill)
+
+    players = [FakePlayer(), FakePlayer()]
+    ants = ["red", "yellow", "green", "brown", "purple"]
+    tokens_for_trail = {}
+    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game.trail = ["apple", "apple"]
+    bites_game.ant_positions = {
+      "red": None,
+      "yellow": None,
+      "green": None,
+      "brown": None,
+      "purple": None}
+
+    bites_game.play()
+
+    self.assertEqual(bites_game.players[0].callback, ["take turn"])
+    self.assertEqual(bites_game.players[1].callback, [])
+    self.assertEqual(bites_game.trail, ["apple", None])
+    self.assertEqual(bites_game.ant_positions, {
+          "red": 0,
+          "yellow": None,
+          "green": None,
+          "brown": None,
+          "purple": None})
+    self.assertEqual(bites_game.anthill, [None, None, None, None, None])
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
   unittest.main()
