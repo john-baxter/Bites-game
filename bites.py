@@ -123,6 +123,3 @@ class Bites():
       (self.trail, self.ant_positions, self.anthill) = \
         player.take_turn(
           self.trail, self.ant_positions, self.anthill)
-    # (self.trail, self.ant_positions, self.anthill) = \
-    #   self.players[1].take_turn(
-    #     self.trail, self.ant_positions, self.anthill)
