@@ -1,5 +1,7 @@
 import unittest
+from unittest import mock
 from bites import Bites
+from player import Player
 
 class BitesInitTest(unittest.TestCase):
   def test___init___method_works(self):
@@ -176,7 +178,7 @@ class PlayTest(unittest.TestCase):
           "purple": None}
         new_anthill = [None, None, None, None, None]
         return (new_trail, new_ant_positions, new_anthill)
-
+    
     players = [FakePlayer(), FakePlayer()]
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {}
@@ -192,7 +194,7 @@ class PlayTest(unittest.TestCase):
     bites_game.play()
 
     self.assertEqual(bites_game.players[0].callback, ["take turn"])
-    self.assertEqual(bites_game.players[1].callback, [])
+    # self.assertEqual(bites_game.players[1].callback, [])
     self.assertEqual(bites_game.trail, ["apple", None])
     self.assertEqual(bites_game.ant_positions, {
           "red": 0,
@@ -201,62 +203,164 @@ class PlayTest(unittest.TestCase):
           "brown": None,
           "purple": None})
     self.assertEqual(bites_game.anthill, [None, None, None, None, None])
+  
+  def test_first_player_takes_one_turn_v3(self):
+  # test 75b
+    new_trail = ["apple", None]
+    new_ant_positions = {
+      "red": 0,
+      "yellow": None,
+      "green": None,
+      "brown": None,
+      "purple": None}
+    new_anthill = [None, None, None, None, None]
+    fake_mario = mock.MagicMock()
+    fake_mario.take_turn = mock.MagicMock(return_value = (new_trail, new_ant_positions, new_anthill))
+    
+    # fake_luigi = mock.MagicMock()
+    # fake_luigi.take_turn = mock.MagicMock(return_value = (None, None, None))
 
+    players = [fake_mario]
+    # players = [fake_mario, fake_luigi]
+    ants = ["red", "yellow", "green", "brown", "purple"]
+    tokens_for_trail = {}
+    bites_game = Bites(ants, tokens_for_trail, players)
+    starting_trail = ["apple", "apple"]
+    starting_ant_positions = {
+      "red": None,
+      "yellow": None,
+      "green": None,
+      "brown": None,
+      "purple": None}
+    starting_anthill = [None, None, None, None, None]
+    bites_game.trail = starting_trail
+    bites_game.ant_positions = starting_ant_positions
+    bites_game.anthill = starting_anthill
+
+    bites_game.play()
+
+    self.assertEqual(fake_mario.take_turn.call_count, 1)
+    fake_mario.take_turn.assert_called_with(
+      starting_trail, starting_ant_positions, starting_anthill)
+    # self.assertEqual(fake_luigi.take_turn.call_count, 0)
+    self.assertEqual(bites_game.trail, ["apple", None])
+    self.assertEqual(bites_game.ant_positions, {
+          "red": 0,
+          "yellow": None,
+          "green": None,
+          "brown": None,
+          "purple": None})
+    self.assertEqual(bites_game.anthill, [None, None, None, None, None])
+  
   def test_one_whole_round_is_played(self):
   # test 76
     """
     P0 plays brown ant, picks up food from behind
     P1 plays yellow ant, picks up food from behind
     """
-    pass
-    # players = [FakePlayer(), FakePlayer()]
-    # ants = ["red", "yellow", "green", "brown", "purple"]
-    # tokens_for_trail = {}
-    # bites_game = Bites(ants, tokens_for_trail, players)
-    # bites_game.trail = [
-    #   "apple", 
-    #   "cheese", 
-    #   "bread", 
-    #   "pepper", 
-    #   "grapes", 
-    #   "apple", 
-    #   "cheese", 
-    #   "bread", 
-    #   "pepper", 
-    #   "grapes"]
-    # bites_game.ant_positions = {
-    #   "red": None,
-    #   "yellow": None,
-    #   "green": None,
-    #   "brown": None,
-    #   "purple": None}
+    
+    mario_new_trail = [
+      "apple", 
+      None, 
+      "bread", 
+      "pepper", 
+      "grapes", 
+      "apple", 
+      "cheese", 
+      "bread", 
+      "pepper", 
+      "grapes"]
+    mario_new_ant_positions = {
+      "red": None,
+      "yellow": None,
+      "green": None,
+      "brown": 2,
+      "purple": None}
+    mario_new_anthill = [None, None, None, None, None]
+    fake_mario = mock.MagicMock()
+    fake_mario.take_turn = mock.MagicMock(return_value = (
+      mario_new_trail, mario_new_ant_positions, mario_new_anthill))
+    
+    luigi_new_trail = [
+      "apple", 
+      None, 
+      "bread", 
+      "pepper", 
+      "grapes", 
+      None, 
+      "cheese", 
+      "bread", 
+      "pepper", 
+      "grapes"]
+    luigi_new_ant_positions = {
+      "red": None,
+      "yellow": 6,
+      "green": None,
+      "brown": 2,
+      "purple": None}
+    luigi_new_anthill = [None, None, None, None, None]
+    fake_luigi = mock.MagicMock()
+    fake_luigi.take_turn = mock.MagicMock(return_value = (
+      luigi_new_trail, luigi_new_ant_positions, luigi_new_anthill))
+    
+    players = [fake_mario, fake_luigi]
+    ants = ["red", "yellow", "green", "brown", "purple"]
+    tokens_for_trail = {}
+    bites_game = Bites(ants, tokens_for_trail, players)
+    
+    starting_trail = [
+      "apple", 
+      "cheese", 
+      "bread", 
+      "pepper", 
+      "grapes", 
+      "apple", 
+      "cheese", 
+      "bread", 
+      "pepper", 
+      "grapes"]
+    starting_ant_positions = {
+      "red": None,
+      "yellow": None,
+      "green": None,
+      "brown": None,
+      "purple": None}
+    starting_anthill = [None, None, None, None, None]
 
-    # bites_game.play()
+    bites_game.trail = starting_trail
+    bites_game.ant_positions = starting_ant_positions
+    bites_game.anthill = starting_anthill
     
-    # expected_new_trail = [
-    #   "apple", 
-    #   None, 
-    #   "bread", 
-    #   "pepper", 
-    #   "grapes", 
-    #   None, 
-    #   "cheese", 
-    #   "bread", 
-    #   "pepper", 
-    #   "grapes"]
-    # expected_new_ant_positions = {
-    #   "red": None,
-    #   "yellow": 6,
-    #   "green": None,
-    #   "brown": 2,
-    #   "purple": None}
-    # expected_new_anthill = [None, None, None, None, None]
+    bites_game.play()
     
-    # self.assertEqual(bites_game.players[0].callback, ["take turn"])
-    # self.assertEqual(bites_game.players[1].callback, ["take turn"])
-    # self.assertEqual(bites_game.trail, expected_new_trail)
-    # self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
-    # self.assertEqual(bites_game.anthill, expected_new_anthill)
+    expected_new_trail = [
+      "apple", 
+      None, 
+      "bread", 
+      "pepper", 
+      "grapes", 
+      None, 
+      "cheese", 
+      "bread", 
+      "pepper", 
+      "grapes"]
+    expected_new_ant_positions = {
+      "red": None,
+      "yellow": 6,
+      "green": None,
+      "brown": 2,
+      "purple": None}
+    expected_new_anthill = [None, None, None, None, None]
+    
+    self.assertEqual(fake_mario.take_turn.call_count, 1)
+    fake_mario.take_turn.assert_called_with(
+      starting_trail, starting_ant_positions, starting_anthill)
+    self.assertEqual(fake_luigi.take_turn.call_count, 1)
+    fake_luigi.take_turn.assert_called_with(
+      mario_new_trail, mario_new_ant_positions, mario_new_anthill)
+    self.assertEqual(bites_game.trail, expected_new_trail)
+    self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
+    self.assertEqual(bites_game.anthill, expected_new_anthill)
 
   def test_two_full_rounds_are_played(self):
   # test 77
