@@ -1,5 +1,8 @@
 import unittest
 from unittest import mock
+from unittest.mock import patch
+import io
+import sys
 from bites import Bites
 from player import Player
 
@@ -499,57 +502,79 @@ class PlayTest(unittest.TestCase):
   def test_final_scores_are_printed_at_the_end_of_the_game(self):
   # test 79
     """
-    Starting point is the game situation from the previous game at the point of the penultimate 
-    turn has been completed. The same final move will be executed here and the scores analysed.
-    P0 plays purple ant, picks food from XX
+    Starting point is a game situation at the point that the penultimate turn has 
+    been completed. The final move will be executed here and the scores analysed.
+    P0 moves purple ant to anthill[0]
     """
     pass
-    # players = [FakePlayer(), FakePlayer()]
+
+    # starting_trail = [
+    #   "apple",
+    #   None,
+    #   None,
+    #   "pepper",
+    #   None,
+    #   None,
+    #   None,
+    #   "bread",
+    #   "pepper",
+    #   None]
+    # starting_ant_positions = {
+    #   "purple": None,
+    #   "brown": "anthill",
+    #   "green": "anthill",
+    #   "red": "anthill",
+    #   "yellow": "anthill"}
+    # starting_anthill = [None, "brown", "green", "red", "yellow"]
+
+    # trail_after_turn_1_mario = starting_trail
+    # ant_pos_after_turn_1_mario = {
+    #   "purple": "anthill",
+    #   "brown": "anthill",
+    #   "green": "anthill",
+    #   "red": "anthill",
+    #   "yellow": "anthill"}
+    # anthill_after_turn_1_mario = ["purple", "brown", "green", "red", "yellow"]
+
+    # expected_new_trail = trail_after_turn_1_mario
+    # expected_new_ant_positions = ant_pos_after_turn_1_mario
+    # expected_new_anthill = anthill_after_turn_1_mario
+
     # ants = ["red", "yellow", "green", "brown", "purple"]
     # tokens_for_trail = {}
-    # bites_game = Bites(ants, tokens_for_trail, players)
-    # bites_game.trail = [
-    #   "apple", 
-    #   "cheese", 
-    #   None, 
-    #   None, 
-    #   None, 
-    #   "apple", 
-    #   None, 
-    #   "bread", 
-    #   "pepper", 
-    #   "grapes"]
-    # bites_game.ant_positions = {
-    #   "red": "anthill",
-    #   "yellow": "anthill",
-    #   "green": "anthill",
-    #   "brown": "anthill",
-    #   "purple": None}
+    
+    # fake_mario = mock.MagicMock()
+    # fake_mario.take_turn = mock.MagicMock(return_value = (
+    #   trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario))
+    # fake_mario.score_hand = mock.MagicMock(return_value = 3)
+    # fake_luigi = mock.MagicMock()
+    # fake_luigi.score_hand = mock.MagicMock(return_value = 9)
 
+    # players = [fake_mario, fake_luigi]
+    # bites_game = Bites(ants, tokens_for_trail, players)
+    # bites_game.trail = starting_trail
+    # bites_game.ant_positions = starting_ant_positions
+    # bites_game.anthill = starting_anthill
     # bites_game.play()
 
-    # expected_new_trail = [
-    #   "apple", 
-    #   None, 
-    #   None, 
-    #   "pepper", 
-    #   None, 
-    #   None, 
-    #   None, 
-    #   "bread", 
-    #   "pepper", 
-    #   None]
-    # expected_new_ant_positions = {
-    #   "red": "anthill",
-    #   "yellow": "anthill",
-    #   "green": "anthill",
-    #   "brown": "anthill",
-    #   "purple": "anthill"}
-    # expected_new_anthill = ["purple", "brown", "green", "red", "yellow"]
-    # expected_P0_points = 4 
-    # expected_P1_points = 8
-    # self.assertEqual(bites_game.players[0].score, expected_P0_points )
-    # self.assertEqual(bites_game.players[1].score, expected_P1_points )
+class PrintScoresTest(unittest.TestCase):
+  def test_single_player_0_points_print_name_and_score(self):
+  # test 80
+    fake_mario = mock.MagicMock()
+    fake_mario.name = mock.MagicMock(return_value = "mario")
+    fake_mario.score_hand = mock.MagicMock(return_value = 0)
+
+    ants = []
+    tokens_for_trail = {}
+    players = [fake_mario]
+    bites_game = Bites(ants, tokens_for_trail, players)
+
+
+    with mock.patch('sys.stdout', new = io.StringIO()) as fake_stdout:
+      bites_game.print_scores(fake_mario)
+    assert fake_stdout.getvalue() == 'mario: 0\n'
+
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

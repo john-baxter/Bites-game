@@ -125,3 +125,6 @@ class Bites():
           player.take_turn(
             self.trail, self.ant_positions, self.anthill)
         if None not in self.anthill: return
+
+  def print_scores(self, fake_mario):
+    print ('mario: 0')
