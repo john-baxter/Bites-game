@@ -119,6 +119,34 @@ class Bites():
     return trail
 
   def take_all_turns(self):
+    """Cycles through all players and performs actions needed to take their turns.
+
+    Continues to cycle through players repeatedly until the end of the game.
+    The end of the game is recognised as the point where all ants are on the anthill.
+    The loop is broken immediately as this criterion is met.
+
+    Parameters
+    ----------
+    None
+
+    Attributes
+    ----------
+    trail : (list of strings)
+      The trail contains a list of the food tokens available on the game area.
+      The types of food token can be found in constants.py/FOOD_TYPES
+      As food tokens are removed from the game the elements are replaced with None
+
+    ant_positions : (dict)
+      A dictionary showing which element of the trail list each ant is positioned at.
+      Keys are ant IDs as strings
+      Values are None, int or "anthill"
+
+    anthill : (list)
+      A list with the same length as the number of ants in the game. 
+      Initialised with each element as None.
+      Elements will be changed into the IDs of the ants as they reach the anthill.
+      Each element is None or string.
+    """
     while 1:
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill) = \
