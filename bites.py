@@ -118,7 +118,7 @@ class Bites():
     random.shuffle(trail)
     return trail
 
-  def play(self):
+  def take_all_turns(self):
     while 1:
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill) = \
@@ -126,5 +126,6 @@ class Bites():
             self.trail, self.ant_positions, self.anthill)
         if None not in self.anthill: return
 
-  def print_scores(self, fake_mario):
-    print ('mario: 0')
+  def print_scores(self):
+    for player in self.players:
+      print ("%s: %i\n" % (player.name, player.score))

@@ -1,10 +1,6 @@
 import unittest
 from unittest import mock
-from unittest.mock import patch
-import io
-import sys
 from bites import Bites
-from player import Player
 
 class BitesInitTest(unittest.TestCase):
   def test___init___method_works(self):
@@ -202,7 +198,7 @@ class PlayTest(unittest.TestCase):
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
 
-    bites_game.play()
+    bites_game.take_all_turns()
 
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
@@ -291,7 +287,7 @@ class PlayTest(unittest.TestCase):
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
     
-    bites_game.play()
+    bites_game.take_all_turns()
     
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
@@ -427,7 +423,7 @@ class PlayTest(unittest.TestCase):
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
-    bites_game.play()
+    bites_game.take_all_turns()
     
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 2)
     self.assertEqual(fake_luigi.take_turn.call_count, 2)
@@ -490,7 +486,7 @@ class PlayTest(unittest.TestCase):
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
-    bites_game.play()
+    bites_game.take_all_turns()
 
     self.assertEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
@@ -555,26 +551,50 @@ class PlayTest(unittest.TestCase):
     # bites_game.trail = starting_trail
     # bites_game.ant_positions = starting_ant_positions
     # bites_game.anthill = starting_anthill
-    # bites_game.play()
+    # bites_game.take_all_turns()
 
 class PrintScoresTest(unittest.TestCase):
   def test_single_player_0_points_print_name_and_score(self):
   # test 80
-    fake_mario = mock.MagicMock()
-    fake_mario.name = mock.MagicMock(return_value = "mario")
-    fake_mario.score_hand = mock.MagicMock(return_value = 0)
+    class FakePlayer():
+      def __init__(self, name, score):
+        self.name = name
+        self.score = score
 
     ants = []
     tokens_for_trail = {}
+    fake_mario = FakePlayer("mario", 0)
     players = [fake_mario]
     bites_game = Bites(ants, tokens_for_trail, players)
 
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.print_scores()
+    print_mock.assert_called_once_with("mario: 0\n")
+    self.assertEqual(print_mock.call_count, 1)
+    print_patcher.stop()
 
-    with mock.patch('sys.stdout', new = io.StringIO()) as fake_stdout:
-      bites_game.print_scores(fake_mario)
-    assert fake_stdout.getvalue() == 'mario: 0\n'
+  def test_two_players_prints_both_names_and_scores(self):
+  # test 81
+    class FakePlayer():
+      def __init__(self, name, score):
+        self.name = name
+        self.score = score
 
+    fake_mario = FakePlayer("mario", 3)
+    fake_luigi = FakePlayer("luigi", 9)
+    ants = []
+    tokens_for_trail = {}
+    players = [fake_mario, fake_luigi]
+    bites_game = Bites(ants, tokens_for_trail, players)
 
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.print_scores()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("mario: 3\n"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("luigi: 9\n"))
+    print_patcher.stop()
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
