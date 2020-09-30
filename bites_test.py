@@ -446,20 +446,20 @@ class PlayTest(unittest.TestCase):
 
     expected_new_trail = trail_after_turn_4_luigi 
     expected_new_ant_positions = ant_pos_after_turn_4_luigi
-    expected_anthill = anthill_after_turn_4_luigi
+    expected_new_anthill = anthill_after_turn_4_luigi
 
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {}
     
     fake_mario = mock.MagicMock()
     fake_mario.take_turn = mock.MagicMock(side_effect = [
-      (starting_trail, starting_ant_positions, starting_anthill),
-      (trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi)])
+      (trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario),
+      (trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario)])
 
     fake_luigi = mock.MagicMock()
     fake_luigi.take_turn = mock.MagicMock(side_effect = [
-      (trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario),
-      (trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario)])
+      (trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi),
+      (trail_after_turn_4_luigi, ant_pos_after_turn_4_luigi, anthill_after_turn_4_luigi)])
     
     players = [fake_mario, fake_luigi]
     bites_game = Bites(ants, tokens_for_trail, players)
@@ -469,15 +469,15 @@ class PlayTest(unittest.TestCase):
     bites_game.play()
     
     self.assertEqual(fake_mario.take_turn.call_count, 2)
-    fake_mario.take_turn.assert_called_with(
-      starting_trail, starting_ant_positions, starting_anthill)
-    fake_mario.take_turn.assert_called_with(
-      trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi)
     self.assertEqual(fake_luigi.take_turn.call_count, 2)
-    fake_luigi.take_turn.assert_called_with(
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario)
-    fake_luigi.take_turn.assert_called_with(
-      trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario)
+    self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
+      starting_trail, starting_ant_positions, starting_anthill))
+    self.assertEqual(fake_luigi.take_turn.call_args_list[0], mock.call(
+      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario))
+    self.assertEqual(fake_mario.take_turn.call_args_list[1], mock.call(
+      trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi))
+    self.assertEqual(fake_luigi.take_turn.call_args_list[1], mock.call(
+      trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario))
     self.assertEqual(bites_game.trail, expected_new_trail)
     self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
     self.assertEqual(bites_game.anthill, expected_new_anthill)
