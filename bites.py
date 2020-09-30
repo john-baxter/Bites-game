@@ -121,14 +121,7 @@ class Bites():
   def play(self):
     while 1:
       for player in self.players:
-        # print(self.trail)
-        # print(self.ant_positions)
-        # print(self.anthill)
         (self.trail, self.ant_positions, self.anthill) = \
           player.take_turn(
             self.trail, self.ant_positions, self.anthill)
-        # print(self.trail)
-        # print(self.ant_positions)
-        # print(self.anthill)
-        # print()
         if None not in self.anthill: return

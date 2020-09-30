@@ -161,50 +161,8 @@ class InitialiseAnthillTest(unittest.TestCase):
     self.assertEqual(bites_game.anthill, expected_anthill)
 
 class PlayTest(unittest.TestCase):
-  # def test_first_player_takes_one_turn(self):
-  # # test 75
-  #   class FakePlayer():
-  #     def __init__(self):
-  #       self.callback = []
-
-  #     def take_turn(self, trail, ant_positions, anthill):
-  #       self.callback.append("take turn")
-  #       new_trail = ["apple", None]
-  #       new_ant_positions = {
-  #         "red": 0,
-  #         "yellow": None,
-  #         "green": None,
-  #         "brown": None,
-  #         "purple": None}
-  #       new_anthill = [None, None, None, None, None]
-  #       return (new_trail, new_ant_positions, new_anthill)
-    
-  #   players = [FakePlayer(), FakePlayer()]
-  #   ants = ["red", "yellow", "green", "brown", "purple"]
-  #   tokens_for_trail = {}
-  #   bites_game = Bites(ants, tokens_for_trail, players)
-  #   bites_game.trail = ["apple", "apple"]
-  #   bites_game.ant_positions = {
-  #     "red": None,
-  #     "yellow": None,
-  #     "green": None,
-  #     "brown": None,
-  #     "purple": None}
-
-  #   bites_game.play()
-
-  #   self.assertIn("take turn", bites_game.players[0].callback)
-  #   self.assertEqual(bites_game.trail, ["apple", None])
-  #   self.assertEqual(bites_game.ant_positions, {
-  #         "red": 0,
-  #         "yellow": None,
-  #         "green": None,
-  #         "brown": None,
-  #         "purple": None})
-  #   self.assertEqual(bites_game.anthill, [None, None, None, None, None])
-  
-  def test_first_player_takes_one_turn_v2(self):
-  # test 76
+  def test_first_player_takes_one_turn(self):
+  # test 75
     starting_trail = ["apple", "apple"]
     starting_ant_positions = {
       "red": None,
@@ -246,12 +204,9 @@ class PlayTest(unittest.TestCase):
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
       starting_trail, starting_ant_positions, starting_anthill))
-    # self.assertEqual(bites_game.trail, expected_new_trail)
-    # self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
-    # self.assertEqual(bites_game.anthill, expected_new_anthill)
   
   def test_one_whole_round_is_played(self):
-  # test 77
+  # test 76
     """
     P0 moves brown ant to pos 2 & picks up cheese from behind
     P1 moves yellow ant to pos 6 & picks up apple from behind
@@ -343,7 +298,7 @@ class PlayTest(unittest.TestCase):
       trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario))
 
   def test_two_full_rounds_are_played(self):
-  # test 78
+  # test 77
     """
     P0 moves green ant to pos 3 & picks up grapes from front
     P1 moves brown ant to pos 2 & picks up apple from front
@@ -481,12 +436,9 @@ class PlayTest(unittest.TestCase):
       trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi))
     self.assertEqual(fake_luigi.take_turn.call_args_list[1], mock.call(
       trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario))
-    # self.assertEqual(bites_game.trail, expected_new_trail)
-    # self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
-    # self.assertEqual(bites_game.anthill, expected_new_anthill)
 
   def test_the_game_is_played_until_all_ants_are_on_the_anthill(self):
-  # test 79
+  # test 78
     """
     The final move of a game;
     P0 moves purple ant to anthill[0]
@@ -545,7 +497,7 @@ class PlayTest(unittest.TestCase):
     self.assertEqual(bites_game.anthill, expected_new_anthill)
 
   def test_final_scores_are_printed_at_the_end_of_the_game(self):
-  # test 80
+  # test 79
     """
     Starting point is the game situation from the previous game at the point of the penultimate 
     turn has been completed. The same final move will be executed here and the scores analysed.
