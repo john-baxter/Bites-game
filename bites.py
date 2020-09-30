@@ -119,7 +119,15 @@ class Bites():
     return trail
 
   def play(self):
-    for player in self.players:
-      (self.trail, self.ant_positions, self.anthill) = \
-        player.take_turn(
-          self.trail, self.ant_positions, self.anthill)
+    for i in range(0, 2):
+      for player in self.players:
+        # print(self.trail)
+        # print(self.ant_positions)
+        # print(self.anthill)
+        (self.trail, self.ant_positions, self.anthill) = \
+          player.take_turn(
+            self.trail, self.ant_positions, self.anthill)
+        # print(self.trail)
+        # print(self.ant_positions)
+        # print(self.anthill)
+        # print()
