@@ -119,7 +119,7 @@ class Bites():
     return trail
 
   def play(self):
-    for i in range(0, 2):
+    while 1:
       for player in self.players:
         # print(self.trail)
         # print(self.ant_positions)
@@ -131,3 +131,4 @@ class Bites():
         # print(self.ant_positions)
         # print(self.anthill)
         # print()
+        if None not in self.anthill: return
