@@ -482,53 +482,6 @@ class PlayTest(unittest.TestCase):
     self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
     self.assertEqual(bites_game.anthill, expected_new_anthill)
 
-    # players = [FakePlayer(), FakePlayer()]
-    # bites_game = Bites(ants, tokens_for_trail, players)
-    # bites_game.trail = [
-    #   "apple", 
-    #   "cheese", 
-    #   "bread", 
-    #   "pepper", 
-    #   "grapes", 
-    #   "apple", 
-    #   "cheese", 
-    #   "bread", 
-    #   "pepper", 
-    #   "grapes"]
-    # bites_game.ant_positions = {
-    #   "red": None,
-    #   "yellow": None,
-    #   "green": None,
-    #   "brown": None,
-    #   "purple": None}
-
-    # bites_game.play()
-    
-    # expected_new_trail = [
-    #   "apple", 
-    #   "cheese", 
-    #   None, 
-    #   "pepper", 
-    #   None, 
-    #   None, 
-    #   None, 
-    #   "bread", 
-    #   "pepper", 
-    #   "grapes"]
-    # expected_new_ant_positions = {
-    #   "red": None,
-    #   "yellow": 1,
-    #   "green": 3,
-    #   "brown": 7,
-    #   "purple": None}
-    # expected_new_anthill = [None, None, None, None, None]
-
-    # self.assertEqual(bites_game.players[0].callback, ["take turn", "take turn"])
-    # self.assertEqual(bites_game.players[1].callback, ["take turn", "take turn"])
-    # self.assertEqual(bites_game.trail, expected_new_trail)
-    # self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
-    # self.assertEqual(bites_game.anthill, expected_new_anthill)
-
   def test_the_game_is_played_until_all_ants_are_on_the_anthill(self):
   # test 79
     """
