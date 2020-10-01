@@ -155,5 +155,21 @@ class Bites():
         if None not in self.anthill: return
 
   def print_scores(self):
+    """Displays each player's score
+
+    Prints each player's name and shows how many points they have.
+
+    Parameters
+    ----------
+    None
+
+    Attributes
+    ----------
+    player.name : (string)
+      The player's name as entered at initialisation
+
+    player.score : (int)
+      The points that player has
+    """
     for player in self.players:
       print ("%s: %i\n" % (player.name, player.score))
