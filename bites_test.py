@@ -159,7 +159,7 @@ class InitialiseAnthillTest(unittest.TestCase):
     expected_anthill = [None, None, None, None, None]
     self.assertEqual(bites_game.anthill, expected_anthill)
 
-class PlayTest(unittest.TestCase):
+class TakeAllTurnsTest(unittest.TestCase):
   def test_first_player_takes_one_turn(self):
   # test 75
     starting_trail = ["apple", "apple"]
