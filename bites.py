@@ -141,7 +141,9 @@ class Bites():
       print ("%s: %i\n" % (player.name, player.score))
 
   def play_full_game(self):
-    """
+    """Runs through a full game
+
+    Takes all player turns as necessary and prints player scores.
     """
     self.take_all_turns()
     self.print_scores()
