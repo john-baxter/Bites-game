@@ -1,5 +1,6 @@
 import unittest
 from unittest import mock
+# from unittest import Mock
 from unittest.mock import patch
 from bites import Bites
 
@@ -599,14 +600,14 @@ class PrintScoresTest(unittest.TestCase):
 
 class PlayFullGameTest(unittest.TestCase):
   @patch('bites.Bites.take_all_turns')
-  def test_play_full_game_calls_take_all_turns(self, mock):
+  def test_play_full_game_calls_take_all_turns(self, take_all_turns_mock):
   # test 82
     bites_game = Bites([], {}, [])
     bites_game.play_full_game()
-    self.assertTrue(mock.called)
+    self.assertTrue(take_all_turns_mock.called)
 
   @patch('bites.Bites.print_scores')
-  def test_play_full_game_calls_print_scores(self, mock):
+  def test_play_full_game_calls_print_scores(self, print_scores_mock):
   # test 83
     class FakePlayer():
       def __init__(self, name, score):
@@ -621,7 +622,39 @@ class PlayFullGameTest(unittest.TestCase):
     players = [fake_mario, fake_luigi]
     bites_game = Bites([], {}, players)
     bites_game.play_full_game()
-    self.assertTrue(mock.called)
+    self.assertTrue(print_scores_mock.called)
+
+  @patch('bites.Bites.take_all_turns')
+  @patch('bites.Bites.print_scores')
+  def test_play_full_game_calls_take_all_turns_and_print_scores_in_the_correct_order(
+    self, take_all_turns_mock, print_scores_mock):
+    manager = Mock()
+
+    take_all_turns_mock = Mock()
+    print_scores_mock = Mock()
+    
+    manager.the_take_all_turns_mock = take_all_turns_mock
+    manager.the_print_scores_mock = print_scores_mock
+    # manager.attatch_mock(print_scores_mock, 'the_print_all_scores_mock')
+    mock_parent.m1, mock_parent.m2 = take_all_turns_mock, print_scores_mock
+    class FakePlayer():
+      def __init__(self, name, score):
+        self.name = name
+        self.score = score
+      
+      def take_turn(self, trail, ant_positions, anthill):
+        return (trail, ant_positions, anthill)
+
+    fake_mario = FakePlayer("mario", 3)
+    fake_luigi = FakePlayer("luigi", 9)
+    players = [fake_mario, fake_luigi]
+    bites_game = Bites([], {}, players)
+    bites_game.play_full_game()
+    expected_calls = [call.the_take_all_turns_mock(), call.the_print_all_scores_mock()]
+    # mock_parent.asseret_has_calls([call.m1(), call.m2()])
+    assert manager.mock_calls == expected_calls
+
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
