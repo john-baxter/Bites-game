@@ -151,6 +151,8 @@ class Player():
   def place_ant_on_anthill(self, ant_positions, anthill, ant):
     """Insect meeple goes on correct level of home structure
 
+    The method operates as per the "Overachiever" card from the game. This places ants 
+    onto the anthill from highest position to lowest in order.
     Places ant onto appropriate step of the anthill structure when it travels beyond 
     the end of the trail. This determines how many points the corresponding food tokens 
     will be worth.

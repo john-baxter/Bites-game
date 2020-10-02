@@ -2,7 +2,7 @@ import random
 from constants import K_COLOUR_V_FOOD_DICT
 
 class Bites():
-  def __init__(self, ants, tokens_for_trail):
+  def __init__(self, ants, tokens_for_trail, players):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -17,6 +17,10 @@ class Bites():
       The names of each type of food token and their quantities
       The keys are names of food as strings.
       The values are the amount of the food as integers.
+
+    players : (list)
+      A list of Player objects representing the players of this game.
+      Elements are instances of the Player class
     
     Attributes
     ----------
@@ -31,15 +35,19 @@ class Bites():
       A random shuffled list of all the tokens given in the tokens_for_trail argument
       Each element is a string.
 
-
     anthill : (list)
       A list of equivalent length to the ants parameter, initially populated with each 
       element as None; ready to be filled with the ID (string) of each ant as they reach 
       the end of the trail.
+
+    players : (list)
+      A list of Player objects representing the players of this game.
+      Elements are instances of the Player class
     """
     self.ant_positions = self.initialise_ants(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
+    self.players = players
 
   def initialise_ants(self, ants):
     """Create a record of the starting positions of each insect meeple
@@ -109,3 +117,25 @@ class Bites():
       trail = trail + ([food] * amount)
     random.shuffle(trail)
     return trail
+
+  def take_all_turns(self):
+    """Cycles through all players and performs actions needed to take their turns.
+
+    Continues to cycle through players repeatedly until the end of the game.
+    The end of the game is recognised as the point where all ants are on the anthill.
+    The loop is broken immediately as this criterion is met.
+    """
+    while 1:
+      for player in self.players:
+        (self.trail, self.ant_positions, self.anthill) = \
+          player.take_turn(
+            self.trail, self.ant_positions, self.anthill)
+        if None not in self.anthill: return
+
+  def print_scores(self):
+    """Displays each player's score
+
+    Prints each player's name and shows how many points they have.
+    """
+    for player in self.players:
+      print ("%s: %i\n" % (player.name, player.score))
