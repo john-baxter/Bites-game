@@ -1,5 +1,6 @@
 import unittest
 from unittest import mock
+from unittest.mock import patch
 from bites import Bites
 
 class BitesInitTest(unittest.TestCase):
@@ -595,6 +596,37 @@ class PrintScoresTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[0], mock.call("mario: 3\n"))
     self.assertEqual(print_mock.call_args_list[1], mock.call("luigi: 9\n"))
     print_patcher.stop()
+
+class PlayFullGameTest(unittest.TestCase):
+  @patch('bites.Bites.take_all_turns')
+  def test_play_full_game_calls_take_all_turns(self, mock):
+  # test 82
+    bites_game = Bites([], {}, [])
+    bites_game.play_full_game()
+    self.assertTrue(mock.called)
+
+  @patch('bites.Bites.print_scores')
+  def test_play_full_game_calls_print_scores(self, mock):
+  # test 83
+    class FakePlayer():
+      def __init__(self, name, score):
+        self.name = name
+        self.score = score
+        # self.take_turn = self.take_turn()
+      
+      def take_turn(self, trail, ant_positions, anthill):
+        # pass
+        return (trail, ant_positions, anthill)
+
+    fake_mario = FakePlayer("mario", 3)
+    fake_luigi = FakePlayer("luigi", 9)
+    players = [fake_mario, fake_luigi]
+    bites_game = Bites([], {}, players)
+    bites_game.play_full_game()
+    self.assertTrue(mock.called)
+  
+
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
