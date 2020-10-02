@@ -612,10 +612,8 @@ class PlayFullGameTest(unittest.TestCase):
       def __init__(self, name, score):
         self.name = name
         self.score = score
-        # self.take_turn = self.take_turn()
       
       def take_turn(self, trail, ant_positions, anthill):
-        # pass
         return (trail, ant_positions, anthill)
 
     fake_mario = FakePlayer("mario", 3)
@@ -624,9 +622,6 @@ class PlayFullGameTest(unittest.TestCase):
     bites_game = Bites([], {}, players)
     bites_game.play_full_game()
     self.assertTrue(mock.called)
-  
-
-
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
