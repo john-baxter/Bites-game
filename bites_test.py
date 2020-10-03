@@ -1,12 +1,13 @@
 import unittest
 from unittest import mock
+from unittest.mock import patch
 from bites import Bites
 
 class BitesInitTest(unittest.TestCase):
   def test___init___method_works(self):
-  # test 36
-  # This test was written rertrospectively; the __init__ method came about 
-  # naturally during refactoring of the code into the Bites class.
+    # test 36
+    # This test was written rertrospectively; the __init__ method came about 
+    # naturally during refactoring of the code into the Bites class.
     test_ants = ['purple', 'yellow']
     test_tokens = {
       'grapes': 1,
@@ -26,7 +27,7 @@ class BitesInitTest(unittest.TestCase):
     self.assertEqual(bites_game.anthill, expected_anthill)
 
   def test_bites_class_can_receive_instance_of_player_class(self):
-  # test 73
+    # test 73
     class FakePlayer():
       pass
 
@@ -34,11 +35,10 @@ class BitesInitTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     bites_game = Bites(ants, tokens_for_trail, [mario])
-
     self.assertIsInstance(bites_game.players[0], FakePlayer)
 
   def test_bites_class_can_receive_two_instances_of_player(self):
-  # test 74
+    # test 74
     class FakePlayer():
       def __init__(self, name):
         self.name = name
@@ -49,14 +49,13 @@ class BitesInitTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     bites_game = Bites(ants, tokens_for_trail, players)
-
     self.assertEqual(len(bites_game.players), 2)
     self.assertEqual(bites_game.players[0].name, "mario")
     self.assertEqual(bites_game.players[1].name, "luigi")
 
 class InitialiseAntsTest(unittest.TestCase):
-  # test 1
   def test_can_initialise_one_ant(self):
+    # test 1
     ants = ["red"]
     tokens_for_trail = {}
     players = []
@@ -65,7 +64,7 @@ class InitialiseAntsTest(unittest.TestCase):
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
   def test_can_initialise_two_ants(self):
-  # test 2
+    # test 2
     ants = ["red", "purple"]
     tokens_for_trail = {}
     players = []
@@ -74,7 +73,7 @@ class InitialiseAntsTest(unittest.TestCase):
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
   def test_can_initialise_five_ants(self):
-  # test 3
+    # test 3
     ants = ["red", "purple", "yellow", "green", "brown"]
     tokens_for_trail = {}
     players = []
@@ -84,13 +83,12 @@ class InitialiseAntsTest(unittest.TestCase):
       "purple": None,
       "yellow": None,
       "green": None,
-      "brown": None,
-      }
+      "brown": None,}
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
 class InitialiseTrailTest(unittest.TestCase):
-  # test 4
   def test_can_initialise_trail_with_one_token(self):
+    # test 4
     foods = {"apple": 1}
     ants = []
     players = []
@@ -99,7 +97,7 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail, expected_trail)
 
   def test_can_initialise_trail_with_two_different_tokens(self):
-  # test 5
+    # test 5
     foods = {"apple": 1, "grapes": 1}
     ants = []
     players = []
@@ -108,7 +106,7 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertIn(bites_game.trail, expected_trails)
 
   def test_can_initialise_trail_with_five_of_same_token(self):
-  # test 6
+    # test 6
     foods = {"apple": 5}
     ants = []
     players = []
@@ -117,7 +115,7 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail, expected_trail)
 
   def test_can_shuffle_two_plus_one_tokens(self):
-  # test 7
+    # test 7
     foods = {"apple": 2, "grapes": 1}
     ants = []
     players = []
@@ -125,19 +123,17 @@ class InitialiseTrailTest(unittest.TestCase):
     expected_trails = [
       ["grapes", "apple", "apple"],
       ["apple", "grapes", "apple"],
-      ["apple", "apple", "grapes"]
-      ]
+      ["apple", "apple", "grapes"]]
     self.assertIn(bites_game.trail, expected_trails)
 
   def test_full_size_trail_using_count_method_and_length(self):
-  # test 8
+    # test 8
     foods = {
       "apple": 9,
       "grapes": 9,
       "cheese": 9,
       "pepper": 9,
-      "bread": 9
-    }
+      "bread": 9}
     ants = []
     players = []
     bites_game = Bites(ants, foods, players)
@@ -151,7 +147,7 @@ class InitialiseTrailTest(unittest.TestCase):
 
 class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
-  # test 27
+    # test 27
     ants = ['purple', 'red', 'brown', 'yellow', 'green']
     tokens_for_trail = {}
     players = []
@@ -161,7 +157,7 @@ class InitialiseAnthillTest(unittest.TestCase):
 
 class TakeAllTurnsTest(unittest.TestCase):
   def test_first_player_takes_one_turn(self):
-  # test 75
+    # test 75
     starting_trail = ["apple", "apple"]
     starting_ant_positions = {
       "red": None,
@@ -205,7 +201,7 @@ class TakeAllTurnsTest(unittest.TestCase):
       starting_trail, starting_ant_positions, starting_anthill))
   
   def test_one_whole_round_is_played(self):
-  # test 76
+    # test 76
     """
     P0 moves brown ant to pos 2 & picks up cheese from behind
     P1 moves yellow ant to pos 6 & picks up apple from behind
@@ -297,7 +293,7 @@ class TakeAllTurnsTest(unittest.TestCase):
       trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario))
 
   def test_two_full_rounds_are_played(self):
-  # test 77
+    # test 77
     """
     P0 moves green ant to pos 3 & picks up grapes from front
     P1 moves brown ant to pos 2 & picks up apple from front
@@ -437,7 +433,7 @@ class TakeAllTurnsTest(unittest.TestCase):
       trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario))
 
   def test_the_game_is_played_until_all_ants_are_on_the_anthill(self):
-  # test 78
+    # test 78
     """
     The final move of a game;
     P0 moves purple ant to anthill[0]
@@ -496,14 +492,16 @@ class TakeAllTurnsTest(unittest.TestCase):
     self.assertEqual(bites_game.anthill, expected_new_anthill)
 
   def test_final_scores_are_printed_at_the_end_of_the_game(self):
-  # test 79
+    # test 79
     """
-    Starting point is a game situation at the point that the penultimate turn has 
-    been completed. The final move will be executed here and the scores analysed.
-    P0 moves purple ant to anthill[0]
+    This test was drafted but never run.
+
+    At this point in the development the decision was made to separate the printing of 
+    scores into its own method, see `Bites.print_scores()`.
+    `Bites.take_all_turns()` and `Bites.print_scores()` are then called in a third method; 
+    `Bites.play_full_game()`.
     """
     pass
-
     # starting_trail = [
     #   "apple",
     #   None,
@@ -555,7 +553,7 @@ class TakeAllTurnsTest(unittest.TestCase):
 
 class PrintScoresTest(unittest.TestCase):
   def test_single_player_0_points_print_name_and_score(self):
-  # test 80
+    # test 80
     class FakePlayer():
       def __init__(self, name, score):
         self.name = name
@@ -575,7 +573,7 @@ class PrintScoresTest(unittest.TestCase):
     print_patcher.stop()
 
   def test_two_players_prints_both_names_and_scores(self):
-  # test 81
+    # test 81
     class FakePlayer():
       def __init__(self, name, score):
         self.name = name
@@ -595,6 +593,47 @@ class PrintScoresTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[0], mock.call("mario: 3\n"))
     self.assertEqual(print_mock.call_args_list[1], mock.call("luigi: 9\n"))
     print_patcher.stop()
+
+class PlayFullGameTest(unittest.TestCase):
+  @patch('bites.Bites.take_all_turns')
+  def test_play_full_game_calls_take_all_turns(self, take_all_turns_mock):
+    # test 82
+    bites_game = Bites([], {}, [])
+    bites_game.play_full_game()
+    self.assertTrue(take_all_turns_mock.called)
+
+  @patch('bites.Bites.print_scores')
+  def test_play_full_game_calls_print_scores(self, print_scores_mock):
+    # test 83
+    class FakePlayer():
+      def __init__(self, name, score):
+        self.name = name
+        self.score = score
+      
+      def take_turn(self, trail, ant_positions, anthill):
+        return (trail, ant_positions, anthill)
+
+    fake_mario = FakePlayer("mario", 3)
+    fake_luigi = FakePlayer("luigi", 9)
+    players = [fake_mario, fake_luigi]
+    bites_game = Bites([], {}, players)
+    bites_game.play_full_game()
+    self.assertTrue(print_scores_mock.called)
+
+  @patch('bites.Bites.take_all_turns')
+  @patch('bites.Bites.print_scores')
+  def test_play_full_game_calls_take_all_turns_first_and_then_print_scores(
+    # test 84
+    self, print_scores_mock, take_all_turns_mock):
+    manager = mock.Mock()
+    manager.attach_mock(print_scores_mock, 'printing_the_score')
+    manager.attach_mock(take_all_turns_mock, 'taking_all_the_turns')
+    bites_game = Bites([], {}, [])
+    bites_game.play_full_game()
+    expected_calls = [
+      mock.call.taking_all_the_turns(), 
+      mock.call.printing_the_score()]
+    self.assertEqual(manager.mock_calls, expected_calls)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

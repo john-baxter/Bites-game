@@ -1,7 +1,7 @@
 # Bites-game
 
 #### A game by Brigitte Ditt, Wolfgang Ditt, Anca Gavril & Filip Gavril
-#### Software architecture & Project management by Ana Andres
+#### Software architecture & Technical leadership by Ana Andres
 #### Code written by John Baxter
 
 ## Scope
