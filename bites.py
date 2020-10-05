@@ -157,11 +157,8 @@ class Bites():
     self.print_ants_positioned_before_the_trail()
     
 
-    # for k, v in self.ant_positions.items():
-    #   if v == None:
-    #     print(k)
 
-    # reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
+    reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
     # if None in reverse_ant_positions:
     #   print("\nAnts at the start:")
     #   for ant, i in self.ant_positions.items():
@@ -170,11 +167,12 @@ class Bites():
     # print("\nTrail:")
     for i, food in enumerate(self.trail):
       
-    #   if i in reverse_ant_positions:
+      if i in reverse_ant_positions:
     #     # TODO: instead of 6, use the length of the longest food, 
     #     # which is 6, but in case different foods are used another time.
-    #     print("%s %s" % (food.ljust(6), reverse_ant_positions[i]))
-    #   else:
+        print("%s %s" % (food, reverse_ant_positions[i]))
+        # print("%s %s" % (food.ljust(6), reverse_ant_positions[i]))
+      else:
         print(food)
     
     
@@ -188,7 +186,7 @@ class Bites():
 
   def print_ants_positioned_before_the_trail(self):
     for k, v in self.ant_positions.items():
-      if v == None:
+      if v is None:
         print(k)
     
 
