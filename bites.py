@@ -44,12 +44,12 @@ class Bites():
       A list of Player objects representing the players of this game.
       Elements are instances of the Player class
     """
-    self.ant_positions = self.initialise_ants(ants)
+    self.ant_positions = self.initialise_ant_positions(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
 
-  def initialise_ants(self, ants):
+  def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
     This will show the starting positions as None, since the ants are not 
     positioned on the trail immediately.
@@ -155,8 +155,8 @@ class Bites():
 
 
     # print()
-    # for player in self.players:
-      print("%s: %s" % (self.players[0].name, self.players[0].hand))
+    for player in self.players:
+      print("%s: %s" % (player.name, player.hand))
     
     
     # reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())

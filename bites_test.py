@@ -636,7 +636,7 @@ class PlayFullGameTest(unittest.TestCase):
     self.assertEqual(manager.mock_calls, expected_calls)
 
 class RenderGameTest(unittest.TestCase):
-  def test_render_game_prints_player_name_and_hand(self):
+  def test_render_game_prints_player_name_and_hand_for_one_player(self):
     # test 85
     class FakePlayer():
       def __init__(self, name):
@@ -655,6 +655,39 @@ class RenderGameTest(unittest.TestCase):
     bites_game.render_game()
     self.assertEqual(print_mock.call_count, 1)
     self.assertEqual(print_mock.call_args_list[0], mock.call("mario: {}"))
+    print_patcher.stop()
+
+  def test_render_game_prints_player_names_and_hands_for_two_players(self):
+    # test 86
+    class FakePlayer():
+      def __init__(self, name):
+        self.name = name
+        self.hand = {}
+
+    fake_mario = FakePlayer("mario")
+    fake_luigi = FakePlayer("luigi")
+
+    ants = []
+    tokens_for_trail = {}
+    players = [fake_mario, fake_luigi]
+    bites_game = Bites(ants, tokens_for_trail, players)
+
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.render_game()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("mario: {}"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("luigi: {}"))
+    print_patcher.stop()
+
+    
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
