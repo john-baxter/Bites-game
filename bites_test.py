@@ -773,8 +773,38 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[0], mock.call("apple red"))
     print_patcher.stop()
 
-  
+  def test_check_render_game_shows_player_names_and_hands__ants_waiting_to_start__and_trail_with_ants(
+    self):
+    # test 92
+    class FakePlayer():
+      def __init__(self, name):
+        self.name = name
+        self.hand = {}
 
+    fake_mario = FakePlayer("mario")
+    fake_luigi = FakePlayer("luigi")
+
+    ants = []
+    tokens_for_trail = {}
+    players = [fake_mario, fake_luigi]
+    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
+    bites_game.ant_positions = {"green": 0, "purple": 2, "brown": 4, "red": None, "yellow": None}
+    
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.render_game()
+    self.assertEqual(print_mock.call_count, 9)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("mario: {}"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("luigi: {}"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("red"))
+    self.assertEqual(print_mock.call_args_list[3], mock.call("yellow"))
+    self.assertEqual(print_mock.call_args_list[4], mock.call("pepper green"))
+    self.assertEqual(print_mock.call_args_list[5], mock.call("apple"))
+    self.assertEqual(print_mock.call_args_list[6], mock.call("grapes purple"))
+    self.assertEqual(print_mock.call_args_list[7], mock.call("cheese"))
+    self.assertEqual(print_mock.call_args_list[8], mock.call("bread brown"))
+    print_patcher.stop()
 
 
 
