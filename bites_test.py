@@ -743,6 +743,20 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[6], mock.call("bread"))
     print_patcher.stop()
 
+  def test_render_game_prints_ants_positioned_before_the_trail(self):
+    # test 90
+    ants = []
+    tokens_for_trail = {}
+    players = []
+    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game.ant_positions = {"red": None}
+
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.render_game()
+    self.assertEqual(print_mock.call_count, 1)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("red"))
+    print_patcher.stop()
 
 
 

@@ -154,11 +154,12 @@ class Bites():
     
 
     self.print_players_names_and_hands()
-    # print()
-    # for player in self.players:
-    #   print("%s: %s" % (player.name, player.hand))
     
-    
+
+    for k, v in self.ant_positions.items():
+      if v == None:
+        print(k)
+
     # reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
     # if None in reverse_ant_positions:
     #   print("\nAnts at the start:")
