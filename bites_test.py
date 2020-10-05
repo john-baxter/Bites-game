@@ -836,7 +836,7 @@ class RenderGameTest(unittest.TestCase):
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
     bites_game.render_game()
-    # self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_count, 2)
     self.assertEqual(print_mock.call_args_list[0], mock.call("green"))
     self.assertEqual(print_mock.call_args_list[1], mock.call("yellow"))
     print_patcher.stop()

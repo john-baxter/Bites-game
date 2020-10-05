@@ -154,9 +154,7 @@ class Bites():
     self.print_players_names_and_hands()
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()
-    
-    for i, ant in enumerate(reversed(self.anthill)):
-      print(ant)
+    self.print_ants_positioned_on_anthill_top_down()
     
   def print_players_names_and_hands(self):
     for player in self.players:
@@ -171,12 +169,16 @@ class Bites():
     reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
     for i, food in enumerate(self.trail):
       if i in reverse_ant_positions:
-    #     # TODO: instead of 6, use the length of the longest food, 
-    #     # which is 6, but in case different foods are used another time.
+        # TODO: instead of 6, use the length of the longest food, 
+        # which is 6, but in case different foods are used another time.
         print("%s %s" % (food, reverse_ant_positions[i]))
         # print("%s %s" % (food.ljust(6), reverse_ant_positions[i]))
       else:
         print(food)
+
+  def print_ants_positioned_on_anthill_top_down(self):
+    for i, ant in enumerate(reversed(self.anthill)):
+      print(ant)
     
 
 if __name__ == '__main__':
