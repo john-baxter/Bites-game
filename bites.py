@@ -154,11 +154,12 @@ class Bites():
     
 
     self.print_players_names_and_hands()
+    self.print_ants_positioned_before_the_trail()
     
 
-    for k, v in self.ant_positions.items():
-      if v == None:
-        print(k)
+    # for k, v in self.ant_positions.items():
+    #   if v == None:
+    #     print(k)
 
     # reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
     # if None in reverse_ant_positions:
@@ -184,6 +185,11 @@ class Bites():
   def print_players_names_and_hands(self):
     for player in self.players:
       print("%s: %s" % (player.name, player.hand))
+
+  def print_ants_positioned_before_the_trail(self):
+    for k, v in self.ant_positions.items():
+      if v == None:
+        print(k)
     
 
 if __name__ == '__main__':
