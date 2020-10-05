@@ -151,32 +151,9 @@ class Bites():
     self.print_scores()
 
   def render_game(self):
-    
-
     self.print_players_names_and_hands()
     self.print_ants_positioned_before_the_trail()
-    
-
-
-    reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
-    # if None in reverse_ant_positions:
-    #   print("\nAnts at the start:")
-    #   for ant, i in self.ant_positions.items():
-    #     if i is None:
-    #       print(ant)
-    # print("\nTrail:")
-    for i, food in enumerate(self.trail):
-      
-      if i in reverse_ant_positions:
-    #     # TODO: instead of 6, use the length of the longest food, 
-    #     # which is 6, but in case different foods are used another time.
-        print("%s %s" % (food, reverse_ant_positions[i]))
-        # print("%s %s" % (food.ljust(6), reverse_ant_positions[i]))
-      else:
-        print(food)
-    
-    
-    
+    self.print_trail_and_ants_positioned_thereon()
     
     # print("\nAnthill: %s\n" % self.anthill)
 
@@ -188,6 +165,17 @@ class Bites():
     for k, v in self.ant_positions.items():
       if v is None:
         print(k)
+
+  def print_trail_and_ants_positioned_thereon(self):
+    reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
+    for i, food in enumerate(self.trail):
+      if i in reverse_ant_positions:
+    #     # TODO: instead of 6, use the length of the longest food, 
+    #     # which is 6, but in case different foods are used another time.
+        print("%s %s" % (food, reverse_ant_positions[i]))
+        # print("%s %s" % (food.ljust(6), reverse_ant_positions[i]))
+      else:
+        print(food)
     
 
 if __name__ == '__main__':
