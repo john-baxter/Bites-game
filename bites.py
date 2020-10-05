@@ -155,11 +155,9 @@ class Bites():
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()
     
-    for ant in self.anthill:
+    for i, ant in enumerate(reversed(self.anthill)):
       print(ant)
     
-    # print("\nAnthill: %s\n" % self.anthill)
-
   def print_players_names_and_hands(self):
     for player in self.players:
       print("%s: %s" % (player.name, player.hand))
