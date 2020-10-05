@@ -153,10 +153,10 @@ class Bites():
   def render_game(self):
     
 
-
+    self.print_players_names_and_hands()
     # print()
-    for player in self.players:
-      print("%s: %s" % (player.name, player.hand))
+    # for player in self.players:
+    #   print("%s: %s" % (player.name, player.hand))
     
     
     # reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
@@ -179,6 +179,10 @@ class Bites():
     
     
     # print("\nAnthill: %s\n" % self.anthill)
+
+  def print_players_names_and_hands(self):
+    for player in self.players:
+      print("%s: %s" % (player.name, player.hand))
     
 
 if __name__ == '__main__':
