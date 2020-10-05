@@ -166,14 +166,14 @@ class Bites():
     #     if i is None:
     #       print(ant)
     # print("\nTrail:")
-    # for i, food in enumerate(self.trail):
+    for i, food in enumerate(self.trail):
       
     #   if i in reverse_ant_positions:
     #     # TODO: instead of 6, use the length of the longest food, 
     #     # which is 6, but in case different foods are used another time.
     #     print("%s %s" % (food.ljust(6), reverse_ant_positions[i]))
     #   else:
-    #     print(food)
+        print(food)
     
     
     
