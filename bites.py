@@ -125,11 +125,13 @@ class Bites():
     The end of the game is recognised as the point where all ants are on the anthill.
     The loop is broken immediately as this criterion is met.
     """
+    self.render_game()
     while 1:
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill) = \
           player.take_turn(
             self.trail, self.ant_positions, self.anthill)
+        self.render_game()
         if None not in self.anthill: return
 
   def print_scores(self):
@@ -147,3 +149,47 @@ class Bites():
     """
     self.take_all_turns()
     self.print_scores()
+
+  def render_game(self):
+    
+
+
+    # print()
+    # for player in self.players:
+      print("%s: %s" % (self.players[0].name, self.players[0].hand))
+    
+    
+    # reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
+    # if None in reverse_ant_positions:
+    #   print("\nAnts at the start:")
+    #   for ant, i in self.ant_positions.items():
+    #     if i is None:
+    #       print(ant)
+    # print("\nTrail:")
+    # for i, food in enumerate(self.trail):
+      
+    #   if i in reverse_ant_positions:
+    #     # TODO: instead of 6, use the length of the longest food, 
+    #     # which is 6, but in case different foods are used another time.
+    #     print("%s %s" % (food.ljust(6), reverse_ant_positions[i]))
+    #   else:
+    #     print(food)
+    
+    
+    
+    
+    # print("\nAnthill: %s\n" % self.anthill)
+    
+
+if __name__ == '__main__':
+  from player import Player
+  from constants import ANTS, TOKENS_FOR_TRAIL
+  ana = Player("Ana")
+  john = Player("John")
+  players = [ana, john]
+  bites_game = Bites(ANTS, TOKENS_FOR_TRAIL, players)
+  # bites_game.players[0].hand = {"cheese": 1, "grapes": 1}
+  # bites_game.anthill = [None, None, None, None, "red"]
+  # bites_game.ant_positions = {"yellow": 5, "purple": 7, "green": None}
+  # bites_game.render_game()
+  bites_game.play_full_game()

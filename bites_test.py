@@ -635,5 +635,27 @@ class PlayFullGameTest(unittest.TestCase):
       mock.call.printing_the_score()]
     self.assertEqual(manager.mock_calls, expected_calls)
 
+class RenderGameTest(unittest.TestCase):
+  def test_render_game_prints_player_name_and_hand(self):
+    # test 85
+    class FakePlayer():
+      def __init__(self, name):
+        self.name = name
+        self.hand = {}
+
+    fake_mario = FakePlayer("mario")
+    
+    ants = []
+    tokens_for_trail = {}
+    players = [fake_mario]
+    bites_game = Bites(ants, tokens_for_trail, players)
+
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.render_game()
+    self.assertEqual(print_mock.call_count, 1)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("mario: {}"))
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
