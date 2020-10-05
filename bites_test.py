@@ -695,7 +695,25 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[0], mock.call("pepper"))
     print_patcher.stop()
 
-  
+  def test_render_game_prints_food_tokens_for_trail_len_greater_than_1(self):
+    # test 88
+    ants = []
+    tokens_for_trail = {}
+    players = []
+    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
+
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.render_game()
+    self.assertEqual(print_mock.call_count, 5)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("pepper"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("apple"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("grapes"))
+    self.assertEqual(print_mock.call_args_list[3], mock.call("cheese"))
+    self.assertEqual(print_mock.call_args_list[4], mock.call("bread"))
+    print_patcher.stop()
+
 
 
 
