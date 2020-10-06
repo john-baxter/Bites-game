@@ -617,8 +617,9 @@ class PlayFullGameTest(unittest.TestCase):
     bites_game.play_full_game()
     self.assertTrue(take_all_turns_mock.called)
 
+  @patch('bites.Bites.take_all_turns')
   @patch('bites.Bites.print_scores')
-  def test_play_full_game_calls_print_scores(self, print_scores_mock):
+  def test_play_full_game_calls_print_scores(self, print_scores_mock, take_all_turns_mock):
     # test 83
     class FakePlayer():
       def __init__(self, name, score):
