@@ -156,7 +156,8 @@ class InitialiseAnthillTest(unittest.TestCase):
     self.assertEqual(bites_game.anthill, expected_anthill)
 
 class TakeAllTurnsTest(unittest.TestCase):
-  def test_first_player_takes_one_turn(self):
+  @patch('bites.Bites.render_game')
+  def test_first_player_takes_one_turn(self, render_game_mock):
     # test 75
     starting_trail = ["apple", "apple"]
     starting_ant_positions = {
@@ -199,8 +200,10 @@ class TakeAllTurnsTest(unittest.TestCase):
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
       starting_trail, starting_ant_positions, starting_anthill))
+    self.assertGreaterEqual(render_game_mock.call_count, 2)
   
-  def test_one_whole_round_is_played(self):
+  @patch('bites.Bites.render_game')
+  def test_one_whole_round_is_played(self, render_game_mock):
     # test 76
     """
     P0 moves brown ant to pos 2 & picks up cheese from behind
@@ -291,8 +294,10 @@ class TakeAllTurnsTest(unittest.TestCase):
     self.assertGreaterEqual(fake_luigi.take_turn.call_count, 1)
     self.assertEqual(fake_luigi.take_turn.call_args_list[0], mock.call(
       trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario))
+    self.assertGreaterEqual(render_game_mock.call_count, 3)
 
-  def test_two_full_rounds_are_played(self):
+  @patch('bites.Bites.render_game')
+  def test_two_full_rounds_are_played(self, render_game_mock):
     # test 77
     """
     P0 moves green ant to pos 3 & picks up grapes from front
@@ -431,8 +436,10 @@ class TakeAllTurnsTest(unittest.TestCase):
       trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi))
     self.assertEqual(fake_luigi.take_turn.call_args_list[1], mock.call(
       trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario))
+    self.assertGreaterEqual(render_game_mock.call_count, 5)
 
-  def test_the_game_is_played_until_all_ants_are_on_the_anthill(self):
+  @patch('bites.Bites.render_game')
+  def test_the_game_is_played_until_all_ants_are_on_the_anthill(self, render_game_mock):
     # test 78
     """
     The final move of a game;
@@ -490,6 +497,7 @@ class TakeAllTurnsTest(unittest.TestCase):
     self.assertEqual(bites_game.trail, expected_new_trail)
     self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
     self.assertEqual(bites_game.anthill, expected_new_anthill)
+    self.assertEqual(render_game_mock.call_count, 2)
 
   def test_final_scores_are_printed_at_the_end_of_the_game(self):
     # test 79
