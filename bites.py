@@ -148,24 +148,37 @@ class Bites():
     Takes all player turns as necessary and prints player scores.
     """
     self.take_all_turns()
+    
     self.print_scores()
 
   def render_game(self):
+    """Shows the various elements of the game on the screen.
+
+    Calls other methods, each of which shows a section of the game setup.
+    """
     self.print_players_names_and_hands()
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()
     self.print_ants_positioned_on_anthill_top_down()
     
   def print_players_names_and_hands(self):
+    """Shows the names of each player and what (if any) food tokens thay have in their hand.
+    """
     for player in self.players:
       print("%s: %s" % (player.name, player.hand))
 
   def print_ants_positioned_before_the_trail(self):
+    """Shows which ants (if any) are positioned at the start, before the trail
+    """
     for k, v in self.ant_positions.items():
       if v is None:
         print(k)
 
   def print_trail_and_ants_positioned_thereon(self):
+    """Shows the list of food tokens or None elements in the trail.
+
+    Also shows the positions of any ants positioned on the trail
+    """
     reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
     for i, food in enumerate(self.trail):
       if i in reverse_ant_positions:
@@ -177,6 +190,8 @@ class Bites():
         print(food)
 
   def print_ants_positioned_on_anthill_top_down(self):
+    """Shows a representation of the anthill as text
+    """
     for i, ant in enumerate(reversed(self.anthill)):
       print(ant)
     
