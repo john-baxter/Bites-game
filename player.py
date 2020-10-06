@@ -107,7 +107,8 @@ class Player():
     """
     self.user_choice = None
     while self.user_choice not in allowed_choices:
-      self.user_choice = input("%s; %s %s: " % (self.name, prompt_text, allowed_choices))
+      # self.user_choice = input("%s; %s %s: " % (self.name, prompt_text, allowed_choices))
+      self.user_choice = input("%s; %s: " % (self.name, prompt_text))
     return self.user_choice
 
   def move_ant_along_trail(self, trail, ant_positions, ant):

@@ -609,6 +609,7 @@ class PlayFullGameTest(unittest.TestCase):
       def __init__(self, name, score):
         self.name = name
         self.score = score
+        self.hand = {}
       
       def take_turn(self, trail, ant_positions, anthill):
         return (trail, ant_positions, anthill)
@@ -840,9 +841,6 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[0], mock.call("green"))
     self.assertEqual(print_mock.call_args_list[1], mock.call("yellow"))
     print_patcher.stop()
-
-
-
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
