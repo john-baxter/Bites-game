@@ -428,6 +428,18 @@ class TakeFoodFromTrailTest(unittest.TestCase):
     direction = "forwards"
     self.assertRaises(ValueError, mario.take_food_from_trail, trail, ant_positions, ant, direction)
 
+  def test_None_is_not_collected(self):
+    # test 95
+    mario = Player("mario")
+    trail = ["apple", "grapes", None, "cheese", "bread"]
+    ant_positions = {"purple": 1, "yellow": 3}
+    ant = "purple"
+    direction = "front"
+    expected_food = "bread"
+    expected_new_trail = ["apple", "grapes", None, "cheese", None]
+    expected_tuple = (expected_food, expected_new_trail)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
+
 class MoveAntTest(unittest.TestCase):
   def test_can_use_move_ant_along_trail_for_ants_first_move(self):
     # test 47

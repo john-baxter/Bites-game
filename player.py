@@ -251,7 +251,7 @@ class Player():
     else:
       raise(ValueError("Direction should be 'front' or 'back'."))
 
-    while food_position in ant_positions.values():
+    while food_position in ant_positions.values() or trail[food_position] is None:
       food_position = food_position + variation
 
     food_to_hand = trail[food_position]

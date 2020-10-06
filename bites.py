@@ -202,7 +202,8 @@ if __name__ == '__main__':
   ana = Player("Ana")
   john = Player("John")
   rafa = Player("Rafa")
-  players = [rafa, john]
+  players = [ana, john]
+  # players = [rafa, john]
   bites_game = Bites(ANTS, TOKENS_FOR_TRAIL, players)
   # bites_game.players[0].hand = {"cheese": 1, "grapes": 1}
   # bites_game.anthill = [None, None, None, None, "red"]
