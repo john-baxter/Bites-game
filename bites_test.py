@@ -567,6 +567,9 @@ class PrintScoresTest(unittest.TestCase):
         self.name = name
         self.score = score
 
+      def score_hand(self, anthill):
+        pass
+
     ants = []
     tokens_for_trail = {}
     fake_mario = FakePlayer("mario", 0)
@@ -583,9 +586,13 @@ class PrintScoresTest(unittest.TestCase):
   def test_two_players_prints_both_names_and_scores(self):
     # test 81
     class FakePlayer():
-      def __init__(self, name, score):
+      def __init__(self, name, final_score):
         self.name = name
-        self.score = score
+        self.score = 0
+        self.final_score = final_score
+
+      def score_hand(self, anthill):
+        self.score = self.final_score
 
     fake_mario = FakePlayer("mario", 3)
     fake_luigi = FakePlayer("luigi", 9)
