@@ -106,6 +106,9 @@ class Player():
       The ID of the choice the player has made
     """
     self.user_choice = None
+    print("\nThe available options are:")
+    for i in allowed_choices:
+      print(i)
     while self.user_choice not in allowed_choices:
       # self.user_choice = input("%s; %s %s: " % (self.name, prompt_text, allowed_choices))
       self.user_choice = input("%s; %s: " % (self.name, prompt_text))
