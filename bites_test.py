@@ -505,8 +505,8 @@ class TakeAllTurnsTest(unittest.TestCase):
     This test was drafted but never run.
 
     At this point in the development the decision was made to separate the printing of 
-    scores into its own method, see `Bites.print_scores()`.
-    `Bites.take_all_turns()` and `Bites.print_scores()` are then called in a third method; 
+    scores into its own method, see `Bites.calculate_and_print_scores()`.
+    `Bites.take_all_turns()` and `Bites.calculate_and_print_scores()` are then called in a third method; 
     `Bites.play_full_game()`.
     """
     pass
@@ -563,22 +563,22 @@ class PrintScoresTest(unittest.TestCase):
   def test_single_player_0_points_print_name_and_score(self):
     # test 80
     class FakePlayer():
-      def __init__(self, name, score):
+      def __init__(self, name):
         self.name = name
-        self.score = score
+        self.score = 0
 
       def score_hand(self, anthill):
         pass
 
     ants = []
     tokens_for_trail = {}
-    fake_mario = FakePlayer("mario", 0)
+    fake_mario = FakePlayer("mario")
     players = [fake_mario]
     bites_game = Bites(ants, tokens_for_trail, players)
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.print_scores()
+    bites_game.calculate_and_print_scores()
     print_mock.assert_called_once_with("mario: 0\n")
     self.assertEqual(print_mock.call_count, 1)
     print_patcher.stop()
@@ -603,7 +603,7 @@ class PrintScoresTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.print_scores()
+    bites_game.calculate_and_print_scores()
     self.assertEqual(print_mock.call_count, 2)
     self.assertEqual(print_mock.call_args_list[0], mock.call("mario: 3\n"))
     self.assertEqual(print_mock.call_args_list[1], mock.call("luigi: 9\n"))
@@ -618,8 +618,8 @@ class PlayFullGameTest(unittest.TestCase):
     self.assertTrue(take_all_turns_mock.called)
 
   @patch('bites.Bites.take_all_turns')
-  @patch('bites.Bites.print_scores')
-  def test_play_full_game_calls_print_scores(self, print_scores_mock, take_all_turns_mock):
+  @patch('bites.Bites.calculate_and_print_scores')
+  def test_play_full_game_calls_calculate_and_print_scores(self, calculate_and_print_scores_mock, take_all_turns_mock):
     # test 83
     class FakePlayer():
       def __init__(self, name, score):
@@ -635,15 +635,15 @@ class PlayFullGameTest(unittest.TestCase):
     players = [fake_mario, fake_luigi]
     bites_game = Bites([], {}, players)
     bites_game.play_full_game()
-    self.assertTrue(print_scores_mock.called)
+    self.assertTrue(calculate_and_print_scores_mock.called)
 
   @patch('bites.Bites.take_all_turns')
-  @patch('bites.Bites.print_scores')
-  def test_play_full_game_calls_take_all_turns_first_and_then_print_scores(
+  @patch('bites.Bites.calculate_and_print_scores')
+  def test_play_full_game_calls_take_all_turns_first_and_then_calculate_and_print_scores(
     # test 84
-    self, print_scores_mock, take_all_turns_mock):
+    self, calculate_and_print_scores_mock, take_all_turns_mock):
     manager = mock.Mock()
-    manager.attach_mock(print_scores_mock, 'printing_the_score')
+    manager.attach_mock(calculate_and_print_scores_mock, 'printing_the_score')
     manager.attach_mock(take_all_turns_mock, 'taking_all_the_turns')
     bites_game = Bites([], {}, [])
     bites_game.play_full_game()
@@ -673,6 +673,28 @@ class RenderGameTest(unittest.TestCase):
     bites_game.render_game()
     self.assertGreaterEqual(print_mock.call_count, 1)
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
+    print_patcher.stop()
+
+  def test_render_game_prints_name_and_non_empty_hand_for_one_player(self):
+    # test 96
+    class FakePlayer():
+      def __init__(self, name):
+        self.name = name
+        self.hand = {"bread": 2, "cheese": 1}
+
+    fake_mario = FakePlayer("mario")
+    
+    ants = []
+    tokens_for_trail = {}
+    players = [fake_mario]
+    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game.ant_positions = {"random key": None}
+
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.render_game()
+    self.assertGreaterEqual(print_mock.call_count, 1)
+    self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {'bread': 2, 'cheese': 1}"))
     print_patcher.stop()
 
   def test_render_game_prints_player_names_and_hands_for_two_players(self):

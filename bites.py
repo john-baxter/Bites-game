@@ -134,7 +134,7 @@ class Bites():
         self.render_game()
         if None not in self.anthill: return
 
-  def print_scores(self):
+  def calculate_and_print_scores(self):
     """Displays each player's score
 
     Prints each player's name and shows how many points they have.
@@ -149,7 +149,7 @@ class Bites():
     Takes all player turns as necessary and prints player scores.
     """
     self.take_all_turns()
-    self.print_scores()
+    self.calculate_and_print_scores()
 
   def render_game(self):
     """Shows the various elements of the game on the screen.
@@ -205,7 +205,6 @@ class Bites():
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
     
-
 if __name__ == '__main__':
   from player import Player
   from constants import ANTS, TOKENS_FOR_TRAIL
@@ -213,10 +212,5 @@ if __name__ == '__main__':
   john = Player("John")
   rafa = Player("Rafa")
   players = [ana, john]
-  # players = [rafa, john]
   bites_game = Bites(ANTS, TOKENS_FOR_TRAIL, players)
-  # bites_game.players[0].hand = {"cheese": 1, "grapes": 1}
-  # bites_game.anthill = [None, None, None, None, "red"]
-  # bites_game.ant_positions = {"yellow": 5, "purple": 7, "green": None}
-  # bites_game.render_game()
   bites_game.play_full_game()
