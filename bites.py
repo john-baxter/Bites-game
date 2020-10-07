@@ -164,36 +164,46 @@ class Bites():
   def print_players_names_and_hands(self):
     """Shows the names of each player and what (if any) food tokens thay have in their hand.
     """
+    print("\nPlayer names and hands:")
     for player in self.players:
       print("%s: %s" % (player.name, player.hand))
 
   def print_ants_positioned_before_the_trail(self):
     """Shows which ants (if any) are positioned at the start, before the trail
     """
-    for k, v in self.ant_positions.items():
-      if v is None:
-        print(k)
+    if len([e for e in self.ant_positions.values() if e is None]) > 0:
+      print("\nAnts at the beginning of the trail:")
+      for k, v in self.ant_positions.items():
+        if v is None:
+          print(k)
 
   def print_trail_and_ants_positioned_thereon(self):
     """Shows the list of food tokens or None elements in the trail.
 
     Also shows the positions of any ants positioned on the trail
     """
+    if len([e for e in self.ant_positions.values() if isinstance(e, int)]) > 0:
+      print("\nTrail and ant positions:")
+    else:
+      print("\nTrail:")
+    
     reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
+    just = len(max(self.ant_positions.keys(), key=len))
     for i, food in enumerate(self.trail):
       if i in reverse_ant_positions:
-        # TODO: instead of 6, use the length of the longest food, 
-        # which is 6, but in case different foods are used another time.
-        print("%s %s" % (food, reverse_ant_positions[i]))
-        # print("%s %s" % (food.ljust(6), reverse_ant_positions[i]))
+        print("%s %s" % (food.ljust(just), reverse_ant_positions[i]))
       else:
         print(food)
 
   def print_ants_positioned_on_anthill_top_down(self):
     """Shows a representation of the anthill as text
     """
-    for i, ant in enumerate(reversed(self.anthill)):
-      print(ant)
+    print("\nAnthill:")
+    for i in range(len(self.anthill)-1, -1, -1):
+      if self.anthill[i] is None:
+        print("Level %s is empty" % i)
+      else:
+        print("The %s ant is in level %s" % (self.anthill[i], i))
     
 
 if __name__ == '__main__':
