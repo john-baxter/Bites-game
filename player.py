@@ -106,6 +106,9 @@ class Player():
       The ID of the choice the player has made
     """
     self.user_choice = None
+    print("\nThe available options are:")
+    for i in allowed_choices:
+      print(i)
     while self.user_choice not in allowed_choices:
       self.user_choice = input("%s; %s: " % (self.name, prompt_text))
     return self.user_choice
@@ -204,6 +207,11 @@ class Player():
     Allows the user to choose what food token to collect after moving an ant.
     Replaces the removed token with None; keeping the length of the 
     trail consistent through the game.
+    Players will be able to take food tokens adjacent to the new position of the ant 
+    which has just been moved. 
+    Accounts for tokens being unavailable due to presence of ants in adjacent locations 
+    or non-existance of tokens (either because the adjacent space is None or because 
+    the ant is at a terminal end of the trail so only one token is available.)
 
     Parameters
     ----------
@@ -250,7 +258,7 @@ class Player():
     else:
       raise(ValueError("Direction should be 'front' or 'back'."))
 
-    while food_position in ant_positions.values():
+    while food_position in ant_positions.values() or trail[food_position] is None:
       food_position = food_position + variation
 
     food_to_hand = trail[food_position]

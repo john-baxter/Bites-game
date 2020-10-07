@@ -44,12 +44,12 @@ class Bites():
       A list of Player objects representing the players of this game.
       Elements are instances of the Player class
     """
-    self.ant_positions = self.initialise_ants(ants)
+    self.ant_positions = self.initialise_ant_positions(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
 
-  def initialise_ants(self, ants):
+  def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
     This will show the starting positions as None, since the ants are not 
     positioned on the trail immediately.
@@ -125,19 +125,22 @@ class Bites():
     The end of the game is recognised as the point where all ants are on the anthill.
     The loop is broken immediately as this criterion is met.
     """
+    self.render_game()
     while 1:
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill) = \
           player.take_turn(
             self.trail, self.ant_positions, self.anthill)
+        self.render_game()
         if None not in self.anthill: return
 
-  def print_scores(self):
+  def calculate_and_print_scores(self):
     """Displays each player's score
 
     Prints each player's name and shows how many points they have.
     """
     for player in self.players:
+      player.score_hand(self.anthill)     
       print ("%s: %i\n" % (player.name, player.score))
 
   def play_full_game(self):
@@ -146,4 +149,68 @@ class Bites():
     Takes all player turns as necessary and prints player scores.
     """
     self.take_all_turns()
-    self.print_scores()
+    self.calculate_and_print_scores()
+
+  def render_game(self):
+    """Shows the various elements of the game on the screen.
+
+    Calls other methods, each of which shows a section of the game setup.
+    """
+    self.print_players_names_and_hands()
+    self.print_ants_positioned_before_the_trail()
+    self.print_trail_and_ants_positioned_thereon()
+    self.print_ants_positioned_on_anthill_top_down()
+    
+  def print_players_names_and_hands(self):
+    """Shows the names of each player and what (if any) food tokens thay have in their hand.
+    """
+    print("\nPlayer names and hands:")
+    for player in self.players:
+      print("%s: %s" % (player.name, player.hand))
+
+  def print_ants_positioned_before_the_trail(self):
+    """Shows which ants (if any) are positioned at the start, before the trail
+    """
+    if len([e for e in self.ant_positions.values() if e is None]) > 0:
+      print("\nAnts at the beginning of the trail:")
+      for k, v in self.ant_positions.items():
+        if v is None:
+          print(k)
+
+  def print_trail_and_ants_positioned_thereon(self):
+    """Shows the list of food tokens or None elements in the trail.
+
+    Also shows the positions of any ants positioned on the trail
+    """
+    if len([e for e in self.ant_positions.values() if isinstance(e, int)]) > 0:
+      print("\nTrail and ant positions:")
+    else:
+      print("\nTrail:")
+    
+    reverse_ant_positions = dict((v, k) for k, v in self.ant_positions.items())
+    just = len(max(self.ant_positions.keys(), key=len))
+    for i, food in enumerate(self.trail):
+      if i in reverse_ant_positions:
+        print("%s %s" % (food.ljust(just), reverse_ant_positions[i]))
+      else:
+        print(food)
+
+  def print_ants_positioned_on_anthill_top_down(self):
+    """Shows a representation of the anthill as text
+    """
+    print("\nAnthill:")
+    for i in range(len(self.anthill)-1, -1, -1):
+      if self.anthill[i] is None:
+        print("Level %s is empty" % i)
+      else:
+        print("The %s ant is in level %s" % (self.anthill[i], i))
+    
+if __name__ == '__main__':
+  from player import Player
+  from constants import ANTS, TOKENS_FOR_TRAIL
+  ana = Player("Ana")
+  john = Player("John")
+  rafa = Player("Rafa")
+  players = [ana, john]
+  bites_game = Bites(ANTS, TOKENS_FOR_TRAIL, players)
+  bites_game.play_full_game()

@@ -154,11 +154,14 @@ class MakeChoiceTest(unittest.TestCase):
     prompt_text = "please enter your choice of ant"
     expected_result = "red"
     input_patcher = mock.patch('builtins.input', return_value = "red")
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(mario.user_choice, expected_result)
     self.assertEqual(input_mock.call_count, 1)
     input_patcher.stop()
+    print_patcher.stop()
 
   def test_raises_error_with_wrong_colour_input(self):
     # test 38
@@ -181,11 +184,14 @@ class MakeChoiceTest(unittest.TestCase):
     prompt_text = "please enter your choice of ant"
     expected_result = "yellow"
     input_patcher = mock.patch('builtins.input', return_value = "yellow")
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(mario.user_choice, expected_result)
     self.assertEqual(input_mock.call_count, 1)
     input_patcher.stop()
+    print_patcher.stop()
 
   def test_user_can_make_another_choice_if_wrong_input(self):
     # test 40
@@ -194,11 +200,14 @@ class MakeChoiceTest(unittest.TestCase):
     prompt_text = "please enter your choice of ant"
     expected_result = "red"
     input_patcher = mock.patch('builtins.input', side_effect = ["blue", "red"])
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(mario.user_choice, expected_result)
     self.assertEqual(input_mock.call_count, 2)
     input_patcher.stop()
+    print_patcher.stop()
 
   def test_addresses_user_by_name_when_asking_for_ant_choice(self):
     # test 45
@@ -207,10 +216,29 @@ class MakeChoiceTest(unittest.TestCase):
     prompt_text = "please enter your choice of ant"
     expected_result = "red"
     input_patcher = mock.patch('builtins.input', return_value = "red")
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(mario.user_choice, expected_result)
     input_mock.assert_called_once_with("mario; please enter your choice of ant: ")
+    input_patcher.stop()
+    print_patcher.stop()
+
+  def test_allowed_choices_are_listed_when_choosing_ant(self):
+    # test 97
+    mario = Player("mario")
+    allowed_choices = ["red", "yellow"]
+    prompt_text = "please enter your choice of ant"
+    print_patcher = mock.patch('builtins.print')
+    input_patcher = mock.patch('builtins.input', return_value = "red")
+    print_mock = print_patcher.start()
+    input_mock = input_patcher.start()
+    mario.make_choice(allowed_choices, prompt_text)
+    self.assertGreaterEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[1], mock.call("red"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("yellow"))
+    print_patcher.stop()
     input_patcher.stop()
 
   def test_returns_user_input_for_input_is_front(self):
@@ -220,11 +248,14 @@ class MakeChoiceTest(unittest.TestCase):
     prompt_text = "please pick a direction to collect food from"
     expected_result = "front"
     input_patcher = mock.patch('builtins.input', return_value = "front")
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(mario.user_choice, expected_result)
     self.assertEqual(input_mock.call_count, 1)
     input_patcher.stop()
+    print_patcher.stop
 
   def test_returns_user_input_for_input_is_back(self):
     # test 42
@@ -233,11 +264,14 @@ class MakeChoiceTest(unittest.TestCase):
     prompt_text = "please pick a direction to collect food from"
     expected_result = "back"
     input_patcher = mock.patch('builtins.input', return_value = "back")
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(mario.user_choice, expected_result)
     self.assertEqual(input_mock.call_count, 1)
     input_patcher.stop()
+    print_patcher.stop()
   
   def test_raises_error_with_wrong_direction_input(self):
     # test 43
@@ -261,11 +295,14 @@ class MakeChoiceTest(unittest.TestCase):
     prompt_text = "please pick a direction to collect food from"
     expected_result = "front"
     input_patcher = mock.patch('builtins.input', side_effect = ["fromt", "front"])
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start
     mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(mario.user_choice, expected_result)
     self.assertEqual(input_mock.call_count, 2)
     input_patcher.stop()
+    print_patcher.stop()
 
   def test_addresses_user_by_name_when_asking_for_direction_choice(self):
     # test 46
@@ -274,10 +311,29 @@ class MakeChoiceTest(unittest.TestCase):
     prompt_text = "please pick a direction to collect food from"
     expected_result = "front"
     input_patcher = mock.patch('builtins.input', return_value = "front")
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(mario.user_choice, expected_result)
     input_mock.assert_called_once_with("mario; please pick a direction to collect food from: ")
+    input_patcher.stop()
+    print_patcher.stop()
+
+  def test_allowed_choices_are_listed_when_choosing_direction(self):
+    # test 98
+    mario = Player("mario")
+    allowed_choices = ["front", "back"]
+    prompt_text = "please enter your choice of ant"
+    print_patcher = mock.patch('builtins.print')
+    input_patcher = mock.patch('builtins.input', return_value = "front")
+    print_mock = print_patcher.start()
+    input_mock = input_patcher.start()
+    mario.make_choice(allowed_choices, prompt_text)
+    self.assertGreaterEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[1], mock.call("front"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("back"))
+    print_patcher.stop()
     input_patcher.stop()
 
 class MoveAntAlongTrailTest(unittest.TestCase):
@@ -427,6 +483,18 @@ class TakeFoodFromTrailTest(unittest.TestCase):
     ant = "purple"
     direction = "forwards"
     self.assertRaises(ValueError, mario.take_food_from_trail, trail, ant_positions, ant, direction)
+
+  def test_None_is_not_collected(self):
+    # test 95
+    mario = Player("mario")
+    trail = ["apple", "grapes", None, "cheese", "bread"]
+    ant_positions = {"purple": 1, "yellow": 3}
+    ant = "purple"
+    direction = "front"
+    expected_food = "bread"
+    expected_new_trail = ["apple", "grapes", None, "cheese", None]
+    expected_tuple = (expected_food, expected_new_trail)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
 
 class MoveAntTest(unittest.TestCase):
   def test_can_use_move_ant_along_trail_for_ants_first_move(self):
