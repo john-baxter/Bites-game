@@ -1,6 +1,6 @@
 import unittest
 from unittest import mock
-import controller
+from controller import enter_number_of_players
 
 class GetPlayerInfoTest(unittest.TestCase):
   # test 99
@@ -8,7 +8,7 @@ class GetPlayerInfoTest(unittest.TestCase):
     expected_result = 2
     input_patcher = mock.patch('builtins.input', return_value = 2)
     input_mock = input_patcher.start()
-    actual_result = controller.enter_number_of_players()
+    actual_result = enter_number_of_players()
     self.assertEqual(actual_result, expected_result)
     self.assertEqual(input_mock.call_count, 1)
     input_patcher.stop()
@@ -18,10 +18,11 @@ class GetPlayerInfoTest(unittest.TestCase):
     expected_result = 2
     input_patcher = mock.patch('builtins.input', side_effect = [1, 2])
     input_mock = input_patcher.start()
-    actual_result = controller.enter_number_of_players()
+    actual_result = enter_number_of_players()
     self.assertEqual(actual_result, expected_result)
     self.assertEqual(input_mock.call_count, 2)
     input_patcher.stop()
+
 
 
 
