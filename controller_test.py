@@ -1,6 +1,8 @@
 import unittest
 from unittest import mock
+from player import Player
 from controller import enter_number_of_players
+from controller import generate_player
 
 class GetPlayerInfoTest(unittest.TestCase):
   # test 99
@@ -50,6 +52,17 @@ class GetPlayerInfoTest(unittest.TestCase):
     enter_number_of_players()
     input_mock.assert_called_once_with("Please enter the number of players: ")
 
+class GeneratePlayerTest(unittest.TestCase):
+  def test_player_name_can_be_entered(self):
+    # test 104
+    input_patcher = mock.patch('builtins.input', return_value = "Mario")
+    input_mock = input_patcher.start()
+    expected_result = generate_player()
+    self.assertEqual(expected_result.name, "Mario")
+    self.assertEqual(input_mock.call_count, 1)
+    self.assertIsInstance(expected_result, Player)
+
+  
 
 
 
