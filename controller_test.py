@@ -51,6 +51,7 @@ class GetPlayerInfoTest(unittest.TestCase):
     input_mock = input_patcher.start()
     enter_number_of_players()
     input_mock.assert_called_once_with("Please enter the number of players: ")
+    input_patcher.stop()
 
 class GeneratePlayerTest(unittest.TestCase):
   def test_player_name_can_be_entered(self):
@@ -61,6 +62,7 @@ class GeneratePlayerTest(unittest.TestCase):
     self.assertEqual(expected_result.name, "Mario")
     self.assertEqual(input_mock.call_count, 1)
     self.assertIsInstance(expected_result, Player)
+    input_patcher.stop()
 
   def test_user_is_prompted_to_enter_their_name(self):
     # test 105
