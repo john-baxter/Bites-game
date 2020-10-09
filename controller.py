@@ -12,3 +12,6 @@ def generate_player():
   name = input("Please enter your name: ")
   player = Player(name)
   return player
+
+def prepare_list_of_players():
+  return []

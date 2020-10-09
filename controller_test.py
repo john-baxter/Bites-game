@@ -3,6 +3,7 @@ from unittest import mock
 from player import Player
 from controller import enter_number_of_players
 from controller import generate_player
+from controller import prepare_list_of_players
 
 class GetPlayerInfoTest(unittest.TestCase):
   # test 99
@@ -71,6 +72,12 @@ class GeneratePlayerTest(unittest.TestCase):
     generate_player()
     input_mock.assert_called_once_with("Please enter your name: ")
     input_patcher.stop()
+
+class PrepareListOfPlayersTest(unittest.TestCase):
+  def test_prepare_list_of_players_returns_a_list(self):
+    # test 106
+    expected_result = prepare_list_of_players()
+    self.assertIsInstance(expected_result, list)
 
 
 
