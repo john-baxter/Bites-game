@@ -62,7 +62,13 @@ class GeneratePlayerTest(unittest.TestCase):
     self.assertEqual(input_mock.call_count, 1)
     self.assertIsInstance(expected_result, Player)
 
-  
+  def test_user_is_prompted_to_enter_their_name(self):
+    # test 105
+    input_patcher = mock.patch('builtins.input', return_value = "Mario")
+    input_mock = input_patcher.start()
+    generate_player()
+    input_mock.assert_called_once_with("Please enter your name: ")
+    input_patcher.stop()
 
 
 

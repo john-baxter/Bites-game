@@ -9,6 +9,6 @@ def enter_number_of_players():
   return number_of_players
 
 def generate_player():
-  name = input()
+  name = input("Please enter your name: ")
   player = Player(name)
   return player
