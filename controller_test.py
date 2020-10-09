@@ -43,9 +43,12 @@ class GetPlayerInfoTest(unittest.TestCase):
     self.assertEqual(input_mock.call_count, 2)
     input_patcher.stop()
 
-
-
-
+  def test_user_is_prompted_to_enter_number_of_players(self):
+    # test 103
+    input_patcher = mock.patch('builtins.input', return_value = 2)
+    input_mock = input_patcher.start()
+    enter_number_of_players()
+    input_mock.assert_called_once_with("Please enter the number of players: ")
 
 
 

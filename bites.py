@@ -212,7 +212,7 @@ if __name__ == '__main__':
   john = Player("John")
   rafa = Player("Rafa")
   peter = Player("Peter")
-  # players = [ana, john]
-  players = [john, peter]
+  players = [ana, john]
+  # players = [john, peter]
   bites_game = Bites(ANTS, TOKENS_FOR_TRAIL, players)
   bites_game.play_full_game()
