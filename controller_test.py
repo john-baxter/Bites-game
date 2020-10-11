@@ -137,6 +137,14 @@ class StartNewGameTest(unittest.TestCase):
     self.assertEqual(len(input_mock.call_args_list), 3)
     input_patcher.stop()
 
+  def test_start_new_game_creates_instance_of_Bites_class(self):
+    # test 111
+    input_patcher = mock.patch('builtins.input', side_effect = [2, "Mario", "Luigi"])
+    input_mock = input_patcher.start()
+
+    
+
+    input_patcher.stop()
 
 
 
