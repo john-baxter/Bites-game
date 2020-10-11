@@ -117,7 +117,7 @@ class PrepareListOfPlayersTest(unittest.TestCase):
     prepare_list_of_players()
     self.assertEqual(input_mock.call_args_list[0], mock.call(
       "Please enter the number of players: "))
-    self.assertGreaterEqual(generate_player_mock.call_count, 3)
+    self.assertEqual(generate_player_mock.call_count, 3)
     input_patcher.stop()
 
 
