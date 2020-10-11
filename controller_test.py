@@ -92,8 +92,8 @@ class PrepareListOfPlayersTest(unittest.TestCase):
       "Please enter the number of players: "))
     input_patcher.stop()
 
-  @patch('controller.generate_player')
   @patch('controller.enter_number_of_players')
+  @patch('controller.generate_player')
   def test_for_2_players_generate_player_is_called_twice(
     self, generate_player_mock, enter_player_count_mock):
     # test 108
@@ -101,10 +101,26 @@ class PrepareListOfPlayersTest(unittest.TestCase):
     manager.attach_mock(generate_player_mock, 'generate_player')
     manager.attach_mock(enter_player_count_mock, 'enter_number_of_players')
     prepare_list_of_players()
-    self.assertEqual(generate_player_mock.call_count, 1)
-    self.assertGreaterEqual(enter_player_count_mock.call_count, 2)
+    self.assertEqual(generate_player_mock.call_count, 2)
+    self.assertGreaterEqual(enter_player_count_mock.call_count, 1)
 
-
+  @patch('controller.generate_player')
+  # @patch('controller.enter_number_of_players')
+  def test_for_3_players_generate_player_is_called_three_times(
+    self, generate_player_mock):
+    # self, generate_player_mock, enter_player_count_mock):
+    # test 109
+    manager = mock.Mock()
+    manager.attach_mock(generate_player_mock, 'generate_player')
+    manager.attach_mock(enter_player_count_mock, 'enter_number_of_players')
+    input_patcher = mock.patch('builtins.input', return_value = 2)
+    input_mock = input_patcher.start()
+    prepare_list_of_players()
+    # self.assertEqual(generate_player_mock.call_count, 1)
+    self.assertEqual(input_mock.call_args_list[0], mock.call(
+      "Please enter the number of players: "))
+    self.assertGreaterEqual(enter_player_count_mock.call_count, 3)
+    input_patcher.stop()
 
 
 
