@@ -5,6 +5,7 @@ from player import Player
 from controller import enter_number_of_players
 from controller import generate_player
 from controller import prepare_list_of_players
+from controller import start_new_game
 
 class GetPlayerInfoTest(unittest.TestCase):
   # test 99
@@ -118,6 +119,32 @@ class PrepareListOfPlayersTest(unittest.TestCase):
     self.assertEqual(input_mock.call_args_list[0], mock.call(
       "Please enter the number of players: "))
     self.assertEqual(generate_player_mock.call_count, 3)
+    input_patcher.stop()
+
+class StartNewGameTest(unittest.TestCase):
+  # @patch('controller.prepare_list_of_players')
+  # @patch('controller.enter_number_of_players')
+  # @patch('controller.generate_player')
+  def test_start_new_2player_game_calls_prepare_list_of_players_and_associated_functions_in_correct_order_and_with_correct_callcount(
+    # self, generate_player_mock, enter_number_of_players_mock, prepare_list_of_players_mock):
+    # self, prepare_list_of_players_mock, generate_player_mock):
+    # self, prepare_list_of_players_mock):
+    self):
+    # test 110
+    input_patcher = mock.patch('builtins.input', side_effect = [2, "Mario", "Luigi"])
+    input_mock = input_patcher.start()
+    # manager = mock.Mock()
+    # manager.attach_mock(generate_player_mock, 'generate_player')
+    # manager.attach_mock(enter_number_of_players_mock, 'enter_number_of_players')
+    # manager.attach_mock(prepare_list_of_players_mock, 'prepare_list_of_players')
+    start_new_game()
+    # self.assertEqual(prepare_list_of_players_mock.call_count, 1)
+    # self.assertEqual(generate_player_mock, 2)
+    self.assertEqual(input_mock.call_args_list[0], mock.call("Please enter the number of players: "))
+    self.assertEqual(input_mock.call_args_list[1], mock.call("Please enter your name: "))
+    self.assertEqual(input_mock.call_args_list[2], mock.call("Please enter your name: "))
+    self.assertEqual(len(input_mock.call_args_list), 3)
+    # input_mock.assert_called_once_with("Please enter the number of players: ")
     input_patcher.stop()
 
 
