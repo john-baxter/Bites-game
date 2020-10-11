@@ -22,7 +22,7 @@ def prepare_list_of_players():
   return players
 
 def start_new_game():
-  prepare_list_of_players()
+  players = prepare_list_of_players()
 
 
 
