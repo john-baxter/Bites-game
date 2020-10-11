@@ -76,8 +76,19 @@ class GeneratePlayerTest(unittest.TestCase):
 class PrepareListOfPlayersTest(unittest.TestCase):
   def test_prepare_list_of_players_returns_a_list(self):
     # test 106
-    expected_result = prepare_list_of_players()
-    self.assertIsInstance(expected_result, list)
+    input_patcher = mock.patch('builtins.input', return_value = 2)
+    input_mock = input_patcher.start()
+    actual_result = prepare_list_of_players()
+    self.assertIsInstance(actual_result, list)
+    input_patcher.stop()
+
+  def test_prepare_list_of_players_requests_input_of_number_of_players(self):
+    # test 107
+    input_patcher = mock.patch('builtins.input', return_value = 2)
+    input_mock = input_patcher.start()
+    prepare_list_of_players()
+    input_mock.assert_called_once_with("Please enter the number of players: ")
+    input_patcher.stop()
 
 
 
