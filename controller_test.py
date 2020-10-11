@@ -1,5 +1,6 @@
 import unittest
 from unittest import mock
+from unittest.mock import patch
 from player import Player
 from controller import enter_number_of_players
 from controller import generate_player
@@ -87,8 +88,23 @@ class PrepareListOfPlayersTest(unittest.TestCase):
     input_patcher = mock.patch('builtins.input', return_value = 2)
     input_mock = input_patcher.start()
     prepare_list_of_players()
-    input_mock.assert_called_once_with("Please enter the number of players: ")
+    self.assertEqual(input_mock.call_args_list[0], mock.call(
+      "Please enter the number of players: "))
     input_patcher.stop()
+
+  @patch('controller.generate_player')
+  @patch('controller.enter_number_of_players')
+  def test_for_2_players_generate_player_is_called_twice(
+    self, generate_player_mock, enter_player_count_mock):
+    # test 108
+    manager = mock.Mock()
+    manager.attach_mock(generate_player_mock, 'generate_player')
+    manager.attach_mock(enter_player_count_mock, 'enter_number_of_players')
+    prepare_list_of_players()
+    self.assertEqual(generate_player_mock.call_count, 1)
+    self.assertGreaterEqual(enter_player_count_mock.call_count, 2)
+
+
 
 
 

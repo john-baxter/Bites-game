@@ -14,5 +14,8 @@ def generate_player():
   return player
 
 def prepare_list_of_players():
+  players = []
   number_of_players = enter_number_of_players()
-  return []
+  players.append(generate_player())
+  players.append(generate_player())
+  return players
