@@ -71,3 +71,9 @@ PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"
 """The text which will be contained in the question when asking the user to choose which 
 direction to collect food from.
 """
+
+
+MIN_PLAYERS = 2
+MAX_PLAYERS = 5
+"""As per the standard rules of the game, these many players must take part.
+"""

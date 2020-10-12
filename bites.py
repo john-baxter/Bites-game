@@ -139,9 +139,10 @@ class Bites():
 
     Prints each player's name and shows how many points they have.
     """
+    print("\n")
     for player in self.players:
       player.score_hand(self.anthill)     
-      print ("%s: %i\n" % (player.name, player.score))
+      print ("%s: %i" % (player.name, player.score))
 
   def play_full_game(self):
     """Runs through a full game
@@ -204,13 +205,3 @@ class Bites():
         print("Level %s is empty" % i)
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
-    
-if __name__ == '__main__':
-  from player import Player
-  from constants import ANTS, TOKENS_FOR_TRAIL
-  ana = Player("Ana")
-  john = Player("John")
-  rafa = Player("Rafa")
-  players = [ana, john]
-  bites_game = Bites(ANTS, TOKENS_FOR_TRAIL, players)
-  bites_game.play_full_game()
