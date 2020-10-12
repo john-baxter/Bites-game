@@ -122,9 +122,14 @@ class PrepareListOfPlayersTest(unittest.TestCase):
     input_patcher.stop()
 
 class StartNewGameTest(unittest.TestCase):
+  @patch('bites.Bites.__init__')
+  @patch('bites.Bites.play_full_game')
   def test_start_new_2player_game_calls_prepare_list_of_players_and_associated_functions_in_correct_order_and_with_correct_callcount(
-    self):
+    self, mock_bites_play, mock_bites_init):
     # test 110
+    manager = mock.Mock()
+    mock_bites_init.return_value = None
+    manager.attach_mock(mock_bites_play, 'play_full_game')
     input_patcher = mock.patch('builtins.input', side_effect = [2, "Mario", "Luigi"])
     input_mock = input_patcher.start()
     start_new_game()
@@ -137,18 +142,33 @@ class StartNewGameTest(unittest.TestCase):
     self.assertEqual(len(input_mock.call_args_list), 3)
     input_patcher.stop()
 
-  @patch('bites.Bites')
-  def test_start_new_game_creates_instance_of_Bites_class(self, mock_bites_init):
+  @patch('bites.Bites.__init__')
+  @patch('bites.Bites.play_full_game')
+  def test_start_new_game_creates_instance_of_Bites_class(
+    self, mock_bites_play, mock_bites_init):
     # test 111
     manager = mock.Mock()
     mock_bites_init.return_value = None
+    manager.attach_mock(mock_bites_play, 'play_full_game')
     input_patcher = mock.patch('builtins.input', return_value = 2)
     input_mock = input_patcher.start()
-    mock_bites_init.assert_called
+    start_new_game()
+    self.assertEqual(mock_bites_init.call_count, 1)
+    input_patcher.stop()
 
-
-
-
+  @patch('bites.Bites.__init__')
+  @patch('bites.Bites.play_full_game')
+  def test_start_new_game_calls_Bites_play_full_game_method(
+    self, mock_bites_play, mock_bites_init):
+    # test 112
+    manager = mock.Mock()
+    mock_bites_init.return_value = None
+    manager.attach_mock(mock_bites_play, 'play_full_game')
+    input_patcher = mock.patch('builtins.input', return_value = 2)
+    input_mock = input_patcher.start()
+    start_new_game()
+    self.assertEqual(mock_bites_play.call_count, 1)
+    input_patcher.stop()
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

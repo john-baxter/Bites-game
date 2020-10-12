@@ -24,10 +24,7 @@ def prepare_list_of_players():
 def start_new_game():
   players = prepare_list_of_players()
   play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players)
-
-
-
-
+  play_bites.play_full_game()
 
 # if __name__ == '__main__':
   # play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, prepare_list_of_players())
