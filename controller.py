@@ -23,6 +23,7 @@ def prepare_list_of_players():
 
 def start_new_game():
   players = prepare_list_of_players()
+  play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players)
 
 
 
