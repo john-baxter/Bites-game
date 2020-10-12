@@ -9,169 +9,127 @@ from controller import start_new_game
 
 class EnterNumberOfPlayersTest(unittest.TestCase):
   # test 99
-  def test_enter_number_of_players_returns_number_entered(self):
+  @patch('builtins.input', return_value = 2)
+  def test_enter_number_of_players_returns_number_entered(self, mock_builtin_input):
     expected_result = 2
-    input_patcher = mock.patch('builtins.input', return_value = '2')
-    input_mock = input_patcher.start()
     actual_result = enter_number_of_players()
     self.assertEqual(actual_result, expected_result)
-    self.assertEqual(input_mock.call_count, 1)
-    input_patcher.stop()
+    self.assertEqual(mock_builtin_input.call_count, 1)
 
-  def test_enter_number_of_players_does_not_allow_1_player(self):
+  @patch('builtins.input', side_effect = ['two', 2])
+  def test_enter_number_of_players_does_not_allow_1_player(self, mock_builtin_input):
     # test 100
     expected_result = 2
-    input_patcher = mock.patch('builtins.input', side_effect = ['1', '2'])
-    input_mock = input_patcher.start()
     actual_result = enter_number_of_players()
     self.assertEqual(actual_result, expected_result)
-    self.assertEqual(input_mock.call_count, 2)
-    input_patcher.stop()
+    self.assertEqual(mock_builtin_input.call_count, 2)
 
-  def test_enter_number_of_players_does_not_allow_6_players(self):
+  @patch('builtins.input', side_effect = ['two', 2])
+  def test_enter_number_of_players_does_not_allow_6_players(self, mock_builtin_input):
     # test 101
     expected_result = 2
-    input_patcher = mock.patch('builtins.input', side_effect = ['6', '2'])
-    input_mock = input_patcher.start()
     actual_result = enter_number_of_players()
     self.assertEqual(actual_result, expected_result)
-    self.assertEqual(input_mock.call_count, 2)
-    input_patcher.stop()
+    self.assertEqual(mock_builtin_input.call_count, 2)
 
-  def test_check_no_error_if_input_is_not_an_int_player_can_enter_again(self):
+  @patch('builtins.input', side_effect = ['two', 2])
+  def test_check_no_error_if_input_is_not_an_int_player_can_enter_again(
+    self, mock_builtin_input):
     # test 102
     expected_result = 2
-    input_patcher = mock.patch('builtins.input', side_effect = ["two", '2'])
-    input_mock = input_patcher.start()
-    print_patcher = mock.patch('builtins.print')
-    print_mock = print_patcher.start()
     actual_result = enter_number_of_players()
     self.assertEqual(actual_result, expected_result)
-    self.assertEqual(input_mock.call_count, 2)
-    input_patcher.stop()
-    print_patcher.stop()
+    self.assertEqual(mock_builtin_input.call_count, 2)
 
-  def test_user_is_prompted_to_enter_number_of_players(self):
+  @patch('builtins.input', return_value = 2)
+  def test_user_is_prompted_to_enter_number_of_players(self, mock_builtin_input):
     # test 103
-    input_patcher = mock.patch('builtins.input', return_value = '2')
-    input_mock = input_patcher.start()
     enter_number_of_players()
-    input_mock.assert_called_once_with("Please enter the number of players: ")
-    input_patcher.stop()
+    mock_builtin_input.assert_called_once_with("Please enter the number of players: ")
 
 class GeneratePlayerTest(unittest.TestCase):
-  def test_player_name_can_be_entered(self):
+  @patch('builtins.input', return_value = 'Mario')
+  def test_player_name_can_be_entered(self, mock_builtin_input):
     # test 104
-    input_patcher = mock.patch('builtins.input', return_value = "Mario")
-    input_mock = input_patcher.start()
     expected_result = generate_player()
     self.assertEqual(expected_result.name, "Mario")
-    self.assertEqual(input_mock.call_count, 1)
+    self.assertEqual(mock_builtin_input.call_count, 1)
     self.assertIsInstance(expected_result, Player)
-    input_patcher.stop()
 
-  def test_user_is_prompted_to_enter_their_name(self):
+  @patch('builtins.input', return_value = 'Mario')
+  def test_user_is_prompted_to_enter_their_name(self, mock_builtin_input):
     # test 105
-    input_patcher = mock.patch('builtins.input', return_value = "Mario")
-    input_mock = input_patcher.start()
     generate_player()
-    input_mock.assert_called_once_with("Please enter your name: ")
-    input_patcher.stop()
+    mock_builtin_input.assert_called_once_with("Please enter your name: ")
 
 class PrepareListOfPlayersTest(unittest.TestCase):
-  def test_prepare_list_of_players_returns_a_list(self):
+  @patch('builtins.input', return_value = 2)
+  def test_prepare_list_of_players_returns_a_list(self, mock_builtin_input):
     # test 106
-    input_patcher = mock.patch('builtins.input', return_value = 2)
-    input_mock = input_patcher.start()
     actual_result = prepare_list_of_players()
     self.assertIsInstance(actual_result, list)
-    input_patcher.stop()
 
-  def test_prepare_list_of_players_requests_input_of_number_of_players(self):
+  @patch('builtins.input', return_value = 2)
+  def test_prepare_list_of_players_requests_input_of_number_of_players(
+    self, mock_builtin_input):
     # test 107
-    input_patcher = mock.patch('builtins.input', return_value = 2)
-    input_mock = input_patcher.start()
     prepare_list_of_players()
-    self.assertEqual(input_mock.call_args_list[0], mock.call(
+    self.assertEqual(mock_builtin_input.call_args_list[0], mock.call(
       "Please enter the number of players: "))
-    input_patcher.stop()
 
   @patch('controller.generate_player')
+  @patch('builtins.input', return_value = 2)
   def test_for_2_players_generate_player_is_called_twice(
-    self, generate_player_mock):
+    self, mock_builtin_input, generate_player_mock):
     # test 108
-    manager = mock.Mock()
-    manager.attach_mock(generate_player_mock, 'generate_player')
-    input_patcher = mock.patch('builtins.input', return_value = 2)
-    input_mock = input_patcher.start()
     prepare_list_of_players()
     self.assertEqual(generate_player_mock.call_count, 2)
-    self.assertEqual(input_mock.call_args_list[0], mock.call(
+    self.assertEqual(mock_builtin_input.call_args_list[0], mock.call(
       "Please enter the number of players: "))
-    input_patcher.stop()
 
   @patch('controller.generate_player')
+  @patch('builtins.input', return_value = 3)
   def test_for_3_players_generate_player_is_called_three_times(
-    self, generate_player_mock):
+    self, mock_builtin_input, generate_player_mock):
     # test 109
-    manager = mock.Mock()
-    manager.attach_mock(generate_player_mock, 'generate_player')
-    input_patcher = mock.patch('builtins.input', return_value = 3)
-    input_mock = input_patcher.start()
     prepare_list_of_players()
-    self.assertEqual(input_mock.call_args_list[0], mock.call(
+    self.assertEqual(mock_builtin_input.call_args_list[0], mock.call(
       "Please enter the number of players: "))
     self.assertEqual(generate_player_mock.call_count, 3)
-    input_patcher.stop()
 
 class StartNewGameTest(unittest.TestCase):
-  @patch('bites.Bites.__init__')
+  @patch('bites.Bites.__init__', return_value = None)
   @patch('bites.Bites.play_full_game')
+  @patch('builtins.input', side_effect = [2, 'Mario', 'Luigi'])
   def test_start_new_2player_game_calls_prepare_list_of_players_and_associated_functions_in_correct_order_and_with_correct_callcount(
-    self, mock_bites_play, mock_bites_init):
+    self, mock_builtin_input, mock_bites_play, mock_bites_init):
     # test 110
-    manager = mock.Mock()
-    mock_bites_init.return_value = None
-    manager.attach_mock(mock_bites_play, 'play_full_game')
-    input_patcher = mock.patch('builtins.input', side_effect = [2, "Mario", "Luigi"])
-    input_mock = input_patcher.start()
     start_new_game()
-    self.assertEqual(input_mock.call_args_list[0], mock.call(
+    self.assertEqual(mock_builtin_input.call_args_list[0], mock.call(
       "Please enter the number of players: "))
-    self.assertEqual(input_mock.call_args_list[1], mock.call(
+    self.assertEqual(mock_builtin_input.call_args_list[1], mock.call(
       "Please enter your name: "))
-    self.assertEqual(input_mock.call_args_list[2], mock.call(
+    self.assertEqual(mock_builtin_input.call_args_list[2], mock.call(
       "Please enter your name: "))
-    self.assertEqual(len(input_mock.call_args_list), 3)
-    input_patcher.stop()
+    self.assertEqual(len(mock_builtin_input.call_args_list), 3)
 
-  @patch('bites.Bites.__init__')
+  @patch('bites.Bites.__init__', return_value = None)
   @patch('bites.Bites.play_full_game')
+  @patch('builtins.input', return_value = 2)
   def test_start_new_game_creates_instance_of_Bites_class(
-    self, mock_bites_play, mock_bites_init):
+    self, mock_builtin_input, mock_bites_play, mock_bites_init):
     # test 111
-    manager = mock.Mock()
-    mock_bites_init.return_value = None
-    manager.attach_mock(mock_bites_play, 'play_full_game')
-    input_patcher = mock.patch('builtins.input', return_value = 2)
-    input_mock = input_patcher.start()
     start_new_game()
     self.assertEqual(mock_bites_init.call_count, 1)
-    input_patcher.stop()
 
-  @patch('bites.Bites.__init__')
+  @patch('bites.Bites.__init__', return_value = None)
   @patch('bites.Bites.play_full_game')
+  @patch('builtins.input', return_value = 2)
   def test_start_new_game_calls_Bites_play_full_game_method(
-    self, mock_bites_play, mock_bites_init):
+    self, mock_builtin_input, mock_bites_play, mock_bites_init):
     # test 112
-    manager = mock.Mock()
-    mock_bites_init.return_value = None
-    manager.attach_mock(mock_bites_play, 'play_full_game')
-    input_patcher = mock.patch('builtins.input', return_value = 2)
-    input_mock = input_patcher.start()
     start_new_game()
-    self.assertEqual(mock_bites_play.call_count, 1)
-    input_patcher.stop()
+    mock_bites_play.assert_called_once()
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
