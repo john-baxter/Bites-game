@@ -17,7 +17,9 @@ class EnterNumberOfPlayersTest(unittest.TestCase):
     self.assertEqual(mock_builtin_input.call_count, 1)
 
   @patch('builtins.input', side_effect = ['two', 2])
-  def test_enter_number_of_players_does_not_allow_1_player(self, mock_builtin_input):
+  @patch('builtins.print')
+  def test_enter_number_of_players_does_not_allow_1_player(
+    self, mock_builtin_print, mock_builtin_input):
     # test 100
     expected_result = 2
     actual_result = enter_number_of_players()
@@ -25,7 +27,9 @@ class EnterNumberOfPlayersTest(unittest.TestCase):
     self.assertEqual(mock_builtin_input.call_count, 2)
 
   @patch('builtins.input', side_effect = ['two', 2])
-  def test_enter_number_of_players_does_not_allow_6_players(self, mock_builtin_input):
+  @patch('builtins.print')
+  def test_enter_number_of_players_does_not_allow_6_players(
+    self, mock_builtin_print, mock_builtin_input):
     # test 101
     expected_result = 2
     actual_result = enter_number_of_players()
@@ -33,8 +37,9 @@ class EnterNumberOfPlayersTest(unittest.TestCase):
     self.assertEqual(mock_builtin_input.call_count, 2)
 
   @patch('builtins.input', side_effect = ['two', 2])
+  @patch('builtins.print')
   def test_check_no_error_if_input_is_not_an_int_player_can_enter_again(
-    self, mock_builtin_input):
+    self, mock_builtin_print, mock_builtin_input):
     # test 102
     expected_result = 2
     actual_result = enter_number_of_players()

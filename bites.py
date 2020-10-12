@@ -139,9 +139,10 @@ class Bites():
 
     Prints each player's name and shows how many points they have.
     """
+    print("\n")
     for player in self.players:
       player.score_hand(self.anthill)     
-      print ("%s: %i\n" % (player.name, player.score))
+      print ("%s: %i" % (player.name, player.score))
 
   def play_full_game(self):
     """Runs through a full game
