@@ -1,18 +1,28 @@
 # Bites project backlog
 
-Additionally, this could be a good opportunity to learn about and practice using keyword arguments with default values. For example, prompt_text='choose between'. However, upon looking at the contents of the function, I think this would make more sense once the allowed_choices are incorporated into the input text.
-
-When will you add the allowed_choices to the input text? It's okay if that's not within the scope of this branch and PR, but make sure it's in your backlog of tasks.
-
-I can see why you've kept the ant and direction tests separate, because that's how you developed it because they were originally separate functions. However, the new make_choice function doesn't care whether the options are ants or directions, so generalising the tests would be a good idea. For example test_the_first_string_from_a_list_of_one_string_is_a_valid_choice, test_the_first_string_from_a_list_of_several_strings_is_a_valid_choice, test_a_middle_string_from_a_list_of_several_strings_is_a_valid_choice, test_the_last_string_from_a_list_of_several_strings_is_a_valid_choice.
-
-Suggestions of other unit tests:
-
-What if the allowed_choices is an empty list
-What if the allowed_choices is a list of something that's not strings (e.g. ints, floats, bools)
-What if the allowed_choices is not a list (e.g. it's None, or a single string, or a single number)
-What if the user types a number
-
 Update readme.md
   specify python version
   give list of packages used
+
+## Next steps
+### Continuous
+Liaise with Peter about the front-end
+
+### Current
+Player can collect food from the anthill when they move an any onto it
+
+### Next
+Create the different options for anthill order:
+  - bottom-to-top filling
+  - specific order of 4, 2, 0, 3, 1 filling
+  - optional user's choice
+
+Create a way to choose which anthill rule is used (pick an option or pick random)
+Start working on wine being included
+Create a selection (possibly all) of the wine rules
+Develop the option-picking function to allow for choosing wine rules too
+
+### Future
+Chocolate
+Extra rules
+Fancy CLI
