@@ -4,17 +4,29 @@ from player import Player
 from bites import Bites
 
 def enter_number_of_players():
+  """
+  """
   number_of_players = 0
-  while number_of_players not in range(MIN_PLAYERS, MAX_PLAYERS+1):
-    number_of_players = int(input("Please enter the number of players: "))
+  while 1:
+    number_of_players = input("Please enter the number of players: ")
+    try:
+      number_of_players = int(number_of_players)
+      if number_of_players in range(MIN_PLAYERS, MAX_PLAYERS+1):
+        break
+    except ValueError:
+      print("please enter an integer") 
   return number_of_players
 
 def generate_player():
+  """
+  """
   name = input("Please enter your name: ")
   player = Player(name)
   return player
 
 def prepare_list_of_players():
+  """
+  """
   players = []
   number_of_players = enter_number_of_players()
   while len(players) < number_of_players:
@@ -22,6 +34,8 @@ def prepare_list_of_players():
   return players
 
 def start_new_game():
+  """
+  """
   players = prepare_list_of_players()
   play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players)
   play_bites.play_full_game()

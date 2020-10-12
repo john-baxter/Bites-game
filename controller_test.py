@@ -7,7 +7,7 @@ from controller import generate_player
 from controller import prepare_list_of_players
 from controller import start_new_game
 
-class GetPlayerInfoTest(unittest.TestCase):
+class EnterNumberOfPlayersTest(unittest.TestCase):
   # test 99
   def test_enter_number_of_players_returns_number_entered(self):
     expected_result = 2
@@ -43,10 +43,13 @@ class GetPlayerInfoTest(unittest.TestCase):
     expected_result = 2
     input_patcher = mock.patch('builtins.input', side_effect = ["two", 2])
     input_mock = input_patcher.start()
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
     actual_result = enter_number_of_players()
     self.assertEqual(actual_result, expected_result)
     self.assertEqual(input_mock.call_count, 2)
     input_patcher.stop()
+    print_patcher.stop()
 
   def test_user_is_prompted_to_enter_number_of_players(self):
     # test 103
