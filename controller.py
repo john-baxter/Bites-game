@@ -27,5 +27,4 @@ def start_new_game():
   play_bites.play_full_game()
 
 if __name__ == '__main__':
-  # play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, prepare_list_of_players())
   start_new_game()

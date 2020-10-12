@@ -204,15 +204,3 @@ class Bites():
         print("Level %s is empty" % i)
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
-    
-# if __name__ == '__main__':
-#   from player import Player
-#   from constants import ANTS, TOKENS_FOR_TRAIL
-#   ana = Player("Ana")
-#   john = Player("John")
-#   rafa = Player("Rafa")
-#   peter = Player("Peter")
-#   players = [ana, john]
-#   # players = [john, peter]
-#   bites_game = Bites(ANTS, TOKENS_FOR_TRAIL, players)
-#   bites_game.play_full_game()
