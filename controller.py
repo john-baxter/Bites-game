@@ -6,16 +6,14 @@ from bites import Bites
 def enter_number_of_players():
   """
   """
-  number_of_players = 0
   while 1:
     number_of_players = input("Please enter the number of players: ")
     try:
       number_of_players = int(number_of_players)
       if number_of_players in range(MIN_PLAYERS, MAX_PLAYERS+1):
-        break
+        return number_of_players
     except ValueError:
-      print("please enter an integer") 
-  return number_of_players
+      print("Please enter an integer") 
 
 def generate_player():
   """
