@@ -663,6 +663,20 @@ class DefineAllowedChoicesDirectionTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
+  def test_investigate_bug_outlined_in_backlog(self):
+    # test 113
+    mario = Player("Mario")
+    ant = "purple"
+    trail = ['bread', None, 'cheese', None, 'pepper', None, 'cheese', 'grapes', 'apple']
+    ant_positions = {
+      "purple": 7,
+      "brown": 0,
+      "yellow": 2,
+      "green": 4}
+    expected_allowed_choices = ["front", "back"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
 class TakeTurnTest(unittest.TestCase):
   def test_single_ant_moves_to_centre_of_three_element_trail_picks_front(self):
     # test 66
