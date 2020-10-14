@@ -1,18 +1,97 @@
 # Bites project backlog
 
-Additionally, this could be a good opportunity to learn about and practice using keyword arguments with default values. For example, prompt_text='choose between'. However, upon looking at the contents of the function, I think this would make more sense once the allowed_choices are incorporated into the input text.
+Update README.md
+- specify python version
+- give list of packages used
 
-When will you add the allowed_choices to the input text? It's okay if that's not within the scope of this branch and PR, but make sure it's in your backlog of tasks.
+## Next steps
+### Continuous
+Liaise with Peter about the front-end
 
-I can see why you've kept the ant and direction tests separate, because that's how you developed it because they were originally separate functions. However, the new make_choice function doesn't care whether the options are ants or directions, so generalising the tests would be a good idea. For example test_the_first_string_from_a_list_of_one_string_is_a_valid_choice, test_the_first_string_from_a_list_of_several_strings_is_a_valid_choice, test_a_middle_string_from_a_list_of_several_strings_is_a_valid_choice, test_the_last_string_from_a_list_of_several_strings_is_a_valid_choice.
+### Current
+Player can collect food from the anthill when they move an any onto it
 
-Suggestions of other unit tests:
+### Next
+Create the different options for anthill order:
+- bottom-to-top filling
+- specific order of 4, 2, 0, 3, 1 filling
+- optional user's choice
 
-What if the allowed_choices is an empty list
-What if the allowed_choices is a list of something that's not strings (e.g. ints, floats, bools)
-What if the allowed_choices is not a list (e.g. it's None, or a single string, or a single number)
-What if the user types a number
+Create a way to choose which anthill rule is used (pick an option or pick random)
+Start working on wine being included
+Create a selection (possibly all) of the wine rules
+Develop the option-picking function to allow for choosing wine rules too
 
-Update readme.md
-  specify python version
-  give list of packages used
+### Future
+Chocolate
+Extra rules
+Fancy CLI
+
+### Bugs discovered:
+Ants at the beginning of the trail:
+purple
+
+Trail and ant positions:
+bread  brown
+None
+cheese yellow
+None
+pepper green
+None
+cheese
+grapes
+apple
+None
+bread
+cheese
+pepper
+grapes
+apple
+None
+pepper
+None
+None
+apple  red
+bread
+grapes
+apple
+cheese
+bread
+bread
+apple
+apple
+bread
+cheese
+grapes
+grapes
+pepper
+pepper
+pepper
+grapes
+cheese
+grapes
+bread
+pepper
+cheese
+apple
+apple
+cheese
+grapes
+
+Anthill:
+Level 4 is empty
+Level 3 is empty
+Level 2 is empty
+Level 1 is empty
+Level 0 is empty
+
+The available options are:
+purple
+red
+brown
+yellow
+green
+John; please enter your choice of ant: purple
+
+The available options are:
+front
