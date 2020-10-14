@@ -387,9 +387,9 @@ class Player():
     trail_slice_pre_ant = trail[:ant_positions[ant]]
     trail_slice_post_ant = trail[ant_positions[ant]+1:]
 
-    for food in trail_slice_post_ant:
-      is_str = type(food) is str
-      has_no_ant = trail_slice_post_ant.index(food) + ant_positions[ant] + 1 not in ant_positions.values()
+    for idx, food in enumerate(trail_slice_post_ant):
+      is_str = type(trail_slice_post_ant[idx]) is str
+      has_no_ant = idx + ant_positions[ant] + 1 not in ant_positions.values()
       if is_str and has_no_ant:
         allowed_choices_direction.append("front")
         break
