@@ -1,8 +1,8 @@
 # Bites project backlog
 
-Update readme.md
-  specify python version
-  give list of packages used
+Update README.md
+- specify python version
+- give list of packages used
 
 ## Next steps
 ### Continuous
@@ -13,9 +13,9 @@ Player can collect food from the anthill when they move an any onto it
 
 ### Next
 Create the different options for anthill order:
-  - bottom-to-top filling
-  - specific order of 4, 2, 0, 3, 1 filling
-  - optional user's choice
+- bottom-to-top filling
+- specific order of 4, 2, 0, 3, 1 filling
+- optional user's choice
 
 Create a way to choose which anthill rule is used (pick an option or pick random)
 Start working on wine being included
