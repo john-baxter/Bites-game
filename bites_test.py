@@ -909,5 +909,21 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
     bites_game = Bites(ants, tokens, players)
     self.assertIsInstance(bites_game.initialise_anthill_food_tokens(), dict)
 
+  def test_upon_initialisation_anthill_has_one_of_each_type_of_food(self):
+    # test 117
+    ants = []
+    tokens = {}
+    players = []
+    bites_game = Bites(ants, tokens, players)
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens()), 5)
+    self.assertEqual(list(bites_game.initialise_anthill_food_tokens().values()), [1, 1, 1, 1, 1])
+    self.assertIn("apple", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("grapes", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("bread", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("cheese", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("pepper", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens().keys()), 5)
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

@@ -207,4 +207,10 @@ class Bites():
         print("The %s ant is in level %s" % (self.anthill[i], i))
 
   def initialise_anthill_food_tokens(self):
-    return {}
+    self.anthill_food_tokens = {
+      "apple": 1,
+      "grapes": 1,
+      "bread": 1,
+      "cheese": 1,
+      "pepper": 1}
+    return self.anthill_food_tokens
