@@ -799,5 +799,11 @@ class GoesToAnthillTest(unittest.TestCase):
     expected_return = True
     self.assertEqual(actual_return, expected_return)
 
+class DefineAllowedChoicesAnthillFoodTest(unittest.TestCase):
+  def test_define_allowed_choices_anthill_test_returns_a_list(self):
+    # test 119
+    mario = Player("Mario")
+    self.assertIsInstance(mario.define_allowed_choices_anthill_food(), list)
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

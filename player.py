@@ -486,3 +486,6 @@ class Player():
       return True
     else:
       return False
+
+  def define_allowed_choices_anthill_food(self):
+    return []
