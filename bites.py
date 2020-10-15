@@ -207,5 +207,23 @@ class Bites():
         print("The %s ant is in level %s" % (self.anthill[i], i))
 
   def initialise_anthill_food_tokens(self, tokens_for_trail):
+    """Prepare the stack of tokens next to the anthill
+
+    Players get to collect one each time they place an ant on the anthill.
+
+    Parameters
+    ----------
+    tokens_for_trail : (dict)
+      Each type of food token to be used, and their quantities
+      The names of the foods are strings
+      The quantities are integers
+
+    Returns
+    -------
+    anthill_food_tokens : (dict)
+      One of each type of food token.
+      Keys are foods as strings
+      Values are integers initialised as 1
+    """
     self.anthill_food_tokens = { i : 1 for i in list(tokens_for_trail.keys())}
     return self.anthill_food_tokens
