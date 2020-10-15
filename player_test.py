@@ -663,7 +663,7 @@ class DefineAllowedChoicesDirectionTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertNotIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
-  def test_investigate_bug_outlined_in_backlog(self):
+  def test_direction_back_is_allowed_when_multiple_of_the_same_kind_of_food_and_the_first_one_has_an_ant(self):
     # test 113
     mario = Player("Mario")
     ant = "purple"
@@ -676,6 +676,31 @@ class DefineAllowedChoicesDirectionTest(unittest.TestCase):
     expected_allowed_choices = ["front", "back"]
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+  def test_check_direction_back_is_allowed_in_simplified_version_of_multiple_of_the_same_kind_of_food_and_first_one_has_an_ant(self):
+    # test 114
+    mario = Player("Mario")
+    ant = "purple"
+    trail = ['cheese', 'cheese', 'grapes']
+    ant_positions = {
+      "purple": 2,
+      "yellow": 0}
+    expected_allowed_choices = ["back"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertIn("back", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
+  def test_check_direction_front_is_allowed_in_simple_version_of_multiple_of_the_same_kind_of_food_and_ant_is_on_first_one(self):
+    # test 115
+    mario = Player("Mario")
+    ant = "purple"
+    trail = ['grapes','cheese', 'cheese']
+    ant_positions = {
+      "purple": 0,
+      "yellow": 1}
+    expected_allowed_choices = ["front"]
+    self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
+    self.assertIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
+
 
 class TakeTurnTest(unittest.TestCase):
   def test_single_ant_moves_to_centre_of_three_element_trail_picks_front(self):
