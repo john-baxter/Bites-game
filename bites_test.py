@@ -904,25 +904,35 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
   # test 116
   def test_anthill_can_store_food_tokens_in_dict(self):
     ants = []
-    tokens = {}
+    tokens = {
+      "apple": 0,
+      "grapes": 0,
+      "bread": 0,
+      "cheese": 0,
+      "pepper": 0}
     players = []
     bites_game = Bites(ants, tokens, players)
-    self.assertIsInstance(bites_game.initialise_anthill_food_tokens(), dict)
+    self.assertIsInstance(bites_game.initialise_anthill_food_tokens(tokens), dict)
 
   def test_upon_initialisation_anthill_has_one_of_each_type_of_food(self):
     # test 117
     ants = []
-    tokens = {}
+    tokens = {
+      "apple": 0,
+      "grapes": 0,
+      "bread": 0,
+      "cheese": 0,
+      "pepper": 0}
     players = []
     bites_game = Bites(ants, tokens, players)
-    self.assertEqual(len(bites_game.initialise_anthill_food_tokens()), 5)
-    self.assertEqual(list(bites_game.initialise_anthill_food_tokens().values()), [1, 1, 1, 1, 1])
-    self.assertIn("apple", bites_game.initialise_anthill_food_tokens().keys())
-    self.assertIn("grapes", bites_game.initialise_anthill_food_tokens().keys())
-    self.assertIn("bread", bites_game.initialise_anthill_food_tokens().keys())
-    self.assertIn("cheese", bites_game.initialise_anthill_food_tokens().keys())
-    self.assertIn("pepper", bites_game.initialise_anthill_food_tokens().keys())
-    self.assertEqual(len(bites_game.initialise_anthill_food_tokens().keys()), 5)
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens(tokens)), 5)
+    self.assertEqual(list(bites_game.initialise_anthill_food_tokens(tokens).values()), [1, 1, 1, 1, 1])
+    self.assertIn("apple", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertIn("grapes", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertIn("bread", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertIn("cheese", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertIn("pepper", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens(tokens).keys()), 5)
 
 
 if __name__ == '__main__':
