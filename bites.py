@@ -43,6 +43,11 @@ class Bites():
     players : (list)
       A list of Player objects representing the players of this game.
       Elements are instances of the Player class
+
+    anthill_food_tokens : (dict)
+      One of each type of food token.
+      Keys are foods as strings
+      Values are integers initialised as 1
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
