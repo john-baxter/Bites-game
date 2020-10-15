@@ -701,7 +701,6 @@ class DefineAllowedChoicesDirectionTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
-
 class TakeTurnTest(unittest.TestCase):
   def test_single_ant_moves_to_centre_of_three_element_trail_picks_front(self):
     # test 66

@@ -900,5 +900,14 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[4], mock.call("The yellow ant is in level 0"))
     print_patcher.stop()
 
+class InitialiseAnthillFoodTokensTest(unittest.TestCase):
+  # test 116
+  def test_anthill_can_store_food_tokens_in_dict(self):
+    ants = []
+    tokens = {}
+    players = []
+    bites_game = Bites(ants, tokens, players)
+    self.assertIsInstance(bites_game.initialise_anthill_food_tokens(), dict)
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

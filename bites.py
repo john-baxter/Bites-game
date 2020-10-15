@@ -205,3 +205,6 @@ class Bites():
         print("Level %s is empty" % i)
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
+
+  def initialise_anthill_food_tokens(self):
+    return {}
