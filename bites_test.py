@@ -53,6 +53,26 @@ class BitesInitTest(unittest.TestCase):
     self.assertEqual(bites_game.players[0].name, "mario")
     self.assertEqual(bites_game.players[1].name, "luigi")
 
+  def test_anthill_food_tokens_are_initialised_when_Bites_class_is_instantiated(self):
+    # test 118
+    ants = []
+    tokens = {
+      "apple": 0,
+      "grapes": 0,
+      "bread": 0,
+      "cheese": 0,
+      "pepper": 0}
+    players = []
+    bites_game = Bites(ants, tokens, players)
+    expected_anthill_food = {
+      "apple": 1,
+      "grapes": 1,
+      "bread": 1,
+      "cheese": 1,
+      "pepper": 1}
+    actual_anthill_food = bites_game.anthill_food_tokens
+    self.assertEqual(actual_anthill_food, expected_anthill_food)
+
 class InitialiseAntsTest(unittest.TestCase):
   def test_can_initialise_one_ant(self):
     # test 1

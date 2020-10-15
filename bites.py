@@ -48,6 +48,7 @@ class Bites():
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
+    self.anthill_food_tokens = self.initialise_anthill_food_tokens(tokens_for_trail)
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
