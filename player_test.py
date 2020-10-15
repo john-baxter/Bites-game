@@ -805,5 +805,13 @@ class DefineAllowedChoicesAnthillFoodTest(unittest.TestCase):
     mario = Player("Mario")
     self.assertIsInstance(mario.define_allowed_choices_anthill_food(), list)
 
+  def test_anthill_has_one_token_and_allowed_choices_shows_this_token(self):
+    # test 120
+    mario = Player("Mario")
+    anthill_food_tokens = {"cheese": 1}
+    expected_anthill_food_tokens = ["cheese"]
+    self.assertEqual(mario.define_allowed_choices_anthill_food(
+      anthill_food_tokens), expected_anthill_food_tokens)
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
