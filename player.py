@@ -510,5 +510,18 @@ class Player():
     return allowed_choices_anthill_food
 
   def take_food_from_anthill(self, anthill_food_tokens, user_choice_food):
+    """Remove the player's chosen food token from the anthill supply
+
+    Parameters
+    ----------
+    anthill_food_tokens : (dict)
+      The remaining food tokens at the anthill which the players will choose from
+      Keys are food IDs as strings
+      Values are integers >= 0
+
+    user_choice_food : (string)
+      The ID of the choice the player has made
+      In this case, a food type.
+    """
     anthill_food_tokens[user_choice_food] -= 1
     return anthill_food_tokens
