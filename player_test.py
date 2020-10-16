@@ -815,5 +815,16 @@ class DefineAllowedChoicesAnthillFoodTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_anthill_food(
       anthill_food_tokens), expected_allowed_choices)
 
+  def test_anthill_has_one_each_of_two_types_of_food_allowed_choices_shows_both(self):
+    # test 121
+    mario = Player("Mario")
+    anthill_food_tokens = {"cheese": 1, "bread": 1}
+    expected_allowed_choices = [["cheese", "bread"], ["bread", "cheese"]]
+    self.assertIn(mario.define_allowed_choices_anthill_food(
+      anthill_food_tokens), expected_allowed_choices)
+
+
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
