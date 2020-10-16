@@ -1,9 +1,5 @@
 # Bites project backlog
 
-Update README.md
-- specify python version
-- give list of packages used
-
 ## Next steps
 ### Continuous
 Liaise with Peter about the front-end
@@ -12,6 +8,9 @@ Liaise with Peter about the front-end
 Player can collect food from the anthill when they move an any onto it
 
 ### Next
+Update README.md
+- specify python version
+- give list of packages used
 Create the different options for anthill order:
 - bottom-to-top filling
 - specific order of 4, 2, 0, 3, 1 filling

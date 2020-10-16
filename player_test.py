@@ -753,20 +753,30 @@ class TakeTurnTest(unittest.TestCase):
     mario.hand = {"cheese": 1}
     trail = ["pepper", "apple", None]
     ant_positions = {"red": 1}
-    input_patcher = mock.patch('builtins.input', return_value = "red")
+    anthill_food_tokens = {"pepper": 1, "bread": 1}
+    user_choice_ant = "red"
+    user_choice_anthill_food = "bread"
+    print_patcher = mock.patch('builtins.print')
+    input_patcher = mock.patch('builtins.input', side_effect = [user_choice_ant, user_choice_anthill_food])
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
-      mario.take_turn(trail, ant_positions, anthill)
+      mario.take_turn(trail, ant_positions, anthill, anthill_food_tokens)
+    actual_new_anthill_food = mario.take_food_from_anthill(anthill_food_tokens, user_choice_anthill_food)
     # Then
     expected_new_trail = trail
     expected_new_ant_positions = {"red": "anthill"}
     expected_new_anthill = ["red"]
+    expected_new_anthill_food = {"pepper": 1, "bread": 0}
+    expected_new_hand = {"cheese": 1, "bread": 1}
     self.assertEqual(actual_new_trail, expected_new_trail)
     self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
-    self.assertEqual(mario.hand, {"cheese": 1})
+    self.assertEqual(mario.hand, {"cheese": 1, "bread": 1})
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
     input_patcher.stop()
+    print_patcher.stop()
 
 class GoesToAnthillTest(unittest.TestCase):
   def test_returns_true_when_ant_is_at_end_of_trail(self):

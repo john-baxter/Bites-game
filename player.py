@@ -2,6 +2,7 @@ from constants import K_COLOUR_V_FOOD_DICT
 from constants import K_FOOD_V_COLOUR_DICT
 from constants import PROMPT_TEXT_ANT_CHOICE
 from constants import PROMPT_TEXT_DIRECTION_CHOICE
+from constants import PROMPT_TEXT_ANTHILL_FOOD_CHOICE
 
 class Player():
   def __init__(self, name):
@@ -403,7 +404,7 @@ class Player():
 
     return allowed_choices_direction
 
-  def take_turn(self, trail, ant_positions, anthill):
+  def take_turn(self, trail, ant_positions, anthill, anthill_food_tokens):
     """Perform necessary steps to complete one player's move
 
     Parameters
@@ -442,6 +443,9 @@ class Player():
 
     if self.goes_to_anthill(ant, trail, ant_positions):
       (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, ant)
+      allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
+      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_ANTHILL_FOOD_CHOICE) 
+      self.store_food(user_choice_food)
     else:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
       allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
