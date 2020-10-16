@@ -529,14 +529,8 @@ class TakeAllTurnsTest(unittest.TestCase):
     bites_game.take_all_turns()
 
     self.assertEqual(fake_mario.take_turn.call_count, 1)
-    # print("**************************")
-    # print("**************************")
-    # print(fake_mario.take_turn.call_args_list[0])
-    # print(starting_anthill_food_tokens)
-    # print(mock.call(starting_trail, starting_ant_positions, starting_anthill, starting_anthill_food_tokens))
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
       starting_trail, starting_ant_positions, starting_anthill, starting_anthill_food_tokens))
-    # print("**************************")
     self.assertEqual(bites_game.trail, expected_new_trail)
     self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
     self.assertEqual(bites_game.anthill, expected_new_anthill)

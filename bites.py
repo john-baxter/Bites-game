@@ -236,6 +236,8 @@ class Bites():
     return self.anthill_food_tokens
 
   def print_anthill_food_tokens(self):
+    """Shows the collection of food tokens currently positioned at the anthill
+    """
     if sum(list(self.anthill_food_tokens.values())) > 0:
       print("\nAnthill food tokens")
       list_of_anthill_food_tokens = []
