@@ -442,6 +442,11 @@ class Player():
     anthill : (list)
       The newly updated (if neccessary) anthill list
       Elements are None or ant IDs as strings.
+
+    anthill_food_tokens : (dict)
+      The newly updated (if necessary) collection of food tokens stored by the anthill.
+      Keys are food IDs as strings.
+      Values are integers >= 0
     """
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
