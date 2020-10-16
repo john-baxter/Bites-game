@@ -336,6 +336,27 @@ class MakeChoiceTest(unittest.TestCase):
     print_patcher.stop()
     input_patcher.stop()
 
+  def test_check_make_choice_allows_user_to_choose_food_from_anthill(self):
+    # test 123
+    mario = Player("Mario")
+    allowed_choices = ["cheese", "grapes"]
+    prompt_text = "please enter your choice of food"
+    print_patcher = mock.patch('builtins.print')
+    input_patcher = mock.patch('builtins.input', return_value = "cheese")
+    print_mock = print_patcher.start()
+    input_mock = input_patcher.start()
+    mario.make_choice(allowed_choices, prompt_text)
+    self.assertEqual(print_mock.call_count, 3)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nThe available options are:"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("cheese"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("grapes"))
+    self.assertEqual(input_mock.call_count, 1)
+    self.assertEqual(input_mock.call_args_list[0], mock.call("Mario; please enter your choice of food: "))
+    self.assertEqual(mario.user_choice, "cheese")
+    print_patcher.stop()
+    input_patcher.stop()
+
+
 class MoveAntAlongTrailTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
     # test 10
