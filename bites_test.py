@@ -977,6 +977,24 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[4], mock.call(["grapes", "grapes"]))
     print_patcher.stop()
 
+  def test_check_render_game_does_not_show_food_type_if_v_equals_0(self):
+    # test 130
+    ants = []
+    tokens_for_trail = {}
+    players = []
+    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game.trail = []
+    bites_game.ant_positions = {"yellow": "anthill"}
+    bites_game.anthill = []
+    bites_game.anthill_food_tokens = {"grapes": 1, "pepper": 1, "bread": 0}
+    
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.render_game()
+    self.assertGreaterEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[3], mock.call("\nAnthill food tokens"))
+    self.assertEqual(print_mock.call_args_list[4], mock.call(["grapes", "pepper"]))
+    print_patcher.stop()
 
 class InitialiseAnthillFoodTokensTest(unittest.TestCase):
   # test 116
