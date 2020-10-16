@@ -870,6 +870,14 @@ class TakeFoodFromAnthillTest(unittest.TestCase):
     actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
     self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
+  def test_check_anthill_has_2_of_user_choice_food_and_new_food_dict_has_1(self):
+    # test 126
+    mario = Player("Mario")
+    anthill_food = {"cheese": 2, "apple": 1}
+    user_choice_food = "cheese"
+    expected_new_anthill_food = {"cheese": 1, "apple": 1}
+    actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
