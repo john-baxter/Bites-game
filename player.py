@@ -423,6 +423,11 @@ class Player():
       Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
       Elements are None or ant IDs as strings.
 
+    anthill_food_tokens : (dict)
+      Contains the record of which and how many of each food token are stored at the anthill.
+      Keys are food types as strings.
+      Values are integers >=0
+
     Returns
     -------
     trail : (list)
