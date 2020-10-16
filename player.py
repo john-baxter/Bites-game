@@ -508,3 +508,6 @@ class Player():
     """
     allowed_choices_anthill_food = [k for k, v in anthill_food_tokens.items() if v >= 1]
     return allowed_choices_anthill_food
+
+  def take_food_from_anthill(self, anthill_food_tokens, user_choice_food):
+    return {"cheese": 0}

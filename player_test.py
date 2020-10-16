@@ -356,7 +356,6 @@ class MakeChoiceTest(unittest.TestCase):
     print_patcher.stop()
     input_patcher.stop()
 
-
 class MoveAntAlongTrailTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
     # test 10
@@ -851,6 +850,16 @@ class DefineAllowedChoicesAnthillFoodTest(unittest.TestCase):
     expected_allowed_choices = ["cheese"]
     self.assertEqual(mario.define_allowed_choices_anthill_food(
       anthill_food_tokens), expected_allowed_choices)
+
+class TakeFoodFromAnthillTest(unittest.TestCase):
+  def test_anthill_has_one_food_and_player_takes_it(self):
+    # test 124
+    mario = Player("Mario")
+    anthill_food = {"cheese": 1}
+    user_choice_food = "cheese"
+    expected_new_anthill_food = {"cheese": 0}
+    actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
