@@ -43,11 +43,17 @@ class Bites():
     players : (list)
       A list of Player objects representing the players of this game.
       Elements are instances of the Player class
+
+    anthill_food_tokens : (dict)
+      One of each type of food token.
+      Keys are foods as strings
+      Values are integers initialised as 1
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
+    self.anthill_food_tokens = self.initialise_anthill_food_tokens(tokens_for_trail)
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
@@ -128,9 +134,9 @@ class Bites():
     self.render_game()
     while 1:
       for player in self.players:
-        (self.trail, self.ant_positions, self.anthill) = \
+        (self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens) = \
           player.take_turn(
-            self.trail, self.ant_positions, self.anthill)
+            self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens)
         self.render_game()
         if None not in self.anthill: return
 
@@ -161,6 +167,7 @@ class Bites():
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()
     self.print_ants_positioned_on_anthill_top_down()
+    self.print_anthill_food_tokens()
     
   def print_players_names_and_hands(self):
     """Shows the names of each player and what (if any) food tokens thay have in their hand.
@@ -205,3 +212,36 @@ class Bites():
         print("Level %s is empty" % i)
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
+
+  def initialise_anthill_food_tokens(self, tokens_for_trail):
+    """Prepare the stack of tokens next to the anthill
+
+    Players get to collect one each time they place an ant on the anthill.
+
+    Parameters
+    ----------
+    tokens_for_trail : (dict)
+      Each type of food token to be used, and their quantities
+      The names of the foods are strings
+      The quantities are integers
+
+    Returns
+    -------
+    anthill_food_tokens : (dict)
+      One of each type of food token.
+      Keys are foods as strings
+      Values are integers initialised as 1
+    """
+    self.anthill_food_tokens = { token : 1 for token in tokens_for_trail}
+    return self.anthill_food_tokens
+
+  def print_anthill_food_tokens(self):
+    """Shows the collection of food tokens currently positioned at the anthill
+    """
+    if sum(list(self.anthill_food_tokens.values())) > 0:
+      print("\nAnthill food tokens")
+      list_of_anthill_food_tokens = []
+      for k, v in self.anthill_food_tokens.items():
+        for n in range(v):
+          list_of_anthill_food_tokens.append(k)
+      print(list_of_anthill_food_tokens)

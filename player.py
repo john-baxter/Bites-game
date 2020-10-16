@@ -2,6 +2,7 @@ from constants import K_COLOUR_V_FOOD_DICT
 from constants import K_FOOD_V_COLOUR_DICT
 from constants import PROMPT_TEXT_ANT_CHOICE
 from constants import PROMPT_TEXT_DIRECTION_CHOICE
+from constants import PROMPT_TEXT_ANTHILL_FOOD_CHOICE
 
 class Player():
   def __init__(self, name):
@@ -403,7 +404,7 @@ class Player():
 
     return allowed_choices_direction
 
-  def take_turn(self, trail, ant_positions, anthill):
+  def take_turn(self, trail, ant_positions, anthill, anthill_food_tokens):
     """Perform necessary steps to complete one player's move
 
     Parameters
@@ -422,6 +423,11 @@ class Player():
       Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
       Elements are None or ant IDs as strings.
 
+    anthill_food_tokens : (dict)
+      Contains the record of which and how many of each food token are stored at the anthill.
+      Keys are food types as strings.
+      Values are integers >=0
+
     Returns
     -------
     trail : (list)
@@ -436,12 +442,21 @@ class Player():
     anthill : (list)
       The newly updated (if neccessary) anthill list
       Elements are None or ant IDs as strings.
+
+    anthill_food_tokens : (dict)
+      The newly updated (if necessary) collection of food tokens stored by the anthill.
+      Keys are food IDs as strings.
+      Values are integers >= 0
     """
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
       (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, ant)
+      allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
+      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_ANTHILL_FOOD_CHOICE) 
+      anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
+      self.store_food(user_choice_food)
     else:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
       allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
@@ -449,7 +464,7 @@ class Player():
       (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
       self.store_food(food_to_hand)
 
-    return (trail, ant_positions, anthill)
+    return (trail, ant_positions, anthill, anthill_food_tokens)
 
   def goes_to_anthill(self, ant, trail, ant_positions):
     """Defines whether the chosen ant will move onto the anthill or not.
@@ -486,3 +501,43 @@ class Player():
       return True
     else:
       return False
+
+  def define_allowed_choices_anthill_food(self, anthill_food_tokens):
+    """Provides the list of permitted food-picking options to the player
+
+    Determines which food tokens are available to collect when 
+    placing an ant on the anthill.
+    Any food token that is present in the anthill food tokens is available for collection.
+    
+    Parameters
+    ----------
+    anthill_food_tokens : (dict)
+      The remaining food tokens at the anthill which the players will choose from
+      Keys are food IDs as strings
+      Values are integers >= 0
+
+    Returns
+    -------
+    allowed_choices_anthill_food : (list)
+      All of the keys from anthill_food_tokens whose values are >= 1
+      Elements are food IDs as strings.
+    """
+    allowed_choices_anthill_food = [k for k, v in anthill_food_tokens.items() if v >= 1]
+    return allowed_choices_anthill_food
+
+  def take_food_from_anthill(self, anthill_food_tokens, user_choice_food):
+    """Remove the player's chosen food token from the anthill supply
+
+    Parameters
+    ----------
+    anthill_food_tokens : (dict)
+      The remaining food tokens at the anthill which the players will choose from
+      Keys are food IDs as strings
+      Values are integers >= 0
+
+    user_choice_food : (string)
+      The ID of the choice the player has made
+      In this case, a food type.
+    """
+    anthill_food_tokens[user_choice_food] -= 1
+    return anthill_food_tokens

@@ -336,6 +336,26 @@ class MakeChoiceTest(unittest.TestCase):
     print_patcher.stop()
     input_patcher.stop()
 
+  def test_check_make_choice_allows_user_to_choose_food_from_anthill(self):
+    # test 123
+    mario = Player("Mario")
+    allowed_choices = ["cheese", "grapes"]
+    prompt_text = "please enter your choice of food"
+    print_patcher = mock.patch('builtins.print')
+    input_patcher = mock.patch('builtins.input', return_value = "cheese")
+    print_mock = print_patcher.start()
+    input_mock = input_patcher.start()
+    mario.make_choice(allowed_choices, prompt_text)
+    self.assertEqual(print_mock.call_count, 3)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nThe available options are:"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("cheese"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("grapes"))
+    self.assertEqual(input_mock.call_count, 1)
+    self.assertEqual(input_mock.call_args_list[0], mock.call("Mario; please enter your choice of food: "))
+    self.assertEqual(mario.user_choice, "cheese")
+    print_patcher.stop()
+    input_patcher.stop()
+
 class MoveAntAlongTrailTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
     # test 10
@@ -701,7 +721,6 @@ class DefineAllowedChoicesDirectionTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
-
 class TakeTurnTest(unittest.TestCase):
   def test_single_ant_moves_to_centre_of_three_element_trail_picks_front(self):
     # test 66
@@ -710,11 +729,14 @@ class TakeTurnTest(unittest.TestCase):
     mario = Player("mario")
     trail = ["pepper", "apple", "cheese"]
     ant_positions = {"red": None}
+    anthill_food_tokens = {}
     input_patcher = mock.patch('builtins.input', side_effect = ["red", "front"])
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     # When
-    (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
-      mario.take_turn(trail, ant_positions, anthill)
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
+      mario.take_turn(trail, ant_positions, anthill, anthill_food_tokens)
     # Then
     expected_new_hand = {"cheese": 1}
     expected_new_trail = ["pepper", "apple", None]
@@ -725,6 +747,7 @@ class TakeTurnTest(unittest.TestCase):
     self.assertEqual(actual_new_anthill, expected_new_anthill)
     self.assertEqual(mario.hand, expected_new_hand)
     input_patcher.stop()
+    print_patcher.stop()
 
   def test_single_ant_moves_from_centre_of_three_element_trail_onto_anthill(self):
     # test 67
@@ -734,20 +757,29 @@ class TakeTurnTest(unittest.TestCase):
     mario.hand = {"cheese": 1}
     trail = ["pepper", "apple", None]
     ant_positions = {"red": 1}
-    input_patcher = mock.patch('builtins.input', return_value = "red")
+    anthill_food_tokens = {"pepper": 1, "bread": 1}
+    user_choice_ant = "red"
+    user_choice_anthill_food = "bread"
+    input_patcher = mock.patch('builtins.input', side_effect = [user_choice_ant, user_choice_anthill_food])
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     # When
-    (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
-      mario.take_turn(trail, ant_positions, anthill)
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
+      mario.take_turn(trail, ant_positions, anthill, anthill_food_tokens)
     # Then
     expected_new_trail = trail
     expected_new_ant_positions = {"red": "anthill"}
     expected_new_anthill = ["red"]
+    expected_new_anthill_food = {"pepper": 1, "bread": 0}
+    expected_new_hand = {"cheese": 1, "bread": 1}
     self.assertEqual(actual_new_trail, expected_new_trail)
     self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
-    self.assertEqual(mario.hand, {"cheese": 1})
+    self.assertEqual(mario.hand, {"cheese": 1, "bread": 1})
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
     input_patcher.stop()
+    print_patcher.stop()
 
 class GoesToAnthillTest(unittest.TestCase):
   def test_returns_true_when_ant_is_at_end_of_trail(self):
@@ -799,6 +831,66 @@ class GoesToAnthillTest(unittest.TestCase):
     actual_return = mario.goes_to_anthill(ant, trail, ant_positions)
     expected_return = True
     self.assertEqual(actual_return, expected_return)
+
+class DefineAllowedChoicesAnthillFoodTest(unittest.TestCase):
+  def test_define_allowed_choices_anthill_test_returns_a_list(self):
+    # test 119
+    mario = Player("Mario")
+    anthill_food_tokens = {}
+    self.assertIsInstance(mario.define_allowed_choices_anthill_food(
+      anthill_food_tokens), list)
+
+  def test_anthill_has_one_token_and_allowed_choices_shows_this_token(self):
+    # test 120
+    mario = Player("Mario")
+    anthill_food_tokens = {"cheese": 1}
+    expected_allowed_choices = ["cheese"]
+    self.assertEqual(mario.define_allowed_choices_anthill_food(
+      anthill_food_tokens), expected_allowed_choices)
+
+  def test_anthill_has_one_each_of_two_types_of_food_allowed_choices_shows_both(self):
+    # test 121
+    mario = Player("Mario")
+    anthill_food_tokens = {"cheese": 1, "bread": 1}
+    expected_allowed_choices = [["cheese", "bread"], ["bread", "cheese"]]
+    self.assertIn(mario.define_allowed_choices_anthill_food(
+      anthill_food_tokens), expected_allowed_choices)
+
+  def test_anthill_has_had_one_token_removed_so_v_is_0_for_one_item_this_item_should_not_be_included(self):
+    # test 122
+    mario = Player("Mario")
+    anthill_food_tokens = {"cheese": 1, "bread": 0}
+    expected_allowed_choices = ["cheese"]
+    self.assertEqual(mario.define_allowed_choices_anthill_food(
+      anthill_food_tokens), expected_allowed_choices)
+
+class TakeFoodFromAnthillTest(unittest.TestCase):
+  def test_anthill_has_one_food_and_player_takes_it(self):
+    # test 124
+    mario = Player("Mario")
+    anthill_food = {"cheese": 1}
+    user_choice_food = "cheese"
+    expected_new_anthill_food = {"cheese": 0}
+    actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
+
+  def test_anthill_has_one_each_of_two_food_types_user_picks_one(self):
+    # test 125
+    mario = Player("Mario")
+    anthill_food = {"cheese": 1, "apple": 1}
+    user_choice_food = "cheese"
+    expected_new_anthill_food = {"cheese": 0, "apple": 1}
+    actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
+
+  def test_check_anthill_has_2_of_user_choice_food_and_new_food_dict_has_1(self):
+    # test 126
+    mario = Player("Mario")
+    anthill_food = {"cheese": 2, "apple": 1}
+    user_choice_food = "cheese"
+    expected_new_anthill_food = {"cheese": 1, "apple": 1}
+    actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
