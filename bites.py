@@ -167,6 +167,9 @@ class Bites():
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()
     self.print_ants_positioned_on_anthill_top_down()
+
+    print("\nAnthill food tokens")
+    print(["grapes"])
     
   def print_players_names_and_hands(self):
     """Shows the names of each player and what (if any) food tokens thay have in their hand.
