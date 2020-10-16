@@ -169,7 +169,13 @@ class Bites():
     self.print_ants_positioned_on_anthill_top_down()
 
     print("\nAnthill food tokens")
-    print(list(self.anthill_food_tokens.keys()))
+    list_of_anthill_food_tokens = []
+    for k, v in self.anthill_food_tokens.items():
+      # if v > 0:
+      for n in range(v):
+        list_of_anthill_food_tokens.append(k)
+    print(list_of_anthill_food_tokens)
+    # print(list(i = k * v for k, v in self.anthill_food_tokens.items()))
     
   def print_players_names_and_hands(self):
     """Shows the names of each player and what (if any) food tokens thay have in their hand.
