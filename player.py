@@ -510,4 +510,5 @@ class Player():
     return allowed_choices_anthill_food
 
   def take_food_from_anthill(self, anthill_food_tokens, user_choice_food):
-    return {"cheese": 0}
+    anthill_food_tokens[user_choice_food] -= 1
+    return anthill_food_tokens
