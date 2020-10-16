@@ -488,5 +488,5 @@ class Player():
       return False
 
   def define_allowed_choices_anthill_food(self, anthill_food_tokens):
-    allowed_choices_anthill_food = [k for k, v in anthill_food_tokens.items()]
+    allowed_choices_anthill_food = [k for k, v in anthill_food_tokens.items() if v >= 1]
     return allowed_choices_anthill_food

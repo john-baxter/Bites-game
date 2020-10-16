@@ -823,6 +823,13 @@ class DefineAllowedChoicesAnthillFoodTest(unittest.TestCase):
     self.assertIn(mario.define_allowed_choices_anthill_food(
       anthill_food_tokens), expected_allowed_choices)
 
+  def test_anthill_has_had_one_token_removed_so_v_is_0_for_one_item_this_item_should_not_be_included(self):
+    # test 122
+    mario = Player("Mario")
+    anthill_food_tokens = {"cheese": 1, "bread": 0}
+    expected_allowed_choices = ["cheese"]
+    self.assertEqual(mario.define_allowed_choices_anthill_food(
+      anthill_food_tokens), expected_allowed_choices)
 
 
 
