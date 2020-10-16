@@ -729,11 +729,14 @@ class TakeTurnTest(unittest.TestCase):
     mario = Player("mario")
     trail = ["pepper", "apple", "cheese"]
     ant_positions = {"red": None}
+    anthill_food_tokens = {}
     input_patcher = mock.patch('builtins.input', side_effect = ["red", "front"])
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
+    print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
-      mario.take_turn(trail, ant_positions, anthill)
+      mario.take_turn(trail, ant_positions, anthill, anthill_food_tokens)
     # Then
     expected_new_hand = {"cheese": 1}
     expected_new_trail = ["pepper", "apple", None]
@@ -744,6 +747,7 @@ class TakeTurnTest(unittest.TestCase):
     self.assertEqual(actual_new_anthill, expected_new_anthill)
     self.assertEqual(mario.hand, expected_new_hand)
     input_patcher.stop()
+    print_patcher.stop()
 
   def test_single_ant_moves_from_centre_of_three_element_trail_onto_anthill(self):
     # test 67
@@ -756,8 +760,8 @@ class TakeTurnTest(unittest.TestCase):
     anthill_food_tokens = {"pepper": 1, "bread": 1}
     user_choice_ant = "red"
     user_choice_anthill_food = "bread"
-    print_patcher = mock.patch('builtins.print')
     input_patcher = mock.patch('builtins.input', side_effect = [user_choice_ant, user_choice_anthill_food])
+    print_patcher = mock.patch('builtins.print')
     input_mock = input_patcher.start()
     print_mock = print_patcher.start()
     # When
