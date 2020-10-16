@@ -735,7 +735,7 @@ class TakeTurnTest(unittest.TestCase):
     input_mock = input_patcher.start()
     print_mock = print_patcher.start()
     # When
-    (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
       mario.take_turn(trail, ant_positions, anthill, anthill_food_tokens)
     # Then
     expected_new_hand = {"cheese": 1}
@@ -765,9 +765,8 @@ class TakeTurnTest(unittest.TestCase):
     input_mock = input_patcher.start()
     print_mock = print_patcher.start()
     # When
-    (actual_new_trail, actual_new_ant_positions, actual_new_anthill) = \
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
       mario.take_turn(trail, ant_positions, anthill, anthill_food_tokens)
-    actual_new_anthill_food = mario.take_food_from_anthill(anthill_food_tokens, user_choice_anthill_food)
     # Then
     expected_new_trail = trail
     expected_new_ant_positions = {"red": "anthill"}

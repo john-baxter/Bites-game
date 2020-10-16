@@ -134,9 +134,9 @@ class Bites():
     self.render_game()
     while 1:
       for player in self.players:
-        (self.trail, self.ant_positions, self.anthill) = \
+        (self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens) = \
           player.take_turn(
-            self.trail, self.ant_positions, self.anthill)
+            self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens)
         self.render_game()
         if None not in self.anthill: return
 
@@ -232,7 +232,7 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
     """
-    self.anthill_food_tokens = { i : 1 for i in list(tokens_for_trail.keys())}
+    self.anthill_food_tokens = { token : 1 for token in tokens_for_trail}
     return self.anthill_food_tokens
 
   def print_anthill_food_tokens(self):
