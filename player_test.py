@@ -831,7 +831,5 @@ class DefineAllowedChoicesAnthillFoodTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_anthill_food(
       anthill_food_tokens), expected_allowed_choices)
 
-
-
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

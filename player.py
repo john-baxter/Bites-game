@@ -488,5 +488,23 @@ class Player():
       return False
 
   def define_allowed_choices_anthill_food(self, anthill_food_tokens):
+    """Provides the list of permitted food-picking options to the player
+
+    Determines which food tokens are available to collect when 
+    placing an ant on the anthill.
+
+    Parameters
+    ----------
+    anthill_food_tokens : (dict)
+      The remaining food tokens at the anthill which the players will choose from
+      Keys are food IDs as strings
+      Values are integers >= 0
+
+    Returns
+    -------
+    allowed_choices_anthill_food : (list)
+      All of the keys from anthill_food_tokens whose values are >= 1
+      Elements are food IDs as strings.
+    """
     allowed_choices_anthill_food = [k for k, v in anthill_food_tokens.items() if v >= 1]
     return allowed_choices_anthill_food
