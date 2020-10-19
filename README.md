@@ -74,7 +74,7 @@ These can be run by:
 
 ## [^](#code-written-by-john-baxter)How to use
 If you want to try out this game app, the following steps are required.
-(Instructions are specific to using a MacOS, other interfaces may require different/analogous steps.)\
+(Instructions are specific to using a MacOS, other interfaces may require different/analogous steps.)
 
 1. Clone this repository to your own machine.
 1. Open a terminal window and navigate to the local version of the repo.
