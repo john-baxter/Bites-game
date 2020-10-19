@@ -5,12 +5,11 @@
 Liaise with Peter about the front-end
 
 ### Current
-Player can collect food from the anthill when they move an any onto it
-
-### Next
 Update README.md
 - specify python version
 - give list of packages used
+
+### Next
 Create the different options for anthill order:
 - bottom-to-top filling
 - specific order of 4, 2, 0, 3, 1 filling
