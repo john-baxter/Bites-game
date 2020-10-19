@@ -38,10 +38,10 @@ The project currently has the following features:
 - Ants fill the anthill from top to bottom
 
 ## Code example
+<!-- TO DO (Continuous) -->
+<!-- Check that the line ref in this link is correct; it will change if there is any insertion before itin the player.py file. -->
 The following example shows the method within the 
-<!-- [Player class](./player.py)  -->
 [Player class](./player.py#L142) 
-<!-- [Player class](./player.py Player.move_ant_along_trail) -->
 which is used after the choice of which ant to move has been made; and is responsible for defining at what position the ant's move will be completed.\
 <b>NB</b> The actual method in [player.py](./player.py) file contains internal documentation whach has been ommited from this example for clarity.
 
@@ -61,13 +61,16 @@ def move_ant_along_trail(self, trail, ant_positions, ant):
     return ant_positions
 ```
 
-## Installation
+<!-- ## Installation -->
 
-## API reference
+<!-- ## API reference -->
 
 ## Tests
+The whole project has been created using TDD. The tests are written using Python3's built-in testing framework:
+- `unittest`
 
 ## How to use
+
 
 ## Contribute
 
