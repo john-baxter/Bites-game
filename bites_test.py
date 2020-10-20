@@ -205,25 +205,26 @@ class TakeAllTurnsTest(unittest.TestCase):
     expected_new_anthill_food_tokens = starting_anthill_food_tokens
     
     fake_mario = mock.MagicMock()
-    fake_mario.take_turn = mock.MagicMock(side_effect = [(
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario),
-      ([], {}, [], {})])
-    
+    players = [fake_mario]
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {}
-    players = [fake_mario]
+    
     bites_game = Bites(ants, tokens_for_trail, players)
-
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
     bites_game.anthill_food_tokens = starting_anthill_food_tokens
-
+    bites_game.anthill_order = [4, 3, 2, 1, 0]
+    
+    fake_mario.take_turn = mock.MagicMock(side_effect = [(
+      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario),
+      ([], {}, [], [4, 3, 2, 1, 0], {})])
+    
     bites_game.take_all_turns()
 
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
-      starting_trail, starting_ant_positions, starting_anthill, starting_anthill_food_tokens))
+      starting_trail, starting_ant_positions, starting_anthill, bites_game.anthill_order, starting_anthill_food_tokens))
     self.assertGreaterEqual(render_game_mock.call_count, 2)
   
   @patch('bites.Bites.render_game')
@@ -272,10 +273,6 @@ class TakeAllTurnsTest(unittest.TestCase):
       "purple": None}
     anthill_after_turn_1_mario = starting_anthill
     anthill_food_tokens_after_turn_1_mario = starting_anthill_food_tokens
-    fake_mario = mock.MagicMock()
-    fake_mario.take_turn = mock.MagicMock(side_effect = [(
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario),
-      ([], {}, [], {})])
     
     trail_after_turn_2_luigi = [
       "apple", 
@@ -296,32 +293,39 @@ class TakeAllTurnsTest(unittest.TestCase):
       "purple": None}
     anthill_after_turn_2_luigi = starting_anthill
     anthill_food_tokens_after_turn_2_luigi = starting_anthill_food_tokens
-    fake_luigi = mock.MagicMock()
-    fake_luigi.take_turn = mock.MagicMock(return_value = (
-      trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, anthill_food_tokens_after_turn_2_luigi))
-    
-    ants = ["red", "yellow", "green", "brown", "purple"]
-    tokens_for_trail = {}
-    players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, tokens_for_trail, players)
     
     expected_new_trail = trail_after_turn_2_luigi
     expected_new_ant_positions = ant_pos_after_turn_2_luigi
     expected_new_anthill = starting_anthill
     expected_new_anthill_food_tokens = starting_anthill_food_tokens
-
+    
+    fake_mario = mock.MagicMock()
+    fake_luigi = mock.MagicMock()
+    players = [fake_mario, fake_luigi]
+    ants = ["red", "yellow", "green", "brown", "purple"]
+    tokens_for_trail = {}
+    bites_game = Bites(ants, tokens_for_trail, players)
+    
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
+    bites_game.anthill_order = [4, 3, 2, 1, 0]
+    
+    fake_mario.take_turn = mock.MagicMock(side_effect = [(
+      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario),
+      ([], {}, [], [4, 3, 2, 1, 0], {})])
+    
+    fake_luigi.take_turn = mock.MagicMock(return_value = (
+      trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, bites_game.anthill_order, anthill_food_tokens_after_turn_2_luigi))
     
     bites_game.take_all_turns()
     
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
-      starting_trail, starting_ant_positions, starting_anthill, starting_anthill_food_tokens))
+      starting_trail, starting_ant_positions, starting_anthill, bites_game.anthill_order, starting_anthill_food_tokens))
     self.assertGreaterEqual(fake_luigi.take_turn.call_count, 1)
     self.assertEqual(fake_luigi.take_turn.call_args_list[0], mock.call(
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario))
+      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario))
     self.assertGreaterEqual(render_game_mock.call_count, 3)
 
   @patch('bites.Bites.render_game')
@@ -440,36 +444,37 @@ class TakeAllTurnsTest(unittest.TestCase):
 
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {}
-    
     fake_mario = mock.MagicMock()
-    fake_mario.take_turn = mock.MagicMock(side_effect = [
-      (trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario),
-      (trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario, anthill_food_tokens_after_turn_3_mario),
-      ([], {}, [], {})])
-
     fake_luigi = mock.MagicMock()
-    fake_luigi.take_turn = mock.MagicMock(side_effect = [
-      (trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, anthill_food_tokens_after_turn_2_luigi),
-      (trail_after_turn_4_luigi, ant_pos_after_turn_4_luigi, anthill_after_turn_4_luigi, anthill_food_tokens_after_turn_4_luigi)])
-    
     players = [fake_mario, fake_luigi]
     bites_game = Bites(ants, tokens_for_trail, players)
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
     bites_game.anthill_food_tokens = starting_anthill_food_tokens
+    bites_game.anthill_order = [4, 3, 2, 1, 0]
+    
+    fake_mario.take_turn = mock.MagicMock(side_effect = [
+      (trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario),
+      (trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_3_mario),
+      ([], {}, [], [4,3,2,1,0], {})])
+
+    fake_luigi.take_turn = mock.MagicMock(side_effect = [
+      (trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, bites_game.anthill_order, anthill_food_tokens_after_turn_2_luigi),
+      (trail_after_turn_4_luigi, ant_pos_after_turn_4_luigi, anthill_after_turn_4_luigi, bites_game.anthill_order, anthill_food_tokens_after_turn_4_luigi)])
+    
     bites_game.take_all_turns()
     
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 2)
     self.assertEqual(fake_luigi.take_turn.call_count, 2)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
-      starting_trail, starting_ant_positions, starting_anthill, starting_anthill_food_tokens))
+      starting_trail, starting_ant_positions, starting_anthill, bites_game.anthill_order, starting_anthill_food_tokens))
     self.assertEqual(fake_luigi.take_turn.call_args_list[0], mock.call(
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario))
+      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario))
     self.assertEqual(fake_mario.take_turn.call_args_list[1], mock.call(
-      trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, anthill_food_tokens_after_turn_2_luigi))
+      trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, bites_game.anthill_order, anthill_food_tokens_after_turn_2_luigi))
     self.assertEqual(fake_luigi.take_turn.call_args_list[1], mock.call(
-      trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario, anthill_food_tokens_after_turn_3_mario))
+      trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_3_mario))
     self.assertGreaterEqual(render_game_mock.call_count, 5)
 
   @patch('bites.Bites.render_game')
@@ -514,23 +519,24 @@ class TakeAllTurnsTest(unittest.TestCase):
     expected_new_anthill = anthill_after_turn_1_mario
     expected_new_anthill_food_tokens = anthill_food_tokens_after_turn_1_mario
 
+    fake_mario = mock.MagicMock()
+    players = [fake_mario]
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {"grapes": 0}
-    
-    fake_mario = mock.MagicMock()
-    fake_mario.take_turn = mock.MagicMock(return_value = (
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario))
-
-    players = [fake_mario]
     bites_game = Bites(ants, tokens_for_trail, players)
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
+    bites_game.anthill_order = [4, 3, 2, 1, 0]
+    
+    fake_mario.take_turn = mock.MagicMock(return_value = (
+      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario))
+
     bites_game.take_all_turns()
 
     self.assertEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
-      starting_trail, starting_ant_positions, starting_anthill, starting_anthill_food_tokens))
+      starting_trail, starting_ant_positions, starting_anthill, bites_game.anthill_order, starting_anthill_food_tokens))
     self.assertEqual(bites_game.trail, expected_new_trail)
     self.assertEqual(bites_game.ant_positions, expected_new_ant_positions)
     self.assertEqual(bites_game.anthill, expected_new_anthill)
