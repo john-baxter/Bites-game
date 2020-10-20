@@ -1,8 +1,5 @@
-from constants import K_COLOUR_V_FOOD_DICT
-from constants import K_FOOD_V_COLOUR_DICT
-from constants import PROMPT_TEXT_ANT_CHOICE
-from constants import PROMPT_TEXT_DIRECTION_CHOICE
-from constants import PROMPT_TEXT_ANTHILL_FOOD_CHOICE
+from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT
+from constants import PROMPT_TEXT_ANT_CHOICE,PROMPT_TEXT_DIRECTION_CHOICE,PROMPT_TEXT_ANTHILL_FOOD_CHOICE
 
 class Player():
   def __init__(self, name):
@@ -176,6 +173,10 @@ class Player():
       Elements will be changed into the IDs of the ants as they reach the anthill.
       Each element is None or string.
 
+    anthill_order : (list)
+      A list defining the order in which the anthill should be filled as ants arrive 
+      throughout the game. 
+
     ant : (string)
       The ID of the ant which is being placed onto the anthill.
 
@@ -295,6 +296,10 @@ class Player():
       Initialised with each element as None.
       Elements will be changed into the IDs of the ants as they reach the anthill.
       Each element is None or string.
+
+    anthill_order : (list)
+      A list defining the order in which the anthill should be filled as ants arrive 
+      throughout the game. 
 
     ant : (string)
       The ID of the ant which is being placed onto the anthill.
@@ -420,6 +425,10 @@ class Player():
       List of equivalent length as the number of ants in the game. 
       Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
       Elements are None or ant IDs as strings.
+
+    anthill_order : (list)
+      A list defining the order in which the anthill should be filled as ants arrive 
+      throughout the game. 
 
     anthill_food_tokens : (dict)
       Contains the record of which and how many of each food token are stored at the anthill.
