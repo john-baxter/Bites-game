@@ -892,5 +892,18 @@ class TakeFoodFromAnthillTest(unittest.TestCase):
     actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
     self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
+class PlaceAntOnAnthillBottomUpTest(unittest.TestCase):
+  def test_first_ant_is_red_and_goes_to_bottom_spot(self):
+    # test 132
+    mario = Player("mario")
+    ant_positions = {"red": 39}
+    anthill = [None, None, None, None, None]
+    ant = "red"
+    expected_new_anthill = ["red", None, None, None, None]
+    expected_new_ant_positions = {"red": "anthill"}
+    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+    self.assertEqual(mario.place_ant_on_anthill_bottom_up(ant_positions, anthill, ant), expected_tuple)
+    
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
