@@ -54,6 +54,7 @@ class Bites():
     self.anthill = self.initialise_anthill(ants)
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(tokens_for_trail)
+    self.anthill_order = [4, 3, 2, 1, 0]
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
@@ -136,7 +137,7 @@ class Bites():
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens) = \
           player.take_turn(
-            self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens)
+            self.trail, self.ant_positions, self.anthill, self.anthill_order, self.anthill_food_tokens)
         self.render_game()
         if None not in self.anthill: return
 
