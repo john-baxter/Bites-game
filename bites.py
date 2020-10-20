@@ -200,6 +200,8 @@ class Bites():
     for i, food in enumerate(self.trail):
       if i in reverse_ant_positions:
         print("%s %s" % (food.ljust(just), reverse_ant_positions[i]))
+      elif food is None:
+        print("--")
       else:
         print(food)
 

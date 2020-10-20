@@ -1014,6 +1014,38 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[4], mock.call(["grapes", "pepper"]))
     print_patcher.stop()
 
+  def test_render_game_replaces_trail_element_None_with_placeholder(self):
+    # test 131
+    ants = []
+    tokens_for_trail = {}
+    players = []
+    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game.trail = [
+      "apple",
+      None,
+      None,
+      "bread",
+      "grapes",
+      "cheese",
+      None]
+    bites_game.ant_positions = {"yellow": "anthill"}
+    bites_game.anthill = []
+    bites_game.anthill_food_tokens = {}
+
+    print_patcher = mock.patch('builtins.print')
+    print_mock = print_patcher.start()
+    bites_game.render_game()
+    self.assertGreaterEqual(print_mock.call_count, 7)
+    self.assertEqual(print_mock.call_args_list[2], mock.call("apple"))
+    self.assertEqual(print_mock.call_args_list[3], mock.call("--"))
+    self.assertEqual(print_mock.call_args_list[4], mock.call("--"))
+    self.assertEqual(print_mock.call_args_list[5], mock.call("bread"))
+    self.assertEqual(print_mock.call_args_list[6], mock.call("grapes"))
+    self.assertEqual(print_mock.call_args_list[7], mock.call("cheese"))
+    self.assertEqual(print_mock.call_args_list[8], mock.call("--"))
+
+    print_patcher.stop()
+
 class InitialiseAnthillFoodTokensTest(unittest.TestCase):
   # test 116
   def test_anthill_can_store_food_tokens_in_dict(self):
