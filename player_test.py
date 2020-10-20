@@ -915,7 +915,16 @@ class PlaceAntOnAnthillBottomUpTest(unittest.TestCase):
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.place_ant_on_anthill_bottom_up(ant_positions, anthill, ant), expected_tuple)
 
-
+  def test_bottom_spot_occupied_second_ant_is_added(self):
+    # test 134
+    mario = Player("Mario")
+    ant_positions = {"green": 39}
+    anthill = ["red", None, None, None, None]
+    ant = "green"
+    expected_new_anthill = ["red", "green", None, None, None]
+    expected_new_ant_positions = {"green": "anthill"}
+    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+    self.assertEqual(mario.place_ant_on_anthill_bottom_up(ant_positions, anthill, ant), expected_tuple)
 
 
 

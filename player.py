@@ -543,6 +543,9 @@ class Player():
     return anthill_food_tokens
 
   def place_ant_on_anthill_bottom_up(self, ant_positions, anthill, ant):
-    anthill[0] = ant
+    for i in range(len(anthill)):
+      if anthill[i] is None:
+        anthill[i] = ant
+        break
     ant_positions[ant] = "anthill"
     return (anthill, ant_positions)
