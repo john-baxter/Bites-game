@@ -253,4 +253,3 @@ class Bites():
         for n in range(v):
           list_of_anthill_food_tokens.append(k)
       print(list_of_anthill_food_tokens)
-
