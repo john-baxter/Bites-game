@@ -543,5 +543,6 @@ class Player():
     return anthill_food_tokens
 
   def place_ant_on_anthill_bottom_up(self, ant_positions, anthill, ant):
-    return (["red", None, None, None, None], {"red": "anthill"})
-    pass
+    anthill[0] = ant
+    ant_positions[ant] = "anthill"
+    return (anthill, ant_positions)
