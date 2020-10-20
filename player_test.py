@@ -402,61 +402,114 @@ class MoveAntAlongTrailTest(unittest.TestCase):
     expected_new_ant_positions = {"red": 2, "purple": 1}
     self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
 
-class PlaceAntOnAnthillTopDownTest(unittest.TestCase):
+class PlaceAntOnAnthillTest(unittest.TestCase):
   def test_first_ant_is_red_and_goes_to_top_spot(self):
     # test 32
     mario = Player("mario")
     ant_positions = {"red": 39}
     anthill = [None, None, None, None, None]
+    anthill_order = [4, 3, 2, 1, 0]
     ant = "red"
     expected_new_anthill = [None, None, None, None, "red"]
     expected_new_ant_positions = {"red": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill_top_down(ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
   def test_first_ant_is_green_and_goes_to_top_spot(self):
     # test 33
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
+    anthill_order = [4, 3, 2, 1, 0]
     ant = "green"
     expected_new_anthill = [None, None, None, None, "green"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill_top_down(ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
   def test_top_spot_occupied_second_ant_is_added(self):
     # test 34
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, "red"]
+    anthill_order = [4, 3, 2, 1, 0]
     ant = "green"
     expected_new_anthill = [None, None, None, "green", "red"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill_top_down(ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
   def test_four_spots_occupied_add_fifth_ant(self):
     # test 35
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, "purple", "yellow", "brown", "red"]
+    anthill_order = [4, 3, 2, 1, 0]
     ant = "green"
     expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill_top_down(ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
   def test_ant_position_is_updated_to_show_it_is_on_anthill(self):
     # test 50
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
+    anthill_order = [4, 3, 2, 1, 0]
     ant = "green"
     expected_new_anthill = [None, None, None, None, "green"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill_top_down(ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+
+  def test_first_ant_is_red_and_goes_to_bottom_spot(self):
+    # test 132
+    mario = Player("mario")
+    ant_positions = {"red": 39}
+    anthill = [None, None, None, None, None]
+    anthill_order = [0, 1, 2, 3, 4]
+    ant = "red"
+    expected_new_anthill = ["red", None, None, None, None]
+    expected_new_ant_positions = {"red": "anthill"}
+    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+
+  def test_first_ant_is_green_and_goes_to_bottom_spot(self):
+    # test 133
+    mario = Player("mario")
+    ant_positions = {"green": 39}
+    anthill = [None, None, None, None, None]
+    anthill_order = [0, 1, 2, 3, 4]
+    ant = "green"
+    expected_new_anthill = ["green", None, None, None, None]
+    expected_new_ant_positions = {"green": "anthill"}
+    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+
+  def test_bottom_spot_occupied_second_ant_is_added(self):
+    # test 134
+    mario = Player("Mario")
+    ant_positions = {"green": 39}
+    anthill = ["red", None, None, None, None]
+    anthill_order = [0, 1, 2, 3, 4]
+    ant = "green"
+    expected_new_anthill = ["red", "green", None, None, None]
+    expected_new_ant_positions = {"green": "anthill"}
+    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+
+  def test_check_spots_0_to_3_occupied_add_fifth_ant(self):
+    # test 135
+    mario = Player("Mario")
+    ant_positions = {"green": 39}
+    anthill = ["red", "purple", "yellow", "brown", None]
+    anthill_order = [0, 1, 2, 3, 4]
+    ant = "green"
+    expected_new_anthill = ["red", "purple", "yellow", "brown", "green"]
+    expected_new_ant_positions = {"green": "anthill"}
+    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
 class TakeFoodFromTrailTest(unittest.TestCase):
   def test_single_ant_on_trail_can_take_food_in_front(self):
@@ -523,10 +576,11 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple"]
     ant_positions = {"red": None}
     anthill = []
+    anthill_order = []
     ant = "red"
     expected_new_ant_positions = {"red": 0}
     expected_tuple = (anthill, expected_new_ant_positions)
-    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, anthill_order, ant), expected_tuple)
 
   def test_can_use_move_ant_along_trail_to_make_typical_move(self):
     # test 48
@@ -534,22 +588,24 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple", "grapes", "apple"]
     ant_positions = {"red": 0}
     anthill = []
+    anthill_order = []
     ant = "red"
     expected_new_ant_positions = {"red": 2}
     expected_tuple = (anthill, expected_new_ant_positions)
-    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, anthill_order, ant), expected_tuple)
 
-  def test_can_use_place_ant_on_anthill_top_down_to_make_ants_final_move(self):
+  def test_can_use_place_ant_on_anthill_to_make_ants_final_move(self):
     # test 49
     mario = Player("mario")
     trail = ["apple", "grapes", "apple"]
     ant_positions = {"red": 0, "purple": 1}
     anthill = [None, None, None, None, None]
+    anthill_order = [4, 3, 2, 1, 0]
     ant = "purple"
     expected_new_anthill = [None, None, None, None, "purple"]
     expected_new_ant_positions = {"red": 0, "purple": "anthill"}
     expected_tuple  = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, anthill_order, ant), expected_tuple)
 
   def test_ant_moves_from_start_to_anthill_if_none_of_its_food_in_trail(self):
     # test 51
@@ -557,11 +613,12 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple", "grapes", "cheese", "bread"]
     ant_positions = {"green": None}
     anthill = [None, None, None, None, None]
+    anthill_order = [4, 3, 2, 1, 0]
     ant = "green"
     expected_new_anthill = [None, None, None, None, "green"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple  = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, ant), expected_tuple)
+    self.assertEqual(mario.move_ant(trail, ant_positions, anthill, anthill_order, ant), expected_tuple)
 
 class DefineAllowedChoicesAntsTest(unittest.TestCase):
   def test_define_allowed_choices_ants_returns_a_list(self):
@@ -729,6 +786,7 @@ class TakeTurnTest(unittest.TestCase):
     mario = Player("mario")
     trail = ["pepper", "apple", "cheese"]
     ant_positions = {"red": None}
+    anthill_order = [4, 3, 2, 1, 0]
     anthill_food_tokens = {}
     input_patcher = mock.patch('builtins.input', side_effect = ["red", "front"])
     print_patcher = mock.patch('builtins.print')
@@ -736,7 +794,7 @@ class TakeTurnTest(unittest.TestCase):
     print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_food_tokens)
+      mario.take_turn(trail, ant_positions, anthill, anthill_order, anthill_food_tokens)
     # Then
     expected_new_hand = {"cheese": 1}
     expected_new_trail = ["pepper", "apple", None]
@@ -758,6 +816,7 @@ class TakeTurnTest(unittest.TestCase):
     trail = ["pepper", "apple", None]
     ant_positions = {"red": 1}
     anthill_food_tokens = {"pepper": 1, "bread": 1}
+    anthill_order = [0]
     user_choice_ant = "red"
     user_choice_anthill_food = "bread"
     input_patcher = mock.patch('builtins.input', side_effect = [user_choice_ant, user_choice_anthill_food])
@@ -766,7 +825,7 @@ class TakeTurnTest(unittest.TestCase):
     print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_food_tokens)
+      mario.take_turn(trail, ant_positions, anthill, anthill_order, anthill_food_tokens)
     # Then
     expected_new_trail = trail
     expected_new_ant_positions = {"red": "anthill"}
@@ -892,40 +951,55 @@ class TakeFoodFromAnthillTest(unittest.TestCase):
     actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
     self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
-class PlaceAntOnAnthillBottomUpTest(unittest.TestCase):
-  def test_first_ant_is_red_and_goes_to_bottom_spot(self):
-    # test 132
-    mario = Player("mario")
-    ant_positions = {"red": 39}
-    anthill = [None, None, None, None, None]
-    ant = "red"
-    expected_new_anthill = ["red", None, None, None, None]
-    expected_new_ant_positions = {"red": "anthill"}
-    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill_bottom_up(ant_positions, anthill, ant), expected_tuple)
+# class PlaceAntOnAnthillBottomUpTest(unittest.TestCase):
+#   pass
+  # def test_first_ant_is_red_and_goes_to_bottom_spot(self):
+  #   # test 132
+  #   mario = Player("mario")
+  #   ant_positions = {"red": 39}
+  #   anthill = [None, None, None, None, None]
+  #   anthill_order = [0, 1, 2, 3, 4]
+  #   ant = "red"
+  #   expected_new_anthill = ["red", None, None, None, None]
+  #   expected_new_ant_positions = {"red": "anthill"}
+  #   expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+  #   self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
-  def test_first_ant_is_green_and_goes_to_bottom_spot(self):
-    # test 133
-    mario = Player("mario")
-    ant_positions = {"green": 39}
-    anthill = [None, None, None, None, None]
-    ant = "green"
-    expected_new_anthill = ["green", None, None, None, None]
-    expected_new_ant_positions = {"green": "anthill"}
-    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill_bottom_up(ant_positions, anthill, ant), expected_tuple)
+  # def test_first_ant_is_green_and_goes_to_bottom_spot(self):
+  #   # test 133
+  #   mario = Player("mario")
+  #   ant_positions = {"green": 39}
+  #   anthill = [None, None, None, None, None]
+  #   anthill_order = [0, 1, 2, 3, 4]
+  #   ant = "green"
+  #   expected_new_anthill = ["green", None, None, None, None]
+  #   expected_new_ant_positions = {"green": "anthill"}
+  #   expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+  #   self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
-  def test_bottom_spot_occupied_second_ant_is_added(self):
-    # test 134
-    mario = Player("Mario")
-    ant_positions = {"green": 39}
-    anthill = ["red", None, None, None, None]
-    ant = "green"
-    expected_new_anthill = ["red", "green", None, None, None]
-    expected_new_ant_positions = {"green": "anthill"}
-    expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill_bottom_up(ant_positions, anthill, ant), expected_tuple)
+  # def test_bottom_spot_occupied_second_ant_is_added(self):
+  #   # test 134
+  #   mario = Player("Mario")
+  #   ant_positions = {"green": 39}
+  #   anthill = ["red", None, None, None, None]
+  #   anthill_order = [0, 1, 2, 3, 4]
+  #   ant = "green"
+  #   expected_new_anthill = ["red", "green", None, None, None]
+  #   expected_new_ant_positions = {"green": "anthill"}
+  #   expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+  #   self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
+  # def test_check_spots_0_to_3_occupied_add_fifth_ant(self):
+  #   # test 135
+  #   mario = Player("Mario")
+  #   ant_positions = {"green": 39}
+  #   anthill = ["red", "purple", "yellow", "brown", None]
+  #   anthill_order = [0, 1, 2, 3, 4]
+  #   ant = "green"
+  #   expected_new_anthill = ["red", "purple", "yellow", "brown", "green"]
+  #   expected_new_ant_positions = {"green": "anthill"}
+  #   expected_tuple = (expected_new_anthill, expected_new_ant_positions)
+  #   self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
 
 
