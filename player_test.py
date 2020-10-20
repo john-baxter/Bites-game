@@ -403,6 +403,8 @@ class MoveAntAlongTrailTest(unittest.TestCase):
     self.assertEqual(mario.move_ant_along_trail(trail, ant_positions, ant), expected_new_ant_positions)
 
 class PlaceAntOnAnthillTest(unittest.TestCase):
+  """Anthill filling order is top-to-bottom
+  """
   def test_first_ant_is_red_and_goes_to_top_spot(self):
     # test 32
     mario = Player("mario")
@@ -475,6 +477,8 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
+  """Anthill filling order is bottom-to-top
+  """
   def test_first_ant_is_green_and_goes_to_bottom_spot(self):
     # test 133
     mario = Player("mario")
@@ -510,6 +514,55 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+
+  """Anthill filling order is 4-2-0-3-1
+  """
+  def test_check_ants_can_fill_anthill_in_order_4_2_0_3_1(self):
+    # test 136
+    starting_ant_positions = {"red": None, "green": None, "yellow": None, "purple": None, "brown": None}
+    starting_anthill = [None, None, None, None, None]
+    anthill_order = [4, 2, 0, 3, 1]
+    first_ant = "red"
+
+    anthill_after_turn_1 =[None, None, None, None, "red"]
+    ant_pos_after_turn_1 = {"red": "anthill", "green": None, "yellow": None, "purple": None, "brown": None}
+    secont_ant = "green"
+
+    anthill_after_turn_2 = [None, None, "green", None, "red"]
+    ant_pos_after_turn_2 = {"red": "anthill", "green": "anthill", "yellow": None, "purple": None, "brown": None}
+    third_ant = "yellow"
+
+    anthill_after_turn_3 = ["yellow", None, "green", None, "red"]
+    ant_pos_after_turn_3 = {"red": "anthill", "green": "anthill", "yellow": "anthill", "purple": None, "brown": None}
+    fourth_ant = "purple"
+
+    anthill_after_turn_4 = ["yellow", None, "green", "purple", "red"]
+    ant_pos_after_turn_4 = {"red": "anthill", "green": "anthill", "yellow": "anthill", "purple": "anthill", "brown": None}
+    fifth_ant = "brown"
+
+    anthill_after_turn_5 = ["yellow", "brown", "green", "purple", "red"]
+    ant_pos_after_turn_5 = {"red": "anthill", "green": "anthill", "yellow": "anthill", "purple": "anthill", "brown": "anthill"}
+
+    expected_end_anthill = anthill_after_turn_5
+    expected_end_ant_pos = ant_pos_after_turn_5
+
+    mario = Player("Mario")
+
+    self.assertEqual(mario.place_ant_on_anthill(
+      starting_ant_positions, starting_anthill, anthill_order, first_ant), (
+        anthill_after_turn_1, ant_pos_after_turn_1))
+    self.assertEqual(mario.place_ant_on_anthill(
+      ant_pos_after_turn_1, anthill_after_turn_1, anthill_order , secont_ant), (
+        anthill_after_turn_2, ant_pos_after_turn_2))
+    self.assertEqual(mario.place_ant_on_anthill(
+      ant_pos_after_turn_2, anthill_after_turn_2, anthill_order, third_ant), (
+        anthill_after_turn_3, ant_pos_after_turn_3))
+    self.assertEqual(mario.place_ant_on_anthill(
+      ant_pos_after_turn_3, anthill_after_turn_3, anthill_order, fourth_ant), (
+        anthill_after_turn_4, ant_pos_after_turn_4))
+    self.assertEqual(mario.place_ant_on_anthill(
+      ant_pos_after_turn_4, anthill_after_turn_4, anthill_order, fifth_ant), (
+        expected_end_anthill, expected_end_ant_pos))
 
 class TakeFoodFromTrailTest(unittest.TestCase):
   def test_single_ant_on_trail_can_take_food_in_front(self):
