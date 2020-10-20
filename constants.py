@@ -88,5 +88,5 @@ MAX_PLAYERS = 5
 ANTHILL_ORDER_TOP_DOWN = [4, 3, 2, 1, 0]
 ANTHILL_ORDER_BOTTOM_UP = [0, 1, 2, 3, 4]
 ANTHILL_ORDER_LEAVE_GAPS = [4, 2, 0, 3, 1]
-"""The various lists that are used to determine the orser that the anthill is filled
+"""The various lists that are used to determine the order that the anthill is filled
 """
