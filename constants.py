@@ -83,3 +83,9 @@ MIN_PLAYERS = 2
 MAX_PLAYERS = 5
 """As per the standard rules of the game, these many players must take part.
 """
+
+
+ANTHILL_ORDER_TOP_DOWN = [4, 3, 2, 1, 0]
+ANTHILL_ORDER_BOTTOM_UP = [0, 1, 2, 3, 4]
+"""The various lists that are used to determine the orser that the anthill is filled
+"""

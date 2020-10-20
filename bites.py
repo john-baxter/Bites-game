@@ -1,5 +1,6 @@
 import random
 from constants import K_COLOUR_V_FOOD_DICT
+from constants import ANTHILL_ORDER_TOP_DOWN
 
 class Bites():
   def __init__(self, ants, tokens_for_trail, players):
@@ -58,7 +59,7 @@ class Bites():
     self.anthill = self.initialise_anthill(ants)
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(tokens_for_trail)
-    self.anthill_order = [4, 3, 2, 1, 0]
+    self.anthill_order = ANTHILL_ORDER_TOP_DOWN
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
