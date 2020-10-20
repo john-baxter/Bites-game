@@ -152,7 +152,7 @@ class Player():
 
     return ant_positions
 
-  def place_ant_on_anthill(self, ant_positions, anthill, ant):
+  def place_ant_on_anthill_top_down(self, ant_positions, anthill, ant):
     """Insect meeple goes on correct level of home structure
 
     The method operates as per the "Overachiever" card from the game. This places ants 
@@ -319,11 +319,11 @@ class Player():
           Values are ant position as None or int or "anthill"
     """
     if ant_positions[ant] is None and K_COLOUR_V_FOOD_DICT[ant] not in trail:
-      return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)
+      return_tuple = self.place_ant_on_anthill_top_down(ant_positions, anthill, ant)
     elif ant_positions[ant] is None:
       return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
     elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]+1:]:
-      return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)
+      return_tuple = self.place_ant_on_anthill_top_down(ant_positions, anthill, ant)
     else:
       return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
     
@@ -452,7 +452,7 @@ class Player():
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
-      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, ant)
+      (anthill, ant_positions) = self.place_ant_on_anthill_top_down(ant_positions, anthill, ant)
       allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
       user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_ANTHILL_FOOD_CHOICE) 
       anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
