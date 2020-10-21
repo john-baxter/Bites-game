@@ -1,5 +1,6 @@
 from constants import MIN_PLAYERS, MAX_PLAYERS
 from constants import ANTS, TOKENS_FOR_TRAIL
+from constants import ANTHILL_ORDER_TOP_DOWN
 from player import Player
 from bites import Bites
 
@@ -68,6 +69,9 @@ def start_new_game():
   players = prepare_list_of_players()
   play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players)
   play_bites.play_full_game()
+
+def choose_anthill_rule():
+  return ANTHILL_ORDER_TOP_DOWN
 
 if __name__ == '__main__':
   start_new_game()

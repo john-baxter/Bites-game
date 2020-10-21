@@ -6,6 +6,8 @@ from controller import enter_number_of_players
 from controller import generate_player
 from controller import prepare_list_of_players
 from controller import start_new_game
+from controller import choose_anthill_rule
+from constants import ANTHILL_ORDER_TOP_DOWN
 
 class EnterNumberOfPlayersTest(unittest.TestCase):
   # test 99
@@ -135,6 +137,13 @@ class StartNewGameTest(unittest.TestCase):
     # test 112
     start_new_game()
     mock_bites_play.assert_called_once()
+
+class ChooseAnthillRuleTest(unittest.TestCase):
+  def test_choose_anthill_rule_allows_choice_of_top_down_option(self):
+    # test 137
+    expected_result = ANTHILL_ORDER_TOP_DOWN
+    self.assertEqual(choose_anthill_rule(), expected_result)
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
