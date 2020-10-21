@@ -13,7 +13,8 @@ class BitesInitTest(unittest.TestCase):
       'grapes': 1,
       'cheese': 1}
     test_players = []
-    bites_game = Bites(test_ants, test_tokens, test_players)
+    anthill_order = "test anthill order"
+    bites_game = Bites(test_ants, test_tokens, test_players, anthill_order)
     expected_ants = {
       'purple': None,
       'yellow': None}
@@ -34,7 +35,8 @@ class BitesInitTest(unittest.TestCase):
     mario = FakePlayer()
     ants = []
     tokens_for_trail = {}
-    bites_game = Bites(ants, tokens_for_trail, [mario])
+    anthill_order = "test anthill order"
+    bites_game = Bites(ants, tokens_for_trail, [mario], anthill_order)
     self.assertIsInstance(bites_game.players[0], FakePlayer)
 
   def test_bites_class_can_receive_two_instances_of_player(self):
@@ -48,7 +50,8 @@ class BitesInitTest(unittest.TestCase):
     players = [mario, luigi]
     ants = []
     tokens_for_trail = {}
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = "test anthill order"
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     self.assertEqual(len(bites_game.players), 2)
     self.assertEqual(bites_game.players[0].name, "mario")
     self.assertEqual(bites_game.players[1].name, "luigi")
@@ -63,7 +66,8 @@ class BitesInitTest(unittest.TestCase):
       "cheese": 0,
       "pepper": 0}
     players = []
-    bites_game = Bites(ants, tokens, players)
+    anthill_order = "test anthill order"
+    bites_game = Bites(ants, tokens, players, anthill_order)
     expected_anthill_food = {
       "apple": 1,
       "grapes": 1,
@@ -72,6 +76,21 @@ class BitesInitTest(unittest.TestCase):
       "pepper": 1}
     actual_anthill_food = bites_game.anthill_food_tokens
     self.assertEqual(actual_anthill_food, expected_anthill_food)
+
+  def test_Bites_receives_anthill_order_as_string_and_stores_it_as_attribute(self):
+    # test 142
+    ants = []
+    tokens = {"apple": 0}
+    players = []
+    anthill_order = "test anthill order"
+    anthill_order = "test anthill order"
+    bites_game = Bites(ants, tokens, players, anthill_order)
+
+    expected_anthill_order_attribute_type = str
+    expected_anthill_order_attribute = anthill_order
+
+    self.assertEqual(type(bites_game.anthill_order), expected_anthill_order_attribute_type)
+    self.assertEqual(bites_game.anthill_order, expected_anthill_order_attribute)
 
 class InitialiseAntsTest(unittest.TestCase):
   def test_can_initialise_one_ant(self):

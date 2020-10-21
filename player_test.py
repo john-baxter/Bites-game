@@ -584,7 +584,6 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     self.assertEqual(actual_type_of_anthill_order, expected_type_of_anthill_order)
     self.assertEqual(actual_dict_lookup_return, expected_dict_lookup_return)
 
-
 class TakeFoodFromTrailTest(unittest.TestCase):
   def test_single_ant_on_trail_can_take_food_in_front(self):
     # test 15
@@ -674,7 +673,7 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple", "grapes", "apple"]
     ant_positions = {"red": 0, "purple": 1}
     anthill = [None, None, None, None, None]
-    anthill_order = [4, 3, 2, 1, 0]
+    anthill_order = "top down"
     ant = "purple"
     expected_new_anthill = [None, None, None, None, "purple"]
     expected_new_ant_positions = {"red": 0, "purple": "anthill"}
@@ -687,7 +686,7 @@ class MoveAntTest(unittest.TestCase):
     trail = ["apple", "grapes", "cheese", "bread"]
     ant_positions = {"green": None}
     anthill = [None, None, None, None, None]
-    anthill_order = [4, 3, 2, 1, 0]
+    anthill_order = "top down"
     ant = "green"
     expected_new_anthill = [None, None, None, None, "green"]
     expected_new_ant_positions = {"green": "anthill"}
@@ -890,7 +889,7 @@ class TakeTurnTest(unittest.TestCase):
     trail = ["pepper", "apple", None]
     ant_positions = {"red": 1}
     anthill_food_tokens = {"pepper": 1, "bread": 1}
-    anthill_order = [0]
+    anthill_order = "bottom up"
     user_choice_ant = "red"
     user_choice_anthill_food = "bread"
     input_patcher = mock.patch('builtins.input', side_effect = [user_choice_ant, user_choice_anthill_food])

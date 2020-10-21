@@ -3,7 +3,7 @@ from constants import K_COLOUR_V_FOOD_DICT
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, tokens_for_trail, players):
+  def __init__(self, ants, tokens_for_trail, players, anthill_order):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -59,7 +59,7 @@ class Bites():
     self.anthill = self.initialise_anthill(ants)
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(tokens_for_trail)
-    self.anthill_order = ANTHILL_CARD_DICT["top down"]
+    self.anthill_order = anthill_order
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
