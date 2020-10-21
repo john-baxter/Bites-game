@@ -1,6 +1,6 @@
 import unittest
 from unittest import mock
-from unittest.mock import patch
+from unittest.mock import patch, call
 from player import Player
 from controller import enter_number_of_players
 from controller import generate_player
@@ -168,6 +168,26 @@ class ChooseAnthillRuleTest(unittest.TestCase):
     # test 143
     expected_results = ["top down", "bottom up", "leave gaps"]
     self.assertIn(choose_anthill_rule(), expected_results)
+
+  @patch('builtins.input', return_value = "top down")
+  @patch('builtins.print')
+  def test_choose_anthill_rule_displays_available_options_and_prompt_text(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 144
+    choose_anthill_rule()
+    expected_print_result_0 = call("\nThe available options are:")
+    expected_print_result_1 = call("top down")
+    expected_print_result_2 = call("bottom up")
+    expected_print_result_3 = call("leave gaps")
+    expected_print_result_4 = call("random")
+    expected_input_result = call("Please enter your choice of anthill card: ")
+    self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
+    self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
+    self.assertEqual(mock_builtin_print.call_args_list[2], expected_print_result_2)
+    self.assertEqual(mock_builtin_print.call_args_list[3], expected_print_result_3)
+    self.assertEqual(mock_builtin_print.call_args_list[4], expected_print_result_4)
+    self.assertEqual(mock_builtin_input.call_args_list[0], expected_input_result)
+
 
 
 

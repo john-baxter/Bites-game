@@ -75,12 +75,16 @@ def start_new_game():
 
 def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
   anthill_card_allowed_choices = list(anthill_card_dict.keys())
-  card_choice = input()
+  print("\nThe available options are:")
+  for i in anthill_card_allowed_choices:
+    print(i)
+  print("random")
+  card_choice = input("Please enter your choice of anthill card: ")
 
   if card_choice in anthill_card_allowed_choices:
     return card_choice
   elif card_choice == "random":
-    return anthill_card_allowed_choices[randint(0,len(anthill_card_allowed_choices)-1)]
+    return anthill_card_allowed_choices[randint(0, len(anthill_card_allowed_choices)-1)]
   else:
     return choose_anthill_rule()
 
