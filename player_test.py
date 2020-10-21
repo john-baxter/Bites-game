@@ -1,6 +1,7 @@
 import unittest
 from unittest import mock
 from player import Player
+from constants import ANTHILL_CARD_DICT
 
 class PlayerInitTest(unittest.TestCase):
   def test___init___method_works(self):
@@ -563,6 +564,26 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     self.assertEqual(mario.place_ant_on_anthill(
       ant_pos_after_turn_4, anthill_after_turn_4, anthill_order, fifth_ant), (
         expected_end_anthill, expected_end_ant_pos))
+
+  def test_anthill_order_is_received_as_string_and_cross_referenced_with_constants(self):
+    # test 141
+    mario = Player("mario")
+    ant_positions = {"green": 39}
+    anthill = [None, None, None, None, None]
+    anthill_order = "bottom up"
+    ant = "green"
+
+    expected_type_of_anthill_order = str
+    expected_dict_lookup_return = [0, 1, 2, 3, 4]
+
+    mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant)
+
+    actual_type_of_anthill_order = type(anthill_order)
+    actual_dict_lookup_return = ANTHILL_CARD_DICT[anthill_order]
+
+    self.assertEqual(actual_type_of_anthill_order, expected_type_of_anthill_order)
+    self.assertEqual(actual_dict_lookup_return, expected_dict_lookup_return)
+
 
 class TakeFoodFromTrailTest(unittest.TestCase):
   def test_single_ant_on_trail_can_take_food_in_front(self):

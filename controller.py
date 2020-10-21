@@ -75,7 +75,7 @@ def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
   card_choice = input()
 
   if card_choice in anthill_card_allowed_choices:
-    return anthill_card_dict[card_choice]
+    return card_choice
   else:
     return choose_anthill_rule()
 

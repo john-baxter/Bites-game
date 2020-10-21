@@ -142,26 +142,28 @@ class ChooseAnthillRuleTest(unittest.TestCase):
   @patch('builtins.input', return_value = "top down")
   def test_choose_anthill_rule_allows_choice_of_top_down_option(self, mock_builtin_input):
     # test 137
-    expected_result = [4, 3, 2, 1, 0]
+    expected_result = "top down"
     self.assertEqual(choose_anthill_rule(), expected_result)
 
   @patch('builtins.input', return_value = "bottom up")
   def test_choose_anthill_rule_allows_choice_of_bottom_up(self, mock_builtin_input):
     # test 138
-    expected_result = [0, 1, 2, 3, 4]
+    expected_result = "bottom up"
     self.assertEqual(choose_anthill_rule(), expected_result)
 
   @patch('builtins.input', return_value = "leave gaps")
   def test_choose_anthill_rule_allows_choice_of_leave_gaps(self, mock_builtin_input):
     # test 139
-    expected_result = [4, 2, 0, 3, 1]
+    expected_result = "leave gaps"
     self.assertEqual(choose_anthill_rule(), expected_result)
 
   @patch('builtins.input', side_effect = ["top up", "bottom up"])
   def test_user_makes_typo_no_error_redo_choice_select_botom_up(self, mock_builtin_input):
     # test 140
-    expected_result = [0, 1, 2, 3, 4]
+    expected_result = "bottom up"
     self.assertEqual(choose_anthill_rule(), expected_result)
+
+  
 
 
 

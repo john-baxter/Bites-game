@@ -193,14 +193,14 @@ class Player():
       Newly updated version of the anthill list; showing one fewer None and one more 
       ant ID (string) in the appropriate place.
     """
-    for i in range(len(anthill)):
-      if anthill[anthill_order[i]] is None:
-        anthill[anthill_order[i]] = ant
-        break
+    # for i in range(len(anthill)):
+    #   if anthill[anthill_order[i]] is None:
+    #     anthill[anthill_order[i]] = ant
+    #     break
 
-    ant_positions[ant] = "anthill"
+    # ant_positions[ant] = "anthill"
     
-    return (anthill, ant_positions)
+    # return (anthill, ant_positions)
 
   def take_food_from_trail(self, trail, ant_positions, ant, direction):
     """Collect a token from the game path
