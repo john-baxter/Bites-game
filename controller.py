@@ -71,13 +71,15 @@ def start_new_game():
   play_bites.play_full_game()
 
 def choose_anthill_rule():
+  anthill_card_dict = {
+    "bottom up": ANTHILL_ORDER_BOTTOM_UP,
+    "top down": ANTHILL_ORDER_TOP_DOWN,
+    "leave gaps": ANTHILL_ORDER_LEAVE_GAPS}
+  anthill_card_allowed_choices = anthill_card_dict.keys()
   card_choice = input()
-  if card_choice == "bottom up":
-    return ANTHILL_ORDER_BOTTOM_UP
-  elif card_choice == "leave gaps":
-    return ANTHILL_ORDER_LEAVE_GAPS
-  elif card_choice == "top down":
-    return ANTHILL_ORDER_TOP_DOWN
+
+  if card_choice in anthill_card_allowed_choices:
+    return anthill_card_dict[card_choice]
   else:
     return choose_anthill_rule()
 
