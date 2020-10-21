@@ -1,6 +1,6 @@
 from constants import MIN_PLAYERS, MAX_PLAYERS
 from constants import ANTS, TOKENS_FOR_TRAIL
-from constants import ANTHILL_ORDER_TOP_DOWN, ANTHILL_ORDER_BOTTOM_UP
+from constants import ANTHILL_ORDER_TOP_DOWN, ANTHILL_ORDER_BOTTOM_UP, ANTHILL_ORDER_LEAVE_GAPS
 from player import Player
 from bites import Bites
 
@@ -74,6 +74,8 @@ def choose_anthill_rule():
   card_choice = input()
   if card_choice == "bottom up":
     return ANTHILL_ORDER_BOTTOM_UP
+  elif card_choice == "leave gaps":
+    return ANTHILL_ORDER_LEAVE_GAPS
   
   return ANTHILL_ORDER_TOP_DOWN
 

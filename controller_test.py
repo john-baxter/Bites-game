@@ -7,7 +7,7 @@ from controller import generate_player
 from controller import prepare_list_of_players
 from controller import start_new_game
 from controller import choose_anthill_rule
-from constants import ANTHILL_ORDER_TOP_DOWN, ANTHILL_ORDER_BOTTOM_UP
+from constants import ANTHILL_ORDER_TOP_DOWN, ANTHILL_ORDER_BOTTOM_UP, ANTHILL_ORDER_LEAVE_GAPS
 
 class EnterNumberOfPlayersTest(unittest.TestCase):
   # test 99
@@ -149,6 +149,12 @@ class ChooseAnthillRuleTest(unittest.TestCase):
   def test_choose_anthill_rule_allows_choice_of_bottom_up(self, mock_builtin_input):
     # test 138
     expected_result = ANTHILL_ORDER_BOTTOM_UP
+    self.assertEqual(choose_anthill_rule(), expected_result)
+
+  @patch('builtins.input', return_value = "leave gaps")
+  def test_choose_anthill_rule_allows_choice_of_leave_gaps(self, mock_builtin_input):
+    # test 139
+    expected_result = ANTHILL_ORDER_LEAVE_GAPS
     self.assertEqual(choose_anthill_rule(), expected_result)
 
 
