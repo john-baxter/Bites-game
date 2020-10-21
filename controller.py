@@ -1,6 +1,6 @@
 from constants import MIN_PLAYERS, MAX_PLAYERS
 from constants import ANTS, TOKENS_FOR_TRAIL
-from constants import ANTHILL_ORDER_TOP_DOWN
+from constants import ANTHILL_ORDER_TOP_DOWN, ANTHILL_ORDER_BOTTOM_UP
 from player import Player
 from bites import Bites
 
@@ -71,6 +71,10 @@ def start_new_game():
   play_bites.play_full_game()
 
 def choose_anthill_rule():
+  card_choice = input()
+  if card_choice == "bottom up":
+    return ANTHILL_ORDER_BOTTOM_UP
+  
   return ANTHILL_ORDER_TOP_DOWN
 
 if __name__ == '__main__':
