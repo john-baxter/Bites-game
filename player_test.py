@@ -411,7 +411,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("mario")
     ant_positions = {"red": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = [4, 3, 2, 1, 0]
+    anthill_order = "top down"
     ant = "red"
     expected_new_anthill = [None, None, None, None, "red"]
     expected_new_ant_positions = {"red": "anthill"}
@@ -423,7 +423,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = [4, 3, 2, 1, 0]
+    anthill_order = "top down"
     ant = "green"
     expected_new_anthill = [None, None, None, None, "green"]
     expected_new_ant_positions = {"green": "anthill"}
@@ -435,7 +435,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, "red"]
-    anthill_order = [4, 3, 2, 1, 0]
+    anthill_order = "top down"
     ant = "green"
     expected_new_anthill = [None, None, None, "green", "red"]
     expected_new_ant_positions = {"green": "anthill"}
@@ -447,7 +447,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, "purple", "yellow", "brown", "red"]
-    anthill_order = [4, 3, 2, 1, 0]
+    anthill_order = "top down"
     ant = "green"
     expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
     expected_new_ant_positions = {"green": "anthill"}
@@ -459,33 +459,33 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = [4, 3, 2, 1, 0]
+    anthill_order = "top down"
     ant = "green"
     expected_new_anthill = [None, None, None, None, "green"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
+  """Anthill filling order is bottom-to-top
+  """
   def test_first_ant_is_red_and_goes_to_bottom_spot(self):
     # test 132
     mario = Player("mario")
     ant_positions = {"red": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = [0, 1, 2, 3, 4]
+    anthill_order = "bottom up"
     ant = "red"
     expected_new_anthill = ["red", None, None, None, None]
     expected_new_ant_positions = {"red": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
     self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
 
-  """Anthill filling order is bottom-to-top
-  """
   def test_first_ant_is_green_and_goes_to_bottom_spot(self):
     # test 133
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = [0, 1, 2, 3, 4]
+    anthill_order = "bottom up"
     ant = "green"
     expected_new_anthill = ["green", None, None, None, None]
     expected_new_ant_positions = {"green": "anthill"}
@@ -497,7 +497,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("Mario")
     ant_positions = {"green": 39}
     anthill = ["red", None, None, None, None]
-    anthill_order = [0, 1, 2, 3, 4]
+    anthill_order = "bottom up"
     ant = "green"
     expected_new_anthill = ["red", "green", None, None, None]
     expected_new_ant_positions = {"green": "anthill"}
@@ -509,7 +509,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("Mario")
     ant_positions = {"green": 39}
     anthill = ["red", "purple", "yellow", "brown", None]
-    anthill_order = [0, 1, 2, 3, 4]
+    anthill_order = "bottom up"
     ant = "green"
     expected_new_anthill = ["red", "purple", "yellow", "brown", "green"]
     expected_new_ant_positions = {"green": "anthill"}
@@ -522,7 +522,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     # test 136
     starting_ant_positions = {"red": None, "green": None, "yellow": None, "purple": None, "brown": None}
     starting_anthill = [None, None, None, None, None]
-    anthill_order = [4, 2, 0, 3, 1]
+    anthill_order = "leave gaps"
     first_ant = "red"
 
     anthill_after_turn_1 =[None, None, None, None, "red"]

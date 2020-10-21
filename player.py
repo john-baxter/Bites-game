@@ -1,5 +1,6 @@
 from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT
 from constants import PROMPT_TEXT_ANT_CHOICE,PROMPT_TEXT_DIRECTION_CHOICE,PROMPT_TEXT_ANTHILL_FOOD_CHOICE
+from constants import ANTHILL_CARD_DICT
 
 class Player():
   def __init__(self, name):
@@ -193,14 +194,15 @@ class Player():
       Newly updated version of the anthill list; showing one fewer None and one more 
       ant ID (string) in the appropriate place.
     """
-    # for i in range(len(anthill)):
-    #   if anthill[anthill_order[i]] is None:
-    #     anthill[anthill_order[i]] = ant
-    #     break
+    anthill_order_list = ANTHILL_CARD_DICT[anthill_order]
+    for i in range(len(anthill)):
+      if anthill[anthill_order_list[i]] is None:
+        anthill[anthill_order_list[i]] = ant
+        break
 
-    # ant_positions[ant] = "anthill"
+    ant_positions[ant] = "anthill"
     
-    # return (anthill, ant_positions)
+    return (anthill, ant_positions)
 
   def take_food_from_trail(self, trail, ant_positions, ant, direction):
     """Collect a token from the game path
