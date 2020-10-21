@@ -1,6 +1,6 @@
 from constants import MIN_PLAYERS, MAX_PLAYERS
 from constants import ANTS, TOKENS_FOR_TRAIL
-from constants import ANTHILL_ORDER_TOP_DOWN, ANTHILL_ORDER_BOTTOM_UP, ANTHILL_ORDER_LEAVE_GAPS
+from constants import ANTHILL_CARD_DICT
 from player import Player
 from bites import Bites
 
@@ -70,11 +70,7 @@ def start_new_game():
   play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players)
   play_bites.play_full_game()
 
-def choose_anthill_rule():
-  anthill_card_dict = {
-    "bottom up": ANTHILL_ORDER_BOTTOM_UP,
-    "top down": ANTHILL_ORDER_TOP_DOWN,
-    "leave gaps": ANTHILL_ORDER_LEAVE_GAPS}
+def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
   anthill_card_allowed_choices = anthill_card_dict.keys()
   card_choice = input()
 
