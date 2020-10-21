@@ -4,6 +4,7 @@ from constants import ANTHILL_CARD_DICT
 from player import Player
 from bites import Bites
 from random import randint
+from functions import show_allowed_choices_from_list
 
 def enter_number_of_players():
   """Sets the number of players for the game
@@ -85,10 +86,6 @@ def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
   else:
     return choose_anthill_rule()
 
-def show_allowed_choices_from_list(list):
-  print("\nThe available options are:")
-  for i in list:
-    print(i)
 
 
 

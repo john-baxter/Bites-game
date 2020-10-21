@@ -1,6 +1,7 @@
 import unittest
 from unittest import mock
 from player import Player
+# from controller import show_allowed_choices_from_list
 from constants import ANTHILL_CARD_DICT
 
 class PlayerInitTest(unittest.TestCase):

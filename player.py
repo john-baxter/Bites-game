@@ -1,6 +1,7 @@
 from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT
 from constants import PROMPT_TEXT_ANT_CHOICE,PROMPT_TEXT_DIRECTION_CHOICE,PROMPT_TEXT_ANTHILL_FOOD_CHOICE
 from constants import ANTHILL_CARD_DICT
+from functions import show_allowed_choices_from_list
 
 class Player():
   def __init__(self, name):
@@ -105,9 +106,7 @@ class Player():
       The ID of the choice the player has made
     """
     self.user_choice = None
-    print("\nThe available options are:")
-    for i in allowed_choices:
-      print(i)
+    show_allowed_choices_from_list(allowed_choices)
     while self.user_choice not in allowed_choices:
       self.user_choice = input("%s; %s: " % (self.name, prompt_text))
     return self.user_choice
