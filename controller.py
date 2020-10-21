@@ -4,7 +4,6 @@ from constants import ANTHILL_CARD_DICT
 from player import Player
 from bites import Bites
 from random import randint
-# import random
 
 def enter_number_of_players():
   """Sets the number of players for the game
