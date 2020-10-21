@@ -157,6 +157,13 @@ class ChooseAnthillRuleTest(unittest.TestCase):
     expected_result = ANTHILL_ORDER_LEAVE_GAPS
     self.assertEqual(choose_anthill_rule(), expected_result)
 
+  @patch('builtins.input', side_effect = ["top up", "bottom up"])
+  def test_user_makes_typo_no_error_redo_choice_select_botom_up(self, mock_builtin_input):
+    # test 140
+    expected_result = ANTHILL_ORDER_BOTTOM_UP
+    self.assertEqual(choose_anthill_rule(), expected_result)
+
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
