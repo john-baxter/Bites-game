@@ -107,7 +107,7 @@ class PrepareListOfPlayersTest(unittest.TestCase):
 class StartNewGameTest(unittest.TestCase):
   @patch('bites.Bites.__init__', return_value = None)
   @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', side_effect = [2, 'Mario', 'Luigi'])
+  @patch('builtins.input', side_effect = [2, 'Mario', 'Luigi', 'top down'])
   def test_start_new_2player_game_calls_prepare_list_of_players_and_associated_functions_in_correct_order_and_with_correct_callcount(
     self, mock_builtin_input, mock_bites_play, mock_bites_init):
     # test 110
@@ -118,11 +118,11 @@ class StartNewGameTest(unittest.TestCase):
       "Please enter your name: "))
     self.assertEqual(mock_builtin_input.call_args_list[2], mock.call(
       "Please enter your name: "))
-    self.assertEqual(len(mock_builtin_input.call_args_list), 3)
+    self.assertGreaterEqual(len(mock_builtin_input.call_args_list), 3)
 
   @patch('bites.Bites.__init__', return_value = None)
   @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', return_value = 2)
+  @patch('builtins.input', side_effect = [2,'Mario', 'Luigi', 'top down'])
   def test_start_new_game_creates_instance_of_Bites_class(
     self, mock_builtin_input, mock_bites_play, mock_bites_init):
     # test 111
@@ -131,7 +131,7 @@ class StartNewGameTest(unittest.TestCase):
 
   @patch('bites.Bites.__init__', return_value = None)
   @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', return_value = 2)
+  @patch('builtins.input', side_effect = [2,'Mario', 'Luigi', 'top down'])
   def test_start_new_game_calls_Bites_play_full_game_method(
     self, mock_builtin_input, mock_bites_play, mock_bites_init):
     # test 112
@@ -163,7 +163,11 @@ class ChooseAnthillRuleTest(unittest.TestCase):
     expected_result = "bottom up"
     self.assertEqual(choose_anthill_rule(), expected_result)
 
-  
+  @patch('builtins.input', return_value = "random")
+  def test_user_can_enter_random_and_one_of_the_other_options_is_selected(self, mock_builtin_input):
+    # test 143
+    expected_results = ["top down", "bottom up", "leave gaps"]
+    self.assertIn(choose_anthill_rule(), expected_results)
 
 
 

@@ -83,7 +83,6 @@ class BitesInitTest(unittest.TestCase):
     tokens = {"apple": 0}
     players = []
     anthill_order = "test anthill order"
-    anthill_order = "test anthill order"
     bites_game = Bites(ants, tokens, players, anthill_order)
 
     expected_anthill_order_attribute_type = str
@@ -98,7 +97,8 @@ class InitialiseAntsTest(unittest.TestCase):
     ants = ["red"]
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     expected_ant_positions = {"red": None}
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
@@ -107,7 +107,8 @@ class InitialiseAntsTest(unittest.TestCase):
     ants = ["red", "purple"]
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     expected_ant_positions = {"red": None, "purple": None}
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
@@ -116,7 +117,8 @@ class InitialiseAntsTest(unittest.TestCase):
     ants = ["red", "purple", "yellow", "green", "brown"]
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     expected_ant_positions = {
       "red": None,
       "purple": None,
@@ -131,7 +133,8 @@ class InitialiseTrailTest(unittest.TestCase):
     foods = {"apple": 1}
     ants = []
     players = []
-    bites_game = Bites(ants, foods, players)
+    anthill_order = ""
+    bites_game = Bites(ants, foods, players, anthill_order)
     expected_trail = ["apple"]
     self.assertEqual(bites_game.trail, expected_trail)
 
@@ -140,7 +143,8 @@ class InitialiseTrailTest(unittest.TestCase):
     foods = {"apple": 1, "grapes": 1}
     ants = []
     players = []
-    bites_game = Bites(ants, foods, players)
+    anthill_order = ""
+    bites_game = Bites(ants, foods, players, anthill_order)
     expected_trails = [["apple", "grapes"], ["grapes", "apple"]]
     self.assertIn(bites_game.trail, expected_trails)
 
@@ -149,7 +153,8 @@ class InitialiseTrailTest(unittest.TestCase):
     foods = {"apple": 5}
     ants = []
     players = []
-    bites_game = Bites(ants, foods, players)
+    anthill_order = ""
+    bites_game = Bites(ants, foods, players, anthill_order)
     expected_trail = ["apple", "apple", "apple", "apple", "apple"]
     self.assertEqual(bites_game.trail, expected_trail)
 
@@ -158,7 +163,8 @@ class InitialiseTrailTest(unittest.TestCase):
     foods = {"apple": 2, "grapes": 1}
     ants = []
     players = []
-    bites_game = Bites(ants, foods, players)
+    anthill_order = ""
+    bites_game = Bites(ants, foods, players, anthill_order)
     expected_trails = [
       ["grapes", "apple", "apple"],
       ["apple", "grapes", "apple"],
@@ -175,7 +181,8 @@ class InitialiseTrailTest(unittest.TestCase):
       "bread": 9}
     ants = []
     players = []
-    bites_game = Bites(ants, foods, players)
+    anthill_order = ""
+    bites_game = Bites(ants, foods, players, anthill_order)
     expected_trail_length = 45
     self.assertEqual(len(bites_game.trail), expected_trail_length)
     self.assertEqual(bites_game.trail.count("apple"), 9)
@@ -190,7 +197,8 @@ class InitialiseAnthillTest(unittest.TestCase):
     ants = ['purple', 'red', 'brown', 'yellow', 'green']
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     expected_anthill = [None, None, None, None, None]
     self.assertEqual(bites_game.anthill, expected_anthill)
 
@@ -227,8 +235,9 @@ class TakeAllTurnsTest(unittest.TestCase):
     players = [fake_mario]
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {}
+    anthill_order = ""
     
-    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
@@ -323,7 +332,8 @@ class TakeAllTurnsTest(unittest.TestCase):
     players = [fake_mario, fake_luigi]
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {}
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
@@ -463,10 +473,11 @@ class TakeAllTurnsTest(unittest.TestCase):
 
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {}
+    anthill_order = ""
     fake_mario = mock.MagicMock()
     fake_luigi = mock.MagicMock()
     players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
@@ -542,7 +553,8 @@ class TakeAllTurnsTest(unittest.TestCase):
     players = [fake_mario]
     ants = ["red", "yellow", "green", "brown", "purple"]
     tokens_for_trail = {"grapes": 0}
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
@@ -616,7 +628,7 @@ class TakeAllTurnsTest(unittest.TestCase):
     # fake_luigi.score_hand = mock.MagicMock(return_value = 9)
 
     # players = [fake_mario, fake_luigi]
-    # bites_game = Bites(ants, tokens_for_trail, players)
+    # bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     # bites_game.trail = starting_trail
     # bites_game.ant_positions = starting_ant_positions
     # bites_game.anthill = starting_anthill
@@ -637,7 +649,8 @@ class PrintScoresTest(unittest.TestCase):
     tokens_for_trail = {}
     fake_mario = FakePlayer("mario")
     players = [fake_mario]
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
@@ -663,7 +676,8 @@ class PrintScoresTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
@@ -678,7 +692,7 @@ class PlayFullGameTest(unittest.TestCase):
   @patch('bites.Bites.calculate_and_print_scores')
   def test_play_full_game_calls_take_all_turns(self, calculate_and_print_scores_mock, take_all_turns_mock):
     # test 82
-    bites_game = Bites([], {}, [])
+    bites_game = Bites([], {}, [], "")
     bites_game.play_full_game()
     self.assertTrue(take_all_turns_mock.called)
 
@@ -698,7 +712,7 @@ class PlayFullGameTest(unittest.TestCase):
     fake_mario = FakePlayer("mario", 3)
     fake_luigi = FakePlayer("luigi", 9)
     players = [fake_mario, fake_luigi]
-    bites_game = Bites([], {}, players)
+    bites_game = Bites([], {}, players, "")
     bites_game.play_full_game()
     self.assertTrue(calculate_and_print_scores_mock.called)
 
@@ -710,7 +724,7 @@ class PlayFullGameTest(unittest.TestCase):
     manager = mock.Mock()
     manager.attach_mock(calculate_and_print_scores_mock, 'printing_the_score')
     manager.attach_mock(take_all_turns_mock, 'taking_all_the_turns')
-    bites_game = Bites([], {}, [])
+    bites_game = Bites([], {}, [], "")
     bites_game.play_full_game()
     expected_calls = [
       mock.call.taking_all_the_turns(), 
@@ -730,7 +744,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = [fake_mario]
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.ant_positions = {"random key": None}
 
     print_patcher = mock.patch('builtins.print')
@@ -752,7 +767,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = [fake_mario]
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.ant_positions = {"random key": None}
 
     print_patcher = mock.patch('builtins.print')
@@ -775,7 +791,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.ant_positions = {"random key": None}
 
     print_patcher = mock.patch('builtins.print')
@@ -791,7 +808,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = ["pepper"]
     bites_game.ant_positions = {"random key": None}
 
@@ -807,7 +825,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
     bites_game.ant_positions = {"random key": None}
 
@@ -834,8 +853,9 @@ class RenderGameTest(unittest.TestCase):
 
     ants = []
     tokens_for_trail = {}
+    anthill_order = ""
     players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
     bites_game.ant_positions = {"random key": None}
 
@@ -857,7 +877,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.ant_positions = {"red": None}
 
     print_patcher = mock.patch('builtins.print')
@@ -874,7 +895,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {"apple" :1}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.ant_positions = {"red": 0}
 
     print_patcher = mock.patch('builtins.print')
@@ -899,8 +921,9 @@ class RenderGameTest(unittest.TestCase):
 
     ants = []
     tokens_for_trail = {}
+    anthill_order = ""
     players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, tokens_for_trail, players)
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
     bites_game.ant_positions = {"green": 0, "purple": 2, "brown": 4, "red": None, "yellow": None}
     
@@ -927,7 +950,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = ["yellow"]
@@ -947,7 +971,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill", "green": "anthill"}
     bites_game.anthill = ["yellow", "green"]
@@ -968,7 +993,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = []
@@ -987,7 +1013,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = []
@@ -1006,7 +1033,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = []
@@ -1025,7 +1053,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = []
@@ -1044,7 +1073,8 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    bites_game = Bites(ants, tokens_for_trail, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = [
       "apple",
       None,
@@ -1082,7 +1112,8 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
       "cheese": 0,
       "pepper": 0}
     players = []
-    bites_game = Bites(ants, tokens, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens, players, anthill_order)
     self.assertIsInstance(bites_game.initialise_anthill_food_tokens(tokens), dict)
 
   def test_upon_initialisation_anthill_has_one_of_each_type_of_food(self):
@@ -1095,7 +1126,8 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
       "cheese": 0,
       "pepper": 0}
     players = []
-    bites_game = Bites(ants, tokens, players)
+    anthill_order = ""
+    bites_game = Bites(ants, tokens, players, anthill_order)
     self.assertEqual(len(bites_game.initialise_anthill_food_tokens(tokens)), 5)
     self.assertEqual(list(bites_game.initialise_anthill_food_tokens(tokens).values()), [1, 1, 1, 1, 1])
     self.assertIn("apple", bites_game.initialise_anthill_food_tokens(tokens).keys())

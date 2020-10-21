@@ -3,6 +3,8 @@ from constants import ANTS, TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 from player import Player
 from bites import Bites
+from random import randint
+# import random
 
 def enter_number_of_players():
   """Sets the number of players for the game
@@ -67,15 +69,18 @@ def start_new_game():
   (and continuation) of a game of Bites.
   """
   players = prepare_list_of_players()
-  play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players)
+  anthill_order = choose_anthill_rule()
+  play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players, anthill_order)
   play_bites.play_full_game()
 
 def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
-  anthill_card_allowed_choices = anthill_card_dict.keys()
+  anthill_card_allowed_choices = list(anthill_card_dict.keys())
   card_choice = input()
 
   if card_choice in anthill_card_allowed_choices:
     return card_choice
+  elif card_choice == "random":
+    return anthill_card_allowed_choices[randint(0,len(anthill_card_allowed_choices)-1)]
   else:
     return choose_anthill_rule()
 
