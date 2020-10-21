@@ -76,8 +76,8 @@ def choose_anthill_rule():
     return ANTHILL_ORDER_BOTTOM_UP
   elif card_choice == "leave gaps":
     return ANTHILL_ORDER_LEAVE_GAPS
-  
-  return ANTHILL_ORDER_TOP_DOWN
+  elif card_choice == "top down":
+    return ANTHILL_ORDER_TOP_DOWN
 
 if __name__ == '__main__':
   start_new_game()

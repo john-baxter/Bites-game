@@ -139,7 +139,7 @@ class StartNewGameTest(unittest.TestCase):
     mock_bites_play.assert_called_once()
 
 class ChooseAnthillRuleTest(unittest.TestCase):
-  @patch('builtins.input', return_value = "")
+  @patch('builtins.input', return_value = "top down")
   def test_choose_anthill_rule_allows_choice_of_top_down_option(self, mock_builtin_input):
     # test 137
     expected_result = ANTHILL_ORDER_TOP_DOWN
