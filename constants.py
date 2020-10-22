@@ -88,6 +88,7 @@ MAX_PLAYERS = 5
 ANTHILL_CARD_DICT = {
   "top down": [4, 3, 2, 1, 0],
   "bottom up": [0, 1, 2, 3, 4],
-  "leave gaps": [4, 2, 0, 3, 1]}
+  "leave gaps": [4, 2, 0, 3, 1],
+  "user choice": None}
 """The various lists that are used to determine the order that the anthill is filled
 """
