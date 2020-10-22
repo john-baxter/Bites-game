@@ -370,9 +370,6 @@ class MakeChoiceTest(unittest.TestCase):
     actual_user_choice = mario.make_choice(allowed_choices, prompt_text)
     self.assertEqual(actual_user_choice, expected_user_choice)
 
-
-
-
 class MoveAntAlongTrailTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
     # test 10
@@ -1051,7 +1048,7 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     # test 147
     mario = Player("Mario")
     anthill = [None, None, None, None, None]
-    expected_allowed_choices = [0,1,2,3,4]
+    expected_allowed_choices = ['0','1','2','3','4']
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 
@@ -1059,7 +1056,7 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     # test 148
     mario = Player("Mario")
     anthill = [None, None, None, None, "purple"]
-    expected_allowed_choices = [0,1,2,3]
+    expected_allowed_choices = ['0','1','2','3']
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 
@@ -1067,7 +1064,7 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     # test 149
     mario = Player("Mario")
     anthill = [None, None, None, "purple", None]
-    expected_allowed_choices = [0,1,2,4]
+    expected_allowed_choices = ['0','1','2','4']
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
   
@@ -1075,7 +1072,7 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     # test 150
     mario = Player("Mario")
     anthill = ["red", None, "yellow", "purple", "brown"]
-    expected_allowed_choices = [1]
+    expected_allowed_choices = ['1']
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 

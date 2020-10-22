@@ -553,5 +553,5 @@ class Player():
     allowed_choices_placement = []
     for idx, level in enumerate(anthill):
       if level is None:
-        allowed_choices_placement.append(idx)
+        allowed_choices_placement.append(str(idx))
     return allowed_choices_placement
