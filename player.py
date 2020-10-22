@@ -1,5 +1,5 @@
 from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT
-from constants import PROMPT_TEXT_ANT_CHOICE,PROMPT_TEXT_DIRECTION_CHOICE,PROMPT_TEXT_ANTHILL_FOOD_CHOICE
+from constants import PROMPT_TEXT_ANT_CHOICE,PROMPT_TEXT_DIRECTION_CHOICE,PROMPT_TEXT_ANTHILL_FOOD_CHOICE, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
 from constants import ANTHILL_CARD_DICT
 from functions import show_allowed_choices_from_list
 
@@ -195,7 +195,7 @@ class Player():
     if anthill_order == "user choice":
       i = int(
         self.make_choice(
-          self.define_allowed_choices_anthill_placement(anthill), "please enter your choice of anthill level"
+          self.define_allowed_choices_anthill_placement(anthill), PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
         )
       )
       anthill[i] = ant

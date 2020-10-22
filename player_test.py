@@ -623,10 +623,6 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     self.assertEqual(actual_new_anthill, expected_new_anthill)
     self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
 
-
-
-
-
 class TakeFoodFromTrailTest(unittest.TestCase):
   def test_single_ant_on_trail_can_take_food_in_front(self):
     # test 15
