@@ -5,7 +5,6 @@
 Liaise with Peter about the front-end
 
 ### Current
-Create user's choice option for anthill order:
 
 ### Next
 Start working on wine being included
