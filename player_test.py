@@ -1,5 +1,6 @@
 import unittest
 from unittest import mock
+from unittest.mock import patch
 from player import Player
 from constants import ANTHILL_CARD_DICT
 
@@ -356,6 +357,21 @@ class MakeChoiceTest(unittest.TestCase):
     self.assertEqual(mario.user_choice, "cheese")
     print_patcher.stop()
     input_patcher.stop()
+
+  @patch('builtins.input', return_value = "3")
+  @patch('builtins.print')
+  def test_user_can_select_an_anthill_level_for_anthill_filling_rule_user_choice(
+    self, mock_builtin_input, mock_builtin_print):
+    # test 152
+    mario = Player("Mario")
+    allowed_choices = ['0','1','2','3','4']
+    prompt_text = "please enter your choice of anthill level"
+    expected_user_choice = "3"
+    actual_user_choice = mario.make_choice(allowed_choices, prompt_text)
+    self.assertEqual(actual_user_choice, expected_user_choice)
+
+
+
 
 class MoveAntAlongTrailTest(unittest.TestCase):
   def test_can_move_onto_trail_of_length_one(self):
