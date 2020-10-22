@@ -71,7 +71,6 @@ PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE = "please enter your choice of anthill leve
 """
 
 
-
 MIN_PLAYERS = 2
 MAX_PLAYERS = 5
 """As per the standard rules of the game, these many players must take part.

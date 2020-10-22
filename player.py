@@ -152,8 +152,9 @@ class Player():
   def place_ant_on_anthill(self, ant_positions, anthill, anthill_order, ant):
     """Insect meeple goes on correct level of home structure
 
-    The method operates as per the "Overachiever" card from the game. This places ants 
-    onto the anthill from highest position to lowest in order.
+    The method adds ants to the anthill as per the anthill rule currently in play. 
+    The method will prompt user for input if appropriate or iterate through anthill 
+    indices in the appropriate order to find the correct available location.
     Places ant onto appropriate step of the anthill structure when it travels beyond 
     the end of the trail. This determines how many points the corresponding food tokens 
     will be worth.
@@ -558,6 +559,25 @@ class Player():
     return anthill_food_tokens
 
   def define_allowed_choices_anthill_placement(self, anthill):
+    """Provides the list of permitted anthill-level-picking options to the player
+
+    Determines which anthill levels are vacant and can have an ant placet there. 
+    For use in games with 'user choice' anthill rule/
+
+    Parameters
+    ----------
+    anthill : (list)
+      A list showing the current state of the game's anthill.
+      Initialised with each element as None.
+      Elements will be changed into the IDs of the ants as they reach the anthill.
+      Each element is None or string.
+
+    Returns
+    -------
+    allowed_choices_placement : (list)
+      A list containing the indices of any/all vacant locations in the anthill.
+      The indices are converted to strings to ensure compatibility with make_choice().
+    """
     allowed_choices_placement = []
     for idx, level in enumerate(anthill):
       if level is None:

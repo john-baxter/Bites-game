@@ -215,8 +215,6 @@ class ChooseAnthillRuleTest(unittest.TestCase):
     self.assertEqual(mock_builtin_print.call_args_list[4], expected_print_result_4)
     self.assertEqual(mock_builtin_print.call_args_list[5], expected_print_result_5)
     self.assertEqual(actual_returned_choice, expected_returned_choice)
-    
-
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
