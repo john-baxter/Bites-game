@@ -80,7 +80,7 @@ def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
   """
   anthill_card_allowed_choices = list(anthill_card_dict.keys())
   show_allowed_choices_from_list(anthill_card_allowed_choices)
-  print("random")
+  print("Or enter 'random' to select one of the above options")
   card_choice = input("Please enter your choice of anthill card: ")
 
   if card_choice in anthill_card_allowed_choices:

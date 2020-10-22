@@ -192,7 +192,7 @@ class ChooseAnthillRuleTest(unittest.TestCase):
     expected_print_result_1 = call("top down")
     expected_print_result_2 = call("bottom up")
     expected_print_result_3 = call("leave gaps")
-    expected_print_result_4 = call("random")
+    expected_print_result_4 = call("Or enter 'random' to select one of the above options")
     expected_input_result = call("Please enter your choice of anthill card: ")
     self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
     self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
