@@ -1028,7 +1028,17 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
   def test_define_allowed_choices_anthill_placement_returns_list(self):
     # test 146
     mario = Player("Mario")
-    self.assertIsInstance(mario.define_allowed_choices_anthill_placement(), list)
+    anthill = []
+    self.assertIsInstance(mario.define_allowed_choices_anthill_placement(anthill), list)
+
+  def test_anthill_is_empty_and_allowed_choices_returns_all_indices(self):
+    # test 147
+    mario = Player("Mario")
+    anthill = [None, None, None, None, None]
+    expected_allowed_choices = [0,1,2,3,4]
+    actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
+    self.assertEqual(actual_allowed_choices, expected_allowed_choices)
+
 
 
 
