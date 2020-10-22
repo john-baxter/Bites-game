@@ -173,9 +173,8 @@ class Player():
       Elements will be changed into the IDs of the ants as they reach the anthill.
       Each element is None or string.
 
-    anthill_order : (list)
-      A list defining the order in which the anthill should be filled as ants arrive 
-      throughout the game. 
+    anthill_order : (string)
+      The identity of the anthill rule that has been chosen during the setup of the game.
 
     ant : (string)
       The ID of the ant which is being placed onto the anthill.
@@ -420,7 +419,7 @@ class Player():
     ant_positions : (dict)
       Dictionary containing the current locations of each ant.
       Keys are ants as strings.
-      Values are ant positions as None, int or "anthill" (str).
+      Values are ant positions as None, int or "anthill" (string).
 
     anthill : (list)
       List of equivalent length as the number of ants in the game. 
@@ -445,7 +444,7 @@ class Player():
     ant_positions : (dict)
       The newly updated dictionary showing the positions of the ants. 
       Keys are ant IDs as strings.
-      Values are None, int or "anthill" (str).
+      Values are None, int or "anthill" (string).
     
     anthill : (list)
       The newly updated (if neccessary) anthill list

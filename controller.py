@@ -74,9 +74,22 @@ def start_new_game():
   play_bites.play_full_game()
 
 def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
-  """
-  # TO DO
-  # Add documentation
+  """Allows the user to choose the anthill rule for this game
+
+  Select one of the available options or allow the game to select one at random.
+
+  Parameters
+  ----------
+  anthill_card_dict : (dict)
+    A dictionary containing the available options of anthill rule choice.
+    Referred to as 'cards' to reflect the real Bites game.
+    Keys are names of rules as strings
+    Values are the implementation of those rules as lists.
+
+  Returns
+  -------
+  card_choice : (string)
+    The string value from the keys of anthill_card_dict that has been selected
   """
   anthill_card_allowed_choices = list(anthill_card_dict.keys())
   show_allowed_choices_from_list(anthill_card_allowed_choices)

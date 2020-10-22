@@ -50,9 +50,8 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
 
-    anthill_order : (list)
-      A list defining the order in which the anthill should be filled as ants arrive 
-      throughout the game. 
+    anthill_order : (string)
+      The identity of the anthill rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
