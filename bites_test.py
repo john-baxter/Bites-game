@@ -1107,7 +1107,7 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     tokens_for_trail = {}
     players = []
-    anthill_order = "anthill order printed here"
+    anthill_order = "Test Anthill Rule"
     bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
@@ -1118,7 +1118,7 @@ class RenderGameTest(unittest.TestCase):
     # expected_print_result_0 = ""
     # expected_print_result_1 = ""
     expected_print_result_2 = call("\nAnthill:")
-    expected_print_result_3 = call("anthill order printed here")
+    expected_print_result_3 = call("Ants will be placed on the anthill according to the rule: Test Anthill Rule")
     expected_print_result_4 = call("The yellow ant is in level 0")
     # expected_print_result_5 = ""
     # expected_print_result_6 = ""

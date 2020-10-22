@@ -215,7 +215,7 @@ class Bites():
     """Shows a representation of the anthill as text
     """
     print("\nAnthill:")
-    print("anthill order printed here")
+    print("Ants will be placed on the anthill according to the rule: %s" % self.anthill_order)
     for i in range(len(self.anthill)-1, -1, -1):
       if self.anthill[i] is None:
         print("Level %s is empty" % i)
