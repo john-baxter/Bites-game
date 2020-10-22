@@ -1039,6 +1039,14 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 
+  def test_anthill_has_only_top_spot_occupied_returns_all_other_indices(self):
+    # test 148
+    mario = Player("Mario")
+    anthill = [None, None, None, None, "purple"]
+    expected_allowed_choices = [0,1,2,3]
+    actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
+    self.assertEqual(actual_allowed_choices, expected_allowed_choices)
+
 
 
 

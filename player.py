@@ -550,4 +550,8 @@ class Player():
     return anthill_food_tokens
 
   def define_allowed_choices_anthill_placement(self, anthill):
-    return [0, 1, 2, 3, 4]
+    allowed_choices_placement = []
+    for idx, level in enumerate(anthill):
+      if level is None:
+        allowed_choices_placement.append(idx)
+    return allowed_choices_placement
