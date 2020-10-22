@@ -1,6 +1,6 @@
 import unittest
 from unittest import mock
-from unittest.mock import patch
+from unittest.mock import patch, call
 from bites import Bites
 
 class BitesInitTest(unittest.TestCase):
@@ -1100,6 +1100,33 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[8], mock.call("--"))
 
     print_patcher.stop()
+
+  @patch('builtins.print')
+  def test_render_game_shows_anthill_order_next_to_anthill(self, mock_builtin_print):
+    # test 145
+    ants = []
+    tokens_for_trail = {}
+    players = []
+    anthill_order = "anthill order printed here"
+    bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
+    bites_game.trail = []
+    bites_game.ant_positions = {"yellow": "anthill"}
+    bites_game.anthill = ["yellow"]
+
+    bites_game.render_game()
+
+    # expected_print_result_0 = ""
+    # expected_print_result_1 = ""
+    expected_print_result_2 = call("\nAnthill:")
+    expected_print_result_3 = call("anthill order printed here")
+    expected_print_result_4 = call("The yellow ant is in level 0")
+    # expected_print_result_5 = ""
+    # expected_print_result_6 = ""
+    # expected_print_result_7 = ""
+
+    self.assertEqual(mock_builtin_print.call_args_list[2], expected_print_result_2)
+    self.assertEqual(mock_builtin_print.call_args_list[3], expected_print_result_3)
+    self.assertEqual(mock_builtin_print.call_args_list[4], expected_print_result_4)
 
 class InitialiseAnthillFoodTokensTest(unittest.TestCase):
   # test 116

@@ -74,6 +74,10 @@ def start_new_game():
   play_bites.play_full_game()
 
 def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
+  """
+  # TO DO
+  # Add documentation
+  """
   anthill_card_allowed_choices = list(anthill_card_dict.keys())
   show_allowed_choices_from_list(anthill_card_allowed_choices)
   print("random")
@@ -85,9 +89,6 @@ def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
     return anthill_card_allowed_choices[randint(0, len(anthill_card_allowed_choices)-1)]
   else:
     return choose_anthill_rule()
-
-
-
 
 if __name__ == '__main__':
   start_new_game()
