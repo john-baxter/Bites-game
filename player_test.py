@@ -1047,6 +1047,22 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 
+  def test_check_anthill_has_one_occupied_slot_at_level_three(self):
+    # test 149
+    mario = Player("Mario")
+    anthill = [None, None, None, "purple", None]
+    expected_allowed_choices = [0,1,2,4]
+    actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
+    self.assertEqual(actual_allowed_choices, expected_allowed_choices)
+  
+  def test_check_anthill_has_multiple_occupied_slots(self):
+    # test 150
+    mario = Player("Mario")
+    anthill = ["red", None, "yellow", "purple", "brown"]
+    expected_allowed_choices = [1]
+    actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
+    self.assertEqual(actual_allowed_choices, expected_allowed_choices)
+
 
 
 
