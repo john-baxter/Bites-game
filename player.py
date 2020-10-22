@@ -192,11 +192,19 @@ class Player():
       Newly updated version of the anthill list; showing one fewer None and one more 
       ant ID (string) in the appropriate place.
     """
-    anthill_order_list = ANTHILL_CARD_DICT[anthill_order]
-    for i in range(len(anthill)):
-      if anthill[anthill_order_list[i]] is None:
-        anthill[anthill_order_list[i]] = ant
-        break
+    if anthill_order == "user choice":
+      i = int(
+        self.make_choice(
+          self.define_allowed_choices_anthill_placement(anthill), "please enter your choice of anthill level"
+        )
+      )
+      anthill[i] = ant
+    else:
+      anthill_order_list = ANTHILL_CARD_DICT[anthill_order]
+      for i in range(len(anthill)):
+        if anthill[anthill_order_list[i]] is None:
+          anthill[anthill_order_list[i]] = ant
+          break
 
     ant_positions[ant] = "anthill"
     

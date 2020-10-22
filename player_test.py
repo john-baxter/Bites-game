@@ -1,6 +1,6 @@
 import unittest
 from unittest import mock
-from unittest.mock import patch
+from unittest.mock import patch, call
 from player import Player
 from constants import ANTHILL_CARD_DICT
 
@@ -578,6 +578,8 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
       ant_pos_after_turn_4, anthill_after_turn_4, anthill_order, fifth_ant), (
         expected_end_anthill, expected_end_ant_pos))
 
+  """Test 141 not specific to any anthill filling rule
+  """
   def test_anthill_order_is_received_as_string_and_cross_referenced_with_constants(self):
     # test 141
     mario = Player("mario")
@@ -596,6 +598,34 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
 
     self.assertEqual(actual_type_of_anthill_order, expected_type_of_anthill_order)
     self.assertEqual(actual_dict_lookup_return, expected_dict_lookup_return)
+
+  """Anthill filling rule is 'user choice'
+  """
+  @patch('builtins.input', return_value = "3")
+  @patch('builtins.print')
+  def test_when_filling_rule_is_user_choice_place_ant_on_anthill_gets_user_input_and_places_ant_there(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 153
+    mario = Player("Mario")
+    ant_positions = {"green": 39}
+    anthill = [None, None, None, None, None]
+    anthill_order = "user choice"
+    ant = "green"
+
+    expected_input_call = call("Mario; please enter your choice of anthill level: ")
+    expected_new_anthill = [None, None, None, "green", None]
+    expected_new_ant_positions = {"green": "anthill"}
+
+    (actual_new_anthill, actual_new_ant_positions) = mario.place_ant_on_anthill(
+      ant_positions, anthill, anthill_order, ant)
+
+    self.assertEqual(mock_builtin_input.call_args_list[0], expected_input_call)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+
+
+
+
 
 class TakeFoodFromTrailTest(unittest.TestCase):
   def test_single_ant_on_trail_can_take_food_in_front(self):
@@ -1075,9 +1105,6 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     expected_allowed_choices = ['1']
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
-
-
-
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
