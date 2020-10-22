@@ -1024,5 +1024,13 @@ class TakeFoodFromAnthillTest(unittest.TestCase):
     actual_new_anthill_food = mario.take_food_from_anthill(anthill_food, user_choice_food)
     self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
+class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
+  def test_define_allowed_choices_anthill_placement_returns_list(self):
+    # test 146
+    mario = Player("Mario")
+    self.assertIsInstance(mario.define_allowed_choices_anthill_placement(), list)
+
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

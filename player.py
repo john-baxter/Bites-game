@@ -548,3 +548,6 @@ class Player():
     """
     anthill_food_tokens[user_choice_food] -= 1
     return anthill_food_tokens
+
+  def define_allowed_choices_anthill_placement(self):
+    return []
