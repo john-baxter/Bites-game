@@ -34,12 +34,11 @@ The project currently has the following features:
 - Standard food tokens used for the trail
 - Standard ant colours used
 - Players can collect food from the anthill
-- Multiple options for anthill filling
+- Multiple options for anthill filling. The players may choose one or have the game randomly select one for them.
   * Top-down
   * Bottom-up
   * Specific order: 4, 2, 0, 3 then 1
   * User's choice (Not featured in the original game)
-  * A random choice generator for the above options
 
 ## [^](#code-written-by-john-baxter)Code example
 <!-- TO DO (Continuous) -->
@@ -80,7 +79,7 @@ These can be run by:
 ## [^](#code-written-by-john-baxter)How to use
 If you want to try out this game app, the following steps are required.
 (Instructions are specific to using a MacOS, other interfaces may require different/analogous steps.)\
-You will need to have Python 3 installed.
+You will need to have Python 3.8 installed.
 
 1. Clone this repository to your own machine.
 1. Open a terminal window and navigate to the local version of the repo.

@@ -73,7 +73,7 @@ def start_new_game():
   play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players, anthill_order)
   play_bites.play_full_game()
 
-def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
+def choose_anthill_rule(anthill_card_dict=None):
   """Allows the user to choose the anthill rule for this game
 
   Select one of the available options or allow the game to select one at random.
@@ -91,6 +91,8 @@ def choose_anthill_rule(anthill_card_dict=ANTHILL_CARD_DICT):
   card_choice : (string)
     The string value from the keys of anthill_card_dict that has been selected
   """
+  if anthill_card_dict is None:
+    anthill_card_dict=ANTHILL_CARD_DICT
   anthill_card_allowed_choices = list(anthill_card_dict.keys())
   show_allowed_choices_from_list(anthill_card_allowed_choices)
   print("Or enter 'random' to select one of the above options")

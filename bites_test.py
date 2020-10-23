@@ -242,11 +242,11 @@ class TakeAllTurnsTest(unittest.TestCase):
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
     bites_game.anthill_food_tokens = starting_anthill_food_tokens
-    bites_game.anthill_order = [4, 3, 2, 1, 0]
+    bites_game.anthill_order = ['4', '3', '2', '1', '0']
     
     fake_mario.take_turn = mock.MagicMock(side_effect = [(
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario),
-      ([], {}, [], [4, 3, 2, 1, 0], {})])
+      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario),
+      ([], {}, [], {})])
     
     bites_game.take_all_turns()
 
@@ -338,14 +338,14 @@ class TakeAllTurnsTest(unittest.TestCase):
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
-    bites_game.anthill_order = [4, 3, 2, 1, 0]
+    bites_game.anthill_order = ['4', '3', '2', '1', '0']
     
-    fake_mario.take_turn = mock.MagicMock(side_effect = [(
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario),
-      ([], {}, [], [4, 3, 2, 1, 0], {})])
+    fake_mario.take_turn = mock.MagicMock(side_effect = [
+      (trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario),
+      ([], {}, [], {})])
     
     fake_luigi.take_turn = mock.MagicMock(return_value = (
-      trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, bites_game.anthill_order, anthill_food_tokens_after_turn_2_luigi))
+      trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, anthill_food_tokens_after_turn_2_luigi))
     
     bites_game.take_all_turns()
     
@@ -482,16 +482,16 @@ class TakeAllTurnsTest(unittest.TestCase):
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
     bites_game.anthill_food_tokens = starting_anthill_food_tokens
-    bites_game.anthill_order = [4, 3, 2, 1, 0]
+    bites_game.anthill_order = ['4', '3', '2', '1', '0']
     
     fake_mario.take_turn = mock.MagicMock(side_effect = [
-      (trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario),
-      (trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_3_mario),
-      ([], {}, [], [4,3,2,1,0], {})])
+      (trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario),
+      (trail_after_turn_3_mario, ant_pos_after_turn_3_mario, anthill_after_turn_3_mario, anthill_food_tokens_after_turn_3_mario),
+      ([], {}, [], {})])
 
     fake_luigi.take_turn = mock.MagicMock(side_effect = [
-      (trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, bites_game.anthill_order, anthill_food_tokens_after_turn_2_luigi),
-      (trail_after_turn_4_luigi, ant_pos_after_turn_4_luigi, anthill_after_turn_4_luigi, bites_game.anthill_order, anthill_food_tokens_after_turn_4_luigi)])
+      (trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, anthill_food_tokens_after_turn_2_luigi),
+      (trail_after_turn_4_luigi, ant_pos_after_turn_4_luigi, anthill_after_turn_4_luigi, anthill_food_tokens_after_turn_4_luigi)])
     
     bites_game.take_all_turns()
     
@@ -558,10 +558,10 @@ class TakeAllTurnsTest(unittest.TestCase):
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
-    bites_game.anthill_order = [4, 3, 2, 1, 0]
+    bites_game.anthill_order = ['4', '3', '2', '1', '0']
     
     fake_mario.take_turn = mock.MagicMock(return_value = (
-      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, bites_game.anthill_order, anthill_food_tokens_after_turn_1_mario))
+      trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario))
 
     bites_game.take_all_turns()
 

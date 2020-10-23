@@ -179,7 +179,7 @@ class ChooseAnthillRuleTest(unittest.TestCase):
   def test_user_can_enter_random_and_one_of_the_other_options_is_selected(
     self, mock_builtin_print, mock_builtin_input):
     # test 143
-    expected_results = ["top down", "bottom up", "leave gaps"]
+    expected_results = ["top down", "bottom up", "leave gaps", "user choice"]
     self.assertIn(choose_anthill_rule(), expected_results)
 
   @patch('builtins.input', return_value = "top down")

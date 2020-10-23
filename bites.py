@@ -139,7 +139,7 @@ class Bites():
     self.render_game()
     while 1:
       for player in self.players:
-        (self.trail, self.ant_positions, self.anthill, self.anthill_order, self.anthill_food_tokens) = \
+        (self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens) = \
           player.take_turn(
             self.trail, self.ant_positions, self.anthill, self.anthill_order, self.anthill_food_tokens)
         self.render_game()
