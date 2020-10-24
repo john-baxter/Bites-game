@@ -64,22 +64,23 @@ Values are integers
 
 
 PROMPT_TEXT_ANT_CHOICE  = "please enter your choice of ant"
-"""The text which will be contained in the question when asking the user to choose which 
-ant to move.
-"""
-
 PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"
-"""The text which will be contained in the question when asking the user to choose which 
-direction to collect food from.
-"""
-
 PROMPT_TEXT_ANTHILL_FOOD_CHOICE = "please enter your choice of food"
-"""The text which will be contained in the question when asking the user to choose 
-which food to collect from the anthill.
+PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE = "please enter your choice of anthill level"
+"""The text statements that are used during the various call of Player.make_choice()
 """
 
 
 MIN_PLAYERS = 2
 MAX_PLAYERS = 5
 """As per the standard rules of the game, these many players must take part.
+"""
+
+
+ANTHILL_CARD_DICT = {
+  "top down": [4, 3, 2, 1, 0],
+  "bottom up": [0, 1, 2, 3, 4],
+  "leave gaps": [4, 2, 0, 3, 1],
+  "user choice": None}
+"""The various lists that are used to determine the order that the anthill is filled
 """

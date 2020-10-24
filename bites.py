@@ -1,8 +1,9 @@
 import random
 from constants import K_COLOUR_V_FOOD_DICT
+from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, tokens_for_trail, players):
+  def __init__(self, ants, tokens_for_trail, players, anthill_order):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -48,12 +49,16 @@ class Bites():
       One of each type of food token.
       Keys are foods as strings
       Values are integers initialised as 1
+
+    anthill_order : (string)
+      The identity of the anthill rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(tokens_for_trail)
+    self.anthill_order = anthill_order
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
@@ -136,7 +141,7 @@ class Bites():
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens) = \
           player.take_turn(
-            self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens)
+            self.trail, self.ant_positions, self.anthill, self.anthill_order, self.anthill_food_tokens)
         self.render_game()
         if None not in self.anthill: return
 
@@ -209,6 +214,7 @@ class Bites():
     """Shows a representation of the anthill as text
     """
     print("\nAnthill:")
+    print("Ants will be placed on the anthill according to the rule: %s" % self.anthill_order)
     for i in range(len(self.anthill)-1, -1, -1):
       if self.anthill[i] is None:
         print("Level %s is empty" % i)

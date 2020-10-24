@@ -5,19 +5,10 @@
 Liaise with Peter about the front-end
 
 ### Current
-Update README.md
-- specify python version
-- give list of packages used
 
 ### Next
-Create the different options for anthill order:
-- bottom-to-top filling
-- specific order of 4, 2, 0, 3, 1 filling
-- optional user's choice
-
-Create a way to choose which anthill rule is used (pick an option or pick random)
-Start working on wine being included
-Create a selection (possibly all) of the wine rules
+Start working on wine being included\
+Create a selection (possibly all) of the wine rules\
 Develop the option-picking function to allow for choosing wine rules too
 
 ### Future

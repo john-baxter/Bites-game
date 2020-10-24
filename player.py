@@ -1,8 +1,7 @@
-from constants import K_COLOUR_V_FOOD_DICT
-from constants import K_FOOD_V_COLOUR_DICT
-from constants import PROMPT_TEXT_ANT_CHOICE
-from constants import PROMPT_TEXT_DIRECTION_CHOICE
-from constants import PROMPT_TEXT_ANTHILL_FOOD_CHOICE
+from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT
+from constants import PROMPT_TEXT_ANT_CHOICE, PROMPT_TEXT_DIRECTION_CHOICE, PROMPT_TEXT_ANTHILL_FOOD_CHOICE, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
+from constants import ANTHILL_CARD_DICT
+from functions import show_allowed_choices_from_list
 
 class Player():
   def __init__(self, name):
@@ -107,9 +106,7 @@ class Player():
       The ID of the choice the player has made
     """
     self.user_choice = None
-    print("\nThe available options are:")
-    for i in allowed_choices:
-      print(i)
+    show_allowed_choices_from_list(allowed_choices)
     while self.user_choice not in allowed_choices:
       self.user_choice = input("%s; %s: " % (self.name, prompt_text))
     return self.user_choice
@@ -152,11 +149,12 @@ class Player():
 
     return ant_positions
 
-  def place_ant_on_anthill(self, ant_positions, anthill, ant):
+  def place_ant_on_anthill(self, ant_positions, anthill, anthill_order, ant):
     """Insect meeple goes on correct level of home structure
 
-    The method operates as per the "Overachiever" card from the game. This places ants 
-    onto the anthill from highest position to lowest in order.
+    The method adds ants to the anthill as per the anthill rule currently in play. 
+    The method will prompt user for input if appropriate or iterate through anthill 
+    indices in the appropriate order to find the correct available location.
     Places ant onto appropriate step of the anthill structure when it travels beyond 
     the end of the trail. This determines how many points the corresponding food tokens 
     will be worth.
@@ -176,6 +174,9 @@ class Player():
       Elements will be changed into the IDs of the ants as they reach the anthill.
       Each element is None or string.
 
+    anthill_order : (string)
+      The identity of the anthill rule that has been chosen during the setup of the game.
+
     ant : (string)
       The ID of the ant which is being placed onto the anthill.
 
@@ -192,12 +193,20 @@ class Player():
       Newly updated version of the anthill list; showing one fewer None and one more 
       ant ID (string) in the appropriate place.
     """
-    for i in range(len(anthill)-1, -1, -1):
-      if anthill[i] is not None:
-        continue
-      else:
-        anthill[i] = ant
-        break
+    if anthill_order == "user choice":
+      i = int(
+        self.make_choice(
+          self.define_allowed_choices_anthill_placement(anthill), 
+          PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
+        )
+      )
+      anthill[i] = ant
+    else:
+      anthill_order_list = ANTHILL_CARD_DICT[anthill_order]
+      for i in range(len(anthill)):
+        if anthill[anthill_order_list[i]] is None:
+          anthill[anthill_order_list[i]] = ant
+          break
 
     ant_positions[ant] = "anthill"
     
@@ -266,68 +275,6 @@ class Player():
     trail[food_position] = None
 
     return (food_to_hand, trail)
-
-  def move_ant(self, trail, ant_positions, anthill, ant):
-    """Asseses the layout and calls the appropriate method to advance the insect
-
-    Has control flow to account for ants which are: 
-      -not yet on the trail moving onto the trail
-      -already on the trail and moving further along the trail
-      -on the trail and moving past the end onto the anthill
-      -not yet on the trail moving straight to the anthill (edge case where 
-          all of one type of food has been removed before that colour of ant 
-          has made any moves.)
-      
-    Parameters
-    ----------
-    trail : (list)
-      The trail contains a list of the food tokens available on the game area.
-      The types of food token can be found in constants.py/FOOD_TYPES
-      As food tokens are removed from the game the elements are replaced with None
-
-    ant_positions : (dict)
-      A dictionary showing the starting location of each ant.
-      The position on the trail will be defined as the index of the 
-      element in the trail list.
-      Keys are strings
-      Values are ant position as None or int or "anthill"
-
-    anthill : (list)
-      A list with the same length as the number of ants in the game. 
-      Initialised with each element as None.
-      Elements will be changed into the IDs of the ants as they reach the anthill.
-      Each element is None or string.
-
-    ant : (string)
-      The ID of the ant which is being placed onto the anthill.
-
-    Returns
-    -------
-    return_tuple : (tuple)
-      A tuple consisting of:
-        anthill : (list)
-          Newly updated if any new ants have been placed
-          Returned without any updates if not
-          A list of same length as the number of ants in the game showing their 
-          positions on the anthill, with vacant spots being None
-
-        ant_positions : (dict)
-          Newly updated dictionary of ant positions
-          Any ants that have been moved onto the anthill will have their positions changed 
-          to "anthill"
-          Keys are ant IDs as strings
-          Values are ant position as None or int or "anthill"
-    """
-    if ant_positions[ant] is None and K_COLOUR_V_FOOD_DICT[ant] not in trail:
-      return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)
-    elif ant_positions[ant] is None:
-      return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
-    elif K_COLOUR_V_FOOD_DICT[ant] not in trail[ant_positions[ant]+1:]:
-      return_tuple = self.place_ant_on_anthill(ant_positions, anthill, ant)
-    else:
-      return_tuple = (anthill, self.move_ant_along_trail(trail, ant_positions, ant))
-    
-    return return_tuple
 
   def define_allowed_choices_ants(self, ant_positions):
     """Provides the list of permitted movement options to the player
@@ -404,7 +351,7 @@ class Player():
 
     return allowed_choices_direction
 
-  def take_turn(self, trail, ant_positions, anthill, anthill_food_tokens):
+  def take_turn(self, trail, ant_positions, anthill, anthill_order, anthill_food_tokens):
     """Perform necessary steps to complete one player's move
 
     Parameters
@@ -416,12 +363,16 @@ class Player():
     ant_positions : (dict)
       Dictionary containing the current locations of each ant.
       Keys are ants as strings.
-      Values are ant positions as None, int or "anthill" (str).
+      Values are ant positions as None, int or "anthill" (string).
 
     anthill : (list)
       List of equivalent length as the number of ants in the game. 
       Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
       Elements are None or ant IDs as strings.
+
+    anthill_order : (list)
+      A list defining the order in which the anthill should be filled as ants arrive 
+      throughout the game. 
 
     anthill_food_tokens : (dict)
       Contains the record of which and how many of each food token are stored at the anthill.
@@ -437,7 +388,7 @@ class Player():
     ant_positions : (dict)
       The newly updated dictionary showing the positions of the ants. 
       Keys are ant IDs as strings.
-      Values are None, int or "anthill" (str).
+      Values are None, int or "anthill" (string).
     
     anthill : (list)
       The newly updated (if neccessary) anthill list
@@ -452,7 +403,7 @@ class Player():
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
-      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, ant)
+      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant)
       allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
       user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_ANTHILL_FOOD_CHOICE) 
       anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
@@ -541,3 +492,29 @@ class Player():
     """
     anthill_food_tokens[user_choice_food] -= 1
     return anthill_food_tokens
+
+  def define_allowed_choices_anthill_placement(self, anthill):
+    """Provides the list of permitted anthill-level-picking options to the player
+
+    Determines which anthill levels are vacant and can have an ant placet there. 
+    For use in games with 'user choice' anthill rule.
+
+    Parameters
+    ----------
+    anthill : (list)
+      A list showing the current state of the game's anthill.
+      Initialised with each element as None.
+      Elements will be changed into the IDs of the ants as they reach the anthill.
+      Each element is None or string.
+
+    Returns
+    -------
+    allowed_choices_placement : (list)
+      A list containing the indices of any/all vacant locations in the anthill.
+      The indices are converted to strings to ensure compatibility with make_choice().
+    """
+    allowed_choices_placement = []
+    for idx, level in enumerate(anthill):
+      if level is None:
+        allowed_choices_placement.append(str(idx))
+    return allowed_choices_placement
