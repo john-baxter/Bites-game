@@ -56,6 +56,24 @@ class StoreFoodTest(unittest.TestCase):
       mario.store_food(food)
       self.assertEqual(mario.hand, expected_new_hand)
 
+  def test_check_can_receive_wine_when_not_already_in_hand(self):
+    # test 156
+    mario = Player("Mario")
+    mario.hand = {"apple": 2}
+    food = "wine"
+    expected_new_hand = {"apple": 2, "wine": 1}
+    mario.store_food(food)
+    self.assertEqual(mario.hand, expected_new_hand)
+    
+  def test_check_can_receive_wine_when_already_has_wine_in_hand(self):
+    # test 157
+    mario = Player("Mario")
+    mario.hand = {"wine": 1}
+    food = "wine"
+    expected_new_hand = {"wine": 2}
+    mario.store_food(food)
+    self.assertEqual(mario.hand, expected_new_hand)
+
 class ScoreHandTest(unittest.TestCase):
   def test_can_score_four_points_for_one_token_in_top_slot(self):
     # test 22
@@ -678,6 +696,18 @@ class TakeFoodFromTrailTest(unittest.TestCase):
     direction = "front"
     expected_food = "bread"
     expected_new_trail = ["apple", "grapes", None, "cheese", None]
+    expected_tuple = (expected_food, expected_new_trail)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
+
+  def test_check_wine_can_be_collected_from_trail(self):
+    # test 155
+    mario = Player("mario")
+    trail = ["apple", "grapes", "wine"]
+    ant_positions = {"purple": 1}
+    ant = "purple"
+    direction = "front"
+    expected_food = "wine"
+    expected_new_trail = ["apple", "grapes", None]
     expected_tuple = (expected_food, expected_new_trail)
     self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
 
