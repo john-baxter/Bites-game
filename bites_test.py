@@ -214,7 +214,6 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail.count("bread"), 9)
     self.assertEqual(bites_game.trail.count("wine"), 5)
 
-
 class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
     # test 27
