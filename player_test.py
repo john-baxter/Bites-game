@@ -58,12 +58,12 @@ class StoreFoodTest(unittest.TestCase):
 
   def test_check_can_receive_wine_when_not_already_in_hand(self):
     # test 156
-      mario = Player("Mario")
-      mario.hand = {"apple": 2}
-      food = "wine"
-      expected_new_hand = {"apple": 2, "wine": 1}
-      mario.store_food(food)
-      self.assertEqual(mario.hand, expected_new_hand)
+    mario = Player("Mario")
+    mario.hand = {"apple": 2}
+    food = "wine"
+    expected_new_hand = {"apple": 2, "wine": 1}
+    mario.store_food(food)
+    self.assertEqual(mario.hand, expected_new_hand)
     
   def test_check_can_receive_wine_when_already_has_wine_in_hand(self):
     # test 157
@@ -73,7 +73,6 @@ class StoreFoodTest(unittest.TestCase):
     expected_new_hand = {"wine": 2}
     mario.store_food(food)
     self.assertEqual(mario.hand, expected_new_hand)
-
 
 class ScoreHandTest(unittest.TestCase):
   def test_can_score_four_points_for_one_token_in_top_slot(self):

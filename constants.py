@@ -61,7 +61,7 @@ food token.
 """
 
 
-STANDARD_TOKENS_FOR_TRAIL = {i : NUMBER_OF_EACH_STANDARD_FOOD_TOKEN for i in STANDARD_FOOD_TYPES}
+STANDARD_TOKENS_FOR_TRAIL = {food : NUMBER_OF_EACH_STANDARD_FOOD_TOKEN for food in STANDARD_FOOD_TYPES}
 """The standard number of each standard food token
 
 A dictionary showing how many of each standard food token will be 
