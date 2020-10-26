@@ -681,6 +681,18 @@ class TakeFoodFromTrailTest(unittest.TestCase):
     expected_tuple = (expected_food, expected_new_trail)
     self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
 
+  def test_check_wine_can_be_collected_from_trail(self):
+    # test 156
+    mario = Player("mario")
+    trail = ["apple", "grapes", "wine"]
+    ant_positions = {"purple": 1}
+    ant = "purple"
+    direction = "front"
+    expected_food = "wine"
+    expected_new_trail = ["apple", "grapes", None]
+    expected_tuple = (expected_food, expected_new_trail)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
+
 class DefineAllowedChoicesAntsTest(unittest.TestCase):
   def test_define_allowed_choices_ants_returns_a_list(self):
     # test 52
