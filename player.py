@@ -1,4 +1,4 @@
-from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT
+from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT, STANDARD_FOOD_TYPES
 from constants import PROMPT_TEXT_ANT_CHOICE, PROMPT_TEXT_DIRECTION_CHOICE, PROMPT_TEXT_ANTHILL_FOOD_CHOICE, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
 from constants import ANTHILL_CARD_DICT
 from functions import show_allowed_choices_from_list
@@ -521,6 +521,6 @@ class Player():
 
   def score_wine_in_hand(self):
     if "wine" in self.hand:
-      return self.hand["wine"] * (len(self.hand) - 1)
+      return self.hand["wine"] * (len([food for food in self.hand if food in STANDARD_FOOD_TYPES and self.hand[food] > 0]))
     else:
       return 0
