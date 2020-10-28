@@ -524,3 +524,6 @@ class Player():
       return self.hand["wine"] * (len([food for food in self.hand if food in STANDARD_FOOD_TYPES and self.hand[food] > 0]))
     else:
       return 0
+
+  def score_hand(self):
+    return 0

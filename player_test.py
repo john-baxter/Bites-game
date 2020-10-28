@@ -1116,7 +1116,14 @@ class ScoreWineInHandTest(unittest.TestCase):
     actual_result = mario.score_wine_in_hand()
     self.assertEqual(actual_result, expected_result)
 
-  
+class ScoreHandTest(unittest.TestCase):
+  def test_score_hand_returns_int(self):
+    # test 162
+    mario = Player("Mario")
+    actual_result = mario.score_hand()
+    self.assertIsInstance(actual_result, int)
+
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
