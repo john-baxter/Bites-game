@@ -1182,10 +1182,5 @@ class ScoreHandTest(unittest.TestCase):
 
     self.assertEqual(mario.score, expected_score)
 
-
-  
-
-
-
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
