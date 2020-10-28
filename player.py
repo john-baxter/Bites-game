@@ -525,5 +525,5 @@ class Player():
     else:
       return 0
 
-  def score_hand(self):
-    return 0
+  def score_hand(self, anthill):
+    self.score = 22
