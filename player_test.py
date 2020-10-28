@@ -1082,11 +1082,26 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 
 class ScoreWineInHandTest(unittest.TestCase):
+  """Initial setup of the score_wine_in_hand() will follow the "Collector" card.
+
+  Each wine is worth 1 point for each different type of food you have at least one of
+  """
   def test_score_wine_in_hand_returns_int(self):
     # test 158
     mario = Player("Mario")
     actual_result = mario.score_wine_in_hand()
     self.assertIsInstance(actual_result, int)
+
+  def test_one_wine_and_one_standard_food_wine_score_is_1(self):
+    # test 159
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 1}
+    expected_result = 1
+    actual_result = mario.score_wine_in_hand()
+    self.assertEqual(actual_result, expected_result)
+
+
+  
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
