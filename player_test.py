@@ -1081,5 +1081,12 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 
+class ScoreWineInHandTest(unittest.TestCase):
+  def test_score_wine_in_hand_returns_int(self):
+    # test 158
+    mario = Player("Mario")
+    actual_result = mario.score_wine_in_hand()
+    self.assertIsInstance(actual_result, int)
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

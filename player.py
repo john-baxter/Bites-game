@@ -518,3 +518,6 @@ class Player():
       if level is None:
         allowed_choices_placement.append(str(idx))
     return allowed_choices_placement
+
+  def score_wine_in_hand(self):
+    return 0
