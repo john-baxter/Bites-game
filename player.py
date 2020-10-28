@@ -528,7 +528,4 @@ class Player():
       return 0
 
   def score_hand(self, anthill):
-    if "wine" in self.hand:
       self.score = self.score_wine_in_hand() + self.score_standard_food_in_hand(anthill)
-    else:
-      self.score = self.score_standard_food_in_hand(anthill)
