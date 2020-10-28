@@ -1092,7 +1092,7 @@ class ScoreWineInHandTest(unittest.TestCase):
     actual_result = mario.score_wine_in_hand()
     self.assertIsInstance(actual_result, int)
 
-  def test_one_wine_and_one_standard_food_wine__score_is_1(self):
+  def test_one_wine_and_one_standard_food__wine_score_is_1(self):
     # test 159
     mario = Player("Mario")
     mario.hand = {"apple": 1, "wine": 1}
@@ -1100,11 +1100,19 @@ class ScoreWineInHandTest(unittest.TestCase):
     actual_result = mario.score_wine_in_hand()
     self.assertEqual(actual_result, expected_result)
 
-  def test_two_wines_and_one_standard_food__score_is_2(self):
+  def test_two_wines_and_one_standard_food__wine_score_is_2(self):
     # test 160
     mario = Player("Mario")
     mario.hand = {"apple": 1, "wine": 2}
     expected_result = 2
+    actual_result = mario.score_wine_in_hand()
+    self.assertEqual(actual_result, expected_result)
+
+  def test_two_wines_and_two_different_standard_foods__wine_score_is_4(self):
+    # test 161
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "grapes": 1, "wine": 2}
+    expected_result = 4
     actual_result = mario.score_wine_in_hand()
     self.assertEqual(actual_result, expected_result)
 

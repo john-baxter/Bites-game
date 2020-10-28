@@ -521,6 +521,6 @@ class Player():
 
   def score_wine_in_hand(self):
     if "wine" in self.hand:
-      return self.hand["wine"]
+      return self.hand["wine"] * (len(self.hand) - 1)
     else:
       return 0
