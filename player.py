@@ -62,7 +62,7 @@ class Player():
     else:
       self.hand[food] = 1
     
-  def score_hand(self, anthill):
+  def score_standard_food_in_hand(self, anthill):
     """Calculates player's points at the end of the game
     Could be called any time but to reflect the real game there is no running 
     total of points; just a single calculation and comparison after the final ant 

@@ -152,7 +152,7 @@ class Bites():
     """
     print("\nThe results: ")
     for player in self.players:
-      player.score_hand(self.anthill)     
+      player.score_standard_food_in_hand(self.anthill)     
       print ("%s: %i" % (player.name, player.score))
 
   def play_full_game(self):
