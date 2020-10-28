@@ -83,7 +83,7 @@ class Player():
       will be updated at the end of the game.
     """
     standard_food_score = 0
-    for food in self.hand and STANDARD_FOOD_TYPES:
+    for food in self.hand:
       standard_food_score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
     return standard_food_score
 
