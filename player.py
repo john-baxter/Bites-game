@@ -82,9 +82,10 @@ class Player():
       An integer showing the player's points total. Will be initialised at 0 and 
       will be updated at the end of the game.
     """
-    self.score = 0
-    for food in self.hand:
-      self.score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
+    standard_food_score = 0
+    for food in self.hand and STANDARD_FOOD_TYPES:
+      standard_food_score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
+    return standard_food_score
 
   def make_choice(self, allowed_choices, prompt_text):
     """Used any time the player needs to make a choice
