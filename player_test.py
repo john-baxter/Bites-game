@@ -166,6 +166,21 @@ class ScoreStandardFoodInHandTest(unittest.TestCase):
     self.assertEqual(actual_score_a, expected_score_a)
     self.assertEqual(actual_score_b, expected_score_b)
 
+  def test_wine_in_hand_does_not_affect_standard_score_calc(self):
+    # test 162
+    mario = Player("placeholder name")
+    anthill = ["red", "purple", "yellow", "brown", "green"]
+    mario.hand = {
+      "apple": 3,
+      "grapes": 4,
+      "cheese": 0,
+      "bread": 1,
+      "pepper": 2,
+      "wine": 2}
+    expected_standard_score = 15
+    actual_standard_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_standard_score, expected_standard_score)
+
 class MakeChoiceTest(unittest.TestCase):
   def test_returns_user_input_for_input_is_red(self):
     # test 37

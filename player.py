@@ -84,7 +84,8 @@ class Player():
     """
     standard_food_score = 0
     for food in self.hand:
-      standard_food_score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
+      if food in STANDARD_FOOD_TYPES:
+        standard_food_score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
     return standard_food_score
 
   def make_choice(self, allowed_choices, prompt_text):
