@@ -5,7 +5,8 @@
 Liaise with Peter about the front-end
 
 ### Current
-Start working on wine being included
+Start working on wine being included\
+Check references to tokens for trail wrt anthill food. need to change this to somehow avoid wine being included.
 
 ### Next
 Create a selection (possibly all) of the wine rules\
