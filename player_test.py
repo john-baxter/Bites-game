@@ -1133,15 +1133,14 @@ class ScoreWineInHandTest(unittest.TestCase):
 
 class ScoreHandTest(unittest.TestCase):
   def test_score_hand_updates_player_score_with_combined_std_plus_wine_scores(self):
-    test 162
+    # test 162
     mario = Player("Mario")
     mario.hand = {
       "wine": 2,
       "apple": 3,
       "grapes": 2,
       "bread": 1,    }
-    anthill = [
-      "bread", "cheese", "grapes", "pepper", "apple"    ]
+    anthill = ["brown", "yellow", "purple", "green", "red"]
     
     standard_food_score = 16
     wine_score = 6
@@ -1149,6 +1148,23 @@ class ScoreHandTest(unittest.TestCase):
     mario.score_hand(anthill)
 
     self.assertEqual(mario.score, expected_score)
+
+  def test_score_hand_updates_player_score_for_hand_with_no_wine_only_standard_food(self):
+    # test 164
+    mario = Player("Mario")
+    mario.hand = {
+      "apple": 3,
+      "grapes": 2,
+      "bread": 1,    }
+    anthill = ["brown", "yellow", "purple", "green", "red"]
+    
+    standard_food_score = 16
+    wine_score = 0
+    expected_score = standard_food_score + wine_score
+    mario.score_hand(anthill)
+
+    self.assertEqual(mario.score, expected_score)
+
 
   
 
