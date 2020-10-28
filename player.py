@@ -520,4 +520,7 @@ class Player():
     return allowed_choices_placement
 
   def score_wine_in_hand(self):
-    return 1
+    if "wine" in self.hand:
+      return self.hand["wine"]
+    else:
+      return 0
