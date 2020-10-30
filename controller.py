@@ -1,5 +1,5 @@
 from constants import MIN_PLAYERS, MAX_PLAYERS
-from constants import ANTS, TOKENS_FOR_TRAIL
+from constants import ANTS, STANDARD_TOKENS_FOR_TRAIL, SPECIAL_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 from player import Player
 from bites import Bites
@@ -70,7 +70,7 @@ def start_new_game():
   """
   players = prepare_list_of_players()
   anthill_order = choose_anthill_rule()
-  play_bites = Bites(ANTS, TOKENS_FOR_TRAIL, players, anthill_order)
+  play_bites = Bites(ANTS, STANDARD_TOKENS_FOR_TRAIL, SPECIAL_TOKENS_FOR_TRAIL, players, anthill_order)
   play_bites.play_full_game()
 
 def choose_anthill_rule(anthill_card_dict=None):
