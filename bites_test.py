@@ -646,9 +646,9 @@ class TakeAllTurnsTest(unittest.TestCase):
     # fake_mario = mock.MagicMock()
     # fake_mario.take_turn = mock.MagicMock(return_value = (
     #   trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario))
-    # fake_mario.score_hand = mock.MagicMock(return_value = 3)
+    # fake_mario.score_food = mock.MagicMock(return_value = 3)
     # fake_luigi = mock.MagicMock()
-    # fake_luigi.score_hand = mock.MagicMock(return_value = 9)
+    # fake_luigi.score_food = mock.MagicMock(return_value = 9)
 
     # players = [fake_mario, fake_luigi]
     # bites_game = Bites(ants, tokens_for_trail, players, anthill_order)
@@ -665,7 +665,7 @@ class PrintScoresTest(unittest.TestCase):
         self.name = name
         self.score = 0
 
-      def score_hand(self, anthill):
+      def score_food(self, anthill):
         pass
 
     ants = []
@@ -691,7 +691,7 @@ class PrintScoresTest(unittest.TestCase):
         self.score = 0
         self.final_score = final_score
 
-      def score_hand(self, anthill):
+      def score_food(self, anthill):
         self.score = self.final_score
 
     fake_mario = FakePlayer("mario", 3)
@@ -742,8 +742,8 @@ class PlayFullGameTest(unittest.TestCase):
   @patch('bites.Bites.take_all_turns')
   @patch('bites.Bites.calculate_and_print_scores')
   def test_play_full_game_calls_take_all_turns_first_and_then_calculate_and_print_scores(
-    # test 84
     self, calculate_and_print_scores_mock, take_all_turns_mock):
+    # test 84
     manager = mock.Mock()
     manager.attach_mock(calculate_and_print_scores_mock, 'printing_the_score')
     manager.attach_mock(take_all_turns_mock, 'taking_all_the_turns')

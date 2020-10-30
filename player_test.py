@@ -74,15 +74,15 @@ class StoreFoodTest(unittest.TestCase):
     mario.store_food(food)
     self.assertEqual(mario.hand, expected_new_hand)
 
-class ScoreHandTest(unittest.TestCase):
+class ScoreStandardFoodInHandTest(unittest.TestCase):
   def test_can_score_four_points_for_one_token_in_top_slot(self):
     # test 22
     mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"pepper": 1}
     expected_score = 4
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_can_score_three_points_for_one_token_in_second_top_slot(self):
     # test 23
@@ -90,8 +90,8 @@ class ScoreHandTest(unittest.TestCase):
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"bread": 1}
     expected_score = 3
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_can_score_four_points_for_two_tokens_in_middle_slot(self):
     # test 24
@@ -99,8 +99,8 @@ class ScoreHandTest(unittest.TestCase):
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"cheese": 2}
     expected_score = 4
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_can_score_ten_points_for_one_of_each_token(self):
     # test 25
@@ -113,8 +113,8 @@ class ScoreHandTest(unittest.TestCase):
       "bread": 1,
       "pepper": 1}
     expected_score = 10
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_can_score_twenty_points_for_two_of_each_token(self):
     # test 26
@@ -127,8 +127,8 @@ class ScoreHandTest(unittest.TestCase):
       "bread": 2,
       "pepper": 2}
     expected_score = 20
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_typical_end_of_game_hand_gives_correct_score(self):
     # test 28
@@ -141,8 +141,8 @@ class ScoreHandTest(unittest.TestCase):
       "bread": 1,
       "pepper": 2}
     expected_score = 15
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_same_hand_gives_different_scores_for_different_anthill_configurations(self):
     # test 29
@@ -160,11 +160,26 @@ class ScoreHandTest(unittest.TestCase):
     luigi.hand = hand
     expected_score_a = 15
     expected_score_b = 19
-    mario.score_hand(anthill_a)
-    luigi.score_hand(anthill_b)
-    self.assertNotEqual(mario.score, luigi.score)
-    self.assertEqual(mario.score, expected_score_a)
-    self.assertEqual(luigi.score, expected_score_b)
+    actual_score_a = mario.score_standard_food_in_hand(anthill_a)
+    actual_score_b = luigi.score_standard_food_in_hand(anthill_b)
+    self.assertNotEqual(actual_score_a, actual_score_b)
+    self.assertEqual(actual_score_a, expected_score_a)
+    self.assertEqual(actual_score_b, expected_score_b)
+
+  def test_wine_in_hand_does_not_affect_standard_score_calc(self):
+    # test 163
+    mario = Player("placeholder name")
+    anthill = ["red", "purple", "yellow", "brown", "green"]
+    mario.hand = {
+      "apple": 3,
+      "grapes": 4,
+      "cheese": 0,
+      "bread": 1,
+      "pepper": 2,
+      "wine": 2}
+    expected_standard_score = 15
+    actual_standard_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_standard_score, expected_standard_score)
 
 class MakeChoiceTest(unittest.TestCase):
   def test_returns_user_input_for_input_is_red(self):
@@ -1080,6 +1095,107 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     expected_allowed_choices = ['1']
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
+
+class ScoreWineInHandTest(unittest.TestCase):
+  """Initial setup of the score_wine_in_hand() will follow the "Collector" card.
+
+  Each wine is worth 1 point for each different type of food you have at least one of
+  """
+  def test_score_wine_in_hand_returns_int(self):
+    # test 158
+    mario = Player("Mario")
+    actual_result = mario.score_wine_in_hand()
+    self.assertIsInstance(actual_result, int)
+
+  def test_one_wine_and_one_standard_food__wine_score_is_1(self):
+    # test 159
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 1}
+    expected_result = 1
+    actual_result = mario.score_wine_in_hand()
+    self.assertEqual(actual_result, expected_result)
+
+  def test_two_wines_and_one_standard_food__wine_score_is_2(self):
+    # test 160
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    expected_result = 2
+    actual_result = mario.score_wine_in_hand()
+    self.assertEqual(actual_result, expected_result)
+
+  def test_two_wines_and_two_different_standard_foods__wine_score_is_4(self):
+    # test 161
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "grapes": 1, "wine": 2}
+    expected_result = 4
+    actual_result = mario.score_wine_in_hand()
+    self.assertEqual(actual_result, expected_result)
+
+class ScoreHandTest(unittest.TestCase):
+  def test_score_hand_updates_player_score_with_combined_std_plus_wine_scores(self):
+    # test 162
+    mario = Player("Mario")
+    mario.hand = {
+      "wine": 2,
+      "apple": 3,
+      "grapes": 2,
+      "bread": 1,    }
+    anthill = ["brown", "yellow", "purple", "green", "red"]
+    
+    standard_food_score = 16
+    wine_score = 6
+    expected_score = standard_food_score + wine_score
+    mario.score_hand(anthill)
+
+    self.assertEqual(mario.score, expected_score)
+
+  def test_score_hand_updates_player_score_for_hand_with_no_wine_only_standard_food(self):
+    # test 164
+    mario = Player("Mario")
+    mario.hand = {
+      "apple": 3,
+      "grapes": 2,
+      "bread": 1,    }
+    anthill = ["brown", "yellow", "purple", "green", "red"]
+    
+    standard_food_score = 16
+    wine_score = 0
+    expected_score = standard_food_score + wine_score
+    mario.score_hand(anthill)
+
+    self.assertEqual(mario.score, expected_score)
+
+  def test_score_hand_updates_player_score_for_hand_with_one_wine_and_standard_food(self):
+    # test 165
+    mario = Player("Mario")
+    mario.hand = {
+      "wine": 1,
+      "apple": 3,
+      "grapes": 2,
+      "bread": 1,    }
+    anthill = ["brown", "yellow", "purple", "green", "red"]
+    
+    standard_food_score = 16
+    wine_score = 3
+    expected_score = standard_food_score + wine_score
+    mario.score_hand(anthill)
+
+    self.assertEqual(mario.score, expected_score)
+
+  @patch('player.Player.score_standard_food_in_hand', return_value=16)
+  @patch('player.Player.score_wine_in_hand', return_value=3)
+  def test_score_hand_calls_both_score_std_and_score_wine(self, score_wine_mock, score_standard_mock):
+    # test 166
+    mario = Player("Mario")
+    mario.hand = {}
+    anthill = []
+    mario.score_hand(anthill)
+
+    expected_score = 19
+
+    score_standard_mock.assert_called_once_with(anthill)
+    score_wine_mock.assert_called_once_with()
+    self.assertEqual(mario.score, expected_score)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

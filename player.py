@@ -1,4 +1,4 @@
-from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT
+from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT, STANDARD_FOOD_TYPES
 from constants import PROMPT_TEXT_ANT_CHOICE, PROMPT_TEXT_DIRECTION_CHOICE, PROMPT_TEXT_ANTHILL_FOOD_CHOICE, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
 from constants import ANTHILL_CARD_DICT
 from functions import show_allowed_choices_from_list
@@ -62,8 +62,12 @@ class Player():
     else:
       self.hand[food] = 1
     
-  def score_hand(self, anthill):
-    """Calculates player's points at the end of the game
+  def score_standard_food_in_hand(self, anthill):
+    """Calculates player's 'standard' points at the end of the game
+
+    'Standard' points are those that are acquired through the standard food tokens 
+    held by the player.
+
     Could be called any time but to reflect the real game there is no running 
     total of points; just a single calculation and comparison after the final ant 
     has reached the anthill.
@@ -76,15 +80,16 @@ class Player():
       food token in a player's hand.
       Each element is a string
 
-    Updates
+    Returns
     -------
-    score : (integer)
-      An integer showing the player's points total. Will be initialised at 0 and 
-      will be updated at the end of the game.
+    standard_food_score : (integer)
+      An integer showing the player's total points from standard food. 
     """
-    self.score = 0
+    standard_food_score = 0
     for food in self.hand:
-      self.score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
+      if food in STANDARD_FOOD_TYPES:
+        standard_food_score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
+    return standard_food_score
 
   def make_choice(self, allowed_choices, prompt_text):
     """Used any time the player needs to make a choice
@@ -518,3 +523,45 @@ class Player():
       if level is None:
         allowed_choices_placement.append(str(idx))
     return allowed_choices_placement
+
+  def score_wine_in_hand(self):
+    """Calculates player's 'wine' points at the end of the game
+
+    'Wine' points are those that are acquired through the wine tokens 
+    held by the player.
+
+    Could be called any time but to reflect the real game there is no running 
+    total of points; just a single calculation and comparison after the final ant 
+    has reached the anthill.
+
+    Returns
+    -------
+    wine_score : (integer)
+      An integer showing the player's total points from wine. 
+    """
+    wine_score = 0
+    if "wine" in self.hand:
+      wine_score = self.hand["wine"] *\
+       (len([food for food in self.hand\
+       if food in STANDARD_FOOD_TYPES and self.hand[food] > 0]))
+    return wine_score
+
+  def score_hand(self, anthill):
+    """Calculates the player's total points at the end of the game.
+
+    Could be called any time but to reflect the real game there is no running 
+    total of points; just a single calculation and comparison after the final ant 
+    has reached the anthill.
+
+    Adds together the standard_food_score and the wine_score.
+
+    Updates
+    -------
+    score : (integer)
+      The player's total points for this game. 
+      Will be initialised at 0
+      Will be updated at the end of the game.
+    """
+    wine_score = self.score_wine_in_hand()
+    standard_score = self.score_standard_food_in_hand(anthill) 
+    self.score = standard_score + wine_score
