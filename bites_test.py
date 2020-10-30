@@ -742,8 +742,8 @@ class PlayFullGameTest(unittest.TestCase):
   @patch('bites.Bites.take_all_turns')
   @patch('bites.Bites.calculate_and_print_scores')
   def test_play_full_game_calls_take_all_turns_first_and_then_calculate_and_print_scores(
-    # test 84
     self, calculate_and_print_scores_mock, take_all_turns_mock):
+    # test 84
     manager = mock.Mock()
     manager.attach_mock(calculate_and_print_scores_mock, 'printing_the_score')
     manager.attach_mock(take_all_turns_mock, 'taking_all_the_turns')

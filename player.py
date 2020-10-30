@@ -541,7 +541,9 @@ class Player():
     """
     wine_score = 0
     if "wine" in self.hand:
-      wine_score = self.hand["wine"] * (len([food for food in self.hand if food in STANDARD_FOOD_TYPES and self.hand[food] > 0]))
+      wine_score = self.hand["wine"] *\
+       (len([food for food in self.hand\
+       if food in STANDARD_FOOD_TYPES and self.hand[food] > 0]))
     return wine_score
 
   def score_hand(self, anthill):
@@ -560,4 +562,6 @@ class Player():
       Will be initialised at 0
       Will be updated at the end of the game.
     """
-      self.score = self.score_wine_in_hand() + self.score_standard_food_in_hand(anthill)
+    wine_score = self.score_wine_in_hand()
+    standard_score = self.score_standard_food_in_hand(anthill) 
+    self.score = standard_score + wine_score

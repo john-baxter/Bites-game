@@ -167,7 +167,7 @@ class ScoreStandardFoodInHandTest(unittest.TestCase):
     self.assertEqual(actual_score_b, expected_score_b)
 
   def test_wine_in_hand_does_not_affect_standard_score_calc(self):
-    # test 162
+    # test 163
     mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {
@@ -1180,6 +1180,21 @@ class ScoreHandTest(unittest.TestCase):
     expected_score = standard_food_score + wine_score
     mario.score_hand(anthill)
 
+    self.assertEqual(mario.score, expected_score)
+
+  @patch('player.Player.score_standard_food_in_hand', return_value=16)
+  @patch('player.Player.score_wine_in_hand', return_value=3)
+  def test_score_hand_calls_both_score_std_and_score_wine(self, score_wine_mock, score_standard_mock):
+    # test 166
+    mario = Player("Mario")
+    mario.hand = {}
+    anthill = []
+    mario.score_hand(anthill)
+
+    expected_score = 19
+
+    score_standard_mock.assert_called_once_with(anthill)
+    score_wine_mock.assert_called_once_with()
     self.assertEqual(mario.score, expected_score)
 
 if __name__ == '__main__':
