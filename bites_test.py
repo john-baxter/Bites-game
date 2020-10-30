@@ -1152,8 +1152,8 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(mock_builtin_print.call_args_list[4], expected_print_result_4)
 
 class InitialiseAnthillFoodTokensTest(unittest.TestCase):
-  # test 116
   def test_anthill_can_store_food_tokens_in_dict(self):
+    # test 116
     ants = []
     tokens = {
       "apple": 0,
@@ -1186,6 +1186,30 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
     self.assertIn("cheese", bites_game.initialise_anthill_food_tokens(tokens).keys())
     self.assertIn("pepper", bites_game.initialise_anthill_food_tokens(tokens).keys())
     self.assertEqual(len(bites_game.initialise_anthill_food_tokens(tokens).keys()), 5)
+
+  def test_upon_initialisation_anthill_does_not_have_wine(self):
+    # test 167
+    ants = []
+    tokens = {
+      "apple": 0,
+      "grapes": 0,
+      "bread": 0,
+      "cheese": 0,
+      "pepper": 0,
+      "wine": 0,}
+    players = []
+    anthill_order = ""
+    bites_game = Bites(ants, tokens, players, anthill_order)
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens(tokens)), 5)
+    self.assertEqual(list(bites_game.initialise_anthill_food_tokens(tokens).values()), [1, 1, 1, 1, 1])
+    self.assertIn("apple", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertIn("grapes", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertIn("bread", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertIn("cheese", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertIn("pepper", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertNotIn("wine", bites_game.initialise_anthill_food_tokens(tokens).keys())
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens(tokens).keys()), 5)
+    
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

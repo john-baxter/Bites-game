@@ -1,5 +1,5 @@
 import random
-from constants import K_COLOUR_V_FOOD_DICT
+from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
@@ -224,6 +224,7 @@ class Bites():
   def initialise_anthill_food_tokens(self, tokens_for_trail):
     """Prepare the stack of tokens next to the anthill
 
+    The stack has one of each standard food. Does not include special food.
     Players get to collect one each time they place an ant on the anthill.
 
     Parameters
@@ -240,7 +241,7 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
     """
-    self.anthill_food_tokens = { token : 1 for token in tokens_for_trail}
+    self.anthill_food_tokens = { token : 1 for token in tokens_for_trail if token in STANDARD_TOKENS_FOR_TRAIL }
     return self.anthill_food_tokens
 
   def print_anthill_food_tokens(self):
