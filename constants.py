@@ -71,7 +71,7 @@ Values are integers
 """
 
 
-SPECIAL_TOKENS_FOR_TRAIL = {i : NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN for i in SPECIAL_FOOD_TYPES}
+SPECIAL_TOKENS_FOR_TRAIL = {food : NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN for food in SPECIAL_FOOD_TYPES}
 """The standard number of each special food token
 
 A dictionary showing how many of each special food token will be 
