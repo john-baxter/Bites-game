@@ -85,6 +85,7 @@ PROMPT_TEXT_ANT_CHOICE  = "please enter your choice of ant"
 PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"
 PROMPT_TEXT_ANTHILL_FOOD_CHOICE = "please enter your choice of food"
 PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE = "please enter your choice of anthill level"
+PROMPT_TEXT_ANTHILL_RULE_CHOICE = "Please enter your choice of anthill card: "
 """The text statements that are used during the various call of Player.make_choice()
 """
 
