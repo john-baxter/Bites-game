@@ -524,11 +524,10 @@ class Player():
         allowed_choices_placement.append(str(idx))
     return allowed_choices_placement
 
-  def score_wine_in_hand(self):
-    """Calculates player's 'wine' points at the end of the game
-
-    'Wine' points are those that are acquired through the wine tokens 
-    held by the player.
+  def score_wine_Collector_method(self):
+    """Uses the Collector rule to calculate the number of points for wine tokens
+    
+    Each wine is worth 1 point for each different type of food you have at least one of
 
     Could be called any time but to reflect the real game there is no running 
     total of points; just a single calculation and comparison after the final ant 
@@ -562,6 +561,9 @@ class Player():
       Will be initialised at 0
       Will be updated at the end of the game.
     """
-    wine_score = self.score_wine_in_hand()
+    wine_score = self.score_wine_Collector_method()
     standard_score = self.score_standard_food_in_hand(anthill) 
     self.score = standard_score + wine_score
+
+  def score_wine_Oenophile_method(self):
+    return 0
