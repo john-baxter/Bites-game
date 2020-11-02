@@ -206,17 +206,17 @@ class InitialiseTrailTest(unittest.TestCase):
 
   def test_full_size_trail_inc_five_wines(self):
     # test 154
-    regular_foods = {
+    standard_tokens_for_trail = {
       "apple": 9,
       "grapes": 9,
       "cheese": 9,
       "pepper": 9,
       "bread": 9}
-    special_foods = {"wine": 5}
+    special_tokens_for_trail = {"wine": 5}
     ants = []
     players = []
     anthill_order = ""
-    bites_game = Bites(ants, regular_foods, special_foods, players, anthill_order)
+    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order)
     expected_trail_length = 50
     self.assertEqual(len(bites_game.trail), expected_trail_length)
     self.assertEqual(bites_game.trail.count("apple"), 9)
