@@ -7,7 +7,6 @@ from controller import generate_player
 from controller import prepare_list_of_players
 from controller import start_new_game
 from controller import choose_game_rule
-# from constants import ANTHILL_CARD_DICT
 
 class EnterNumberOfPlayersTest(unittest.TestCase):
   # test 99
