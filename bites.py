@@ -1,9 +1,9 @@
 import random
-from constants import K_COLOUR_V_FOOD_DICT
+from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, tokens_for_trail, players, anthill_order):
+  def __init__(self, ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -54,10 +54,11 @@ class Bites():
       The identity of the anthill rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
+    tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
-    self.anthill_food_tokens = self.initialise_anthill_food_tokens(tokens_for_trail)
+    self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
     self.anthill_order = anthill_order
 
   def initialise_ant_positions(self, ants):
@@ -221,9 +222,10 @@ class Bites():
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
 
-  def initialise_anthill_food_tokens(self, tokens_for_trail):
+  def initialise_anthill_food_tokens(self, standard_tokens_for_trail):
     """Prepare the stack of tokens next to the anthill
 
+    The stack has one of each standard food. Does not include special food.
     Players get to collect one each time they place an ant on the anthill.
 
     Parameters
@@ -240,7 +242,7 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
     """
-    self.anthill_food_tokens = { token : 1 for token in tokens_for_trail}
+    self.anthill_food_tokens = { token : 1 for token in standard_tokens_for_trail }
     return self.anthill_food_tokens
 
   def print_anthill_food_tokens(self):
