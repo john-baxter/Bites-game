@@ -1208,6 +1208,13 @@ class ScoreWineOenophileMethodTest(unittest.TestCase):
     actual_result = mario.score_wine_Oenophile_method()
     self.assertEqual(actual_result, expected_result)
 
+  def test_two_wines_in_hand__wine_Oenophile_score_is_4(self):
+    # test 170
+    mario = Player("Mario")
+    mario.hand = {"wine": 2}
+    expected_result = 4
+    actual_result = mario.score_wine_Oenophile_method()
+    self.assertEqual(actual_result, expected_result)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
