@@ -14,6 +14,7 @@ Update the score_hand() method to remove the dependancy on score_wine_Collector_
 Update render_game to show the wine rule.
 
 ### Next
+Go through all the methods to update internal documentation wrt standard_ vs special_tokens. most of them seem to still have the older 'tokens_for_trail' listed.\
 Create a selection (possibly all) of the wine rules
 - if doing Protégé remember to address the 0wine=0pts situation.
 

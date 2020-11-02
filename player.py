@@ -533,6 +533,16 @@ class Player():
     total of points; just a single calculation and comparison after the final ant 
     has reached the anthill.
 
+    Parameters
+    ----------
+    standard_tokens_for_trail : (dict)
+      A dictionary containing the 'standard' tokens used to prepare the trail for this game. 
+
+      Used to cross-reference the player's hand to see which tokens will 
+      interact with the wine.
+      Keys are food types as strings
+      Values are integers.
+    
     Returns
     -------
     wine_score : (integer)
@@ -572,6 +582,17 @@ class Player():
     total of points; just a single calculation and comparison after the final ant 
     has reached the anthill.
 
+    Parameters
+    ----------
+    standard_tokens_for_trail : (dict)
+      A dictionary containing the 'standard' tokens used to prepare the trail for this game. 
+
+      Used to cross-reference the player's hand to see which tokens will 
+      interact with the wine. Not needed for this method but passed because the method 
+      which calles this also calls others where this is required. It is included here for concistency.
+      Keys are food types as strings
+      Values are integers.
+
     Returns
     -------
     wine_score : (integer)
@@ -581,6 +602,32 @@ class Player():
     return wine_score
 
   def score_wine(self, standard_tokens_for_trail, wine_rule):
+    """Calculates the player's 'wine' points at the end of the game. 
+
+    'Wine' points are those points that are earned through the possession of wine 
+    tokens in combination with this game's specific wine-rule. 
+
+    Wine rules are set at the time the game is started and whichever one is used, 
+    the correct method is called here.
+
+    Parameters
+    ----------
+    standard_tokens_for_trail : (dict)
+      A dictionary containing the 'standard' tokens used to prepare the trail for this game. 
+
+      Used to cross-reference the player's hand to see which tokens will 
+      interact with the wine.
+      Keys are food types as strings
+      Values are integers.
+
+    wine_rule : (string)
+      The wine rule which was chosen during game set-up.
+
+    Returns
+    -------
+    wine_score : (integer)
+      An integer showing the player's total points from wine. 
+    """
     if "wine" in self.hand:
       return eval(WINE_CARD_DICT[wine_rule])
     else:
