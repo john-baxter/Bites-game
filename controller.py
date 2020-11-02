@@ -86,7 +86,9 @@ def choose_game_rule(rule_card_dict, prompt_text):
     A dictionary containing the available options of rule choice.
     Referred to as 'cards' to reflect the real Bites game.
     Keys are names of rules as strings
-    Values are the implementation of those rules as lists.
+    Values are the implementation of those rules in various forms including:
+      - list
+      - method(with parameters)
 
   Returns
   -------

@@ -110,3 +110,6 @@ ANTHILL_CARD_DICT = {
 WINE_CARD_DICT = {
   "collector": "self.score_wine_Collector_method(standard_tokens_for_trail)",
   "oenophile": "self.score_wine_Oenophile_method(standard_tokens_for_trail)"}
+"""The various methods that calculate the wine score, with their parameters. Will be 
+called when needed as part of calculation the player score.
+"""
