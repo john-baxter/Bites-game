@@ -69,19 +69,19 @@ def start_new_game():
   (and continuation) of a game of Bites.
   """
   players = prepare_list_of_players()
-  anthill_order = choose_anthill_rule()
+  anthill_order = choose_game_rule(ANTHILL_CARD_DICT)
   play_bites = Bites(ANTS, STANDARD_TOKENS_FOR_TRAIL, SPECIAL_TOKENS_FOR_TRAIL, players, anthill_order)
   play_bites.play_full_game()
 
-def choose_anthill_rule(anthill_card_dict=None):
-  """Allows the user to choose the anthill rule for this game
+def choose_game_rule(rule_card_dict):
+  """Allows the user to choose a rule for this game
 
   Select one of the available options or allow the game to select one at random.
 
   Parameters
   ----------
-  anthill_card_dict : (dict)
-    A dictionary containing the available options of anthill rule choice.
+  rule_card_dict : (dict)
+    A dictionary containing the available options of rule choice.
     Referred to as 'cards' to reflect the real Bites game.
     Keys are names of rules as strings
     Values are the implementation of those rules as lists.
@@ -89,21 +89,19 @@ def choose_anthill_rule(anthill_card_dict=None):
   Returns
   -------
   card_choice : (string)
-    The string value from the keys of anthill_card_dict that has been selected
+    The string value from the keys of rule_card_dict that has been selected
   """
-  if anthill_card_dict is None:
-    anthill_card_dict=ANTHILL_CARD_DICT
-  anthill_card_allowed_choices = list(anthill_card_dict.keys())
-  show_allowed_choices_from_list(anthill_card_allowed_choices)
+  rule_card_allowed_choices = list(rule_card_dict.keys())
+  show_allowed_choices_from_list(rule_card_allowed_choices)
   print("Or enter 'random' to select one of the above options")
   card_choice = input("Please enter your choice of anthill card: ")
 
-  if card_choice in anthill_card_allowed_choices:
+  if card_choice in rule_card_allowed_choices:
     return card_choice
   elif card_choice == "random":
-    return anthill_card_allowed_choices[randint(0, len(anthill_card_allowed_choices)-1)]
+    return rule_card_allowed_choices[randint(0, len(rule_card_allowed_choices)-1)]
   else:
-    return choose_anthill_rule()
+    return choose_game_rule(rule_card_dict)
 
 if __name__ == '__main__':
   start_new_game()
