@@ -1,6 +1,6 @@
 from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT, STANDARD_FOOD_TYPES
 from constants import PROMPT_TEXT_ANT_CHOICE, PROMPT_TEXT_DIRECTION_CHOICE, PROMPT_TEXT_ANTHILL_FOOD_CHOICE, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
-from constants import ANTHILL_CARD_DICT
+from constants import ANTHILL_CARD_DICT, WINE_CARD_DICT
 from functions import show_allowed_choices_from_list
 
 class Player():
@@ -524,7 +524,7 @@ class Player():
         allowed_choices_placement.append(str(idx))
     return allowed_choices_placement
 
-  def score_wine_Collector_method(self):
+  def score_wine_Collector_method(self, standard_tokens_for_trail):
     """Uses the Collector rule to calculate the number of points for wine tokens
     
     Each wine is worth 1 point for each different type of food you have at least one of
@@ -540,7 +540,7 @@ class Player():
     """
     wine_score = self.hand["wine"] *\
       (len([food for food in self.hand\
-      if food in STANDARD_FOOD_TYPES and self.hand[food] > 0]))
+      if food in standard_tokens_for_trail and self.hand[food] > 0]))
     return wine_score
 
   def score_hand(self, anthill):
@@ -563,7 +563,7 @@ class Player():
     standard_score = self.score_standard_food_in_hand(anthill) 
     self.score = standard_score + wine_score
 
-  def score_wine_Oenophile_method(self):
+  def score_wine_Oenophile_method(self, standard_tokens_for_trail):
     """Uses the Oenophile rule to calculate the number of points for wine tokens
 
     Each wine is worth one point for each wineyou have.
@@ -580,11 +580,8 @@ class Player():
     wine_score = self.hand["wine"] * self.hand["wine"]
     return wine_score
 
-  def score_wine(self, wine_rule):
+  def score_wine(self, standard_tokens_for_trail, wine_rule):
     if "wine" in self.hand:
-      if wine_rule == "collector":
-        return self.score_wine_Collector_method()
-      else:
-        return self.score_wine_Oenophile_method()
+      return eval(WINE_CARD_DICT[wine_rule])
     else:
       return 0

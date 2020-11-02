@@ -150,14 +150,14 @@ class Bites():
         self.render_game()
         if None not in self.anthill: return
 
-  def calculate_and_print_scores(self):
+  def calculate_and_print_scores(self, standard_tokens_for_trail):
     """Displays each player's score
 
     Prints each player's name and shows how many points they have.
     """
     print("\nThe results: ")
     for player in self.players:
-      player.score_food(self.anthill)     
+      player.score_food(self.anthill, self.standard_tokens_for_trail)     
       print ("%s: %i" % (player.name, player.score))
 
   def play_full_game(self):

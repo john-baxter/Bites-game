@@ -1,3 +1,5 @@
+# from wine_functions import score_wine_Collector_method, score_wine_Oenophile_method
+
 
 K_COLOUR_V_FOOD_DICT = {
   "purple": "grapes",
@@ -106,5 +108,5 @@ ANTHILL_CARD_DICT = {
 """
 
 WINE_CARD_DICT = {
-  "collector": None,
-  "oenophile": None}
+  "collector": "self.score_wine_Collector_method(standard_tokens_for_trail)",
+  "oenophile": "self.score_wine_Oenophile_method(standard_tokens_for_trail)"}
