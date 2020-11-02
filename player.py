@@ -584,5 +584,5 @@ class Player():
       wine_score = self.hand["wine"] * self.hand["wine"]
     return wine_score
 
-  def score_wine(self):
-    return 0
+  def score_wine(self, wine_rule):
+    return 1

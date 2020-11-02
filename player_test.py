@@ -1220,8 +1220,19 @@ class ScoreWineTest(unittest.TestCase):
   def test_score_wine_returns_an_int(self):
     # test 176
     mario = Player("Mario")
-    actual_result = mario.score_wine()
+    wine_rule = ""
+    actual_result = mario.score_wine(wine_rule)
     self.assertIsInstance(actual_result, int)
+
+  def test_rule_is_collector_hand_has1_wine_and_1_food_score_wine_returns_1(self):
+    # test 177
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 1}
+    wine_rule = "collector"
+    expected_result = 1
+    actual_result = mario.score_wine(wine_rule)
+    self.assertEqual(actual_result, expected_result)
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
