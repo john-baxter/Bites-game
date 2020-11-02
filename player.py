@@ -538,11 +538,9 @@ class Player():
     wine_score : (integer)
       An integer showing the player's total points from wine. 
     """
-    wine_score = 0
-    if "wine" in self.hand:
-      wine_score = self.hand["wine"] *\
-       (len([food for food in self.hand\
-       if food in STANDARD_FOOD_TYPES and self.hand[food] > 0]))
+    wine_score = self.hand["wine"] *\
+      (len([food for food in self.hand\
+      if food in STANDARD_FOOD_TYPES and self.hand[food] > 0]))
     return wine_score
 
   def score_hand(self, anthill):
@@ -579,13 +577,14 @@ class Player():
     wine_score : (integer)
       An integer showing the player's total points from wine. 
     """
-    wine_score = 0
-    if "wine" in self.hand:
-      wine_score = self.hand["wine"] * self.hand["wine"]
+    wine_score = self.hand["wine"] * self.hand["wine"]
     return wine_score
 
   def score_wine(self, wine_rule):
-    if wine_rule == "collector":
-      return self.score_wine_Collector_method()
+    if "wine" in self.hand:
+      if wine_rule == "collector":
+        return self.score_wine_Collector_method()
+      else:
+        return self.score_wine_Oenophile_method()
     else:
-      return self.score_wine_Oenophile_method()
+      return 0

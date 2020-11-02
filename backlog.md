@@ -15,6 +15,7 @@ Update render_game to show the wine rule.
 
 ### Next
 Create a selection (possibly all) of the wine rules
+- if doing Protégé remember to address the 0wine=0pts situation.
 
 ### Future
 Chocolate\
