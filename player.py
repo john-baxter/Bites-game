@@ -566,7 +566,20 @@ class Player():
     self.score = standard_score + wine_score
 
   def score_wine_Oenophile_method(self):
+    """Uses the Oenophile rule to calculate the number of points for wine tokens
+
+    Each wine is worth one point for each wineyou have.
+
+    Could be called any time but to reflect the real game there is no running 
+    total of points; just a single calculation and comparison after the final ant 
+    has reached the anthill.
+
+    Returns
+    -------
+    wine_score : (integer)
+      An integer showing the player's total points from wine. 
+    """
+    wine_score = 0
     if "wine" in self.hand:
-      return self.hand["wine"] * self.hand["wine"]
-    else:
-      return 0
+      wine_score = self.hand["wine"] * self.hand["wine"]
+    return wine_score
