@@ -5,12 +5,12 @@
 Liaise with Peter about the front-end
 
 ### Current
-Start working on wine being included\
-Check references to tokens for trail wrt anthill food. need to change this to somehow avoid wine being included.
+Add second wine rule
+- this will be "Oenophile", each wine is 1pt per wine
 
 ### Next
-Create a selection (possibly all) of the wine rules\
 Develop the option-picking function to allow for choosing wine rules too
+Create a selection (possibly all) of the wine rules\
 
 ### Future
 Chocolate\
