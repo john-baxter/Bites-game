@@ -140,7 +140,7 @@ class StartNewGameTest(unittest.TestCase):
     start_new_game()
     mock_bites_play.assert_called_once()
 
-class ChooseAnthillRuleTest(unittest.TestCase):
+class Use_choose_game_rule_ToChooseAnthillRuleTest(unittest.TestCase):
   @patch('builtins.input', return_value = "top down")
   @patch('builtins.print')
   def test_choose_game_rule_allows_choice_of_top_down_option(
@@ -151,8 +151,9 @@ class ChooseAnthillRuleTest(unittest.TestCase):
       "bottom up": [0, 1, 2, 3, 4],
       "leave gaps": [4, 2, 0, 3, 1],
       "user choice": None}    
+    prompt_text = "Please enter your choice of anthill card: "
     expected_result = "top down"
-    self.assertEqual(choose_game_rule(anthill_card_dict), expected_result)
+    self.assertEqual(choose_game_rule(anthill_card_dict, prompt_text), expected_result)
 
   @patch('builtins.input', return_value = "bottom up")
   @patch('builtins.print')
@@ -164,8 +165,9 @@ class ChooseAnthillRuleTest(unittest.TestCase):
       "bottom up": [0, 1, 2, 3, 4],
       "leave gaps": [4, 2, 0, 3, 1],
       "user choice": None}    
+    prompt_text = "Please enter your choice of anthill card: "
     expected_result = "bottom up"
-    self.assertEqual(choose_game_rule(anthill_card_dict), expected_result)
+    self.assertEqual(choose_game_rule(anthill_card_dict, prompt_text), expected_result)
 
   @patch('builtins.input', return_value = "leave gaps")
   @patch('builtins.print')
@@ -177,8 +179,9 @@ class ChooseAnthillRuleTest(unittest.TestCase):
       "bottom up": [0, 1, 2, 3, 4],
       "leave gaps": [4, 2, 0, 3, 1],
       "user choice": None}    
+    prompt_text = "Please enter your choice of anthill card: "
     expected_result = "leave gaps"
-    self.assertEqual(choose_game_rule(anthill_card_dict), expected_result)
+    self.assertEqual(choose_game_rule(anthill_card_dict, prompt_text), expected_result)
 
   @patch('builtins.input', side_effect = ["top up", "bottom up"])
   @patch('builtins.print')
@@ -190,12 +193,13 @@ class ChooseAnthillRuleTest(unittest.TestCase):
       "bottom up": [0, 1, 2, 3, 4],
       "leave gaps": [4, 2, 0, 3, 1],
       "user choice": None}    
+    prompt_text = "Please enter your choice of anthill card: "
     expected_result = "bottom up"
-    self.assertEqual(choose_game_rule(anthill_card_dict), expected_result)
+    self.assertEqual(choose_game_rule(anthill_card_dict, prompt_text), expected_result)
 
   @patch('builtins.input', return_value = "random")
   @patch('builtins.print')
-  def test_user_can_enter_random_and_one_of_the_other_options_is_selected(
+  def test_user_can_enter_random_and_one_of_the_other_anthill_options_is_selected(
     self, mock_builtin_print, mock_builtin_input):
     # test 143
     anthill_card_dict = {
@@ -203,8 +207,9 @@ class ChooseAnthillRuleTest(unittest.TestCase):
       "bottom up": [0, 1, 2, 3, 4],
       "leave gaps": [4, 2, 0, 3, 1],
       "user choice": None}    
+    prompt_text = "Please enter your choice of anthill card: "
     expected_results = ["top down", "bottom up", "leave gaps", "user choice"]
-    self.assertIn(choose_game_rule(anthill_card_dict), expected_results)
+    self.assertIn(choose_game_rule(anthill_card_dict, prompt_text), expected_results)
 
   @patch('builtins.input', return_value = "top down")
   @patch('builtins.print')
@@ -215,8 +220,9 @@ class ChooseAnthillRuleTest(unittest.TestCase):
       "top down": [4, 3, 2, 1, 0],
       "bottom up": [0, 1, 2, 3, 4],
       "leave gaps": [4, 2, 0, 3, 1],
-      "user choice": None}    
-    choose_game_rule(anthill_card_dict)
+      "user choice": None}  
+    prompt_text = "Please enter your choice of anthill card: "
+    choose_game_rule(anthill_card_dict, prompt_text)
     expected_print_result_0 = call("\nThe available options are:")
     expected_print_result_1 = call("top down")
     expected_print_result_2 = call("bottom up")
@@ -239,16 +245,66 @@ class ChooseAnthillRuleTest(unittest.TestCase):
       "top down": [4, 3, 2, 1, 0],
       "bottom up": [0, 1, 2, 3, 4],
       "leave gaps": [4, 2, 0, 3, 1],
-      "user choice": None}    
+      "user choice": None}  
+    prompt_text = "Please enter your choice of anthill card: "
     expected_print_result_3 = call("leave gaps")
     expected_print_result_4 = call("user choice")
     expected_print_result_5 = call("Or enter 'random' to select one of the above options")
     expected_returned_choice = "user choice"
-    actual_returned_choice = choose_game_rule(anthill_card_dict)
+    actual_returned_choice = choose_game_rule(anthill_card_dict, prompt_text)
     self.assertEqual(mock_builtin_print.call_args_list[3], expected_print_result_3)
     self.assertEqual(mock_builtin_print.call_args_list[4], expected_print_result_4)
     self.assertEqual(mock_builtin_print.call_args_list[5], expected_print_result_5)
     self.assertEqual(actual_returned_choice, expected_returned_choice)
+
+class Use_choose_game_rule_ToChooseWineRuleTest(unittest.TestCase):
+  @patch('builtins.input', return_value = "collector")
+  @patch('builtins.print')
+  def test_check_game_rule_allows_choice_of_collector(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 171
+    wine_card_dict = {
+      "collector": None,
+      "oenophile": None}
+    prompt_text = "Please enter your choice of wine card: "
+    expected_result = "collector"
+    self.assertEqual(choose_game_rule(wine_card_dict, prompt_text), expected_result)
+  
+  @patch('builtins.input', return_value = "oenophile")
+  @patch('builtins.print')
+  def test_check_game_rule_allows_choice_of_oenophile(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 172
+    wine_card_dict = {
+      "collector": None,
+      "oenophile": None}
+    prompt_text = "Please enter your choice of wine card: "
+    expected_result = "oenophile"
+    self.assertEqual(choose_game_rule(wine_card_dict, prompt_text), expected_result)
+
+  @patch('builtins.input', side_effect = ["weenofile", "oenophile"])
+  @patch('builtins.print')
+  def test_check_user_makes_typo_no_error_redo_choice_select_oenophile(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 173
+    wine_card_dict = {
+      "collector": None,
+      "oenophile": None}
+    prompt_text = "Please enter your choice of wine card: "
+    expected_result = "oenophile"
+    self.assertEqual(choose_game_rule(wine_card_dict, prompt_text), expected_result)
+
+  @patch('builtins.input', return_value = "random")
+  @patch('builtins.print')
+  def test_check_user_can_enter_random_and_one_of_the_other_wine_options_is_selected(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 174
+    wine_card_dict = {
+      "collector": None,
+      "oenophile": None}
+    prompt_text = "Please enter your choice of wine card: "
+    expected_results = ["collector", "oenophile"]
+    self.assertIn(choose_game_rule(wine_card_dict, prompt_text), expected_results)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

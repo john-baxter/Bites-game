@@ -1,6 +1,6 @@
 from constants import MIN_PLAYERS, MAX_PLAYERS
 from constants import ANTS, STANDARD_TOKENS_FOR_TRAIL, SPECIAL_TOKENS_FOR_TRAIL
-from constants import ANTHILL_CARD_DICT
+from constants import ANTHILL_CARD_DICT, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
 from player import Player
 from bites import Bites
 from random import randint
@@ -69,11 +69,11 @@ def start_new_game():
   (and continuation) of a game of Bites.
   """
   players = prepare_list_of_players()
-  anthill_order = choose_game_rule(ANTHILL_CARD_DICT)
+  anthill_order = choose_game_rule(ANTHILL_CARD_DICT, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE)
   play_bites = Bites(ANTS, STANDARD_TOKENS_FOR_TRAIL, SPECIAL_TOKENS_FOR_TRAIL, players, anthill_order)
   play_bites.play_full_game()
 
-def choose_game_rule(rule_card_dict):
+def choose_game_rule(rule_card_dict, prompt_text):
   """Allows the user to choose a rule for this game
 
   Select one of the available options or allow the game to select one at random.
@@ -94,14 +94,14 @@ def choose_game_rule(rule_card_dict):
   rule_card_allowed_choices = list(rule_card_dict.keys())
   show_allowed_choices_from_list(rule_card_allowed_choices)
   print("Or enter 'random' to select one of the above options")
-  card_choice = input("Please enter your choice of anthill card: ")
+  card_choice = input(prompt_text)
 
   if card_choice in rule_card_allowed_choices:
     return card_choice
   elif card_choice == "random":
     return rule_card_allowed_choices[randint(0, len(rule_card_allowed_choices)-1)]
   else:
-    return choose_game_rule(rule_card_dict)
+    return choose_game_rule(rule_card_dict, prompt_text)
 
 if __name__ == '__main__':
   start_new_game()
