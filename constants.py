@@ -86,6 +86,7 @@ PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"
 PROMPT_TEXT_ANTHILL_FOOD_CHOICE = "please enter your choice of food"
 PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE = "please enter your choice of anthill level"
 PROMPT_TEXT_ANTHILL_RULE_CHOICE = "Please enter your choice of anthill card: "
+PROMPT_TEXT_WINE_RULE_CHOICE = "Please enter your choice of wine card: "
 """The text statements that are used during the various call of Player.make_choice()
 """
 
@@ -103,3 +104,7 @@ ANTHILL_CARD_DICT = {
   "user choice": None}
 """The various lists that are used to determine the order that the anthill is filled
 """
+
+WINE_CARD_DICT = {
+  "collector": None,
+  "oenophile": None}
