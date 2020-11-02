@@ -585,4 +585,7 @@ class Player():
     return wine_score
 
   def score_wine(self, wine_rule):
-    return self.score_wine_Collector_method()
+    if wine_rule == "collector":
+      return self.score_wine_Collector_method()
+    else:
+      return self.score_wine_Oenophile_method()
