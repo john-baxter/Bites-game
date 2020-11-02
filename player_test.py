@@ -1103,7 +1103,7 @@ class ScoreWineCollectorMethodTest(unittest.TestCase):
     actual_result = mario.score_wine_Collector_method()
     self.assertIsInstance(actual_result, int)
 
-  def test_one_wine_and_one_standard_food__wine_score_is_1(self):
+  def test_one_wine_and_one_standard_food__wine_Collector_score_is_1(self):
     # test 159
     mario = Player("Mario")
     mario.hand = {"apple": 1, "wine": 1}
@@ -1111,7 +1111,7 @@ class ScoreWineCollectorMethodTest(unittest.TestCase):
     actual_result = mario.score_wine_Collector_method()
     self.assertEqual(actual_result, expected_result)
 
-  def test_two_wines_and_one_standard_food__wine_score_is_2(self):
+  def test_two_wines_and_one_standard_food__wine_Collector_score_is_2(self):
     # test 160
     mario = Player("Mario")
     mario.hand = {"apple": 1, "wine": 2}
@@ -1119,7 +1119,7 @@ class ScoreWineCollectorMethodTest(unittest.TestCase):
     actual_result = mario.score_wine_Collector_method()
     self.assertEqual(actual_result, expected_result)
 
-  def test_two_wines_and_two_different_standard_foods__wine_score_is_4(self):
+  def test_two_wines_and_two_different_standard_foods__wine_Collector_score_is_4(self):
     # test 161
     mario = Player("Mario")
     mario.hand = {"apple": 1, "grapes": 1, "wine": 2}
@@ -1199,6 +1199,14 @@ class ScoreWineOenophileMethodTest(unittest.TestCase):
     mario = Player("Mario")
     actual_result = mario.score_wine_Oenophile_method()
     self.assertIsInstance(actual_result, int)
+
+  def test_one_wine_in_hand__wine_Oenophile_score_is_1(self):
+    # test 169
+    mario = Player("Mario")
+    mario.hand = {"wine": 1}
+    expected_result = 1
+    actual_result = mario.score_wine_Oenophile_method()
+    self.assertEqual(actual_result, expected_result)
 
 
 if __name__ == '__main__':

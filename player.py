@@ -566,4 +566,7 @@ class Player():
     self.score = standard_score + wine_score
 
   def score_wine_Oenophile_method(self):
-    return 0
+    if "wine" in self.hand:
+      return self.hand["wine"]
+    else:
+      return 0
