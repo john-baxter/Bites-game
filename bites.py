@@ -52,6 +52,9 @@ class Bites():
 
     anthill_order : (string)
       The identity of the anthill rule that has been chosen during the setup of the game.
+
+    wine_rule : (string)
+      The identity of the wine rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)

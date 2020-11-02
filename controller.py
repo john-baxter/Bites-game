@@ -70,7 +70,10 @@ def start_new_game():
   """
   players = prepare_list_of_players()
   anthill_order = choose_game_rule(ANTHILL_CARD_DICT, PROMPT_TEXT_ANTHILL_RULE_CHOICE)
-  play_bites = Bites(ANTS, STANDARD_TOKENS_FOR_TRAIL, SPECIAL_TOKENS_FOR_TRAIL, players, anthill_order)
+  wine_rule = choose_game_rule(
+    {"collector": None, "oenophile": None}, 
+    "Please enter your choice of wine card: ")
+  play_bites = Bites(ANTS, STANDARD_TOKENS_FOR_TRAIL, SPECIAL_TOKENS_FOR_TRAIL, players, anthill_order, wine_rule)
   play_bites.play_full_game()
 
 def choose_game_rule(rule_card_dict, prompt_text):
