@@ -3,7 +3,7 @@ from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order):
+  def __init__(self, ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -60,6 +60,7 @@ class Bites():
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
     self.anthill_order = anthill_order
+    self.wine_rule = wine_rule
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple

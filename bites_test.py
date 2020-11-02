@@ -96,6 +96,22 @@ class BitesInitTest(unittest.TestCase):
     self.assertEqual(type(bites_game.anthill_order), expected_anthill_order_attribute_type)
     self.assertEqual(bites_game.anthill_order, expected_anthill_order_attribute)
 
+  def test_Bites_receives_wine_rule_as_string_and_stores_it_as_attribute(self):
+    # test 175
+    ants = []
+    standard_tokens_for_trail = {"apple": 0}
+    special_tokens_for_trail = {}
+    players = []
+    anthill_order = "test anthill order"
+    wine_rule = "test wine rule"
+    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
+    
+    expected_wine_rule_attribute_type = str
+    expected_wine_rule_attribute = "test wine rule"
+
+    self.assertEqual(type(bites_game.wine_rule), expected_wine_rule_attribute_type)
+    self.assertEqual(bites_game.wine_rule, expected_wine_rule_attribute)
+
 class InitialiseAntsTest(unittest.TestCase):
   def test_can_initialise_one_ant(self):
     # test 1
