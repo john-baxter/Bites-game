@@ -1100,31 +1100,36 @@ class ScoreWineCollectorMethodTest(unittest.TestCase):
   def test_score_wine_Collector_method_returns_int(self):
     # test 158
     mario = Player("Mario")
-    actual_result = mario.score_wine_Collector_method()
+    mario.hand = {"wine": 0}
+    standard_tokens_for_trail = {"apple": 0}
+    actual_result = mario.score_wine_Collector_method(standard_tokens_for_trail)
     self.assertIsInstance(actual_result, int)
 
   def test_one_wine_and_one_standard_food__wine_Collector_score_is_1(self):
     # test 159
     mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
     mario.hand = {"apple": 1, "wine": 1}
     expected_result = 1
-    actual_result = mario.score_wine_Collector_method()
+    actual_result = mario.score_wine_Collector_method(standard_tokens_for_trail)
     self.assertEqual(actual_result, expected_result)
 
   def test_two_wines_and_one_standard_food__wine_Collector_score_is_2(self):
     # test 160
     mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
     mario.hand = {"apple": 1, "wine": 2}
     expected_result = 2
-    actual_result = mario.score_wine_Collector_method()
+    actual_result = mario.score_wine_Collector_method(standard_tokens_for_trail)
     self.assertEqual(actual_result, expected_result)
 
   def test_two_wines_and_two_different_standard_foods__wine_Collector_score_is_4(self):
     # test 161
     mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0, "grapes": 0}
     mario.hand = {"apple": 1, "grapes": 1, "wine": 2}
     expected_result = 4
-    actual_result = mario.score_wine_Collector_method()
+    actual_result = mario.score_wine_Collector_method(standard_tokens_for_trail)
     self.assertEqual(actual_result, expected_result)
 
 class ScoreHandTest(unittest.TestCase):
@@ -1137,29 +1142,44 @@ class ScoreHandTest(unittest.TestCase):
       "grapes": 2,
       "bread": 1,    }
     anthill = ["brown", "yellow", "purple", "green", "red"]
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
     
     standard_food_score = 16
     wine_score = 6
     expected_score = standard_food_score + wine_score
-    mario.score_hand(anthill)
+    mario.score_hand(anthill, standard_tokens_for_trail)
 
     self.assertEqual(mario.score, expected_score)
 
   def test_score_hand_updates_player_score_for_hand_with_no_wine_only_standard_food(self):
     # test 164
-    mario = Player("Mario")
-    mario.hand = {
-      "apple": 3,
-      "grapes": 2,
-      "bread": 1,    }
-    anthill = ["brown", "yellow", "purple", "green", "red"]
+    """Test superceeded by refactoring the 0 wine case into the general score_wine() method
+    """
+    pass
+    # mario = Player("Mario")
+    # mario.hand = {
+    #   "apple": 3,
+    #   "grapes": 2,
+    #   "bread": 1,    }
+    # anthill = ["brown", "yellow", "purple", "green", "red"]
+    # standard_tokens_for_trail = {
+    #   "apple": 0,
+    #   "grapes": 0,
+    #   "cheese": 0,
+    #   "bread": 0,
+    #   "pepper": 0}
     
-    standard_food_score = 16
-    wine_score = 0
-    expected_score = standard_food_score + wine_score
-    mario.score_hand(anthill)
+    # standard_food_score = 16
+    # wine_score = 0
+    # expected_score = standard_food_score + wine_score
+    # mario.score_hand(anthill, standard_tokens_for_trail)
 
-    self.assertEqual(mario.score, expected_score)
+    # self.assertEqual(mario.score, expected_score)
 
   def test_score_hand_updates_player_score_for_hand_with_one_wine_and_standard_food(self):
     # test 165
@@ -1170,11 +1190,17 @@ class ScoreHandTest(unittest.TestCase):
       "grapes": 2,
       "bread": 1,    }
     anthill = ["brown", "yellow", "purple", "green", "red"]
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
     
     standard_food_score = 16
     wine_score = 3
     expected_score = standard_food_score + wine_score
-    mario.score_hand(anthill)
+    mario.score_hand(anthill, standard_tokens_for_trail)
 
     self.assertEqual(mario.score, expected_score)
 
@@ -1185,41 +1211,52 @@ class ScoreHandTest(unittest.TestCase):
     mario = Player("Mario")
     mario.hand = {}
     anthill = []
-    mario.score_hand(anthill)
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
+    mario.score_hand(anthill, standard_tokens_for_trail)
 
     expected_score = 19
 
     score_standard_mock.assert_called_once_with(anthill)
-    score_wine_mock.assert_called_once_with()
+    score_wine_mock.assert_called_once_with(standard_tokens_for_trail)
     self.assertEqual(mario.score, expected_score)
 
 class ScoreWineOenophileMethodTest(unittest.TestCase):
   def test_score_wine_Oenophile_method_returns_int(self):
     # test 168
     mario = Player("Mario")
-    actual_result = mario.score_wine_Oenophile_method()
+    mario.hand = {"wine": 0}
+    standard_tokens_for_trail = {"apple": 0}
+    actual_result = mario.score_wine_Oenophile_method(standard_tokens_for_trail)
     self.assertIsInstance(actual_result, int)
 
   def test_one_wine_in_hand__wine_Oenophile_score_is_1(self):
     # test 169
     mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
     mario.hand = {"wine": 1}
     expected_result = 1
-    actual_result = mario.score_wine_Oenophile_method()
+    actual_result = mario.score_wine_Oenophile_method(standard_tokens_for_trail)
     self.assertEqual(actual_result, expected_result)
 
   def test_two_wines_in_hand__wine_Oenophile_score_is_4(self):
     # test 170
     mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
     mario.hand = {"wine": 2}
     expected_result = 4
-    actual_result = mario.score_wine_Oenophile_method()
+    actual_result = mario.score_wine_Oenophile_method(standard_tokens_for_trail)
     self.assertEqual(actual_result, expected_result)
 
 class ScoreWineTest(unittest.TestCase):
   def test_score_wine_returns_an_int(self):
     # test 176
     mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
     standard_tokens_for_trail = {}
     wine_rule = ""
     actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
@@ -1228,6 +1265,7 @@ class ScoreWineTest(unittest.TestCase):
   def test_rule_is_collector_hand_has_1_wine_and_1_food_score_wine_returns_1(self):
     # test 177
     mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
     mario.hand = {"apple": 1, "wine": 1}
     standard_tokens_for_trail = {"apple": 0}
     wine_rule = "collector"

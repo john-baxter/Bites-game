@@ -717,7 +717,7 @@ class PrintScoresTest(unittest.TestCase):
         self.name = name
         self.score = 0
 
-      def score_food(self, anthill):
+      def score_hand(self, anthill, standard_tokens_for_trail):
         pass
 
     ants = []
@@ -731,8 +731,7 @@ class PrintScoresTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.calculate_and_print_scores()
-    # print_mock.assert_called_once_with("mario: 0\n")
+    bites_game.calculate_and_print_scores(standard_tokens_for_trail)
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: 0"))
     self.assertGreaterEqual(print_mock.call_count, 1)
     print_patcher.stop()
@@ -745,7 +744,7 @@ class PrintScoresTest(unittest.TestCase):
         self.score = 0
         self.final_score = final_score
 
-      def score_food(self, anthill):
+      def score_hand(self, anthill, standard_tokens_for_trail):
         self.score = self.final_score
 
     fake_mario = FakePlayer("mario", 3)
@@ -760,7 +759,7 @@ class PrintScoresTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.calculate_and_print_scores()
+    bites_game.calculate_and_print_scores(standard_tokens_for_trail)
     self.assertGreaterEqual(print_mock.call_count, 2)
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: 3"))
     self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: 9"))

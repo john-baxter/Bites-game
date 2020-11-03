@@ -553,7 +553,7 @@ class Player():
       if food in standard_tokens_for_trail and self.hand[food] > 0]))
     return wine_score
 
-  def score_hand(self, anthill):
+  def score_hand(self, anthill, standard_tokens_for_trail):
     """Calculates the player's total points at the end of the game.
 
     Could be called any time but to reflect the real game there is no running 
@@ -569,7 +569,7 @@ class Player():
       Will be initialised at 0
       Will be updated at the end of the game.
     """
-    wine_score = self.score_wine_Collector_method()
+    wine_score = self.score_wine_Collector_method(standard_tokens_for_trail)
     standard_score = self.score_standard_food_in_hand(anthill) 
     self.score = standard_score + wine_score
 
