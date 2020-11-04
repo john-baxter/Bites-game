@@ -1096,42 +1096,6 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 
-class ScoreWineCollectorMethodTest(unittest.TestCase):
-  def test_score_wine_Collector_method_returns_int(self):
-    # test 158
-    mario = Player("Mario")
-    mario.hand = {"wine": 0}
-    standard_tokens_for_trail = {"apple": 0}
-    actual_result = mario.score_wine_Collector_method(standard_tokens_for_trail)
-    self.assertIsInstance(actual_result, int)
-
-  def test_one_wine_and_one_standard_food__wine_Collector_score_is_1(self):
-    # test 159
-    mario = Player("Mario")
-    standard_tokens_for_trail = {"apple": 0}
-    mario.hand = {"apple": 1, "wine": 1}
-    expected_result = 1
-    actual_result = mario.score_wine_Collector_method(standard_tokens_for_trail)
-    self.assertEqual(actual_result, expected_result)
-
-  def test_two_wines_and_one_standard_food__wine_Collector_score_is_2(self):
-    # test 160
-    mario = Player("Mario")
-    standard_tokens_for_trail = {"apple": 0}
-    mario.hand = {"apple": 1, "wine": 2}
-    expected_result = 2
-    actual_result = mario.score_wine_Collector_method(standard_tokens_for_trail)
-    self.assertEqual(actual_result, expected_result)
-
-  def test_two_wines_and_two_different_standard_foods__wine_Collector_score_is_4(self):
-    # test 161
-    mario = Player("Mario")
-    standard_tokens_for_trail = {"apple": 0, "grapes": 0}
-    mario.hand = {"apple": 1, "grapes": 1, "wine": 2}
-    expected_result = 4
-    actual_result = mario.score_wine_Collector_method(standard_tokens_for_trail)
-    self.assertEqual(actual_result, expected_result)
-
 class ScoreHandTest(unittest.TestCase):
   def test_score_hand_updates_player_score_with_combined_std_plus_wine_scores(self):
     # test 162
@@ -1225,32 +1189,36 @@ class ScoreHandTest(unittest.TestCase):
     score_wine_mock.assert_called_once_with(standard_tokens_for_trail)
     self.assertEqual(mario.score, expected_score)
 
-class ScoreWineOenophileMethodTest(unittest.TestCase):
-  def test_score_wine_Oenophile_method_returns_int(self):
-    # test 168
-    mario = Player("Mario")
-    mario.hand = {"wine": 0}
-    standard_tokens_for_trail = {"apple": 0}
-    actual_result = mario.score_wine_Oenophile_method(standard_tokens_for_trail)
-    self.assertIsInstance(actual_result, int)
+  # @patch('player.Player.score_standard_food_in_hand', return_value=16)
+  # @patch('player.Player.score_wine_Collector_method')
+  # @patch('player.Player.score_wine')
+  # @patch('player.Player.score_wine', return_value=3)
+  # def test_wine_rule_is_collector_Collector_method_is_called(
+  #   self, 
+  #   # score_wine_mock, 
+  #   score_collector_mock, 
+  #   score_standard_mock,
+  #   ):
+  #   # test 180
+  #   mario = Player("Mario")
+  #   mario.hand = {"wine": 1}
+  #   anthill = []
+  #   standard_tokens_for_trail = {
+  #     "apple": 0,
+  #     "grapes": 0,
+  #     "cheese": 0,
+  #     "bread": 0,
+  #     "pepper": 0}
+  #   wine_rule = "collector"
+    
+  #   expected_score = 19
 
-  def test_one_wine_in_hand__wine_Oenophile_score_is_1(self):
-    # test 169
-    mario = Player("Mario")
-    standard_tokens_for_trail = {"apple": 0}
-    mario.hand = {"wine": 1}
-    expected_result = 1
-    actual_result = mario.score_wine_Oenophile_method(standard_tokens_for_trail)
-    self.assertEqual(actual_result, expected_result)
+  #   mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
 
-  def test_two_wines_in_hand__wine_Oenophile_score_is_4(self):
-    # test 170
-    mario = Player("Mario")
-    standard_tokens_for_trail = {"apple": 0}
-    mario.hand = {"wine": 2}
-    expected_result = 4
-    actual_result = mario.score_wine_Oenophile_method(standard_tokens_for_trail)
-    self.assertEqual(actual_result, expected_result)
+  #   score_standard_mock.assert_called_once_with(anthill)
+  #   score_wine_mock.assert_called_once_with(standard_tokens_for_trail, wine_rule)
+  #   score_collector_mock.assert_called_once_with(standard_tokens_for_trail)
+  #   self.assertEqual(mario.score, expected_score)
 
 class ScoreWineTest(unittest.TestCase):
   def test_score_wine_returns_an_int(self):

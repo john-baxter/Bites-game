@@ -1,5 +1,4 @@
-# from wine_functions import score_wine_Collector_method, score_wine_Oenophile_method
-
+import wine
 
 K_COLOUR_V_FOOD_DICT = {
   "purple": "grapes",
@@ -87,8 +86,8 @@ PROMPT_TEXT_ANT_CHOICE  = "please enter your choice of ant"
 PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"
 PROMPT_TEXT_ANTHILL_FOOD_CHOICE = "please enter your choice of food"
 PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE = "please enter your choice of anthill level"
-PROMPT_TEXT_ANTHILL_RULE_CHOICE = "Please enter your choice of anthill card: "
-PROMPT_TEXT_WINE_RULE_CHOICE = "Please enter your choice of wine card: "
+PROMPT_TEXT_RULE_CHOICE_ANTHILL = "Please enter your choice of anthill card: "
+PROMPT_TEXT_RULE_CHOICE_WINE = "Please enter your choice of wine card: "
 """The text statements that are used during the various call of Player.make_choice()
 """
 
@@ -108,8 +107,9 @@ ANTHILL_CARD_DICT = {
 """
 
 WINE_CARD_DICT = {
-  "collector": "self.score_wine_Collector_method(standard_tokens_for_trail)",
-  "oenophile": "self.score_wine_Oenophile_method(standard_tokens_for_trail)"}
+  "collector": wine.score_wine_Collector_method,
+  "oenophile": wine.score_wine_Oenophile_method,
+  }
 """The various methods that calculate the wine score, with their parameters. Will be 
 called when needed as part of calculation the player score.
 """

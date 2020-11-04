@@ -524,36 +524,7 @@ class Player():
         allowed_choices_placement.append(str(idx))
     return allowed_choices_placement
 
-  def score_wine_Collector_method(self, standard_tokens_for_trail):
-    """Uses the Collector rule to calculate the number of points for wine tokens
-    
-    Each wine is worth 1 point for each different type of food you have at least one of
-
-    Could be called any time but to reflect the real game there is no running 
-    total of points; just a single calculation and comparison after the final ant 
-    has reached the anthill.
-
-    Parameters
-    ----------
-    standard_tokens_for_trail : (dict)
-      A dictionary containing the 'standard' tokens used to prepare the trail for this game. 
-
-      Used to cross-reference the player's hand to see which tokens will 
-      interact with the wine.
-      Keys are food types as strings
-      Values are integers.
-    
-    Returns
-    -------
-    wine_score : (integer)
-      An integer showing the player's total points from wine. 
-    """
-    wine_score = self.hand["wine"] *\
-      (len([food for food in self.hand\
-      if food in standard_tokens_for_trail and self.hand[food] > 0]))
-    return wine_score
-
-  def score_hand(self, anthill, standard_tokens_for_trail):
+  def score_hand(self, anthill, standard_tokens_for_trail, wine_rule):
     """Calculates the player's total points at the end of the game.
 
     Could be called any time but to reflect the real game there is no running 
@@ -569,37 +540,9 @@ class Player():
       Will be initialised at 0
       Will be updated at the end of the game.
     """
-    wine_score = self.score_wine_Collector_method(standard_tokens_for_trail)
+    wine_score = self.score_wine(standard_tokens_for_trail, wine_rule)
     standard_score = self.score_standard_food_in_hand(anthill) 
     self.score = standard_score + wine_score
-
-  def score_wine_Oenophile_method(self, standard_tokens_for_trail):
-    """Uses the Oenophile rule to calculate the number of points for wine tokens
-
-    Each wine is worth one point for each wineyou have.
-
-    Could be called any time but to reflect the real game there is no running 
-    total of points; just a single calculation and comparison after the final ant 
-    has reached the anthill.
-
-    Parameters
-    ----------
-    standard_tokens_for_trail : (dict)
-      A dictionary containing the 'standard' tokens used to prepare the trail for this game. 
-
-      Used to cross-reference the player's hand to see which tokens will 
-      interact with the wine. Not needed for this method but passed because the method 
-      which calles this also calls others where this is required. It is included here for concistency.
-      Keys are food types as strings
-      Values are integers.
-
-    Returns
-    -------
-    wine_score : (integer)
-      An integer showing the player's total points from wine. 
-    """
-    wine_score = self.hand["wine"] * self.hand["wine"]
-    return wine_score
 
   def score_wine(self, standard_tokens_for_trail, wine_rule):
     """Calculates the player's 'wine' points at the end of the game. 
@@ -628,7 +571,8 @@ class Player():
     wine_score : (integer)
       An integer showing the player's total points from wine. 
     """
+    wine_score = 0
     if "wine" in self.hand:
-      return eval(WINE_CARD_DICT[wine_rule])
-    else:
-      return 0
+      wine_scoring_function = WINE_CARD_DICT[wine_rule]
+      wine_score = wine_scoring_function(self.hand, standard_tokens_for_trail)
+    return wine_score
