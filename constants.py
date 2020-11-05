@@ -82,10 +82,11 @@ Values are integers
 """
 
 
-PROMPT_TEXT_ANT_CHOICE  = "please enter your choice of ant"
-PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"
-PROMPT_TEXT_ANTHILL_FOOD_CHOICE = "please enter your choice of food"
-PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE = "please enter your choice of anthill level"
+PROMPT_TEXT_GAME_CHOICE_ANT  = "please enter your choice of ant"
+PROMPT_TEXT_GAME_CHOICE_DIRECTION = "please pick a direction to collect food from"
+PROMPT_TEXT_GAME_CHOICE_FOOD = "please enter your choice of food"
+PROMPT_TEXT_GAME_CHOICE_ANTHILL_PLACEMENT = "please enter your choice of anthill level"
+
 PROMPT_TEXT_RULE_CHOICE_ANTHILL = "Please enter your choice of anthill card: "
 PROMPT_TEXT_RULE_CHOICE_WINE = "Please enter your choice of wine card: "
 """The text statements that are used during the various call of Player.make_choice()

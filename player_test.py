@@ -2,6 +2,7 @@ import unittest
 from unittest import mock
 from unittest.mock import patch, call
 from player import Player
+import wine
 from constants import ANTHILL_CARD_DICT
 
 class PlayerInitTest(unittest.TestCase):
@@ -1113,10 +1114,11 @@ class ScoreHandTest(unittest.TestCase):
       "bread": 0,
       "pepper": 0}
     
+    wine_rule = "collector"
     standard_food_score = 16
     wine_score = 6
     expected_score = standard_food_score + wine_score
-    mario.score_hand(anthill, standard_tokens_for_trail)
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
 
     self.assertEqual(mario.score, expected_score)
 
@@ -1161,15 +1163,16 @@ class ScoreHandTest(unittest.TestCase):
       "bread": 0,
       "pepper": 0}
     
+    wine_rule = "collector"
     standard_food_score = 16
     wine_score = 3
     expected_score = standard_food_score + wine_score
-    mario.score_hand(anthill, standard_tokens_for_trail)
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
 
     self.assertEqual(mario.score, expected_score)
 
   @patch('player.Player.score_standard_food_in_hand', return_value=16)
-  @patch('player.Player.score_wine_Collector_method', return_value=3)
+  @patch('player.Player.score_wine', return_value=3)
   def test_score_hand_calls_both_score_std_and_score_wine(self, score_wine_mock, score_standard_mock):
     # test 166
     mario = Player("Mario")
@@ -1181,44 +1184,14 @@ class ScoreHandTest(unittest.TestCase):
       "cheese": 0,
       "bread": 0,
       "pepper": 0}
-    mario.score_hand(anthill, standard_tokens_for_trail)
+    wine_rule = "collector"
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
 
     expected_score = 19
 
     score_standard_mock.assert_called_once_with(anthill)
-    score_wine_mock.assert_called_once_with(standard_tokens_for_trail)
+    score_wine_mock.assert_called_once_with(standard_tokens_for_trail, wine_rule)
     self.assertEqual(mario.score, expected_score)
-
-  # @patch('player.Player.score_standard_food_in_hand', return_value=16)
-  # @patch('player.Player.score_wine_Collector_method')
-  # @patch('player.Player.score_wine')
-  # @patch('player.Player.score_wine', return_value=3)
-  # def test_wine_rule_is_collector_Collector_method_is_called(
-  #   self, 
-  #   # score_wine_mock, 
-  #   score_collector_mock, 
-  #   score_standard_mock,
-  #   ):
-  #   # test 180
-  #   mario = Player("Mario")
-  #   mario.hand = {"wine": 1}
-  #   anthill = []
-  #   standard_tokens_for_trail = {
-  #     "apple": 0,
-  #     "grapes": 0,
-  #     "cheese": 0,
-  #     "bread": 0,
-  #     "pepper": 0}
-  #   wine_rule = "collector"
-    
-  #   expected_score = 19
-
-  #   mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
-
-  #   score_standard_mock.assert_called_once_with(anthill)
-  #   score_wine_mock.assert_called_once_with(standard_tokens_for_trail, wine_rule)
-  #   score_collector_mock.assert_called_once_with(standard_tokens_for_trail)
-  #   self.assertEqual(mario.score, expected_score)
 
 class ScoreWineTest(unittest.TestCase):
   def test_score_wine_returns_an_int(self):
@@ -1260,6 +1233,34 @@ class ScoreWineTest(unittest.TestCase):
     expected_result = 4
     actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
     self.assertEqual(actual_result, expected_result)
+
+  def test_score_wine_calls_collector_method_from_constants(self):
+    # test 180
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "collector"
+    with patch.dict('player.WINE_CARD_DICT', {
+      "collector": mock.MagicMock(return_value=2),
+      "oenophile": mock.MagicMock(return_value=4),
+      }) as const_mock_wine_card:
+      actual_wine_score = mario.score_wine(standard_tokens_for_trail, wine_rule)
+      const_mock_wine_card["collector"].assert_called_once_with(mario.hand, standard_tokens_for_trail)
+    self.assertEqual(actual_wine_score, 2)
+
+  def test_score_wine_calls_oenophile_method_from_constants(self):
+    # test 181
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "oenophile"
+    with patch.dict('player.WINE_CARD_DICT', {
+      "collector": mock.MagicMock(return_value=2),
+      "oenophile": mock.MagicMock(return_value=4),
+      }) as const_mock_wine_card:
+      actual_wine_score = mario.score_wine(standard_tokens_for_trail, wine_rule)
+      const_mock_wine_card["oenophile"].assert_called_once_with(mario.hand, standard_tokens_for_trail)
+    self.assertEqual(actual_wine_score, 4)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

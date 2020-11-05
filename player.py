@@ -1,5 +1,5 @@
 from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT, STANDARD_FOOD_TYPES
-from constants import PROMPT_TEXT_ANT_CHOICE, PROMPT_TEXT_DIRECTION_CHOICE, PROMPT_TEXT_ANTHILL_FOOD_CHOICE, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
+from constants import PROMPT_TEXT_GAME_CHOICE_ANT, PROMPT_TEXT_GAME_CHOICE_DIRECTION, PROMPT_TEXT_GAME_CHOICE_FOOD, PROMPT_TEXT_GAME_CHOICE_ANTHILL_PLACEMENT
 from constants import ANTHILL_CARD_DICT, WINE_CARD_DICT
 from functions import show_allowed_choices_from_list
 
@@ -202,7 +202,7 @@ class Player():
       i = int(
         self.make_choice(
           self.define_allowed_choices_anthill_placement(anthill), 
-          PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
+          PROMPT_TEXT_GAME_CHOICE_ANTHILL_PLACEMENT
         )
       )
       anthill[i] = ant
@@ -405,18 +405,18 @@ class Player():
       Values are integers >= 0
     """
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
-    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
+    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
       (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant)
       allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
-      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_ANTHILL_FOOD_CHOICE) 
+      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
       anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
       self.store_food(user_choice_food)
     else:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
       allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
-      direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_DIRECTION_CHOICE)
+      direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_GAME_CHOICE_DIRECTION)
       (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
       self.store_food(food_to_hand)
 
