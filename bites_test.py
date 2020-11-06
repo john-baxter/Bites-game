@@ -983,39 +983,6 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[5], mock.call("bread"))
     print_patcher.stop()
 
-  # def test_check_render_game_prints_players_and_trail(self):
-  #   # test 89
-  #   class FakePlayer():
-  #     def __init__(self, name):
-  #       self.name = name
-  #       self.hand = {}
-
-  #   fake_mario = FakePlayer("mario")
-  #   fake_luigi = FakePlayer("luigi")
-
-  #   ants = []
-  #   standard_tokens_for_trail = {}
-  #   special_tokens_for_trail = {}
-  #   anthill_order = ""
-  #   wine_rule = ""
-  #   players = [fake_mario, fake_luigi]
-  #   bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
-  #   bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
-  #   bites_game.ant_positions = {"random key": None}
-
-  #   print_patcher = mock.patch('builtins.print')
-  #   print_mock = print_patcher.start()
-  #   bites_game.render_game()
-  #   self.assertGreaterEqual(print_mock.call_count, 7)
-  #   self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
-  #   self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: {}"))
-  #   self.assertEqual(print_mock.call_args_list[6], mock.call("pepper"))
-  #   self.assertEqual(print_mock.call_args_list[7], mock.call("apple"))
-  #   self.assertEqual(print_mock.call_args_list[8], mock.call("grapes"))
-  #   self.assertEqual(print_mock.call_args_list[9], mock.call("cheese"))
-  #   self.assertEqual(print_mock.call_args_list[10], mock.call("bread"))
-  #   print_patcher.stop()
-
   def test_print_ants_before_trail_prints_ants_positioned_before_the_trail(self):
     # test 90
     ants = []
@@ -1053,45 +1020,6 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(print_mock.call_args_list[0], mock.call("\nTrail and ant positions:"))
     self.assertEqual(print_mock.call_args_list[1], mock.call("apple red"))
     print_patcher.stop()
-
-  # def test_check_render_game_shows_player_names_and_hands__ants_waiting_to_start__and_trail_with_ants(
-  #   self):
-  #   # test 92
-  #   class FakePlayer():
-  #     def __init__(self, name):
-  #       self.name = name
-  #       self.hand = {}
-
-  #   fake_mario = FakePlayer("mario")
-  #   fake_luigi = FakePlayer("luigi")
-
-  #   ants = []
-  #   standard_tokens_for_trail = {}
-  #   special_tokens_for_trail = {}
-  #   anthill_order = ""
-  #   wine_rule = ""
-  #   players = [fake_mario, fake_luigi]
-  #   bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
-  #   bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
-  #   bites_game.ant_positions = {"green": 0, "purple": 2, "brown": 4, "red": None, "yellow": None}
-    
-  #   print_patcher = mock.patch('builtins.print')
-  #   print_mock = print_patcher.start()
-  #   bites_game.render_game()
-  #   self.assertGreaterEqual(print_mock.call_count, 12)
-  #   self.assertEqual(print_mock.call_args_list[0], mock.call("\nPlayer names and hands:"))
-  #   self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
-  #   self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: {}"))
-  #   self.assertEqual(print_mock.call_args_list[3], mock.call("\nAnts at the beginning of the trail:"))
-  #   self.assertEqual(print_mock.call_args_list[4], mock.call("red"))
-  #   self.assertEqual(print_mock.call_args_list[5], mock.call("yellow"))
-  #   self.assertEqual(print_mock.call_args_list[6], mock.call("\nTrail and ant positions:"))
-  #   self.assertEqual(print_mock.call_args_list[7], mock.call("pepper green"))
-  #   self.assertEqual(print_mock.call_args_list[8], mock.call("apple"))
-  #   self.assertEqual(print_mock.call_args_list[9], mock.call("grapes purple"))
-  #   self.assertEqual(print_mock.call_args_list[10], mock.call("cheese"))
-  #   self.assertEqual(print_mock.call_args_list[11], mock.call("bread  brown"))
-  #   print_patcher.stop()
 
   def test_print_ants_on_anthill_shows_ant_positioned_on_anthill(self):
     # test 93
