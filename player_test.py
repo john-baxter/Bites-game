@@ -2,6 +2,7 @@ import unittest
 from unittest import mock
 from unittest.mock import patch, call
 from player import Player
+import wine
 from constants import ANTHILL_CARD_DICT
 
 class PlayerInitTest(unittest.TestCase):
@@ -1096,41 +1097,6 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
 
-class ScoreWineInHandTest(unittest.TestCase):
-  """Initial setup of the score_wine_in_hand() will follow the "Collector" card.
-
-  Each wine is worth 1 point for each different type of food you have at least one of
-  """
-  def test_score_wine_in_hand_returns_int(self):
-    # test 158
-    mario = Player("Mario")
-    actual_result = mario.score_wine_in_hand()
-    self.assertIsInstance(actual_result, int)
-
-  def test_one_wine_and_one_standard_food__wine_score_is_1(self):
-    # test 159
-    mario = Player("Mario")
-    mario.hand = {"apple": 1, "wine": 1}
-    expected_result = 1
-    actual_result = mario.score_wine_in_hand()
-    self.assertEqual(actual_result, expected_result)
-
-  def test_two_wines_and_one_standard_food__wine_score_is_2(self):
-    # test 160
-    mario = Player("Mario")
-    mario.hand = {"apple": 1, "wine": 2}
-    expected_result = 2
-    actual_result = mario.score_wine_in_hand()
-    self.assertEqual(actual_result, expected_result)
-
-  def test_two_wines_and_two_different_standard_foods__wine_score_is_4(self):
-    # test 161
-    mario = Player("Mario")
-    mario.hand = {"apple": 1, "grapes": 1, "wine": 2}
-    expected_result = 4
-    actual_result = mario.score_wine_in_hand()
-    self.assertEqual(actual_result, expected_result)
-
 class ScoreHandTest(unittest.TestCase):
   def test_score_hand_updates_player_score_with_combined_std_plus_wine_scores(self):
     # test 162
@@ -1141,29 +1107,45 @@ class ScoreHandTest(unittest.TestCase):
       "grapes": 2,
       "bread": 1,    }
     anthill = ["brown", "yellow", "purple", "green", "red"]
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
     
+    wine_rule = "collector"
     standard_food_score = 16
     wine_score = 6
     expected_score = standard_food_score + wine_score
-    mario.score_hand(anthill)
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
 
     self.assertEqual(mario.score, expected_score)
 
   def test_score_hand_updates_player_score_for_hand_with_no_wine_only_standard_food(self):
     # test 164
-    mario = Player("Mario")
-    mario.hand = {
-      "apple": 3,
-      "grapes": 2,
-      "bread": 1,    }
-    anthill = ["brown", "yellow", "purple", "green", "red"]
+    """Test superceeded by refactoring the 0 wine case into the general score_wine() method
+    """
+    pass
+    # mario = Player("Mario")
+    # mario.hand = {
+    #   "apple": 3,
+    #   "grapes": 2,
+    #   "bread": 1,    }
+    # anthill = ["brown", "yellow", "purple", "green", "red"]
+    # standard_tokens_for_trail = {
+    #   "apple": 0,
+    #   "grapes": 0,
+    #   "cheese": 0,
+    #   "bread": 0,
+    #   "pepper": 0}
     
-    standard_food_score = 16
-    wine_score = 0
-    expected_score = standard_food_score + wine_score
-    mario.score_hand(anthill)
+    # standard_food_score = 16
+    # wine_score = 0
+    # expected_score = standard_food_score + wine_score
+    # mario.score_hand(anthill, standard_tokens_for_trail)
 
-    self.assertEqual(mario.score, expected_score)
+    # self.assertEqual(mario.score, expected_score)
 
   def test_score_hand_updates_player_score_for_hand_with_one_wine_and_standard_food(self):
     # test 165
@@ -1174,28 +1156,111 @@ class ScoreHandTest(unittest.TestCase):
       "grapes": 2,
       "bread": 1,    }
     anthill = ["brown", "yellow", "purple", "green", "red"]
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
     
+    wine_rule = "collector"
     standard_food_score = 16
     wine_score = 3
     expected_score = standard_food_score + wine_score
-    mario.score_hand(anthill)
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
 
     self.assertEqual(mario.score, expected_score)
 
   @patch('player.Player.score_standard_food_in_hand', return_value=16)
-  @patch('player.Player.score_wine_in_hand', return_value=3)
+  @patch('player.Player.score_wine', return_value=3)
   def test_score_hand_calls_both_score_std_and_score_wine(self, score_wine_mock, score_standard_mock):
     # test 166
     mario = Player("Mario")
     mario.hand = {}
     anthill = []
-    mario.score_hand(anthill)
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
+    wine_rule = "collector"
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
 
     expected_score = 19
 
     score_standard_mock.assert_called_once_with(anthill)
-    score_wine_mock.assert_called_once_with()
+    score_wine_mock.assert_called_once_with(standard_tokens_for_trail, wine_rule)
     self.assertEqual(mario.score, expected_score)
+
+class ScoreWineTest(unittest.TestCase):
+  def test_score_wine_returns_an_int(self):
+    # test 176
+    mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
+    standard_tokens_for_trail = {}
+    wine_rule = ""
+    actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
+    self.assertIsInstance(actual_result, int)
+
+  def test_rule_is_collector_hand_has_1_wine_and_1_food_score_wine_returns_1(self):
+    # test 177
+    mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
+    mario.hand = {"apple": 1, "wine": 1}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "collector"
+    expected_result = 1
+    actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
+    self.assertEqual(actual_result, expected_result)
+
+  def test_rule_is_collector_hand_has_2_wine_and_1_food_score_wine_returns_2(self):
+    # test 178
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "collector"
+    expected_result = 2
+    actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
+    self.assertEqual(actual_result, expected_result)
+
+  def test_rule_is_oenophile_hand_has_2_wines_score_wine_returns_4(self):
+    # test 179
+    mario = Player("Mario")
+    mario.hand = {"wine": 2}
+    standard_tokens_for_trail = {}
+    wine_rule = "oenophile"
+    expected_result = 4
+    actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
+    self.assertEqual(actual_result, expected_result)
+
+  def test_score_wine_calls_collector_method_from_constants(self):
+    # test 180
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "collector"
+    with patch.dict('player.WINE_CARD_DICT', {
+      "collector": mock.MagicMock(return_value=2),
+      "oenophile": mock.MagicMock(return_value=4),
+      }) as const_mock_wine_card:
+      actual_wine_score = mario.score_wine(standard_tokens_for_trail, wine_rule)
+      const_mock_wine_card["collector"].assert_called_once_with(mario.hand, standard_tokens_for_trail)
+    self.assertEqual(actual_wine_score, 2)
+
+  def test_score_wine_calls_oenophile_method_from_constants(self):
+    # test 181
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "oenophile"
+    with patch.dict('player.WINE_CARD_DICT', {
+      "collector": mock.MagicMock(return_value=2),
+      "oenophile": mock.MagicMock(return_value=4),
+      }) as const_mock_wine_card:
+      actual_wine_score = mario.score_wine(standard_tokens_for_trail, wine_rule)
+      const_mock_wine_card["oenophile"].assert_called_once_with(mario.hand, standard_tokens_for_trail)
+    self.assertEqual(actual_wine_score, 4)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
