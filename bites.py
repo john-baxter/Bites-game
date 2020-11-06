@@ -8,8 +8,8 @@ class Bites():
 
     This is the equivalent of setting up the game on the table ready to start playing.
 
-    Arguments
-    ---------
+    Parameters
+    ----------
     ants : (list)
       The list of the ants which will be used for the game. 
       Each element is a string.

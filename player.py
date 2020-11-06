@@ -7,8 +7,8 @@ class Player():
   def __init__(self, name):
     """Initialises an instance of the Player class
 
-    Arguments
-    ---------
+    Parameters
+    ----------
     name : (string)
       The name of the player
     
@@ -72,8 +72,8 @@ class Player():
     total of points; just a single calculation and comparison after the final ant 
     has reached the anthill.
 
-    Arguments
-    ---------
+    Parameters
+    ----------
     anthill : (list)
       A list recording which ant is in which spot on the anthill at the end of the game.
       The index of each ant will be used as the value of each of the corresponding 

@@ -1,11 +1,7 @@
 def score_wine_Collector_method(hand, standard_tokens_for_trail):
   """Uses the Collector rule to calculate the number of points for wine tokens
   
-  Each wine is worth 1 point for each different type of food you have at least one of
-
-  Could be called any time but to reflect the real game there is no running 
-  total of points; just a single calculation and comparison after the final ant 
-  has reached the anthill.
+  Each wine is worth 1 point for each different type of food you have at least one of.
 
   Parameters
   ----------
@@ -30,11 +26,7 @@ def score_wine_Collector_method(hand, standard_tokens_for_trail):
 def score_wine_Oenophile_method(hand, standard_tokens_for_trail):
   """Uses the Oenophile rule to calculate the number of points for wine tokens
 
-  Each wine is worth one point for each wineyou have.
-
-  Could be called any time but to reflect the real game there is no running 
-  total of points; just a single calculation and comparison after the final ant 
-  has reached the anthill.
+  Each wine is worth one point for each wine you have.
 
   Parameters
   ----------
