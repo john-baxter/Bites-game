@@ -173,6 +173,9 @@ class Bites():
 
     Calls other methods, each of which shows a section of the game setup.
     """
+    print("The wine scoring card currently in play is: ")
+    print("%s\n" % self.wine_rule.capitalize())
+
     self.print_players_names_and_hands()
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()

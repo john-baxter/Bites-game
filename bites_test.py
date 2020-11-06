@@ -1235,6 +1235,26 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(mock_builtin_print.call_args_list[3], expected_print_result_3)
     self.assertEqual(mock_builtin_print.call_args_list[4], expected_print_result_4)
 
+  @patch('builtins.print')
+  def test_render_game_prints_statement_about_wine_rule(self, mock_builtin_print):
+    # test 182
+    ants = []
+    standard_tokens_for_trail = {}
+    special_tokens_for_trail = {}
+    players = []
+    anthill_order = ""
+    wine_rule = "oenophile"
+    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
+    bites_game.ant_positions = {"random key": None}
+
+    bites_game.render_game()
+
+    expected_print_result_0 = call("The wine scoring card currently in play is: ")
+    expected_print_result_1 = call("Oenophile\n")
+
+    self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
+    self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
+
 class InitialiseAnthillFoodTokensTest(unittest.TestCase):
   def test_anthill_can_store_food_tokens_in_dict(self):
     # test 116
