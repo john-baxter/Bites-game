@@ -14,8 +14,13 @@ class Bites():
       The list of the ants which will be used for the game. 
       Each element is a string.
 
-    tokens_for_trail : (dict)
-      The names of each type of food token and their quantities
+    standard_tokens_for_trail : (dict)
+      The names of each type of standard food token and their quantities
+      The keys are names of food as strings.
+      The values are the amount of the food as integers.
+    
+    special_tokens_for_trail : (dict)
+      The names of each type of special food token and their quantities
       The keys are names of food as strings.
       The values are the amount of the food as integers.
 

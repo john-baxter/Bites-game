@@ -11,7 +11,7 @@ Liaise with Peter about the front-end
 
 ~~Make new score_wine() method in Player that receives the wine_rule as a parameter and uses this info to calculate the wine points.~~\
 ~~Update the score_hand() method to remove the dependancy on score_wine_Collector_method() and uses the new score_wine(wine_rule) method.~~\
-~~Update render_game to show the wine rule.~~
+~~Update render_game to show the wine rule.~~\
 Go through all the methods to update internal documentation wrt standard_ vs special_tokens. most of them seem to still have the older 'tokens_for_trail' listed.\
 
 ### Next
