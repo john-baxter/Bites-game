@@ -810,7 +810,59 @@ class PlayFullGameTest(unittest.TestCase):
     self.assertEqual(manager.mock_calls, expected_calls)
 
 class RenderGameTest(unittest.TestCase):
-  def test_render_game_prints_player_name_and_hand_for_one_player(self):
+  @patch('bites.Bites.print_wine_rule_statement')
+  @patch('bites.Bites.print_players_names_and_hands')
+  @patch('bites.Bites.print_ants_positioned_before_the_trail')
+  @patch('bites.Bites.print_trail_and_ants_positioned_thereon')
+  @patch('bites.Bites.print_ants_positioned_on_anthill_top_down')
+  @patch('bites.Bites.print_anthill_food_tokens')
+  def test_render_game_calls_all_appropriate_sub_methods_in_correct_order(
+    self,
+    mock_anthill_food_print,
+    mock_anthill_placement_print,
+    mock_trail_and_ants_print,
+    mock_ants_pre_trail_print,
+    mock_player_details_print,
+    mock_wine_rule_print,
+    ):
+    # test 183
+    manager = mock.Mock()
+    manager.attach_mock(mock_wine_rule_print, 'mock_wine_rule_print')
+    manager.attach_mock(mock_player_details_print, 'mock_player_details_print')
+    manager.attach_mock(mock_ants_pre_trail_print, 'mock_ants_pre_trail_print')
+    manager.attach_mock(mock_trail_and_ants_print, 'mock_trail_and_ants_print')
+    manager.attach_mock(mock_anthill_placement_print, 'mock_anthill_placement_print')
+    manager.attach_mock(mock_anthill_food_print, 'mock_anthill_food_print')
+    
+    ants = []
+    standard_tokens_for_trail = {}
+    special_tokens_for_trail = {}
+    players = []
+    anthill_order = ""
+    wine_rule = "oenophile"
+    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
+    bites_game.ant_positions = {"random key": None}
+
+    bites_game.render_game()
+
+    expected_mock_calls = [
+    mock.call.mock_wine_rule_print(),
+    mock.call.mock_player_details_print(),
+    mock.call.mock_ants_pre_trail_print(),
+    mock.call.mock_trail_and_ants_print(),
+    mock.call.mock_anthill_placement_print(),
+    mock.call.mock_anthill_food_print(),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_mock_calls)
+    mock_anthill_food_print.assert_called_once()
+    mock_anthill_placement_print.assert_called_once()
+    mock_trail_and_ants_print.assert_called_once()
+    mock_ants_pre_trail_print.assert_called_once()
+    mock_player_details_print.assert_called_once()
+    mock_wine_rule_print.assert_called_once()
+
+  def test_print_players_names_and_hands_prints_player_name_and_hand_for_one_player(self):
     # test 85
     class FakePlayer():
       def __init__(self, name):
@@ -830,12 +882,12 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
+    bites_game.print_players_names_and_hands()
     self.assertGreaterEqual(print_mock.call_count, 1)
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
     print_patcher.stop()
 
-  def test_render_game_prints_name_and_non_empty_hand_for_one_player(self):
+  def test_print_players_names_and_hands_prints_name_and_non_empty_hand_for_one_player(self):
     # test 96
     class FakePlayer():
       def __init__(self, name):
@@ -855,12 +907,12 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
+    bites_game.print_players_names_and_hands()
     self.assertGreaterEqual(print_mock.call_count, 1)
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {'bread': 2, 'cheese': 1}"))
     print_patcher.stop()
 
-  def test_render_game_prints_player_names_and_hands_for_two_players(self):
+  def test_print_players_names_and_hands_prints_player_names_and_hands_for_two_players(self):
     # test 86
     class FakePlayer():
       def __init__(self, name):
@@ -881,13 +933,13 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
+    bites_game.print_players_names_and_hands()
     self.assertGreaterEqual(print_mock.call_count, 2)
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
     self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: {}"))
     print_patcher.stop()
 
-  def test_render_game_prints_food_token_for_trail_of_len_1(self):
+  def test_print_trail_and_ants_prints_food_token_for_trail_of_len_1(self):
     # test 87
     ants = []
     standard_tokens_for_trail = {}
@@ -901,12 +953,13 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 1)
-    self.assertEqual(print_mock.call_args_list[4], mock.call("pepper"))
+    bites_game.print_trail_and_ants_positioned_thereon()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nTrail:"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("pepper"))
     print_patcher.stop()
 
-  def test_render_game_prints_food_tokens_for_trail_len_greater_than_1(self):
+  def test_print_trail_and_ants_prints_food_tokens_for_trail_len_greater_than_1(self):
     # test 88
     ants = []
     standard_tokens_for_trail = {}
@@ -920,49 +973,50 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 5)
-    self.assertEqual(print_mock.call_args_list[4], mock.call("pepper"))
-    self.assertEqual(print_mock.call_args_list[5], mock.call("apple"))
-    self.assertEqual(print_mock.call_args_list[6], mock.call("grapes"))
-    self.assertEqual(print_mock.call_args_list[7], mock.call("cheese"))
-    self.assertEqual(print_mock.call_args_list[8], mock.call("bread"))
+    bites_game.print_trail_and_ants_positioned_thereon()
+    self.assertEqual(print_mock.call_count, 6)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nTrail:"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("pepper"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("apple"))
+    self.assertEqual(print_mock.call_args_list[3], mock.call("grapes"))
+    self.assertEqual(print_mock.call_args_list[4], mock.call("cheese"))
+    self.assertEqual(print_mock.call_args_list[5], mock.call("bread"))
     print_patcher.stop()
 
-  def test_check_render_game_prints_players_and_trail(self):
-    # test 89
-    class FakePlayer():
-      def __init__(self, name):
-        self.name = name
-        self.hand = {}
+  # def test_check_render_game_prints_players_and_trail(self):
+  #   # test 89
+  #   class FakePlayer():
+  #     def __init__(self, name):
+  #       self.name = name
+  #       self.hand = {}
 
-    fake_mario = FakePlayer("mario")
-    fake_luigi = FakePlayer("luigi")
+  #   fake_mario = FakePlayer("mario")
+  #   fake_luigi = FakePlayer("luigi")
 
-    ants = []
-    standard_tokens_for_trail = {}
-    special_tokens_for_trail = {}
-    anthill_order = ""
-    wine_rule = ""
-    players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
-    bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
-    bites_game.ant_positions = {"random key": None}
+  #   ants = []
+  #   standard_tokens_for_trail = {}
+  #   special_tokens_for_trail = {}
+  #   anthill_order = ""
+  #   wine_rule = ""
+  #   players = [fake_mario, fake_luigi]
+  #   bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
+  #   bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
+  #   bites_game.ant_positions = {"random key": None}
 
-    print_patcher = mock.patch('builtins.print')
-    print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 7)
-    self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
-    self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: {}"))
-    self.assertEqual(print_mock.call_args_list[6], mock.call("pepper"))
-    self.assertEqual(print_mock.call_args_list[7], mock.call("apple"))
-    self.assertEqual(print_mock.call_args_list[8], mock.call("grapes"))
-    self.assertEqual(print_mock.call_args_list[9], mock.call("cheese"))
-    self.assertEqual(print_mock.call_args_list[10], mock.call("bread"))
-    print_patcher.stop()
+  #   print_patcher = mock.patch('builtins.print')
+  #   print_mock = print_patcher.start()
+  #   bites_game.render_game()
+  #   self.assertGreaterEqual(print_mock.call_count, 7)
+  #   self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
+  #   self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: {}"))
+  #   self.assertEqual(print_mock.call_args_list[6], mock.call("pepper"))
+  #   self.assertEqual(print_mock.call_args_list[7], mock.call("apple"))
+  #   self.assertEqual(print_mock.call_args_list[8], mock.call("grapes"))
+  #   self.assertEqual(print_mock.call_args_list[9], mock.call("cheese"))
+  #   self.assertEqual(print_mock.call_args_list[10], mock.call("bread"))
+  #   print_patcher.stop()
 
-  def test_render_game_prints_ants_positioned_before_the_trail(self):
+  def test_print_ants_before_trail_prints_ants_positioned_before_the_trail(self):
     # test 90
     ants = []
     standard_tokens_for_trail = {}
@@ -975,14 +1029,13 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 3)
-    self.assertEqual(print_mock.call_args_list[0], mock.call("\nPlayer names and hands:"))
-    self.assertEqual(print_mock.call_args_list[1], mock.call("\nAnts at the beginning of the trail:"))
-    self.assertEqual(print_mock.call_args_list[2], mock.call("red"))
+    bites_game.print_ants_positioned_before_the_trail()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nAnts at the beginning of the trail:"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("red"))
     print_patcher.stop()
 
-  def test_render_game_shows_ants_positioned_on_trail_in_correct_place(self):
+  def test_print_trail_and_ants_shows_ants_positioned_on_trail_in_correct_place(self):
     # test 91
     ants = []
     standard_tokens_for_trail = {"apple" :1}
@@ -995,53 +1048,52 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 3)
-    self.assertEqual(print_mock.call_args_list[0], mock.call("\nPlayer names and hands:"))
-    self.assertEqual(print_mock.call_args_list[1], mock.call("\nTrail and ant positions:"))
-    self.assertEqual(print_mock.call_args_list[2], mock.call("apple red"))
+    bites_game.print_trail_and_ants_positioned_thereon()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nTrail and ant positions:"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call("apple red"))
     print_patcher.stop()
 
-  def test_check_render_game_shows_player_names_and_hands__ants_waiting_to_start__and_trail_with_ants(
-    self):
-    # test 92
-    class FakePlayer():
-      def __init__(self, name):
-        self.name = name
-        self.hand = {}
+  # def test_check_render_game_shows_player_names_and_hands__ants_waiting_to_start__and_trail_with_ants(
+  #   self):
+  #   # test 92
+  #   class FakePlayer():
+  #     def __init__(self, name):
+  #       self.name = name
+  #       self.hand = {}
 
-    fake_mario = FakePlayer("mario")
-    fake_luigi = FakePlayer("luigi")
+  #   fake_mario = FakePlayer("mario")
+  #   fake_luigi = FakePlayer("luigi")
 
-    ants = []
-    standard_tokens_for_trail = {}
-    special_tokens_for_trail = {}
-    anthill_order = ""
-    wine_rule = ""
-    players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
-    bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
-    bites_game.ant_positions = {"green": 0, "purple": 2, "brown": 4, "red": None, "yellow": None}
+  #   ants = []
+  #   standard_tokens_for_trail = {}
+  #   special_tokens_for_trail = {}
+  #   anthill_order = ""
+  #   wine_rule = ""
+  #   players = [fake_mario, fake_luigi]
+  #   bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
+  #   bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
+  #   bites_game.ant_positions = {"green": 0, "purple": 2, "brown": 4, "red": None, "yellow": None}
     
-    print_patcher = mock.patch('builtins.print')
-    print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 12)
-    self.assertEqual(print_mock.call_args_list[0], mock.call("\nPlayer names and hands:"))
-    self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
-    self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: {}"))
-    self.assertEqual(print_mock.call_args_list[3], mock.call("\nAnts at the beginning of the trail:"))
-    self.assertEqual(print_mock.call_args_list[4], mock.call("red"))
-    self.assertEqual(print_mock.call_args_list[5], mock.call("yellow"))
-    self.assertEqual(print_mock.call_args_list[6], mock.call("\nTrail and ant positions:"))
-    self.assertEqual(print_mock.call_args_list[7], mock.call("pepper green"))
-    self.assertEqual(print_mock.call_args_list[8], mock.call("apple"))
-    self.assertEqual(print_mock.call_args_list[9], mock.call("grapes purple"))
-    self.assertEqual(print_mock.call_args_list[10], mock.call("cheese"))
-    self.assertEqual(print_mock.call_args_list[11], mock.call("bread  brown"))
-    print_patcher.stop()
+  #   print_patcher = mock.patch('builtins.print')
+  #   print_mock = print_patcher.start()
+  #   bites_game.render_game()
+  #   self.assertGreaterEqual(print_mock.call_count, 12)
+  #   self.assertEqual(print_mock.call_args_list[0], mock.call("\nPlayer names and hands:"))
+  #   self.assertEqual(print_mock.call_args_list[1], mock.call("mario: {}"))
+  #   self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: {}"))
+  #   self.assertEqual(print_mock.call_args_list[3], mock.call("\nAnts at the beginning of the trail:"))
+  #   self.assertEqual(print_mock.call_args_list[4], mock.call("red"))
+  #   self.assertEqual(print_mock.call_args_list[5], mock.call("yellow"))
+  #   self.assertEqual(print_mock.call_args_list[6], mock.call("\nTrail and ant positions:"))
+  #   self.assertEqual(print_mock.call_args_list[7], mock.call("pepper green"))
+  #   self.assertEqual(print_mock.call_args_list[8], mock.call("apple"))
+  #   self.assertEqual(print_mock.call_args_list[9], mock.call("grapes purple"))
+  #   self.assertEqual(print_mock.call_args_list[10], mock.call("cheese"))
+  #   self.assertEqual(print_mock.call_args_list[11], mock.call("bread  brown"))
+  #   print_patcher.stop()
 
-  def test_render_game_shows_ant_positioned_on_anthill(self):
+  def test_print_ants_on_anthill_shows_ant_positioned_on_anthill(self):
     # test 93
     ants = []
     standard_tokens_for_trail = {}
@@ -1056,15 +1108,13 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 4)
-    self.assertEqual(print_mock.call_args_list[0], mock.call("\nPlayer names and hands:"))
-    self.assertEqual(print_mock.call_args_list[1], mock.call("\nTrail:"))
-    self.assertEqual(print_mock.call_args_list[2], mock.call("\nAnthill:"))
-    self.assertEqual(print_mock.call_args_list[4], mock.call("The yellow ant is in level 0"))
+    bites_game.print_ants_positioned_on_anthill_top_down()
+    self.assertEqual(print_mock.call_count, 3)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nAnthill:"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("The yellow ant is in level 0"))
     print_patcher.stop()
 
-  def test_render_game_shows_two_ants_positioned_on_anthill_higher_one_first(self):
+  def test_print_ants_on_anthill_shows_two_ants_positioned_on_anthill_higher_one_first(self):
     # test 94
     ants = []
     standard_tokens_for_trail = {}
@@ -1079,16 +1129,14 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 5)
-    self.assertEqual(print_mock.call_args_list[0], mock.call("\nPlayer names and hands:"))
-    self.assertEqual(print_mock.call_args_list[1], mock.call("\nTrail:"))
-    self.assertEqual(print_mock.call_args_list[2], mock.call("\nAnthill:"))
-    self.assertEqual(print_mock.call_args_list[4], mock.call("The green ant is in level 1"))
-    self.assertEqual(print_mock.call_args_list[5], mock.call("The yellow ant is in level 0"))
+    bites_game.print_ants_positioned_on_anthill_top_down()
+    self.assertEqual(print_mock.call_count, 4)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nAnthill:"))
+    self.assertEqual(print_mock.call_args_list[2], mock.call("The green ant is in level 1"))
+    self.assertEqual(print_mock.call_args_list[3], mock.call("The yellow ant is in level 0"))
     print_patcher.stop()
 
-  def test_render_game_shows_anthill_food_for_single_food_token(self):
+  def test_print_anthill_food_shows_anthill_food_for_single_food_token(self):
     # test 127
     ants = []
     standard_tokens_for_trail = {}
@@ -1104,13 +1152,13 @@ class RenderGameTest(unittest.TestCase):
     
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 2)
-    self.assertEqual(print_mock.call_args_list[4], mock.call("\nAnthill food tokens"))
-    self.assertEqual(print_mock.call_args_list[5], mock.call(["grapes"]))
+    bites_game.print_anthill_food_tokens()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nAnthill food tokens"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call(["grapes"]))
     print_patcher.stop()
 
-  def test_render_game_shows_anthill_food_for_one_each_of_two_foods(self):
+  def test_print_anthill_food_shows_anthill_food_for_one_each_of_two_foods(self):
     # test 128
     ants = []
     standard_tokens_for_trail = {}
@@ -1126,13 +1174,13 @@ class RenderGameTest(unittest.TestCase):
     
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 2)
-    self.assertEqual(print_mock.call_args_list[4], mock.call("\nAnthill food tokens"))
-    self.assertEqual(print_mock.call_args_list[5], mock.call(["grapes", "pepper"]))
+    bites_game.print_anthill_food_tokens()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nAnthill food tokens"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call(["grapes", "pepper"]))
     print_patcher.stop()
 
-  def test_render_game_shows_anthill_food_for_two_of_the_same_food(self):
+  def test_print_anthill_food_shows_anthill_food_for_two_of_the_same_food(self):
     # test 129
     ants = []
     standard_tokens_for_trail = {}
@@ -1148,13 +1196,13 @@ class RenderGameTest(unittest.TestCase):
     
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 2)
-    self.assertEqual(print_mock.call_args_list[4], mock.call("\nAnthill food tokens"))
-    self.assertEqual(print_mock.call_args_list[5], mock.call(["grapes", "grapes"]))
+    bites_game.print_anthill_food_tokens()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nAnthill food tokens"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call(["grapes", "grapes"]))
     print_patcher.stop()
 
-  def test_check_render_game_does_not_show_food_type_if_v_equals_0(self):
+  def test_check_print_anthill_food_does_not_show_food_type_if_v_equals_0(self):
     # test 130
     ants = []
     standard_tokens_for_trail = {}
@@ -1170,13 +1218,13 @@ class RenderGameTest(unittest.TestCase):
     
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 2)
-    self.assertEqual(print_mock.call_args_list[4], mock.call("\nAnthill food tokens"))
-    self.assertEqual(print_mock.call_args_list[5], mock.call(["grapes", "pepper"]))
+    bites_game.print_anthill_food_tokens()
+    self.assertEqual(print_mock.call_count, 2)
+    self.assertEqual(print_mock.call_args_list[0], mock.call("\nAnthill food tokens"))
+    self.assertEqual(print_mock.call_args_list[1], mock.call(["grapes", "pepper"]))
     print_patcher.stop()
 
-  def test_render_game_replaces_trail_element_None_with_placeholder(self):
+  def test_print_trail_replaces_trail_element_None_with_placeholder(self):
     # test 131
     ants = []
     standard_tokens_for_trail = {}
@@ -1199,20 +1247,15 @@ class RenderGameTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.render_game()
-    self.assertGreaterEqual(print_mock.call_count, 7)
-    self.assertEqual(print_mock.call_args_list[2], mock.call("apple"))
+    bites_game.print_trail_and_ants_positioned_thereon()
+    self.assertEqual(print_mock.call_count, 8)
+    self.assertEqual(print_mock.call_args_list[2], mock.call("--"))
     self.assertEqual(print_mock.call_args_list[3], mock.call("--"))
-    self.assertEqual(print_mock.call_args_list[4], mock.call("--"))
-    self.assertEqual(print_mock.call_args_list[5], mock.call("bread"))
-    self.assertEqual(print_mock.call_args_list[6], mock.call("grapes"))
-    self.assertEqual(print_mock.call_args_list[7], mock.call("cheese"))
-    self.assertEqual(print_mock.call_args_list[8], mock.call("--"))
-
+    self.assertEqual(print_mock.call_args_list[7], mock.call("--"))
     print_patcher.stop()
 
   @patch('builtins.print')
-  def test_render_game_shows_anthill_order_next_to_anthill(self, mock_builtin_print):
+  def test_print_ants_on_anthill_shows_anthill_order_next_to_anthill(self, mock_builtin_print):
     # test 145
     ants = []
     standard_tokens_for_trail = {}
@@ -1225,15 +1268,15 @@ class RenderGameTest(unittest.TestCase):
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = ["yellow"]
 
-    bites_game.render_game()
+    bites_game.print_ants_positioned_on_anthill_top_down()
 
-    expected_print_result_2 = call("\nAnthill:")
-    expected_print_result_3 = call("Ants will be placed on the anthill according to the rule: test anthill order")
-    expected_print_result_4 = call("The yellow ant is in level 0")
+    expected_print_result_0 = call("\nAnthill:")
+    expected_print_result_1 = call("Ants will be placed on the anthill according to the rule: test anthill order")
+    expected_print_result_2 = call("The yellow ant is in level 0")
 
+    self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
+    self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
     self.assertEqual(mock_builtin_print.call_args_list[2], expected_print_result_2)
-    self.assertEqual(mock_builtin_print.call_args_list[3], expected_print_result_3)
-    self.assertEqual(mock_builtin_print.call_args_list[4], expected_print_result_4)
 
   @patch('builtins.print')
   def test_render_game_prints_statement_about_wine_rule(self, mock_builtin_print):
@@ -1247,10 +1290,10 @@ class RenderGameTest(unittest.TestCase):
     bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule)
     bites_game.ant_positions = {"random key": None}
 
-    bites_game.render_game()
+    bites_game.print_wine_rule_statement()
 
-    expected_print_result_0 = call("The wine scoring card currently in play is: ")
-    expected_print_result_1 = call("Oenophile\n")
+    expected_print_result_0 = call("\nThe wine scoring card currently in play is: ")
+    expected_print_result_1 = call("Oenophile")
 
     self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
     self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
