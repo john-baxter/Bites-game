@@ -63,6 +63,7 @@ class Bites():
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)
+    self.standard_tokens_for_trail = standard_tokens_for_trail
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players

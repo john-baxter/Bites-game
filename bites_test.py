@@ -28,6 +28,7 @@ class BitesInitTest(unittest.TestCase):
     self.assertEqual(bites_game.ant_positions, expected_ants)
     self.assertIn(bites_game.trail, expected_trails)
     self.assertEqual(bites_game.anthill, expected_anthill)
+    self.assertEqual(bites_game.standard_tokens_for_trail, test_standard_tokens)
 
   def test_bites_class_can_receive_instance_of_player_class(self):
     # test 73
