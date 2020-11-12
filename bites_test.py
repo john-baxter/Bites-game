@@ -732,7 +732,7 @@ class PrintScoresTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.calculate_and_print_scores(standard_tokens_for_trail)
+    bites_game.calculate_and_print_scores()
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: 0"))
     self.assertGreaterEqual(print_mock.call_count, 1)
     print_patcher.stop()
@@ -760,7 +760,7 @@ class PrintScoresTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.calculate_and_print_scores(standard_tokens_for_trail)
+    bites_game.calculate_and_print_scores()
     self.assertGreaterEqual(print_mock.call_count, 2)
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: 3"))
     self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: 9"))
