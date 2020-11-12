@@ -46,6 +46,11 @@ class Bites():
       element as None; ready to be filled with the ID (string) of each ant as they reach 
       the end of the trail.
 
+    standard_tokens_for_trail : (dict)
+      The names of each type of standard food token and their quantities
+      The keys are names of food as strings.
+      The values are the amount of the food as integers.
+    
     players : (list)
       A list of Player objects representing the players of this game.
       Elements are instances of the Player class
@@ -156,14 +161,14 @@ class Bites():
         self.render_game()
         if None not in self.anthill: return
 
-  def calculate_and_print_scores(self, standard_tokens_for_trail):
+  def calculate_and_print_scores(self):
     """Displays each player's score
 
     Prints each player's name and shows how many points they have.
     """
     print("\nThe results: ")
     for player in self.players:
-      player.score_hand(self.anthill, standard_tokens_for_trail)     
+      player.score_hand(self.anthill, self.standard_tokens_for_trail)     
       print ("%s: %i" % (player.name, player.score))
 
   def play_full_game(self):
