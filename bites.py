@@ -3,7 +3,7 @@ from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_order, wine_rule):
+  def __init__(self, ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -60,7 +60,7 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
 
-    anthill_order : (string)
+    anthill_rule : (string)
       The identity of the anthill rule that has been chosen during the setup of the game.
 
     wine_rule : (string)
@@ -73,7 +73,7 @@ class Bites():
     self.anthill = self.initialise_anthill(ants)
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
-    self.anthill_order = anthill_order
+    self.anthill_rule = anthill_rule
     self.wine_rule = wine_rule
 
   def initialise_ant_positions(self, ants):
@@ -157,7 +157,7 @@ class Bites():
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens) = \
           player.take_turn(
-            self.trail, self.ant_positions, self.anthill, self.anthill_order, self.anthill_food_tokens)
+            self.trail, self.ant_positions, self.anthill, self.anthill_rule, self.anthill_food_tokens)
         self.render_game()
         if None not in self.anthill: return
 
@@ -231,7 +231,7 @@ class Bites():
     """Shows a representation of the anthill as text
     """
     print("\nAnthill:")
-    print("Ants will be placed on the anthill according to the rule: %s" % self.anthill_order)
+    print("Ants will be placed on the anthill according to the rule: %s" % self.anthill_rule)
     for i in range(len(self.anthill)-1, -1, -1):
       if self.anthill[i] is None:
         print("Level %s is empty" % i)

@@ -13,6 +13,9 @@ Create a selection (possibly all) of the wine rules
 ### Future
 Chocolate\
 Extra rules\
-Fancy CLI
+Fancy CLI\
+Look at 
+[comment](https://github.com/john-baxter/Bites-game/pull/27#discussion_r520486699) 
+from feature-wine pull request
 
 ### Bugs discovered:

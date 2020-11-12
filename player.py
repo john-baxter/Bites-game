@@ -154,7 +154,7 @@ class Player():
 
     return ant_positions
 
-  def place_ant_on_anthill(self, ant_positions, anthill, anthill_order, ant):
+  def place_ant_on_anthill(self, ant_positions, anthill, anthill_rule, ant):
     """Insect meeple goes on correct level of home structure
 
     The method adds ants to the anthill as per the anthill rule currently in play. 
@@ -179,7 +179,7 @@ class Player():
       Elements will be changed into the IDs of the ants as they reach the anthill.
       Each element is None or string.
 
-    anthill_order : (string)
+    anthill_rule : (string)
       The identity of the anthill rule that has been chosen during the setup of the game.
 
     ant : (string)
@@ -198,7 +198,7 @@ class Player():
       Newly updated version of the anthill list; showing one fewer None and one more 
       ant ID (string) in the appropriate place.
     """
-    if anthill_order == "user choice":
+    if anthill_rule == "user choice":
       i = int(
         self.make_choice(
           self.define_allowed_choices_anthill_placement(anthill), 
@@ -207,10 +207,10 @@ class Player():
       )
       anthill[i] = ant
     else:
-      anthill_order_list = ANTHILL_CARD_DICT[anthill_order]
+      anthill_rule_list = ANTHILL_CARD_DICT[anthill_rule]
       for i in range(len(anthill)):
-        if anthill[anthill_order_list[i]] is None:
-          anthill[anthill_order_list[i]] = ant
+        if anthill[anthill_rule_list[i]] is None:
+          anthill[anthill_rule_list[i]] = ant
           break
 
     ant_positions[ant] = "anthill"
@@ -356,7 +356,7 @@ class Player():
 
     return allowed_choices_direction
 
-  def take_turn(self, trail, ant_positions, anthill, anthill_order, anthill_food_tokens):
+  def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
     """Perform necessary steps to complete one player's move
 
     Parameters
@@ -375,7 +375,7 @@ class Player():
       Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
       Elements are None or ant IDs as strings.
 
-    anthill_order : (list)
+    anthill_rule : (list)
       A list defining the order in which the anthill should be filled as ants arrive 
       throughout the game. 
 
@@ -408,7 +408,7 @@ class Player():
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
-      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant)
+      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
       allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
       user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
       anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
