@@ -1,3 +1,4 @@
+import wine
 
 K_COLOUR_V_FOOD_DICT = {
   "purple": "grapes",
@@ -23,10 +24,10 @@ Each element is a string
 """
 
 
-FOOD_TYPES = K_COLOUR_V_FOOD_DICT.values()
-"""A list of the types of token used for the trail
+STANDARD_FOOD_TYPES = K_COLOUR_V_FOOD_DICT.values()
+"""A list of the standard types of food token used for the trail
 
-The food tokens will be labelled according to the name of the food idem depicted.
+These food tokens will be labelled according to the name of the food idem depicted.
 The order in this list is not important.
 Each name is written in singular form except 'grapes'; this is in reflection of the 
 real game pieces (but is a deviation from the nomenclature in the game literature, 
@@ -47,13 +48,21 @@ Values are ant colours as strings.
 """
 
 
-NUMBER_OF_EACH_FOOD_TOKEN = 9
-"""As per the standard rules of the game, there are this many of each standard 
+SPECIAL_FOOD_TYPES = ["wine"]
+"""A list of the special types of food token used for the trail
+
+Each element is a string.
+"""
+
+
+NUMBER_OF_EACH_STANDARD_FOOD_TOKEN = 9
+NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN = 5
+"""As per the standard rules of the game, there are this many of each  
 food token.
 """
 
 
-TOKENS_FOR_TRAIL = {i : NUMBER_OF_EACH_FOOD_TOKEN for i in FOOD_TYPES}
+STANDARD_TOKENS_FOR_TRAIL = {food : NUMBER_OF_EACH_STANDARD_FOOD_TOKEN for food in STANDARD_FOOD_TYPES}
 """The standard number of each standard food token
 
 A dictionary showing how many of each standard food token will be 
@@ -63,10 +72,23 @@ Values are integers
 """
 
 
-PROMPT_TEXT_ANT_CHOICE  = "please enter your choice of ant"
-PROMPT_TEXT_DIRECTION_CHOICE = "please pick a direction to collect food from"
-PROMPT_TEXT_ANTHILL_FOOD_CHOICE = "please enter your choice of food"
-PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE = "please enter your choice of anthill level"
+SPECIAL_TOKENS_FOR_TRAIL = {food : NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN for food in SPECIAL_FOOD_TYPES}
+"""The standard number of each special food token
+
+A dictionary showing how many of each special food token will be 
+used as per the rules.
+Keys are foods as strings
+Values are integers
+"""
+
+
+PROMPT_TEXT_GAME_CHOICE_ANT  = "please enter your choice of ant"
+PROMPT_TEXT_GAME_CHOICE_DIRECTION = "please pick a direction to collect food from"
+PROMPT_TEXT_GAME_CHOICE_FOOD = "please enter your choice of food"
+PROMPT_TEXT_GAME_CHOICE_ANTHILL_PLACEMENT = "please enter your choice of anthill level"
+
+PROMPT_TEXT_RULE_CHOICE_ANTHILL = "Please enter your choice of anthill card: "
+PROMPT_TEXT_RULE_CHOICE_WINE = "Please enter your choice of wine card: "
 """The text statements that are used during the various call of Player.make_choice()
 """
 
@@ -83,4 +105,12 @@ ANTHILL_CARD_DICT = {
   "leave gaps": [4, 2, 0, 3, 1],
   "user choice": None}
 """The various lists that are used to determine the order that the anthill is filled
+"""
+
+WINE_CARD_DICT = {
+  "collector": wine.score_wine_Collector_method,
+  "oenophile": wine.score_wine_Oenophile_method,
+  }
+"""The various methods that calculate the wine score, with their parameters. Will be 
+called when needed as part of calculation the player score.
 """

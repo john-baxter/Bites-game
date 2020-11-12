@@ -1,21 +1,26 @@
 import random
-from constants import K_COLOUR_V_FOOD_DICT
+from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, tokens_for_trail, players, anthill_order):
+  def __init__(self, ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
 
-    Arguments
-    ---------
+    Parameters
+    ----------
     ants : (list)
       The list of the ants which will be used for the game. 
       Each element is a string.
 
-    tokens_for_trail : (dict)
-      The names of each type of food token and their quantities
+    standard_tokens_for_trail : (dict)
+      The names of each type of standard food token and their quantities
+      The keys are names of food as strings.
+      The values are the amount of the food as integers.
+    
+    special_tokens_for_trail : (dict)
+      The names of each type of special food token and their quantities
       The keys are names of food as strings.
       The values are the amount of the food as integers.
 
@@ -41,6 +46,11 @@ class Bites():
       element as None; ready to be filled with the ID (string) of each ant as they reach 
       the end of the trail.
 
+    standard_tokens_for_trail : (dict)
+      The names of each type of standard food token and their quantities
+      The keys are names of food as strings.
+      The values are the amount of the food as integers.
+    
     players : (list)
       A list of Player objects representing the players of this game.
       Elements are instances of the Player class
@@ -50,15 +60,21 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
 
-    anthill_order : (string)
+    anthill_rule : (string)
       The identity of the anthill rule that has been chosen during the setup of the game.
+
+    wine_rule : (string)
+      The identity of the wine rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
+    tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)
+    self.standard_tokens_for_trail = standard_tokens_for_trail
     self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
-    self.anthill_food_tokens = self.initialise_anthill_food_tokens(tokens_for_trail)
-    self.anthill_order = anthill_order
+    self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
+    self.anthill_rule = anthill_rule
+    self.wine_rule = wine_rule
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
@@ -141,7 +157,7 @@ class Bites():
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens) = \
           player.take_turn(
-            self.trail, self.ant_positions, self.anthill, self.anthill_order, self.anthill_food_tokens)
+            self.trail, self.ant_positions, self.anthill, self.anthill_rule, self.anthill_food_tokens)
         self.render_game()
         if None not in self.anthill: return
 
@@ -152,7 +168,7 @@ class Bites():
     """
     print("\nThe results: ")
     for player in self.players:
-      player.score_hand(self.anthill)     
+      player.score_hand(self.anthill, self.standard_tokens_for_trail)     
       print ("%s: %i" % (player.name, player.score))
 
   def play_full_game(self):
@@ -168,6 +184,7 @@ class Bites():
 
     Calls other methods, each of which shows a section of the game setup.
     """
+    self.print_wine_rule_statement()
     self.print_players_names_and_hands()
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()
@@ -214,16 +231,17 @@ class Bites():
     """Shows a representation of the anthill as text
     """
     print("\nAnthill:")
-    print("Ants will be placed on the anthill according to the rule: %s" % self.anthill_order)
+    print("Ants will be placed on the anthill according to the rule: %s" % self.anthill_rule)
     for i in range(len(self.anthill)-1, -1, -1):
       if self.anthill[i] is None:
         print("Level %s is empty" % i)
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
 
-  def initialise_anthill_food_tokens(self, tokens_for_trail):
+  def initialise_anthill_food_tokens(self, standard_tokens_for_trail):
     """Prepare the stack of tokens next to the anthill
 
+    The stack has one of each standard food. Does not include special food.
     Players get to collect one each time they place an ant on the anthill.
 
     Parameters
@@ -240,7 +258,7 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
     """
-    self.anthill_food_tokens = { token : 1 for token in tokens_for_trail}
+    self.anthill_food_tokens = { token : 1 for token in standard_tokens_for_trail }
     return self.anthill_food_tokens
 
   def print_anthill_food_tokens(self):
@@ -253,3 +271,7 @@ class Bites():
         for n in range(v):
           list_of_anthill_food_tokens.append(k)
       print(list_of_anthill_food_tokens)
+
+  def print_wine_rule_statement(self):
+    print("\nThe wine scoring card currently in play is: ")
+    print("%s" % self.wine_rule.capitalize())

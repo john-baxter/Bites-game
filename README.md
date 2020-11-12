@@ -31,7 +31,7 @@ In the current state the whole project is using the Python standard library with
 The project currently has the following features:
 - The game is playable using a simple text-based interface in the Command Line
 - 2 to 5 players can play at a time
-- Standard food tokens used for the trail
+- Standard food tokens and wine used for the trail
 - Standard ant colours used
 - Players can collect food from the anthill
 - Multiple options for anthill filling. The players may choose one or have the game randomly select one for them.
@@ -39,10 +39,11 @@ The project currently has the following features:
   * Bottom-up
   * Specific order: 4, 2, 0, 3 then 1
   * User's choice (Not featured in the original game)
+- Wine tokens scored by "Collector" rule
 
 ## [^](#code-written-by-john-baxter)Code example
 <!-- TO DO (Continuous) -->
-<!-- Check that the line ref in this link is correct; it will change if there is any insertion before itin the player.py file. -->
+<!-- Check that the line ref in this link is correct; it will change if there is any insertion before it in the player.py file. -->
 The following example shows the method within the 
 [Player class](./player.py#L139) 
 which is used after the choice of which ant to move has been made; and is responsible for defining at what position the ant's move will be completed.\

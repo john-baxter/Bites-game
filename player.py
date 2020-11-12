@@ -1,14 +1,14 @@
-from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT
-from constants import PROMPT_TEXT_ANT_CHOICE, PROMPT_TEXT_DIRECTION_CHOICE, PROMPT_TEXT_ANTHILL_FOOD_CHOICE, PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
-from constants import ANTHILL_CARD_DICT
+from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT, STANDARD_FOOD_TYPES
+from constants import PROMPT_TEXT_GAME_CHOICE_ANT, PROMPT_TEXT_GAME_CHOICE_DIRECTION, PROMPT_TEXT_GAME_CHOICE_FOOD, PROMPT_TEXT_GAME_CHOICE_ANTHILL_PLACEMENT
+from constants import ANTHILL_CARD_DICT, WINE_CARD_DICT
 from functions import show_allowed_choices_from_list
 
 class Player():
   def __init__(self, name):
     """Initialises an instance of the Player class
 
-    Arguments
-    ---------
+    Parameters
+    ----------
     name : (string)
       The name of the player
     
@@ -62,29 +62,34 @@ class Player():
     else:
       self.hand[food] = 1
     
-  def score_hand(self, anthill):
-    """Calculates player's points at the end of the game
+  def score_standard_food_in_hand(self, anthill):
+    """Calculates player's 'standard' points at the end of the game
+
+    'Standard' points are those that are acquired through the standard food tokens 
+    held by the player.
+
     Could be called any time but to reflect the real game there is no running 
     total of points; just a single calculation and comparison after the final ant 
     has reached the anthill.
 
-    Arguments
-    ---------
+    Parameters
+    ----------
     anthill : (list)
       A list recording which ant is in which spot on the anthill at the end of the game.
       The index of each ant will be used as the value of each of the corresponding 
       food token in a player's hand.
       Each element is a string
 
-    Updates
+    Returns
     -------
-    score : (integer)
-      An integer showing the player's points total. Will be initialised at 0 and 
-      will be updated at the end of the game.
+    standard_food_score : (integer)
+      An integer showing the player's total points from standard food. 
     """
-    self.score = 0
+    standard_food_score = 0
     for food in self.hand:
-      self.score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
+      if food in STANDARD_FOOD_TYPES:
+        standard_food_score += anthill.index(K_FOOD_V_COLOUR_DICT[food]) * self.hand[food]
+    return standard_food_score
 
   def make_choice(self, allowed_choices, prompt_text):
     """Used any time the player needs to make a choice
@@ -149,7 +154,7 @@ class Player():
 
     return ant_positions
 
-  def place_ant_on_anthill(self, ant_positions, anthill, anthill_order, ant):
+  def place_ant_on_anthill(self, ant_positions, anthill, anthill_rule, ant):
     """Insect meeple goes on correct level of home structure
 
     The method adds ants to the anthill as per the anthill rule currently in play. 
@@ -174,7 +179,7 @@ class Player():
       Elements will be changed into the IDs of the ants as they reach the anthill.
       Each element is None or string.
 
-    anthill_order : (string)
+    anthill_rule : (string)
       The identity of the anthill rule that has been chosen during the setup of the game.
 
     ant : (string)
@@ -193,19 +198,19 @@ class Player():
       Newly updated version of the anthill list; showing one fewer None and one more 
       ant ID (string) in the appropriate place.
     """
-    if anthill_order == "user choice":
+    if anthill_rule == "user choice":
       i = int(
         self.make_choice(
           self.define_allowed_choices_anthill_placement(anthill), 
-          PROMPT_TEXT_ANTHILL_PLACEMENT_CHOICE
+          PROMPT_TEXT_GAME_CHOICE_ANTHILL_PLACEMENT
         )
       )
       anthill[i] = ant
     else:
-      anthill_order_list = ANTHILL_CARD_DICT[anthill_order]
+      anthill_rule_list = ANTHILL_CARD_DICT[anthill_rule]
       for i in range(len(anthill)):
-        if anthill[anthill_order_list[i]] is None:
-          anthill[anthill_order_list[i]] = ant
+        if anthill[anthill_rule_list[i]] is None:
+          anthill[anthill_rule_list[i]] = ant
           break
 
     ant_positions[ant] = "anthill"
@@ -351,7 +356,7 @@ class Player():
 
     return allowed_choices_direction
 
-  def take_turn(self, trail, ant_positions, anthill, anthill_order, anthill_food_tokens):
+  def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
     """Perform necessary steps to complete one player's move
 
     Parameters
@@ -370,7 +375,7 @@ class Player():
       Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
       Elements are None or ant IDs as strings.
 
-    anthill_order : (list)
+    anthill_rule : (list)
       A list defining the order in which the anthill should be filled as ants arrive 
       throughout the game. 
 
@@ -400,18 +405,18 @@ class Player():
       Values are integers >= 0
     """
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
-    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_ANT_CHOICE)
+    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
-      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant)
+      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
       allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
-      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_ANTHILL_FOOD_CHOICE) 
+      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
       anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
       self.store_food(user_choice_food)
     else:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
       allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
-      direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_DIRECTION_CHOICE)
+      direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_GAME_CHOICE_DIRECTION)
       (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
       self.store_food(food_to_hand)
 
@@ -518,3 +523,56 @@ class Player():
       if level is None:
         allowed_choices_placement.append(str(idx))
     return allowed_choices_placement
+
+  def score_hand(self, anthill, standard_tokens_for_trail, wine_rule):
+    """Calculates the player's total points at the end of the game.
+
+    Could be called any time but to reflect the real game there is no running 
+    total of points; just a single calculation and comparison after the final ant 
+    has reached the anthill.
+
+    Adds together the standard_food_score and the wine_score.
+
+    Updates
+    -------
+    score : (integer)
+      The player's total points for this game. 
+      Will be initialised at 0
+      Will be updated at the end of the game.
+    """
+    wine_score = self.score_wine(standard_tokens_for_trail, wine_rule)
+    standard_score = self.score_standard_food_in_hand(anthill) 
+    self.score = standard_score + wine_score
+
+  def score_wine(self, standard_tokens_for_trail, wine_rule):
+    """Calculates the player's 'wine' points at the end of the game. 
+
+    'Wine' points are those points that are earned through the possession of wine 
+    tokens in combination with this game's specific wine-rule. 
+
+    Wine rules are set at the time the game is started and whichever one is used, 
+    the correct method is called here.
+
+    Parameters
+    ----------
+    standard_tokens_for_trail : (dict)
+      A dictionary containing the 'standard' tokens used to prepare the trail for this game. 
+
+      Used to cross-reference the player's hand to see which tokens will 
+      interact with the wine.
+      Keys are food types as strings
+      Values are integers.
+
+    wine_rule : (string)
+      The wine rule which was chosen during game set-up.
+
+    Returns
+    -------
+    wine_score : (integer)
+      An integer showing the player's total points from wine. 
+    """
+    wine_score = 0
+    if "wine" in self.hand:
+      wine_scoring_function = WINE_CARD_DICT[wine_rule]
+      wine_score = wine_scoring_function(self.hand, standard_tokens_for_trail)
+    return wine_score

@@ -2,6 +2,7 @@ import unittest
 from unittest import mock
 from unittest.mock import patch, call
 from player import Player
+import wine
 from constants import ANTHILL_CARD_DICT
 
 class PlayerInitTest(unittest.TestCase):
@@ -56,15 +57,33 @@ class StoreFoodTest(unittest.TestCase):
       mario.store_food(food)
       self.assertEqual(mario.hand, expected_new_hand)
 
-class ScoreHandTest(unittest.TestCase):
+  def test_check_can_receive_wine_when_not_already_in_hand(self):
+    # test 156
+    mario = Player("Mario")
+    mario.hand = {"apple": 2}
+    food = "wine"
+    expected_new_hand = {"apple": 2, "wine": 1}
+    mario.store_food(food)
+    self.assertEqual(mario.hand, expected_new_hand)
+    
+  def test_check_can_receive_wine_when_already_has_wine_in_hand(self):
+    # test 157
+    mario = Player("Mario")
+    mario.hand = {"wine": 1}
+    food = "wine"
+    expected_new_hand = {"wine": 2}
+    mario.store_food(food)
+    self.assertEqual(mario.hand, expected_new_hand)
+
+class ScoreStandardFoodInHandTest(unittest.TestCase):
   def test_can_score_four_points_for_one_token_in_top_slot(self):
     # test 22
     mario = Player("placeholder name")
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"pepper": 1}
     expected_score = 4
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_can_score_three_points_for_one_token_in_second_top_slot(self):
     # test 23
@@ -72,8 +91,8 @@ class ScoreHandTest(unittest.TestCase):
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"bread": 1}
     expected_score = 3
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_can_score_four_points_for_two_tokens_in_middle_slot(self):
     # test 24
@@ -81,8 +100,8 @@ class ScoreHandTest(unittest.TestCase):
     anthill = ["red", "purple", "yellow", "brown", "green"]
     mario.hand = {"cheese": 2}
     expected_score = 4
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_can_score_ten_points_for_one_of_each_token(self):
     # test 25
@@ -95,8 +114,8 @@ class ScoreHandTest(unittest.TestCase):
       "bread": 1,
       "pepper": 1}
     expected_score = 10
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_can_score_twenty_points_for_two_of_each_token(self):
     # test 26
@@ -109,8 +128,8 @@ class ScoreHandTest(unittest.TestCase):
       "bread": 2,
       "pepper": 2}
     expected_score = 20
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_typical_end_of_game_hand_gives_correct_score(self):
     # test 28
@@ -123,8 +142,8 @@ class ScoreHandTest(unittest.TestCase):
       "bread": 1,
       "pepper": 2}
     expected_score = 15
-    mario.score_hand(anthill)
-    self.assertEqual(mario.score, expected_score)
+    actual_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_score, expected_score)
 
   def test_same_hand_gives_different_scores_for_different_anthill_configurations(self):
     # test 29
@@ -142,11 +161,26 @@ class ScoreHandTest(unittest.TestCase):
     luigi.hand = hand
     expected_score_a = 15
     expected_score_b = 19
-    mario.score_hand(anthill_a)
-    luigi.score_hand(anthill_b)
-    self.assertNotEqual(mario.score, luigi.score)
-    self.assertEqual(mario.score, expected_score_a)
-    self.assertEqual(luigi.score, expected_score_b)
+    actual_score_a = mario.score_standard_food_in_hand(anthill_a)
+    actual_score_b = luigi.score_standard_food_in_hand(anthill_b)
+    self.assertNotEqual(actual_score_a, actual_score_b)
+    self.assertEqual(actual_score_a, expected_score_a)
+    self.assertEqual(actual_score_b, expected_score_b)
+
+  def test_wine_in_hand_does_not_affect_standard_score_calc(self):
+    # test 163
+    mario = Player("placeholder name")
+    anthill = ["red", "purple", "yellow", "brown", "green"]
+    mario.hand = {
+      "apple": 3,
+      "grapes": 4,
+      "cheese": 0,
+      "bread": 1,
+      "pepper": 2,
+      "wine": 2}
+    expected_standard_score = 15
+    actual_standard_score = mario.score_standard_food_in_hand(anthill)
+    self.assertEqual(actual_standard_score, expected_standard_score)
 
 class MakeChoiceTest(unittest.TestCase):
   def test_returns_user_input_for_input_is_red(self):
@@ -424,60 +458,60 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("mario")
     ant_positions = {"red": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = "top down"
+    anthill_rule = "top down"
     ant = "red"
     expected_new_anthill = [None, None, None, None, "red"]
     expected_new_ant_positions = {"red": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   def test_first_ant_is_green_and_goes_to_top_spot(self):
     # test 33
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = "top down"
+    anthill_rule = "top down"
     ant = "green"
     expected_new_anthill = [None, None, None, None, "green"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   def test_top_spot_occupied_second_ant_is_added(self):
     # test 34
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, "red"]
-    anthill_order = "top down"
+    anthill_rule = "top down"
     ant = "green"
     expected_new_anthill = [None, None, None, "green", "red"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   def test_four_spots_occupied_add_fifth_ant(self):
     # test 35
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, "purple", "yellow", "brown", "red"]
-    anthill_order = "top down"
+    anthill_rule = "top down"
     ant = "green"
     expected_new_anthill = ["green", "purple", "yellow", "brown", "red"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   def test_ant_position_is_updated_to_show_it_is_on_anthill(self):
     # test 50
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = "top down"
+    anthill_rule = "top down"
     ant = "green"
     expected_new_anthill = [None, None, None, None, "green"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   """Anthill filling order is bottom-to-top
   """
@@ -486,48 +520,48 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("mario")
     ant_positions = {"red": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = "bottom up"
+    anthill_rule = "bottom up"
     ant = "red"
     expected_new_anthill = ["red", None, None, None, None]
     expected_new_ant_positions = {"red": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   def test_first_ant_is_green_and_goes_to_bottom_spot(self):
     # test 133
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = "bottom up"
+    anthill_rule = "bottom up"
     ant = "green"
     expected_new_anthill = ["green", None, None, None, None]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   def test_bottom_spot_occupied_second_ant_is_added(self):
     # test 134
     mario = Player("Mario")
     ant_positions = {"green": 39}
     anthill = ["red", None, None, None, None]
-    anthill_order = "bottom up"
+    anthill_rule = "bottom up"
     ant = "green"
     expected_new_anthill = ["red", "green", None, None, None]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   def test_check_spots_0_to_3_occupied_add_fifth_ant(self):
     # test 135
     mario = Player("Mario")
     ant_positions = {"green": 39}
     anthill = ["red", "purple", "yellow", "brown", None]
-    anthill_order = "bottom up"
+    anthill_rule = "bottom up"
     ant = "green"
     expected_new_anthill = ["red", "purple", "yellow", "brown", "green"]
     expected_new_ant_positions = {"green": "anthill"}
     expected_tuple = (expected_new_anthill, expected_new_ant_positions)
-    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant), expected_tuple)
+    self.assertEqual(mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant), expected_tuple)
 
   """Anthill filling order is 4-2-0-3-1
   """
@@ -535,7 +569,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     # test 136
     starting_ant_positions = {"red": None, "green": None, "yellow": None, "purple": None, "brown": None}
     starting_anthill = [None, None, None, None, None]
-    anthill_order = "leave gaps"
+    anthill_rule = "leave gaps"
     first_ant = "red"
 
     anthill_after_turn_1 =[None, None, None, None, "red"]
@@ -563,40 +597,40 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("Mario")
 
     self.assertEqual(mario.place_ant_on_anthill(
-      starting_ant_positions, starting_anthill, anthill_order, first_ant), (
+      starting_ant_positions, starting_anthill, anthill_rule, first_ant), (
         anthill_after_turn_1, ant_pos_after_turn_1))
     self.assertEqual(mario.place_ant_on_anthill(
-      ant_pos_after_turn_1, anthill_after_turn_1, anthill_order , secont_ant), (
+      ant_pos_after_turn_1, anthill_after_turn_1, anthill_rule , secont_ant), (
         anthill_after_turn_2, ant_pos_after_turn_2))
     self.assertEqual(mario.place_ant_on_anthill(
-      ant_pos_after_turn_2, anthill_after_turn_2, anthill_order, third_ant), (
+      ant_pos_after_turn_2, anthill_after_turn_2, anthill_rule, third_ant), (
         anthill_after_turn_3, ant_pos_after_turn_3))
     self.assertEqual(mario.place_ant_on_anthill(
-      ant_pos_after_turn_3, anthill_after_turn_3, anthill_order, fourth_ant), (
+      ant_pos_after_turn_3, anthill_after_turn_3, anthill_rule, fourth_ant), (
         anthill_after_turn_4, ant_pos_after_turn_4))
     self.assertEqual(mario.place_ant_on_anthill(
-      ant_pos_after_turn_4, anthill_after_turn_4, anthill_order, fifth_ant), (
+      ant_pos_after_turn_4, anthill_after_turn_4, anthill_rule, fifth_ant), (
         expected_end_anthill, expected_end_ant_pos))
 
   """Test 141 not specific to any anthill filling rule
   """
-  def test_anthill_order_is_received_as_string_and_cross_referenced_with_constants(self):
+  def test_anthill_rule_is_received_as_string_and_cross_referenced_with_constants(self):
     # test 141
     mario = Player("mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = "bottom up"
+    anthill_rule = "bottom up"
     ant = "green"
 
-    expected_type_of_anthill_order = str
+    expected_type_of_anthill_rule = str
     expected_dict_lookup_return = [0, 1, 2, 3, 4]
 
-    mario.place_ant_on_anthill(ant_positions, anthill, anthill_order, ant)
+    mario.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
 
-    actual_type_of_anthill_order = type(anthill_order)
-    actual_dict_lookup_return = ANTHILL_CARD_DICT[anthill_order]
+    actual_type_of_anthill_rule = type(anthill_rule)
+    actual_dict_lookup_return = ANTHILL_CARD_DICT[anthill_rule]
 
-    self.assertEqual(actual_type_of_anthill_order, expected_type_of_anthill_order)
+    self.assertEqual(actual_type_of_anthill_rule, expected_type_of_anthill_rule)
     self.assertEqual(actual_dict_lookup_return, expected_dict_lookup_return)
 
   """Anthill filling rule is 'user choice'
@@ -609,7 +643,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     mario = Player("Mario")
     ant_positions = {"green": 39}
     anthill = [None, None, None, None, None]
-    anthill_order = "user choice"
+    anthill_rule = "user choice"
     ant = "green"
 
     expected_input_call = call("Mario; please enter your choice of anthill level: ")
@@ -617,7 +651,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
     expected_new_ant_positions = {"green": "anthill"}
 
     (actual_new_anthill, actual_new_ant_positions) = mario.place_ant_on_anthill(
-      ant_positions, anthill, anthill_order, ant)
+      ant_positions, anthill, anthill_rule, ant)
 
     self.assertEqual(mock_builtin_input.call_args_list[0], expected_input_call)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
@@ -678,6 +712,18 @@ class TakeFoodFromTrailTest(unittest.TestCase):
     direction = "front"
     expected_food = "bread"
     expected_new_trail = ["apple", "grapes", None, "cheese", None]
+    expected_tuple = (expected_food, expected_new_trail)
+    self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
+
+  def test_check_wine_can_be_collected_from_trail(self):
+    # test 155
+    mario = Player("mario")
+    trail = ["apple", "grapes", "wine"]
+    ant_positions = {"purple": 1}
+    ant = "purple"
+    direction = "front"
+    expected_food = "wine"
+    expected_new_trail = ["apple", "grapes", None]
     expected_tuple = (expected_food, expected_new_trail)
     self.assertEqual(mario.take_food_from_trail(trail, ant_positions, ant, direction), expected_tuple)
 
@@ -847,7 +893,7 @@ class TakeTurnTest(unittest.TestCase):
     mario = Player("mario")
     trail = ["pepper", "apple", "cheese"]
     ant_positions = {"red": None}
-    anthill_order = [4, 3, 2, 1, 0]
+    anthill_rule = [4, 3, 2, 1, 0]
     anthill_food_tokens = {}
     input_patcher = mock.patch('builtins.input', side_effect = ["red", "front"])
     print_patcher = mock.patch('builtins.print')
@@ -855,7 +901,7 @@ class TakeTurnTest(unittest.TestCase):
     print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_order, anthill_food_tokens)
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     # Then
     expected_new_hand = {"cheese": 1}
     expected_new_trail = ["pepper", "apple", None]
@@ -877,7 +923,7 @@ class TakeTurnTest(unittest.TestCase):
     trail = ["pepper", "apple", None]
     ant_positions = {"red": 1}
     anthill_food_tokens = {"pepper": 1, "bread": 1}
-    anthill_order = "bottom up"
+    anthill_rule = "bottom up"
     user_choice_ant = "red"
     user_choice_anthill_food = "bread"
     input_patcher = mock.patch('builtins.input', side_effect = [user_choice_ant, user_choice_anthill_food])
@@ -886,7 +932,7 @@ class TakeTurnTest(unittest.TestCase):
     print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_order, anthill_food_tokens)
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     # Then
     expected_new_trail = trail
     expected_new_ant_positions = {"red": "anthill"}
@@ -1050,6 +1096,171 @@ class DefineAllowedChoicesAnthillPlacementTest(unittest.TestCase):
     expected_allowed_choices = ['1']
     actual_allowed_choices = mario.define_allowed_choices_anthill_placement(anthill)
     self.assertEqual(actual_allowed_choices, expected_allowed_choices)
+
+class ScoreHandTest(unittest.TestCase):
+  def test_score_hand_updates_player_score_with_combined_std_plus_wine_scores(self):
+    # test 162
+    mario = Player("Mario")
+    mario.hand = {
+      "wine": 2,
+      "apple": 3,
+      "grapes": 2,
+      "bread": 1,    }
+    anthill = ["brown", "yellow", "purple", "green", "red"]
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
+    
+    wine_rule = "collector"
+    standard_food_score = 16
+    wine_score = 6
+    expected_score = standard_food_score + wine_score
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
+
+    self.assertEqual(mario.score, expected_score)
+
+  def test_score_hand_updates_player_score_for_hand_with_no_wine_only_standard_food(self):
+    # test 164
+    """Test superceeded by refactoring the 0 wine case into the general score_wine() method
+    """
+    pass
+    # mario = Player("Mario")
+    # mario.hand = {
+    #   "apple": 3,
+    #   "grapes": 2,
+    #   "bread": 1,    }
+    # anthill = ["brown", "yellow", "purple", "green", "red"]
+    # standard_tokens_for_trail = {
+    #   "apple": 0,
+    #   "grapes": 0,
+    #   "cheese": 0,
+    #   "bread": 0,
+    #   "pepper": 0}
+    
+    # standard_food_score = 16
+    # wine_score = 0
+    # expected_score = standard_food_score + wine_score
+    # mario.score_hand(anthill, standard_tokens_for_trail)
+
+    # self.assertEqual(mario.score, expected_score)
+
+  def test_score_hand_updates_player_score_for_hand_with_one_wine_and_standard_food(self):
+    # test 165
+    mario = Player("Mario")
+    mario.hand = {
+      "wine": 1,
+      "apple": 3,
+      "grapes": 2,
+      "bread": 1,    }
+    anthill = ["brown", "yellow", "purple", "green", "red"]
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
+    
+    wine_rule = "collector"
+    standard_food_score = 16
+    wine_score = 3
+    expected_score = standard_food_score + wine_score
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
+
+    self.assertEqual(mario.score, expected_score)
+
+  @patch('player.Player.score_standard_food_in_hand', return_value=16)
+  @patch('player.Player.score_wine', return_value=3)
+  def test_score_hand_calls_both_score_std_and_score_wine(self, score_wine_mock, score_standard_mock):
+    # test 166
+    mario = Player("Mario")
+    mario.hand = {}
+    anthill = []
+    standard_tokens_for_trail = {
+      "apple": 0,
+      "grapes": 0,
+      "cheese": 0,
+      "bread": 0,
+      "pepper": 0}
+    wine_rule = "collector"
+    mario.score_hand(anthill, standard_tokens_for_trail, wine_rule)
+
+    expected_score = 19
+
+    score_standard_mock.assert_called_once_with(anthill)
+    score_wine_mock.assert_called_once_with(standard_tokens_for_trail, wine_rule)
+    self.assertEqual(mario.score, expected_score)
+
+class ScoreWineTest(unittest.TestCase):
+  def test_score_wine_returns_an_int(self):
+    # test 176
+    mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
+    standard_tokens_for_trail = {}
+    wine_rule = ""
+    actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
+    self.assertIsInstance(actual_result, int)
+
+  def test_rule_is_collector_hand_has_1_wine_and_1_food_score_wine_returns_1(self):
+    # test 177
+    mario = Player("Mario")
+    standard_tokens_for_trail = {"apple": 0}
+    mario.hand = {"apple": 1, "wine": 1}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "collector"
+    expected_result = 1
+    actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
+    self.assertEqual(actual_result, expected_result)
+
+  def test_rule_is_collector_hand_has_2_wine_and_1_food_score_wine_returns_2(self):
+    # test 178
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "collector"
+    expected_result = 2
+    actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
+    self.assertEqual(actual_result, expected_result)
+
+  def test_rule_is_oenophile_hand_has_2_wines_score_wine_returns_4(self):
+    # test 179
+    mario = Player("Mario")
+    mario.hand = {"wine": 2}
+    standard_tokens_for_trail = {}
+    wine_rule = "oenophile"
+    expected_result = 4
+    actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
+    self.assertEqual(actual_result, expected_result)
+
+  def test_score_wine_calls_collector_method_from_constants(self):
+    # test 180
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "collector"
+    with patch.dict('player.WINE_CARD_DICT', {
+      "collector": mock.MagicMock(return_value=2),
+      "oenophile": mock.MagicMock(return_value=4),
+      }) as const_mock_wine_card:
+      actual_wine_score = mario.score_wine(standard_tokens_for_trail, wine_rule)
+      const_mock_wine_card["collector"].assert_called_once_with(mario.hand, standard_tokens_for_trail)
+    self.assertEqual(actual_wine_score, 2)
+
+  def test_score_wine_calls_oenophile_method_from_constants(self):
+    # test 181
+    mario = Player("Mario")
+    mario.hand = {"apple": 1, "wine": 2}
+    standard_tokens_for_trail = {"apple": 0}
+    wine_rule = "oenophile"
+    with patch.dict('player.WINE_CARD_DICT', {
+      "collector": mock.MagicMock(return_value=2),
+      "oenophile": mock.MagicMock(return_value=4),
+      }) as const_mock_wine_card:
+      actual_wine_score = mario.score_wine(standard_tokens_for_trail, wine_rule)
+      const_mock_wine_card["oenophile"].assert_called_once_with(mario.hand, standard_tokens_for_trail)
+    self.assertEqual(actual_wine_score, 4)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
