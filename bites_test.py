@@ -1328,12 +1328,13 @@ class VerifyChocolatePositionsTest(unittest.TestCase):
     anthill_rule = "" 
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = ['grapes']
     
     expected_result = list
     actual_result = bites_game.verify_chocolate_positions()
     self.assertIsInstance(actual_result, expected_result)
 
-  def test_verify_chocolate_positions_returns_the_trail(self):
+  def test_verify_chocolate_positions_returns_the_trail_for_trail_with_no_choc(self):
     # test 186
     ants = []
     standard_tokens_for_trail = {} 
@@ -1342,12 +1343,26 @@ class VerifyChocolatePositionsTest(unittest.TestCase):
     anthill_rule = "" 
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule)
-    bites_game.trail = ['grapes', 'bread', 'chocolate', 'pepper', 'chocolate', 'apple', 'bread', 'grapes']
+    bites_game.trail = ['grapes', 'bread', 'pepper', 'apple', 'bread', 'grapes']
 
-    expected_result = ['grapes', 'bread', 'chocolate', 'pepper', 'chocolate', 'apple', 'bread', 'grapes']
+    expected_result = ['grapes', 'bread', 'pepper', 'apple', 'bread', 'grapes']
     actual_result = bites_game.verify_chocolate_positions()
     self.assertEqual(actual_result, expected_result)
 
+  def test_verify_chocolate_positions_removes_chocolate_from_position_0(self):
+    # test 187
+    ants = []
+    standard_tokens_for_trail = {} 
+    special_tokens_for_trail = {}
+    players = []
+    anthill_rule = "" 
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = ['chocolate','grapes', 'bread', 'pepper', 'apple', 'bread', 'grapes']
+
+    expected_result = ['grapes', 'bread', 'pepper', 'apple', 'bread', 'grapes']
+    actual_result = bites_game.verify_chocolate_positions()
+    self.assertEqual(actual_result, expected_result)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

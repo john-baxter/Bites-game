@@ -277,4 +277,6 @@ class Bites():
     print("%s" % self.wine_rule.capitalize())
 
   def verify_chocolate_positions(self):
+    if self.trail[0] == "chocolate":
+      self.trail.pop(0)
     return self.trail
