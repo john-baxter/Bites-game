@@ -277,4 +277,4 @@ class Bites():
     print("%s" % self.wine_rule.capitalize())
 
   def verify_chocolate_positions(self):
-    return []
+    return self.trail
