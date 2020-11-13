@@ -10,7 +10,7 @@ Liaise with Peter about the front-end
 Chocolate:
 - include chocolate in the trail
 - figure out how/where to position it within the trail
-- create a mechanism for it to be'spent' from the player's hand
+- create a mechanism for it to be 'spent' from the player's hand
 - prompt player to use chocolate before & after regular turn
   * only if they have chocolate
 - implement the following rules:
@@ -20,6 +20,9 @@ Chocolate:
 
 ### Future
 Consider changing player hand to a counter instead of a dict\
+Create new companion doc for 
+<span>README.md</span> 
+that has tables explaining each rule\
 Create a selection (possibly all) of the wine rules
 - if doing Protégé remember to address the 0wine=/=0pts situation.
 
