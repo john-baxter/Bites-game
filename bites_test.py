@@ -1317,6 +1317,21 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
     self.assertIn("pepper", bites_game.initialise_anthill_food_tokens(standard_tokens).keys())
     self.assertNotIn("wine", bites_game.initialise_anthill_food_tokens(standard_tokens).keys())
     self.assertEqual(len(bites_game.initialise_anthill_food_tokens(standard_tokens).keys()), 5)
+
+class VerifyChocolatePositionsTest(unittest.TestCase):
+  def test_verify_chocolate_positions_returns_a_list(self):
+    # test 185
+    ants = []
+    standard_tokens_for_trail = {} 
+    special_tokens_for_trail = {}
+    players = []
+    anthill_rule = "" 
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule)
     
+    expected_result = list
+    actual_result = bites_game.verify_chocolate_positions()
+    self.assertIsInstance(actual_result, expected_result)
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

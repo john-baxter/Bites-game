@@ -275,3 +275,6 @@ class Bites():
   def print_wine_rule_statement(self):
     print("\nThe wine scoring card currently in play is: ")
     print("%s" % self.wine_rule.capitalize())
+
+  def verify_chocolate_positions(self):
+    return []
