@@ -143,25 +143,7 @@ class Bites():
     for food, amount in tokens_for_trail.items():
       trail = trail + ([food] * amount)
     random.shuffle(trail)
-    print(trail)
-
-    no_choc_range = []
-    print("*************")
-    print("*************")
-    print(no_choc_range)
-    print("*************")
-    for food in self.standard_tokens_for_trail.keys():
-      print(food)
-      no_choc_range.append(trail.index(food))
-      print(no_choc_range)
-
-    print(no_choc_range)
-    print("*************")
-    
-    if "chocolate" in trail[:(max(no_choc_range)+1)]:
-      raise ValueError("ValueError can't have chocolate available on first turn")
-    else:
-      return trail
+    return trail
 
   def take_all_turns(self):
     """Cycles through all players and performs actions needed to take their turns.

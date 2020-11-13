@@ -284,49 +284,6 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail.count("wine"), 5)
     self.assertEqual(bites_game.trail.count("chocolate"), 5)
 
-  @patch('random.shuffle', return_value = [
-    'bread',
-    'apple',
-    'apple',
-    'apple',
-    'pepper',
-    'cheese',
-    'chocolate',
-    'grapes',
-    'pepper',
-    'bread',
-  ])
-  def test_value_error_raised_if_chocolate_is_too_early_in_trail(
-    self,
-    mock_shuffle_trail,
-    ):
-    """too early is defined as being before the first token of whichever food has 
-    its first token the furthest into the trail; or in the position immediately after that.
-    """
-    # test 185
-    standard_tokens_for_trail = {}
-    special_tokens_for_trail = {}
-    ants = []
-    players = []
-    anthill_rule = ""
-    wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule)
-    # bites_game.trail = [
-      # 'bread',
-      # 'apple',
-      # 'apple',
-      # 'apple',
-      # 'pepper',
-      # 'cheese',
-      # 'chocolate',
-      # 'grapes',
-      # 'pepper',
-      # 'bread',
-      # ]
-    self.assertRaises(ValueError, bites_game.initialise_trail)
-
-
-
 class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
     # test 27
