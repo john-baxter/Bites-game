@@ -1364,5 +1364,21 @@ class VerifyChocolatePositionsTest(unittest.TestCase):
     actual_result = bites_game.verify_chocolate_positions()
     self.assertEqual(actual_result, expected_result)
 
+  def test_verify_chocolate_positions_removes_chocolate_from_position_1(self):
+    # test 188
+    ants = []
+    standard_tokens_for_trail = {} 
+    special_tokens_for_trail = {}
+    players = []
+    anthill_rule = "" 
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = ['grapes','chocolate', 'bread', 'pepper', 'apple', 'bread', 'grapes']
+
+    expected_result = ['grapes', 'bread', 'pepper', 'apple', 'bread', 'grapes']
+    actual_result = bites_game.verify_chocolate_positions()
+    self.assertEqual(actual_result, expected_result)
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
