@@ -257,33 +257,6 @@ class InitialiseTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail.count("bread"), 9)
     self.assertEqual(bites_game.trail.count("wine"), 5)
 
-  # def test_check_full_size_trail_inc_five_chocolate(self):
-  #   # test 184
-  #   standard_tokens_for_trail = {
-  #     "apple": 9,
-  #     "grapes": 9,
-  #     "cheese": 9,
-  #     "pepper": 9,
-  #     "bread": 9}
-  #   special_tokens_for_trail = {
-  #     "wine": 5,
-  #     "chocolate": 5,
-  #     }
-  #   ants = []
-  #   players = []
-  #   anthill_rule = ""
-  #   wine_rule = ""
-  #   bites_game = Bites(ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule)
-  #   expected_trail_length = 55
-  #   self.assertEqual(len(bites_game.trail), expected_trail_length)
-  #   self.assertEqual(bites_game.trail.count("apple"), 9)
-  #   self.assertEqual(bites_game.trail.count("grapes"), 9)
-  #   self.assertEqual(bites_game.trail.count("cheese"), 9)
-  #   self.assertEqual(bites_game.trail.count("pepper"), 9)
-  #   self.assertEqual(bites_game.trail.count("bread"), 9)
-  #   self.assertEqual(bites_game.trail.count("wine"), 5)
-  #   self.assertEqual(bites_game.trail.count("chocolate"), 5)
-
 class InitialiseAnthillTest(unittest.TestCase):
   def test_can_initialise_anthill_as_list_with_len_five_and_every_element_is_None(self):
     # test 27
