@@ -277,4 +277,5 @@ class Bites():
     print("%s" % self.wine_rule.capitalize())
 
   def identify_chocolate_limit(self, trail, standard_tokens_for_trail):
-    return len(standard_tokens_for_trail) + 1
+    chocolate_limit = max([trail.index(food) for food in standard_tokens_for_trail]) + 2
+    return chocolate_limit

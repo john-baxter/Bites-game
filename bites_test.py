@@ -1327,7 +1327,19 @@ class IdentifyChocolateLimitTest(unittest.TestCase):
     actual_chocolate_limit = bites_game.identify_chocolate_limit(bites_game.trail, bites_game.standard_tokens_for_trail)
     self.assertEqual(actual_chocolate_limit, expected_chocolate_limit)
 
-
+  def test_trail_has_cheese_cheese_bread_cheese_and_choc_limit_is_4(self):
+    # test 186
+    ants = []
+    standard_tokens_for_trail = {"cheese": 0, "bread": 0}
+    wine_tokens_for_trail = {"wine": 0}
+    players = []
+    anthill_rule = ""
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = ["cheese", "cheese", "bread", "cheese"]
+    expected_chocolate_limit = 4
+    actual_chocolate_limit = bites_game.identify_chocolate_limit(bites_game.trail, bites_game.standard_tokens_for_trail)
+    self.assertEqual(actual_chocolate_limit, expected_chocolate_limit)
   
 
   
