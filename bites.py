@@ -3,7 +3,7 @@ from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule):
+  def __init__(self, ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -19,10 +19,10 @@ class Bites():
       The keys are names of food as strings.
       The values are the amount of the food as integers.
     
-    special_tokens_for_trail : (dict)
-      The names of each type of special food token and their quantities
-      The keys are names of food as strings.
-      The values are the amount of the food as integers.
+    wine_tokens_for_trail : (dict)
+      A single key-value pair showing the number of wine tokens used in the trail for this game
+      The key is 'wine'.
+      The value is an integer.
 
     players : (list)
       A list of Player objects representing the players of this game.
@@ -67,9 +67,9 @@ class Bites():
       The identity of the wine rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
-    tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)
+    # tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)
     self.standard_tokens_for_trail = standard_tokens_for_trail
-    self.trail = self.initialise_trail(tokens_for_trail)
+    self.trail = self.initialise_trail(standard_tokens_for_trail, wine_tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
@@ -123,7 +123,7 @@ class Bites():
     anthill = [None] * len(ants)
     return anthill
   
-  def initialise_trail(self, tokens_for_trail):
+  def initialise_trail(self, standard_tokens_for_trail, wine_tokens_for_trail):
     """Create the path of tokens that the game is played on
     
     Parameters
@@ -140,7 +140,7 @@ class Bites():
       Each element is a string.
     """
     trail = []
-    for food, amount in tokens_for_trail.items():
+    for food, amount in dict(standard_tokens_for_trail, ** wine_tokens_for_trail).items():
       trail = trail + ([food] * amount)
     random.shuffle(trail)
     return trail
