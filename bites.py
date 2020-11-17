@@ -276,3 +276,5 @@ class Bites():
     print("\nThe wine scoring card currently in play is: ")
     print("%s" % self.wine_rule.capitalize())
 
+  def identify_chocolate_limit(self, trail):
+    return 2
