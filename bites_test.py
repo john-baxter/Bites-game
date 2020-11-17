@@ -1292,19 +1292,41 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
     self.assertEqual(len(bites_game.initialise_anthill_food_tokens(standard_tokens).keys()), 5)
 
 class IdentifyChocolateLimitTest(unittest.TestCase):
+  """Exerpt from the game's official rules:
+  The setup should never allow a player to get a chocolate token on the 
+  very first turn of the game.
+
+  This is being interpereted as whichever standard food has its first occurence 
+  furthest into the trail, that location + 1 is the first place chocolate can be. 
+  """
   def test_trail_has_three_cheese_choc_limit_is_2(self):
     # test 184
     ants = []
-    standard_tokens_for_trail = {}
+    standard_tokens_for_trail = {"cheese": 0}
     wine_tokens_for_trail = {"wine": 0}
     players = []
     anthill_rule = ""
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
-    bites_game.trail = ['cheese', 'cheese', 'cheese']
+    bites_game.trail = ["cheese", "cheese", "cheese"]
     expected_chocolate_limit = 2
-    actual_chocolate_limit = bites_game.identify_chocolate_limit(bites_game.trail)
+    actual_chocolate_limit = bites_game.identify_chocolate_limit(bites_game.trail, bites_game.standard_tokens_for_trail)
     self.assertEqual(actual_chocolate_limit, expected_chocolate_limit)
+
+  def test_trail_has_cheese_bread_cheese_cheese_and_choc_limit_is_3(self):
+    # test 185
+    ants = []
+    standard_tokens_for_trail = {"cheese": 0, "bread": 0}
+    wine_tokens_for_trail = {"wine": 0}
+    players = []
+    anthill_rule = ""
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = ["cheese", "bread", "cheese", "cheese"]
+    expected_chocolate_limit = 3
+    actual_chocolate_limit = bites_game.identify_chocolate_limit(bites_game.trail, bites_game.standard_tokens_for_trail)
+    self.assertEqual(actual_chocolate_limit, expected_chocolate_limit)
+
 
   
 
