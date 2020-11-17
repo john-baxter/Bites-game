@@ -276,6 +276,20 @@ class Bites():
     print("\nThe wine scoring card currently in play is: ")
     print("%s" % self.wine_rule.capitalize())
 
-  def identify_chocolate_limit(self, trail, standard_tokens_for_trail):
-    chocolate_limit = max([trail.index(food) for food in standard_tokens_for_trail]) + 2
+  def identify_chocolate_limit(self, trail):
+    """Find the lower limit of where chocolate could be placed into the trail. 
+
+    Parameters
+    ----------
+    trail : (list)
+      A list of tokens that will be used as the trail for this game. 
+      Elements are standard food tokens and wine as strings.
+
+    Returns
+    -------
+    chocolate_limit : (int)
+      The index within the trail that is the first position chocolate is 
+      allowed to be placed.
+    """
+    chocolate_limit = max([trail.index(food) for food in self.standard_tokens_for_trail]) + 2
     return chocolate_limit

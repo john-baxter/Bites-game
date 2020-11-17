@@ -19,6 +19,7 @@ Chocolate:
 - update choose_game_rule() to allow players to choose chocolate rule
 
 ### Future
+Check the parameters for initialise_anthill_food_tokens()\
 Consider changing player hand to a counter instead of a dict\
 Create new companion doc for 
 <span>README.md</span> 
