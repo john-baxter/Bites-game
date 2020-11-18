@@ -295,4 +295,6 @@ class Bites():
     return chocolate_limit
 
   def add_chocolate_into_trail(self, trail, chocolate_tokens_for_trail):
-    return ["cheese", "bread", "pepper", "grapes", "apple", "chocolate"]
+    for food, amount in chocolate_tokens_for_trail.items():
+      trail = trail + ([food] * amount)
+    return trail

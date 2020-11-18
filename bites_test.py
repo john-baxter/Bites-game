@@ -1356,6 +1356,22 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     expected_new_trail = ["cheese", "bread", "pepper", "grapes", "apple", "chocolate"]
     actual_new_trail = bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail)
     self.assertEqual(actual_new_trail, expected_new_trail)
+
+  def test_add_chocolate_places_two_chocs_at_end(self):
+    # test 188
+    ants = []
+    standard_tokens_for_trail = {}
+    wine_tokens_for_trail = {"wine": 0}
+    chocolate_tokens_for_trail = {"chocolate": 2}
+    players = []
+    anthill_rule = ""
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = ["cheese", "bread", "pepper", "grapes", "apple"]
+    expected_new_trail = ["cheese", "bread", "pepper", "grapes", "apple", "chocolate", "chocolate"]
+    actual_new_trail = bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail)
+    self.assertEqual(actual_new_trail, expected_new_trail)
+
   
 
 if __name__ == '__main__':
