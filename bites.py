@@ -3,7 +3,7 @@ from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule):
+  def __init__(self, ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -293,3 +293,6 @@ class Bites():
     """
     chocolate_limit = max([trail.index(food) for food in self.standard_tokens_for_trail]) + 2
     return chocolate_limit
+
+  def add_chocolate_into_trail(self, trail, chocolate_tokens_for_trail):
+    return ["cheese", "bread", "pepper", "grapes", "apple", "chocolate"]
