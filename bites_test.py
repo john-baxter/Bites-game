@@ -1342,7 +1342,8 @@ class IdentifyChocolateLimitTest(unittest.TestCase):
     self.assertEqual(actual_chocolate_limit, expected_chocolate_limit)
   
 class AddChocolateIntoTrailTest(unittest.TestCase):
-  def test_add_chocolate_to_trail_places_single_choc_at_end(self):
+  @patch('bites.random.shuffle', side_effect = [[], ["cheese", "bread", "pepper", "grapes", "apple", "chocolate"]])
+  def test_add_chocolate_to_trail_places_single_choc_at_end(self, mock_random_shuffle):
     # test 187
     ants = []
     standard_tokens_for_trail = {}
@@ -1357,7 +1358,8 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     actual_new_trail = bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail)
     self.assertEqual(actual_new_trail, expected_new_trail)
 
-  def test_add_chocolate_places_two_chocs_at_end(self):
+  @patch('bites.random.shuffle', side_effect = [[], ["cheese", "bread", "pepper", "grapes", "apple", "chocolate", "chocolate"]])
+  def test_add_chocolate_places_two_chocs_at_end(self, mock_random_shuffle):
     # test 188
     ants = []
     standard_tokens_for_trail = {}
@@ -1372,6 +1374,25 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     actual_new_trail = bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail)
     self.assertEqual(actual_new_trail, expected_new_trail)
 
+  def test_add_chocolate_calls_shuffle_on_trail(self):
+    # test 189
+    ants = []
+    standard_tokens_for_trail = {}
+    wine_tokens_for_trail = {"wine": 0}
+    chocolate_tokens_for_trail = {"chocolate": 0}
+    players = []
+    anthill_rule = ""
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = []
+    
+    with patch('bites.random.shuffle') as mock_random_shuffle:
+      bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail)
+      mock_random_shuffle.assert_called_once_with(bites_game.trail)
+
+
+
+    
   
 
 if __name__ == '__main__':
