@@ -56,9 +56,10 @@ class BitesInitTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     anthill_rule = "test anthill order"
     wine_rule = "test wine rule"
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     self.assertEqual(len(bites_game.players), 2)
     self.assertEqual(bites_game.players[0].name, "mario")
     self.assertEqual(bites_game.players[1].name, "luigi")
@@ -73,10 +74,11 @@ class BitesInitTest(unittest.TestCase):
       "cheese": 0,
       "pepper": 0}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = "test anthill order"
     wine_rule = "test wine rule"
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_anthill_food = {
       "apple": 1,
       "grapes": 1,
@@ -91,10 +93,11 @@ class BitesInitTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {"apple": 0}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = "test anthill order"
     wine_rule = "test wine rule"
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
 
     expected_anthill_rule_attribute_type = str
     expected_anthill_rule_attribute = anthill_rule
@@ -107,10 +110,11 @@ class BitesInitTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {"apple": 0}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = "test anthill order"
     wine_rule = "test wine rule"
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     
     expected_wine_rule_attribute_type = str
     expected_wine_rule_attribute = "test wine rule"
@@ -124,10 +128,11 @@ class InitialiseAntsTest(unittest.TestCase):
     ants = ["red"]
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_ant_positions = {"red": None}
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
@@ -136,10 +141,11 @@ class InitialiseAntsTest(unittest.TestCase):
     ants = ["red", "purple"]
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_ant_positions = {"red": None, "purple": None}
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
@@ -148,10 +154,11 @@ class InitialiseAntsTest(unittest.TestCase):
     ants = ["red", "purple", "yellow", "green", "brown"]
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_ant_positions = {
       "red": None,
       "purple": None,
@@ -160,40 +167,43 @@ class InitialiseAntsTest(unittest.TestCase):
       "brown": None,}
     self.assertEqual(bites_game.ant_positions, expected_ant_positions)
 
-class InitialiseTrailTest(unittest.TestCase):
-  def test_can_initialise_trail_with_one_token(self):
+class CreatePartialStandardPlusWineTrailTest(unittest.TestCase):
+  def test_can_create_partial_trail_of_standard_and_wine_with_one_token(self):
     # test 4
     standard_tokens_for_trail = {"apple": 1}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     ants = []
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_trail = ["apple"]
     self.assertEqual(bites_game.trail, expected_trail)
 
-  def test_can_initialise_trail_with_two_different_tokens(self):
+  def test_can_create_partial_trail_of_standard_and_wine_with_two_different_tokens(self):
     # test 5
     standard_tokens_for_trail = {"apple": 1, "grapes": 1}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     ants = []
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_trails = [["apple", "grapes"], ["grapes", "apple"]]
     self.assertIn(bites_game.trail, expected_trails)
 
-  def test_can_initialise_trail_with_five_of_same_token(self):
+  def test_can_create_partial_trail_of_standard_and_wine_with_five_of_same_token(self):
     # test 6
     standard_tokens_for_trail = {"apple": 5}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     ants = []
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_trail = ["apple", "apple", "apple", "apple", "apple"]
     self.assertEqual(bites_game.trail, expected_trail)
 
@@ -201,11 +211,12 @@ class InitialiseTrailTest(unittest.TestCase):
     # test 7
     standard_tokens_for_trail = {"apple": 2, "grapes": 1}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     ants = []
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_trails = [
       ["grapes", "apple", "apple"],
       ["apple", "grapes", "apple"],
@@ -221,11 +232,12 @@ class InitialiseTrailTest(unittest.TestCase):
       "pepper": 9,
       "bread": 9}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     ants = []
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_trail_length = 45
     self.assertEqual(len(bites_game.trail), expected_trail_length)
     self.assertEqual(bites_game.trail.count("apple"), 9)
@@ -243,11 +255,12 @@ class InitialiseTrailTest(unittest.TestCase):
       "pepper": 9,
       "bread": 9}
     wine_tokens_for_trail = {"wine": 5}
+    chocolate_tokens_for_trail = {}
     ants = []
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_trail_length = 50
     self.assertEqual(len(bites_game.trail), expected_trail_length)
     self.assertEqual(bites_game.trail.count("apple"), 9)
@@ -263,10 +276,11 @@ class InitialiseAnthillTest(unittest.TestCase):
     ants = ['purple', 'red', 'brown', 'yellow', 'green']
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     expected_anthill = [None, None, None, None, None]
     self.assertEqual(bites_game.anthill, expected_anthill)
 
@@ -304,10 +318,11 @@ class TakeAllTurnsTest(unittest.TestCase):
     ants = ["red", "yellow", "green", "brown", "purple"]
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     anthill_rule = ""
     wine_rule = ""
     
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
@@ -403,9 +418,10 @@ class TakeAllTurnsTest(unittest.TestCase):
     ants = ["red", "yellow", "green", "brown", "purple"]
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
@@ -546,12 +562,13 @@ class TakeAllTurnsTest(unittest.TestCase):
     ants = ["red", "yellow", "green", "brown", "purple"]
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     anthill_rule = ""
     wine_rule = ""
     fake_mario = mock.MagicMock()
     fake_luigi = mock.MagicMock()
     players = [fake_mario, fake_luigi]
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
@@ -628,9 +645,10 @@ class TakeAllTurnsTest(unittest.TestCase):
     ants = ["red", "yellow", "green", "brown", "purple"]
     standard_tokens_for_trail = {"grapes": 0}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = starting_trail
     bites_game.ant_positions = starting_ant_positions
     bites_game.anthill = starting_anthill
@@ -724,11 +742,12 @@ class PrintScoresTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     fake_mario = FakePlayer("mario")
     players = [fake_mario]
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
@@ -753,10 +772,11 @@ class PrintScoresTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = [fake_mario, fake_luigi]
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
@@ -771,7 +791,7 @@ class PlayFullGameTest(unittest.TestCase):
   @patch('bites.Bites.calculate_and_print_scores')
   def test_play_full_game_calls_take_all_turns(self, calculate_and_print_scores_mock, take_all_turns_mock):
     # test 82
-    bites_game = Bites([], {}, {}, [], "", "")
+    bites_game = Bites([], {}, {}, {}, [], "", "")
     bites_game.play_full_game()
     self.assertTrue(take_all_turns_mock.called)
 
@@ -803,7 +823,7 @@ class PlayFullGameTest(unittest.TestCase):
     manager = mock.Mock()
     manager.attach_mock(calculate_and_print_scores_mock, 'printing_the_score')
     manager.attach_mock(take_all_turns_mock, 'taking_all_the_turns')
-    bites_game = Bites([], {}, {}, [], "", "")
+    bites_game = Bites([], {}, {}, {}, [], "", "")
     bites_game.play_full_game()
     expected_calls = [
       mock.call.taking_all_the_turns(), 
@@ -838,10 +858,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = "oenophile"
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.ant_positions = {"random key": None}
 
     bites_game.render_game()
@@ -875,10 +896,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = [fake_mario]
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.ant_positions = {"random key": None}
 
     print_patcher = mock.patch('builtins.print')
@@ -900,10 +922,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = [fake_mario]
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.ant_positions = {"random key": None}
 
     print_patcher = mock.patch('builtins.print')
@@ -926,10 +949,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = [fake_mario, fake_luigi]
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.ant_positions = {"random key": None}
 
     print_patcher = mock.patch('builtins.print')
@@ -945,10 +969,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = ["pepper"]
     bites_game.ant_positions = {"random key": None}
 
@@ -965,10 +990,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = ["pepper", "apple", "grapes", "cheese", "bread"]
     bites_game.ant_positions = {"random key": None}
 
@@ -989,10 +1015,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.ant_positions = {"red": None}
 
     print_patcher = mock.patch('builtins.print')
@@ -1008,10 +1035,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {"apple" :1}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.ant_positions = {"red": 0}
 
     print_patcher = mock.patch('builtins.print')
@@ -1027,10 +1055,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = ["yellow"]
@@ -1048,10 +1077,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill", "green": "anthill"}
     bites_game.anthill = ["yellow", "green"]
@@ -1070,10 +1100,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = []
@@ -1092,10 +1123,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = []
@@ -1114,10 +1146,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = []
@@ -1136,10 +1169,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = []
@@ -1158,10 +1192,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = [
       "apple",
       None,
@@ -1189,10 +1224,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = "test anthill order"
     wine_rule = "test wine rule"
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = []
     bites_game.ant_positions = {"yellow": "anthill"}
     bites_game.anthill = ["yellow"]
@@ -1213,10 +1249,11 @@ class RenderGameTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = "oenophile"
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.ant_positions = {"random key": None}
 
     bites_game.print_wine_rule_statement()
@@ -1238,10 +1275,11 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
       "cheese": 0,
       "pepper": 0}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     self.assertIsInstance(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail), dict)
 
   def test_upon_initialisation_anthill_has_one_of_each_type_of_food(self):
@@ -1254,10 +1292,11 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
       "cheese": 0,
       "pepper": 0}
     wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     self.assertEqual(len(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail)), 5)
     self.assertEqual(list(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).values()), [1, 1, 1, 1, 1])
     self.assertIn("apple", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
@@ -1304,10 +1343,11 @@ class IdentifyChocolateLimitTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {"cheese": 0}
     wine_tokens_for_trail = {"wine": 0}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = ["cheese", "cheese", "cheese"]
     expected_chocolate_limit = 2
     actual_chocolate_limit = bites_game.identify_chocolate_limit(bites_game.trail)
@@ -1318,10 +1358,11 @@ class IdentifyChocolateLimitTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {"cheese": 0, "bread": 0}
     wine_tokens_for_trail = {"wine": 0}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = ["cheese", "bread", "cheese", "cheese"]
     expected_chocolate_limit = 3
     actual_chocolate_limit = bites_game.identify_chocolate_limit(bites_game.trail)
@@ -1332,10 +1373,11 @@ class IdentifyChocolateLimitTest(unittest.TestCase):
     ants = []
     standard_tokens_for_trail = {"cheese": 0, "bread": 0}
     wine_tokens_for_trail = {"wine": 0}
+    chocolate_tokens_for_trail = {}
     players = []
     anthill_rule = ""
     wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = ["cheese", "cheese", "bread", "cheese"]
     expected_chocolate_limit = 4
     actual_chocolate_limit = bites_game.identify_chocolate_limit(bites_game.trail)

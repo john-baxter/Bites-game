@@ -67,7 +67,6 @@ class Bites():
       The identity of the wine rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
-    # tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)
     self.standard_tokens_for_trail = standard_tokens_for_trail
     self.trail = self.initialise_trail(standard_tokens_for_trail, wine_tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
@@ -123,7 +122,7 @@ class Bites():
     anthill = [None] * len(ants)
     return anthill
   
-  def initialise_trail(self, standard_tokens_for_trail, wine_tokens_for_trail):
+  def create_partial_trail_of_standard_and_wine(self, standard_tokens_for_trail, wine_tokens_for_trail):
     """Create the path of tokens that the game is played on
     
     Parameters
