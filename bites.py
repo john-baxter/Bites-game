@@ -295,6 +295,35 @@ class Bites():
     return chocolate_limit
 
   def add_chocolate_into_trail(self, trail, chocolate_tokens_for_trail, chocolate_limit):
+    """Adds chocolate tokens into the trail as appropriate
+
+    Shuffles the given number of chocolate tokens into the slice of the trail 
+    after the chocolate limit.
+
+    Parameters
+    ----------
+    trail : (list)
+      A shuffled list of tokens other than chocolate that will be used for this game.
+      Elements are standard food or wine tokens as strings
+    
+    chocolate_tokens_for_trail : (dict)
+      A dictionary containing the chocolate tokens that will be used for this game.
+      Key is 'chocolate' as string
+      Value is int
+
+    chocolate_limit : (int)
+      The earliest point in the trail where chocolate is allowed. 
+      Based on the standard game rule that chocolate must not be available on the 
+      first move of the game.
+
+    Returns
+    -------
+    trail : (list)
+      A shuffled list of all tokens that will be used for this game. 
+      The slice pre-chocolate_lim is unchanged.
+      The slice post-chocolate_limit has had chocolate added and been reshuffled.
+      Elements are standard, wine and chocolate tokens as strings.
+    """
     for food, amount in chocolate_tokens_for_trail.items():
       trail += [food] * amount
       random.shuffle(trail[chocolate_limit:])
