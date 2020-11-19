@@ -1416,11 +1416,77 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail[3], "cheese")
     self.assertEqual(bites_game.trail, ["cheese", "cheese", "bread", "cheese", "chocolate"])
 
-  # def test_a_typical_example_of_a_game_trail_with_3_of_each_standard_and_2_choc_and_choc_lim_is_8(self):
-  #   # test 191
+  def test_a_typical_example_of_a_game_trail_with_3_of_each_standard_and_2_choc_and_choc_lim_is_8(self):
+    # test 191
+    ants = []
+    standard_tokens_for_trail = {
+      "cheese": 3, 
+      "bread": 3,
+      "grapes": 3,
+      "apple": 3,
+      "pepper": 3,
+      }
+    wine_tokens_for_trail = {"wine": 2}
+    chocolate_tokens_for_trail = {"chocolate": 2}
+    players = []
+    anthill_rule = ""
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = [
+      "cheese",
+      "grapes",
+      "cheese",
+      "wine",
+      "pepper",
+      "cheese",
+      "bread",
+      "apple",
+      "pepper",
+      "bread",
+      "pepper",
+      "bread",
+      "grapes",
+      "apple",
+      "grapes",
+      "wine",
+      "apple",
+      ]
+    chocolate_limit = 9
+
+    with patch('bites.random.shuffle') as mock_random_shuffle:
+      bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail, chocolate_limit)
+      mock_random_shuffle.assert_called_once_with([
+        "bread",
+        "pepper",
+        "bread",
+        "grapes",
+        "apple",
+        "grapes",
+        "wine",
+        "apple",
+        "chocolate",
+        "chocolate",
+        ])
     
-    
-  
+    self.assertEqual(bites_game.trail[0:9], [
+      "cheese",
+      "grapes",
+      "cheese",
+      "wine",
+      "pepper",
+      "cheese",
+      "bread",
+      "apple",
+      "pepper",
+      ])
+    self.assertEqual(len(bites_game.trail), 19)
+    self.assertEqual(bites_game.trail.count("apple"), 3)
+    self.assertEqual(bites_game.trail.count("grapes"), 3)
+    self.assertEqual(bites_game.trail.count("cheese"), 3)
+    self.assertEqual(bites_game.trail.count("pepper"), 3)
+    self.assertEqual(bites_game.trail.count("bread"), 3)
+    self.assertEqual(bites_game.trail.count("chocolate"), 2)
+    self.assertEqual(bites_game.trail.count("wine"), 2)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

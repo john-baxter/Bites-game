@@ -297,5 +297,5 @@ class Bites():
   def add_chocolate_into_trail(self, trail, chocolate_tokens_for_trail, chocolate_limit):
     for food, amount in chocolate_tokens_for_trail.items():
       trail += [food] * amount
-      random.shuffle(trail[4:])
+      random.shuffle(trail[chocolate_limit:])
     return trail
