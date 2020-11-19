@@ -1355,7 +1355,8 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = ["cheese", "bread", "pepper", "grapes", "apple"]
     expected_new_trail = ["cheese", "bread", "pepper", "grapes", "apple", "chocolate"]
-    actual_new_trail = bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail)
+    chocolate_limit = 0
+    actual_new_trail = bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail, chocolate_limit)
     self.assertEqual(actual_new_trail, expected_new_trail)
 
   @patch('bites.random.shuffle', side_effect = [[], ["cheese", "bread", "pepper", "grapes", "apple", "chocolate", "chocolate"]])
@@ -1371,7 +1372,8 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = ["cheese", "bread", "pepper", "grapes", "apple"]
     expected_new_trail = ["cheese", "bread", "pepper", "grapes", "apple", "chocolate", "chocolate"]
-    actual_new_trail = bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail)
+    chocolate_limit = 0
+    actual_new_trail = bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail, chocolate_limit)
     self.assertEqual(actual_new_trail, expected_new_trail)
 
   def test_add_chocolate_calls_shuffle_on_trail(self):
@@ -1385,13 +1387,38 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
     bites_game.trail = []
+    chocolate_limit = 0
     
     with patch('bites.random.shuffle') as mock_random_shuffle:
-      bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail)
-      mock_random_shuffle.assert_called_once_with(bites_game.trail)
+      bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail, chocolate_limit)
+      mock_random_shuffle.assert_called_once()
 
+  def test_choc_lim_is_4_and_add_choc_shuffle_does_not_affect_idx_0_to_3_inc(self):
+    # test 190
+    ants = []
+    standard_tokens_for_trail = {"cheese": 0, "bread": 0}
+    wine_tokens_for_trail = {"wine": 0}
+    chocolate_tokens_for_trail = {"chocolate": 1}
+    players = []
+    anthill_rule = ""
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
+    bites_game.trail = ["cheese", "cheese", "bread", "cheese"]
+    chocolate_limit = 4
 
+    with patch('bites.random.shuffle') as mock_random_shuffle:
+      bites_game.add_chocolate_into_trail(bites_game.trail, chocolate_tokens_for_trail, chocolate_limit)
+      mock_random_shuffle.assert_called_once_with(["chocolate"])
 
+    self.assertEqual(bites_game.trail[0], "cheese")
+    self.assertEqual(bites_game.trail[1], "cheese")
+    self.assertEqual(bites_game.trail[2], "bread")
+    self.assertEqual(bites_game.trail[3], "cheese")
+    self.assertEqual(bites_game.trail, ["cheese", "cheese", "bread", "cheese", "chocolate"])
+
+  # def test_a_typical_example_of_a_game_trail_with_3_of_each_standard_and_2_choc_and_choc_lim_is_8(self):
+  #   # test 191
+    
     
   
 

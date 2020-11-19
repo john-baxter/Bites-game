@@ -294,8 +294,8 @@ class Bites():
     chocolate_limit = max([trail.index(food) for food in self.standard_tokens_for_trail]) + 2
     return chocolate_limit
 
-  def add_chocolate_into_trail(self, trail, chocolate_tokens_for_trail):
+  def add_chocolate_into_trail(self, trail, chocolate_tokens_for_trail, chocolate_limit):
     for food, amount in chocolate_tokens_for_trail.items():
       trail += [food] * amount
-      random.shuffle(trail)
+      random.shuffle(trail[4:])
     return trail
