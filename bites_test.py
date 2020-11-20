@@ -1542,9 +1542,10 @@ class InitialiseTrailTest(unittest.TestCase):
     anthill_rule = ""
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
+    chocolate_limit = 0
 
     with patch('bites.Bites.create_partial_trail_of_standard_and_wine') as mock_create_partial:
-      partial_trail = bites_game.initialise_trail(wine_tokens_for_trail)
+      trail = bites_game.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail, chocolate_limit)
       mock_create_partial.assert_called_once_with(wine_tokens_for_trail)
 
   def test_initialise_trail_calls_add_chocolate(self):
@@ -1563,7 +1564,22 @@ class InitialiseTrailTest(unittest.TestCase):
       trail = bites_game.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail, chocolate_limit)
       mock_add_choc.assert_called_once_with([], chocolate_tokens_for_trail, chocolate_limit)
 
-    
+  def test_initialise_trail_returns_list(self):
+    # test 194
+    ants = []
+    standard_tokens_for_trail = {}
+    wine_tokens_for_trail = {"wine": 0}
+    chocolate_tokens_for_trail = {"chocolate": 0}
+    players = []
+    anthill_rule = ""
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
+    chocolate_limit = 0
+
+    expcted_result = list
+    actual_result = bites_game.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail, chocolate_limit)
+
+    self.assertIsInstance(actual_result, expcted_result)
 
 
 
