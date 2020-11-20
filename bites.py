@@ -276,12 +276,12 @@ class Bites():
     print("\nThe wine scoring card currently in play is: ")
     print("%s" % self.wine_rule.capitalize())
 
-  def identify_chocolate_limit(self, trail):
+  def identify_chocolate_limit(self, partial_trail):
     """Find the lower limit of where chocolate could be placed into the trail. 
 
     Parameters
     ----------
-    trail : (list)
+    partial_trail : (list)
       A list of tokens that will be used as the trail for this game. 
       Elements are standard food tokens and wine as strings.
 
@@ -291,10 +291,10 @@ class Bites():
       The index within the trail that is the first position chocolate is 
       allowed to be placed.
     """
-    chocolate_limit = max([trail.index(food) for food in self.standard_tokens_for_trail]) + 2
+    chocolate_limit = max([partial_trail.index(food) for food in self.standard_tokens_for_trail]) + 2
     return chocolate_limit
 
-  def add_chocolate_into_trail(self, trail, chocolate_tokens_for_trail, chocolate_limit):
+  def add_chocolate_into_trail(self, partial_trail, chocolate_tokens_for_trail):
     """Adds chocolate tokens into the trail as appropriate
 
     Shuffles the given number of chocolate tokens into the slice of the trail 
@@ -302,7 +302,7 @@ class Bites():
 
     Parameters
     ----------
-    trail : (list)
+    partial_trail : (list)
       A shuffled list of tokens other than chocolate that will be used for this game.
       Elements are standard food or wine tokens as strings
     
@@ -325,11 +325,12 @@ class Bites():
       Elements are standard, wine and chocolate tokens as strings.
     """
     for food, amount in chocolate_tokens_for_trail.items():
-      trail += [food] * amount
-      random.shuffle(trail[chocolate_limit:])
+      trail = partial_trail + [food] * amount
+      random.shuffle(trail[self.identify_chocolate_limit(partial_trail):])
     return trail
 
-  def initialise_trail(self, wine_tokens_for_trail, chocolate_tokens_for_trail, chocolate_limit):
+  def initialise_trail(self, wine_tokens_for_trail, chocolate_tokens_for_trail):
     partial_trail = self.create_partial_trail_of_standard_and_wine(wine_tokens_for_trail)
-    trail = self.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail, chocolate_limit)
+    trail = self.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail)
     return trail
+    
