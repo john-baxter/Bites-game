@@ -249,7 +249,7 @@ class Bites():
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
 
-  def initialise_anthill_food_tokens(self, standard_tokens_for_trail):
+  def initialise_anthill_food_tokens(self):
     """Prepare the stack of tokens next to the anthill
 
     The stack has one of each standard food. Does not include special food.
@@ -269,7 +269,7 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
     """
-    self.anthill_food_tokens = { token : 1 for token in standard_tokens_for_trail }
+    self.anthill_food_tokens = { token : 1 for token in self.standard_tokens_for_trail }
     return self.anthill_food_tokens
 
   def print_anthill_food_tokens(self):
