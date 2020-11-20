@@ -83,7 +83,7 @@ class Bites():
     self.trail = self.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
-    self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
+    self.anthill_food_tokens = self.initialise_anthill_food_tokens()
     self.anthill_rule = anthill_rule
     self.wine_rule = wine_rule
 

@@ -1283,7 +1283,7 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
     anthill_rule = ""
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
-    self.assertIsInstance(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail), dict)
+    self.assertIsInstance(bites_game.initialise_anthill_food_tokens(), dict)
 
   def test_upon_initialisation_anthill_has_one_of_each_type_of_food(self):
     # test 117
@@ -1300,14 +1300,14 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
     anthill_rule = ""
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
-    self.assertEqual(len(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail)), 5)
-    self.assertEqual(list(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).values()), [1, 1, 1, 1, 1])
-    self.assertIn("apple", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertIn("grapes", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertIn("bread", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertIn("cheese", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertIn("pepper", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertEqual(len(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys()), 5)
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens()), 5)
+    self.assertEqual(list(bites_game.initialise_anthill_food_tokens().values()), [1, 1, 1, 1, 1])
+    self.assertIn("apple", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("grapes", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("bread", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("cheese", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("pepper", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens().keys()), 5)
 
   @patch('bites.Bites.initialise_trail')
   def test_upon_initialisation_anthill_does_not_have_wine(self, mock_init_trail):
@@ -1325,15 +1325,15 @@ class InitialiseAnthillFoodTokensTest(unittest.TestCase):
     anthill_rule = ""
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
-    self.assertEqual(len(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail)), 5)
-    self.assertEqual(list(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).values()), [1, 1, 1, 1, 1])
-    self.assertIn("apple", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertIn("grapes", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertIn("bread", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertIn("cheese", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertIn("pepper", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertNotIn("wine", bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys())
-    self.assertEqual(len(bites_game.initialise_anthill_food_tokens(standard_tokens_for_trail).keys()), 5)
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens()), 5)
+    self.assertEqual(list(bites_game.initialise_anthill_food_tokens().values()), [1, 1, 1, 1, 1])
+    self.assertIn("apple", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("grapes", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("bread", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("cheese", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertIn("pepper", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertNotIn("wine", bites_game.initialise_anthill_food_tokens().keys())
+    self.assertEqual(len(bites_game.initialise_anthill_food_tokens().keys()), 5)
 
 class IdentifyChocolateLimitTest(unittest.TestCase):
   """Exerpt from the game's official rules:
