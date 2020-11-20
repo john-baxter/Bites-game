@@ -1557,8 +1557,5 @@ class InitialiseTrailTest(unittest.TestCase):
 
     self.assertIsInstance(actual_result, expcted_result)
 
-
-
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
-

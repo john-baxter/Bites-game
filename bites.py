@@ -24,10 +24,22 @@ class Bites():
       The key is 'wine'.
       The value is an integer.
 
+    chocolate_tokens_for_trail : (dict)
+      A single key-value pair showing the number of chocolate tokens used 
+      in the trail for this game
+      The key is 'chocolate'.
+      The value is an integer.
+
     players : (list)
       A list of Player objects representing the players of this game.
       Elements are instances of the Player class
     
+    anthill_rule : (string)
+      The identity of the anthill rule that has been chosen during the setup of the game.
+
+    wine_rule : (string)
+      The identity of the wine rule that has been chosen during the setup of the game.
+
     Attributes
     ----------
     ant_positions : (dict)
@@ -310,11 +322,6 @@ class Bites():
       Key is 'chocolate' as string
       Value is int
 
-    chocolate_limit : (int)
-      The earliest point in the trail where chocolate is allowed. 
-      Based on the standard game rule that chocolate must not be available on the 
-      first move of the game.
-
     Returns
     -------
     trail : (list)
@@ -330,6 +337,29 @@ class Bites():
     return trail
 
   def initialise_trail(self, wine_tokens_for_trail, chocolate_tokens_for_trail):
+    """Creates the trail of food tokens that this game will be played on
+
+    Adds together the standard tokens and the wine, shuffles, appends the 
+    chocolate and shuffles these into the appropriate slice.
+
+    Parameters
+    ----------
+    wine_tokens_for_trail : (dict)
+      A single key-value pair showing the number of wine tokens used in the trail for this game
+      The key is 'wine'.
+      The value is an integer.
+      
+    chocolate_tokens_for_trail : (dict)
+      A single key-value pair showing the number of chocolate tokens used 
+      in the trail for this game
+      The key is 'chocolate'.
+      The value is an integer.
+
+    Returns
+    -------
+    trail : (list)
+      The shuffled (with appropriate restriction) list of all tokens used for this game.
+    """
     partial_trail = self.create_partial_trail_of_standard_and_wine(wine_tokens_for_trail)
     trail = self.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail)
     return trail
