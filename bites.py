@@ -329,5 +329,7 @@ class Bites():
       random.shuffle(trail[chocolate_limit:])
     return trail
 
-  def initialise_trail(self, wine_tokens_for_trail):
+  def initialise_trail(self, wine_tokens_for_trail, chocolate_tokens_for_trail, chocolate_limit):
     partial_trail = self.create_partial_trail_of_standard_and_wine(wine_tokens_for_trail)
+    trail = self.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail, chocolate_limit)
+    
