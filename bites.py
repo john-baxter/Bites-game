@@ -68,7 +68,7 @@ class Bites():
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     self.standard_tokens_for_trail = standard_tokens_for_trail
-    self.trail = self.initialise_trail(standard_tokens_for_trail, wine_tokens_for_trail)
+    # self.trail = self.initialise_trail(standard_tokens_for_trail, wine_tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
@@ -122,7 +122,7 @@ class Bites():
     anthill = [None] * len(ants)
     return anthill
   
-  def create_partial_trail_of_standard_and_wine(self, standard_tokens_for_trail, wine_tokens_for_trail):
+  def create_partial_trail_of_standard_and_wine(self, wine_tokens_for_trail):
     """Create the path of tokens that the game is played on
     
     Parameters
@@ -138,11 +138,12 @@ class Bites():
       A random shuffled list of all the tokens given in the tokens_for_trail argument
       Each element is a string.
     """
-    trail = []
-    for food, amount in dict(standard_tokens_for_trail, ** wine_tokens_for_trail).items():
-      trail = trail + ([food] * amount)
-    random.shuffle(trail)
-    return trail
+    partial_trail = []
+    for food, amount in dict(self.standard_tokens_for_trail, ** wine_tokens_for_trail).items():
+      partial_trail = partial_trail + ([food] * amount)
+    random.shuffle(partial_trail)
+    return partial_trail
+
 
   def take_all_turns(self):
     """Cycles through all players and performs actions needed to take their turns.
@@ -327,3 +328,6 @@ class Bites():
       trail += [food] * amount
       random.shuffle(trail[chocolate_limit:])
     return trail
+
+  def initialise_trail(self, wine_tokens_for_trail):
+    partial_trail = self.create_partial_trail_of_standard_and_wine(wine_tokens_for_trail)

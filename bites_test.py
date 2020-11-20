@@ -1530,5 +1530,25 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     self.assertEqual(bites_game.trail.count("chocolate"), 2)
     self.assertEqual(bites_game.trail.count("wine"), 2)
 
+class InitialiseTrailTest(unittest.TestCase):
+  def test_initialise_trail_calls_create_partial_trail(self):
+    # test 192
+    ants = []
+    standard_tokens_for_trail = {}
+    wine_tokens_for_trail = {"wine": 0}
+    chocolate_tokens_for_trail = {"chocolate": 0}
+    players = []
+    anthill_rule = ""
+    wine_rule = ""
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
+
+    with patch('bites.Bites.create_partial_trail_of_standard_and_wine') as mock_create_partial:
+      partial_trail = bites_game.initialise_trail(wine_tokens_for_trail)
+      mock_create_partial.assert_called_once_with(wine_tokens_for_trail)
+
+
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
+
