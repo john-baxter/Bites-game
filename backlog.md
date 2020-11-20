@@ -8,10 +8,10 @@ Liaise with Peter about the front-end
 
 ### Next
 Chocolate:
-- include chocolate in the trail
-- figure out how/where to position it within the trail
+- ~~include chocolate in the trail~~
+- ~~figure out how/where to position it within the trail~~
 - create a mechanism for it to be 'spent' from the player's hand
-- prompt player to use chocolate before & after regular turn
+- prompt player to use chocolate before and/or after regular turn
   * only if they have chocolate
 - implement the following rules:
   * Doubler
@@ -19,7 +19,6 @@ Chocolate:
 - update choose_game_rule() to allow players to choose chocolate rule
 
 ### Future
-Check the parameters for initialise_anthill_food_tokens()\
 Consider changing player hand to a counter instead of a dict\
 Create new companion doc for 
 <span>README.md</span> 
