@@ -68,7 +68,7 @@ class Bites():
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     self.standard_tokens_for_trail = standard_tokens_for_trail
-    # self.trail = self.initialise_trail(standard_tokens_for_trail, wine_tokens_for_trail)
+    self.trail = self.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
     self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
@@ -143,7 +143,6 @@ class Bites():
       partial_trail = partial_trail + ([food] * amount)
     random.shuffle(partial_trail)
     return partial_trail
-
 
   def take_all_turns(self):
     """Cycles through all players and performs actions needed to take their turns.
@@ -324,6 +323,7 @@ class Bites():
       The slice post-chocolate_limit has had chocolate added and been reshuffled.
       Elements are standard, wine and chocolate tokens as strings.
     """
+    trail = [] 
     for food, amount in chocolate_tokens_for_trail.items():
       trail = partial_trail + [food] * amount
       random.shuffle(trail[self.identify_chocolate_limit(partial_trail):])
