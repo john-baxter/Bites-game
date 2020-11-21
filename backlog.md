@@ -19,6 +19,8 @@ Chocolate:
 - update choose_game_rule() to allow players to choose chocolate rule
 
 ### Future
+Change printing of '--' in trail so that it only prints one if there are multiple in a row.\
+Check the justification wrt chocolate.\
 Consider changing player hand to a counter instead of a dict\
 Create new companion doc for 
 <span>README.md</span> 
@@ -34,3 +36,4 @@ Look at
 from feature-wine pull request
 
 ### Bugs discovered:
+Game crashing at end (calc score phase). Incorrect number of arguments in score_hand().
