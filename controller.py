@@ -72,7 +72,8 @@ def start_new_game():
   players = prepare_list_of_players()
   anthill_rule = choose_game_rule(ANTHILL_CARD_DICT, PROMPT_TEXT_RULE_CHOICE_ANTHILL)
   wine_rule = choose_game_rule(WINE_CARD_DICT, PROMPT_TEXT_RULE_CHOICE_WINE)
-  play_bites = Bites(ANTS, STANDARD_TOKENS_FOR_TRAIL, WINE_TOKENS_FOR_TRAIL, players, anthill_rule, wine_rule)
+  chocolate_tokens_for_trail = {"chocolate": 5}
+  play_bites = Bites(ANTS, STANDARD_TOKENS_FOR_TRAIL, WINE_TOKENS_FOR_TRAIL, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
   play_bites.play_full_game()
 
 def choose_game_rule(rule_card_dict, prompt_text):
