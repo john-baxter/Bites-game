@@ -3,7 +3,7 @@ from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule):
+  def __init__(self, ants, standard_tokens_for_trail, special_tokens_for_trail, players, anthill_rule, wine_rule):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -19,27 +19,15 @@ class Bites():
       The keys are names of food as strings.
       The values are the amount of the food as integers.
     
-    wine_tokens_for_trail : (dict)
-      A single key-value pair showing the number of wine tokens used in the trail for this game
-      The key is 'wine'.
-      The value is an integer.
-
-    chocolate_tokens_for_trail : (dict)
-      A single key-value pair showing the number of chocolate tokens used 
-      in the trail for this game
-      The key is 'chocolate'.
-      The value is an integer.
+    special_tokens_for_trail : (dict)
+      The names of each type of special food token and their quantities
+      The keys are names of food as strings.
+      The values are the amount of the food as integers.
 
     players : (list)
       A list of Player objects representing the players of this game.
       Elements are instances of the Player class
     
-    anthill_rule : (string)
-      The identity of the anthill rule that has been chosen during the setup of the game.
-
-    wine_rule : (string)
-      The identity of the wine rule that has been chosen during the setup of the game.
-
     Attributes
     ----------
     ant_positions : (dict)
@@ -79,11 +67,12 @@ class Bites():
       The identity of the wine rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
+    tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)
     self.standard_tokens_for_trail = standard_tokens_for_trail
-    self.trail = self.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail)
+    self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
-    self.anthill_food_tokens = self.initialise_anthill_food_tokens()
+    self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
     self.anthill_rule = anthill_rule
     self.wine_rule = wine_rule
 
@@ -134,7 +123,7 @@ class Bites():
     anthill = [None] * len(ants)
     return anthill
   
-  def create_partial_trail_of_standard_and_wine(self, wine_tokens_for_trail):
+  def initialise_trail(self, tokens_for_trail):
     """Create the path of tokens that the game is played on
     
     Parameters
@@ -150,11 +139,11 @@ class Bites():
       A random shuffled list of all the tokens given in the tokens_for_trail argument
       Each element is a string.
     """
-    partial_trail = []
-    for food, amount in dict(self.standard_tokens_for_trail, ** wine_tokens_for_trail).items():
-      partial_trail = partial_trail + ([food] * amount)
-    random.shuffle(partial_trail)
-    return partial_trail
+    trail = []
+    for food, amount in tokens_for_trail.items():
+      trail = trail + ([food] * amount)
+    random.shuffle(trail)
+    return trail
 
   def take_all_turns(self):
     """Cycles through all players and performs actions needed to take their turns.
@@ -249,7 +238,7 @@ class Bites():
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
 
-  def initialise_anthill_food_tokens(self):
+  def initialise_anthill_food_tokens(self, standard_tokens_for_trail):
     """Prepare the stack of tokens next to the anthill
 
     The stack has one of each standard food. Does not include special food.
@@ -269,7 +258,7 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
     """
-    self.anthill_food_tokens = { token : 1 for token in self.standard_tokens_for_trail }
+    self.anthill_food_tokens = { token : 1 for token in standard_tokens_for_trail }
     return self.anthill_food_tokens
 
   def print_anthill_food_tokens(self):
@@ -286,89 +275,3 @@ class Bites():
   def print_wine_rule_statement(self):
     print("\nThe wine scoring card currently in play is: ")
     print("%s" % self.wine_rule.capitalize())
-
-  def identify_chocolate_limit(self, partial_trail):
-    """Find the lower limit of where chocolate could be placed into the trail. 
-
-    Chocolate tokens must not be available on the first turn of the game so must only be 
-    inserted into the trail at random starting from the position of the last unique 
-    standard food +2.
-
-    Parameters
-    ----------
-    partial_trail : (list)
-      A list of tokens that will be used as the trail for this game. 
-      Elements are standard food tokens and wine as strings.
-
-    Returns
-    -------
-    chocolate_limit : (int)
-      The index within the trail that is the first position chocolate is 
-      allowed to be placed.
-    """
-    chocolate_limit = max([partial_trail.index(food) for food in self.standard_tokens_for_trail]) + 2
-    return chocolate_limit
-
-  def add_chocolate_into_trail(self, partial_trail, chocolate_tokens_for_trail):
-    """Adds chocolate tokens into the trail as appropriate
-
-    Shuffles the given number of chocolate tokens into the slice of the trail 
-    after the chocolate limit.
-
-    Parameters
-    ----------
-    partial_trail : (list)
-      A shuffled list of tokens other than chocolate that will be used for this game.
-      Elements are standard food or wine tokens as strings
-    
-    chocolate_tokens_for_trail : (dict)
-      A dictionary containing the chocolate tokens that will be used for this game.
-      Key is 'chocolate' as string
-      Value is int
-
-    Returns
-    -------
-    trail : (list)
-      A shuffled list of all tokens that will be used for this game. 
-      The slice pre-chocolate_lim is unchanged.
-      The slice post-chocolate_limit has had chocolate added and been reshuffled.
-      Elements are standard, wine and chocolate tokens as strings.
-    """
-    trail = partial_trail 
-    chocolate_limit = self.identify_chocolate_limit(partial_trail)
-    for food, amount in chocolate_tokens_for_trail.items():
-      trail += [food] * amount
-    trail_pre_choc_slice = trail[:chocolate_limit]
-    trail_with_choc_slice = trail[chocolate_limit:]
-    random.shuffle(trail_with_choc_slice)
-    trail = trail_pre_choc_slice + trail_with_choc_slice
-    return trail
-
-  def initialise_trail(self, wine_tokens_for_trail, chocolate_tokens_for_trail):
-    """Creates the trail of food tokens that this game will be played on
-
-    Adds together the standard tokens and the wine, shuffles, appends the 
-    chocolate and shuffles these into the appropriate slice.
-
-    Parameters
-    ----------
-    wine_tokens_for_trail : (dict)
-      A single key-value pair showing the number of wine tokens used in the trail for this game
-      The key is 'wine'.
-      The value is an integer.
-      
-    chocolate_tokens_for_trail : (dict)
-      A single key-value pair showing the number of chocolate tokens used 
-      in the trail for this game
-      The key is 'chocolate'.
-      The value is an integer.
-
-    Returns
-    -------
-    trail : (list)
-      The shuffled (with appropriate restriction) list of all tokens used for this game.
-    """
-    partial_trail = self.create_partial_trail_of_standard_and_wine(wine_tokens_for_trail)
-    trail = self.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail)
-    return trail
-    

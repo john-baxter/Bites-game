@@ -48,6 +48,13 @@ Values are ant colours as strings.
 """
 
 
+SPECIAL_FOOD_TYPES = ["wine"]
+"""A list of the special types of food token used for the trail
+
+Each element is a string.
+"""
+
+
 NUMBER_OF_EACH_STANDARD_FOOD_TOKEN = 9
 NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN = 5
 """As per the standard rules of the game, there are this many of each  
@@ -65,10 +72,10 @@ Values are integers
 """
 
 
-WINE_TOKENS_FOR_TRAIL = {"wine" : NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN}
+SPECIAL_TOKENS_FOR_TRAIL = {food : NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN for food in SPECIAL_FOOD_TYPES}
 """The standard number of each special food token
 
-A dictionary showing how many winetokens will be 
+A dictionary showing how many of each special food token will be 
 used as per the rules.
 Keys are foods as strings
 Values are integers
