@@ -671,66 +671,6 @@ class TakeAllTurnsTest(unittest.TestCase):
     self.assertEqual(bites_game.anthill_food_tokens, expected_new_anthill_food_tokens)
     self.assertEqual(render_game_mock.call_count, 2)
 
-  def test_final_scores_are_printed_at_the_end_of_the_game(self):
-    # test 79
-    """
-    This test was drafted but never run.
-
-    At this point in the development the decision was made to separate the printing of 
-    scores into its own method, see `Bites.calculate_and_print_scores()`.
-    `Bites.take_all_turns()` and `Bites.calculate_and_print_scores()` are then called in a third method; 
-    `Bites.play_full_game()`.
-    """
-    pass
-    # starting_trail = [
-    #   "apple",
-    #   None,
-    #   None,
-    #   "pepper",
-    #   None,
-    #   None,
-    #   None,
-    #   "bread",
-    #   "pepper",
-    #   None]
-    # starting_ant_positions = {
-    #   "purple": None,
-    #   "brown": "anthill",
-    #   "green": "anthill",
-    #   "red": "anthill",
-    #   "yellow": "anthill"}
-    # starting_anthill = [None, "brown", "green", "red", "yellow"]
-
-    # trail_after_turn_1_mario = starting_trail
-    # ant_pos_after_turn_1_mario = {
-    #   "purple": "anthill",
-    #   "brown": "anthill",
-    #   "green": "anthill",
-    #   "red": "anthill",
-    #   "yellow": "anthill"}
-    # anthill_after_turn_1_mario = ["purple", "brown", "green", "red", "yellow"]
-
-    # expected_new_trail = trail_after_turn_1_mario
-    # expected_new_ant_positions = ant_pos_after_turn_1_mario
-    # expected_new_anthill = anthill_after_turn_1_mario
-
-    # ants = ["red", "yellow", "green", "brown", "purple"]
-    # tokens_for_trail = {}
-    
-    # fake_mario = mock.MagicMock()
-    # fake_mario.take_turn = mock.MagicMock(return_value = (
-    #   trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario))
-    # fake_mario.score_food = mock.MagicMock(return_value = 3)
-    # fake_luigi = mock.MagicMock()
-    # fake_luigi.score_food = mock.MagicMock(return_value = 9)
-
-    # players = [fake_mario, fake_luigi]
-    # bites_game = Bites(ants, tokens_for_trail, players, anthill_rule)
-    # bites_game.trail = starting_trail
-    # bites_game.ant_positions = starting_ant_positions
-    # bites_game.anthill = starting_anthill
-    # bites_game.take_all_turns()
-
 class PrintScoresTest(unittest.TestCase):
   def test_single_player_0_points_print_name_and_score(self):
     # test 80
@@ -1341,7 +1281,7 @@ class IdentifyChocolateLimitTest(unittest.TestCase):
   very first turn of the game.
 
   This is being interpereted as whichever standard food has its first occurence 
-  furthest into the trail, that location + 1 is the first place chocolate can be. 
+  furthest into the trail, that location + 2 is the first place chocolate can be. 
   """
   def test_trail_has_three_cheese_choc_limit_is_2(self):
     # test 184
@@ -1506,10 +1446,46 @@ class AddChocolateIntoTrailTest(unittest.TestCase):
     self.assertEqual(actual_new_trail.count("chocolate"), 2)
     self.assertEqual(actual_new_trail.count("wine"), 2)
 
+  @patch('bites.Bites.identify_chocolate_limit', return_value = 8)
+  @patch('bites.Bites.__init__', return_value = None)
+  def test_what_happens_if_there_is_more_than_one_type_of_choc(
+    self,
+    mock_bites_init,
+    mock_choc_lim,
+    ):
+    # test 194
+    chocolate_tokens_for_trail = {"white choc": 2, "dark choc": 3}
+
+    bites_game = Bites()
+    partial_trail = [
+      "cheese",
+      "grapes",
+      "cheese",
+      "pepper",
+      "cheese",
+      "bread",
+      "apple",
+      "pepper",
+      "bread",
+      "pepper",
+      "bread",
+      "grapes",
+      "apple",
+      "grapes",
+      "apple",
+      ]
+
+    bites_game.trail = bites_game.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail)
+
+    self.assertEqual(bites_game.trail[0:8], partial_trail[0:8])
+    self.assertEqual(len(bites_game.trail), 20)
+    self.assertEqual(bites_game.trail.count("white choc"), bites_game.trail[8:].count("white choc"))
+    self.assertEqual(bites_game.trail.count("dark choc"), bites_game.trail[8:].count("dark choc"))
+    self.assertNotEqual(bites_game.trail[-5:], ["white choc", "white choc", "dark choc", "dark choc", "dark choc"])
+
 class InitialiseTrailTest(unittest.TestCase):
-  @patch('bites.Bites.identify_chocolate_limit', return_value = 0)
   @patch('bites.Bites.add_chocolate_into_trail')
-  def test_initialise_trail_calls_create_partial_trail(self, mock_add_choc, mock_choc_lim):
+  def test_initialise_trail_calls_create_partial_trail(self, mock_add_choc):
     # test 192
     ants = []
     standard_tokens_for_trail = {}
@@ -1520,42 +1496,34 @@ class InitialiseTrailTest(unittest.TestCase):
     wine_rule = ""
     bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
 
+    """Using context-manager rather than decorator because method is called once 
+    during __init__ and a second time manually. The test assertions are refering to 
+    the manual call.
+    """
     with patch('bites.Bites.create_partial_trail_of_standard_and_wine') as mock_create_partial:
       trail = bites_game.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail)
       mock_create_partial.assert_called_once_with(wine_tokens_for_trail)
 
-  @patch('bites.Bites.identify_chocolate_limit', return_value = 0)
-  def test_initialise_trail_calls_add_chocolate(self, mock_choc_lim):
+  @patch('bites.Bites.__init__', return_value = None)
+  @patch('bites.Bites.add_chocolate_into_trail', 
+    return_value = ["bread", "cheese", "bread", "chocolate",])
+  @patch('bites.Bites.create_partial_trail_of_standard_and_wine', 
+    return_value = ["bread", "cheese", "bread",])
+  def test_initialise_trail_calls_add_chocolate(
+    self, 
+    mock_create_partial,
+    mock_add_choc,
+    mock_bites_init
+    ):
     # test 193
-    ants = []
-    standard_tokens_for_trail = {}
     wine_tokens_for_trail = {"wine": 0}
     chocolate_tokens_for_trail = {"chocolate": 0}
-    players = []
-    anthill_rule = ""
-    wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
-
-    with patch('bites.Bites.add_chocolate_into_trail') as mock_add_choc:
-      trail = bites_game.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail)
-      mock_add_choc.assert_called_once_with([], chocolate_tokens_for_trail)
-
-  @patch('bites.Bites.identify_chocolate_limit', return_value = 0)
-  def test_initialise_trail_returns_list(self, mock_choc_lim):
-    # test 194
-    ants = []
-    standard_tokens_for_trail = {}
-    wine_tokens_for_trail = {"wine": 0}
-    chocolate_tokens_for_trail = {"chocolate": 0}
-    players = []
-    anthill_rule = ""
-    wine_rule = ""
-    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule)
-
-    expcted_result = list
-    actual_result = bites_game.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail)
-
-    self.assertIsInstance(actual_result, expcted_result)
+    
+    bites_game = Bites()
+    
+    trail = bites_game.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail)
+    mock_add_choc.assert_called_once_with(["bread", "cheese", "bread"], chocolate_tokens_for_trail)
+    self.assertEqual(trail, ["bread", "cheese", "bread", "chocolate"])
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
