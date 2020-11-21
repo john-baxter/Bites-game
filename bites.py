@@ -290,6 +290,10 @@ class Bites():
   def identify_chocolate_limit(self, partial_trail):
     """Find the lower limit of where chocolate could be placed into the trail. 
 
+    Chocolate tokens must not be available on the first turn of the game so must only be 
+    inserted into the trail at random starting from the position of the last unique 
+    standard food +2.
+
     Parameters
     ----------
     partial_trail : (list)
@@ -330,10 +334,14 @@ class Bites():
       The slice post-chocolate_limit has had chocolate added and been reshuffled.
       Elements are standard, wine and chocolate tokens as strings.
     """
-    trail = [] 
+    trail = partial_trail 
+    chocolate_limit = self.identify_chocolate_limit(partial_trail)
     for food, amount in chocolate_tokens_for_trail.items():
-      trail = partial_trail + [food] * amount
-      random.shuffle(trail[self.identify_chocolate_limit(partial_trail):])
+      trail += [food] * amount
+    trail_pre_choc_slice = trail[:chocolate_limit]
+    trail_with_choc_slice = trail[chocolate_limit:]
+    random.shuffle(trail_with_choc_slice)
+    trail = trail_pre_choc_slice + trail_with_choc_slice
     return trail
 
   def initialise_trail(self, wine_tokens_for_trail, chocolate_tokens_for_trail):
