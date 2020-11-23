@@ -576,3 +576,6 @@ class Player():
       wine_scoring_function = WINE_CARD_DICT[wine_rule]
       wine_score = wine_scoring_function(self.hand, standard_tokens_for_trail)
     return wine_score
+
+  def spend_chocolate(self):
+    return {"chocolate": 4}

@@ -1262,5 +1262,16 @@ class ScoreWineTest(unittest.TestCase):
       const_mock_wine_card["oenophile"].assert_called_once_with(mario.hand, standard_tokens_for_trail)
     self.assertEqual(actual_wine_score, 4)
 
+class SpendChocolateTest(unittest.TestCase):
+  def test_spend_chocolate_can_reduce_chocolate_in_hand_by_one(self):
+    # test 195
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 5}
+    
+    expected_new_hand = {"chocolate": 4}
+    actual_new_hand = mario.spend_chocolate()
+
+    self.assertEqual(actual_new_hand, expected_new_hand)
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
