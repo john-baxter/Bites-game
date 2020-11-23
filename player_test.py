@@ -1303,7 +1303,17 @@ class SpendChocolateTest(unittest.TestCase):
 
     self.assertEqual(actual_new_hand, expected_new_hand)
 
-  
+class CanSpendChocolateTest(unittest.TestCase):
+  def test_can_spend_chocolate_returns_false_if_no_choc_in_hand(self):
+    # test 199
+    mario = Player("Mario")
+    mario.hand = {"cheese": 3}
+
+    expected_return = False
+    actual_return = mario.can_spend_chocolate()
+
+    self.assertEqual(actual_return, expected_return)
+    
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

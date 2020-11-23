@@ -584,3 +584,6 @@ class Player():
       else:
         self.hand["chocolate"] -= 1
     return self.hand
+
+  def can_spend_chocolate(self):
+    return False
