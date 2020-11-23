@@ -1263,7 +1263,7 @@ class ScoreWineTest(unittest.TestCase):
     self.assertEqual(actual_wine_score, 4)
 
 class SpendChocolateTest(unittest.TestCase):
-  def test_spend_chocolate_can_reduce_chocolate_in_hand_by_one(self):
+  def test_spend_chocolate_can_reduce_chocolate_in_hand_from_5_to_4(self):
     # test 195
     mario = Player("Mario")
     mario.hand = {"chocolate": 5}
@@ -1272,6 +1272,27 @@ class SpendChocolateTest(unittest.TestCase):
     actual_new_hand = mario.spend_chocolate()
 
     self.assertEqual(actual_new_hand, expected_new_hand)
+
+  def test_spend_chocolate_can_reduce_chocolate_in_hand_from_3_to_2(self):
+    # test 196
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 3}
+    
+    expected_new_hand = {"chocolate": 2}
+    actual_new_hand = mario.spend_chocolate()
+
+    self.assertEqual(actual_new_hand, expected_new_hand)
+
+  def test_spend_chocolate_returns_same_hand_if_hand_has_no_choc(self):
+    # test 197
+    mario = Player("Mario")
+    mario.hand = {"cheese": 3}
+    
+    expected_new_hand = {"cheese": 3}
+    actual_new_hand = mario.spend_chocolate()
+
+    self.assertEqual(actual_new_hand, expected_new_hand)
+  
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

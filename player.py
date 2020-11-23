@@ -578,4 +578,6 @@ class Player():
     return wine_score
 
   def spend_chocolate(self):
-    return {"chocolate": 4}
+    if "chocolate" in self.hand:
+      self.hand["chocolate"] -= 1
+    return self.hand
