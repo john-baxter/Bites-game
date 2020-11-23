@@ -579,5 +579,8 @@ class Player():
 
   def spend_chocolate(self):
     if "chocolate" in self.hand:
-      self.hand["chocolate"] -= 1
+      if self.hand["chocolate"] == 1:
+        self.hand.pop("chocolate")
+      else:
+        self.hand["chocolate"] -= 1
     return self.hand

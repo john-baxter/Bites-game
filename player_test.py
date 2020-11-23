@@ -1292,6 +1292,17 @@ class SpendChocolateTest(unittest.TestCase):
     actual_new_hand = mario.spend_chocolate()
 
     self.assertEqual(actual_new_hand, expected_new_hand)
+
+  def test_spend_chocolate_removes_chocolate_completely_if_only_1_in_hand(self):
+    # test 198
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 1}
+    
+    expected_new_hand = {}
+    actual_new_hand = mario.spend_chocolate()
+
+    self.assertEqual(actual_new_hand, expected_new_hand)
+
   
 
 if __name__ == '__main__':
