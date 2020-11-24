@@ -589,4 +589,7 @@ class Player():
     return self.hand
 
   def can_spend_chocolate(self):
-    return False
+    if "chocolate" not in self.hand:
+      return False
+    else:
+      return True
