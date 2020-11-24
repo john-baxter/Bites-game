@@ -953,6 +953,37 @@ class TakeTurnTest(unittest.TestCase):
     input_patcher.stop()
     print_patcher.stop()
 
+  # @patch(player.Player.)
+  @patch('player.Player.store_food')
+  @patch('player.Player.take_food_from_trail', return_value = ("", []))
+  @patch('player.Player.define_allowed_choices_direction')
+  @patch('player.Player.move_ant_along_trail')
+  @patch('player.Player.goes_to_anthill', return_value = False)
+  @patch('player.Player.make_choice', side_effect = ["red", "front"])
+  @patch('player.Player.define_allowed_choices_ants')
+  def test_take_turn_sets_spent_choc_bool_to_false(
+    self,
+    mock_allowed_ants,
+    mock_make_choice,
+    mock_goes_to_anthill,
+    mock_move_along,
+    mock_allowed_direction,
+    mock_take_food,
+    mock_store_food,
+    ):
+    # test 202
+    mario = Player("Mario")
+    trail = []
+    ant_positions = {}
+    anthill = []
+    anthill_rule = ""
+    anthill_food_tokens = {}
+    mario.spent_chocolate_this_turn = True
+    expected_new_spent_choc_bool = False
+    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    self.assertEqual(mario.spent_chocolate_this_turn, expected_new_spent_choc_bool)
+
 class GoesToAnthillTest(unittest.TestCase):
   def test_returns_true_when_ant_is_at_end_of_trail(self):
     # test 68
