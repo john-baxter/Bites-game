@@ -1375,6 +1375,17 @@ class CanSpendChocolateTest(unittest.TestCase):
 
     self.assertEqual(actual_return, expected_return)
 
+  def test_can_spend_chocolate_returns_false_if_choc_in_hand_but_already_spent_is_true(self):
+    # test 204
+    mario = Player("Mario")
+    mario.hand = {"cheese": 3, "chocolate": 1}
+    mario.spent_chocolate_this_turn = True
+
+    expected_return = False
+    actual_return = mario.can_spend_chocolate()
+
+    self.assertEqual(actual_return, expected_return)
+
 
 
 if __name__ == '__main__':

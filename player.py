@@ -592,4 +592,7 @@ class Player():
     if "chocolate" not in self.hand:
       return False
     else:
-      return True
+      return not self.spent_chocolate_this_turn
+    
+    # else:
+    #   return True
