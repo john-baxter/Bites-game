@@ -28,6 +28,7 @@ class Player():
     self.name = name
     self.hand = self.initialise_hand()
     self.score = 0
+    self.spent_chocolate_this_turn = False
 
   def initialise_hand(self):
     """Generates the player's hand at the start of the game
@@ -583,6 +584,7 @@ class Player():
         self.hand.pop("chocolate")
       else:
         self.hand["chocolate"] -= 1
+    self.spent_chocolate_this_turn = True
     return self.hand
 
   def can_spend_chocolate(self):

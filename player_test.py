@@ -23,6 +23,12 @@ class PlayerInitTest(unittest.TestCase):
     expected_name = "Mario Mario"
     self.assertEqual(mario.name, expected_name)
 
+  def test_player_has_attribute_spent_choc_this_turn(self):
+    # test 201
+    mario = Player("Mario")
+    expected_spent_choc_bool = False
+    self.assertEqual(mario.spent_chocolate_this_turn, expected_spent_choc_bool)
+
 class InitialiseHandTest(unittest.TestCase):
   def test_can_initialise_player_hand(self):
     # test 9
@@ -1303,6 +1309,20 @@ class SpendChocolateTest(unittest.TestCase):
 
     self.assertEqual(actual_new_hand, expected_new_hand)
 
+  def test_spend_choc_changes_spent_choc_to_True(self):
+    # test 200
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 1}
+    # mario.spent_chocolate_this_turn = False
+
+    expected_new_spent_choc_bool = True
+    mario.spend_chocolate()
+
+    self.assertEqual(mario.spent_chocolate_this_turn, expected_new_spent_choc_bool)
+
+
+
+
 class CanSpendChocolateTest(unittest.TestCase):
   def test_can_spend_chocolate_returns_false_if_no_choc_in_hand(self):
     # test 199
@@ -1313,7 +1333,7 @@ class CanSpendChocolateTest(unittest.TestCase):
     actual_return = mario.can_spend_chocolate()
 
     self.assertEqual(actual_return, expected_return)
-    
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
