@@ -1395,7 +1395,7 @@ class AskToSpendChocolateTest(unittest.TestCase):
     actual_result = mario.ask_to_spend_chocolate()
 
     self.assertEqual(actual_result, expected_result)
-    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?")
+    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?\n")
 
   @patch('builtins.print')
   @patch('builtins.input', return_value = "no")
@@ -1407,7 +1407,7 @@ class AskToSpendChocolateTest(unittest.TestCase):
     actual_result = mario.ask_to_spend_chocolate()
 
     self.assertEqual(actual_result, expected_result)
-    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?")
+    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?\n")
 
   @patch('builtins.print')
   @patch('builtins.input')
@@ -1417,6 +1417,25 @@ class AskToSpendChocolateTest(unittest.TestCase):
     mario.ask_to_spend_chocolate()
 
     mock_builtin_print.assert_called_once_with("Please enter 'yes' or 'no'.")
+
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["maybe", "no"])
+  def test_ask_to_spend_choc_asks_again_if_incorrect_input(
+    self, 
+    mock_builtin_input, 
+    mock_builtin_print,
+    ):
+    # test 208
+    mario = Player("Mario")
+
+    expected_result = False
+    actual_result = mario.ask_to_spend_chocolate()
+
+    self.assertEqual(actual_result, expected_result)
+    self.assertEqual(mock_builtin_input.call_args_list[0], call("Would you like to spend a chocolate token?\n"))
+    self.assertEqual(mock_builtin_input.call_args_list[1], call("Would you like to spend a chocolate token?\n"))
+    self.assertEqual(len(mock_builtin_input.call_args_list), 2)
+
 
 
 
