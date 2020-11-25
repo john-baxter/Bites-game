@@ -1396,7 +1396,16 @@ class AskToSpendChocolateTest(unittest.TestCase):
     self.assertEqual(actual_result, expected_result)
     mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?")
 
+  @patch('builtins.input', return_value = "no")
+  def test_ask_to_spend_choc_returns_False_for_input_no(self, mock_builtin_input):
+    # test 206
+    mario = Player("Mario")
+    expected_result = False
 
+    actual_result = mario.ask_to_spend_chocolate()
+
+    self.assertEqual(actual_result, expected_result)
+    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?")
 
 
 

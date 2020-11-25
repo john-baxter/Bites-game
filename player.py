@@ -596,4 +596,6 @@ class Player():
     
   def ask_to_spend_chocolate(self):
     user_choice = input("Would you like to spend a chocolate token?")
+    if user_choice == "no":
+      return False
     return True
