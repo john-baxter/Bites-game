@@ -594,5 +594,6 @@ class Player():
     else:
       return not self.spent_chocolate_this_turn
     
-    # else:
-    #   return True
+  def ask_to_spend_chocolate(self):
+    user_choice = input("Would you like to spend a chocolate token?")
+    return True

@@ -953,7 +953,6 @@ class TakeTurnTest(unittest.TestCase):
     input_patcher.stop()
     print_patcher.stop()
 
-  # @patch(player.Player.)
   @patch('player.Player.store_food')
   @patch('player.Player.take_food_from_trail', return_value = ("", []))
   @patch('player.Player.define_allowed_choices_direction')
@@ -1344,7 +1343,6 @@ class SpendChocolateTest(unittest.TestCase):
     # test 200
     mario = Player("Mario")
     mario.hand = {"chocolate": 1}
-    # mario.spent_chocolate_this_turn = False
 
     expected_new_spent_choc_bool = True
     mario.spend_chocolate()
@@ -1385,6 +1383,21 @@ class CanSpendChocolateTest(unittest.TestCase):
     actual_return = mario.can_spend_chocolate()
 
     self.assertEqual(actual_return, expected_return)
+
+class AskToSpendChocolateTest(unittest.TestCase):
+  @patch('builtins.input', return_value = "yes")
+  def test_ask_to_spend_choc_returns_True_for_input_yes(self, mock_builtin_input):
+    # test 205
+    mario = Player("Mario")
+    expected_result = True
+
+    actual_result = mario.ask_to_spend_chocolate()
+
+    self.assertEqual(actual_result, expected_result)
+    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?")
+
+
+
 
 
 
