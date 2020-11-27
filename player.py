@@ -617,3 +617,6 @@ class Player():
       return True
     else:
       return self.ask_to_spend_chocolate()
+
+  def will_spend_choc(self):
+    return True

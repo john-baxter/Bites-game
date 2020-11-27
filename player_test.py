@@ -1355,5 +1355,18 @@ class AskToSpendChocolateTest(unittest.TestCase):
     self.assertEqual(mock_builtin_input.call_args_list[1], call("Would you like to spend a chocolate token?\n"))
     self.assertEqual(len(mock_builtin_input.call_args_list), 2)
 
+class WillSpendChocTest(unittest.TestCase):
+  def test_will_spend_choc_returns_True_if_choc_in_hand(self):
+    # test 209
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 3}
+
+    expected_return = True
+
+    actual_return = mario.will_spend_choc()
+
+    self.assertEqual(actual_return, expected_return)
+    
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
