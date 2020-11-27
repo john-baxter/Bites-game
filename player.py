@@ -582,7 +582,7 @@ class Player():
   def spend_chocolate(self):
     """Removes one chocolate token from player's hand
 
-    Reduces chocolate by 1, or removes completelt from hand if only one is present.
+    Reduces chocolate by 1, or removes completely from hand if only one is present.
     Will return unchanged hand if hand already has no chocolate.
 
     Returns
@@ -601,6 +601,17 @@ class Player():
     return self.hand
 
   def can_spend_chocolate(self):
+    """Defines whether the player is allowed to spend a chocolate token at this point.
+
+    Will check if the player has chocolate available, and/or if the player has already 
+    spent a chocolate token earlier in this turn.
+
+    Returns
+    -------
+    (boolean)
+      True if the player is allowed to spend chocolate at this point
+      False if the player is not allowed to spend chocolate at this point.
+    """
     if "chocolate" not in self.hand:
       return False
     else:
