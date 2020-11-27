@@ -618,6 +618,17 @@ class Player():
       return not self.spent_chocolate_this_turn
     
   def ask_to_spend_chocolate(self):
+    """Checks if the player would like to spend a chocolate token.
+
+    Prompts the player to enter 'yes' or 'no' depending on if they would like to 
+    spend a chocolate.
+
+    Returns
+    -------
+    (boolean)
+      True if the player chooses to spend a chocolate
+      False if the player chooses not to spend a chocolate.
+    """
     print("Please enter 'yes' or 'no'.")
     user_choice = input("Would you like to spend a chocolate token?\n")
     if user_choice == "no":
