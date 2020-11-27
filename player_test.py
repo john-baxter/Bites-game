@@ -1356,7 +1356,8 @@ class AskToSpendChocolateTest(unittest.TestCase):
     self.assertEqual(len(mock_builtin_input.call_args_list), 2)
 
 class WillSpendChocTest(unittest.TestCase):
-  def test_will_spend_choc_returns_True_if_choc_in_hand(self):
+  @patch('player.Player.ask_to_spend_chocolate')
+  def test_will_spend_choc_returns_True_if_choc_in_hand(self, mock_ask):
     # test 209
     mario = Player("Mario")
     mario.hand = {"chocolate": 3}
@@ -1366,7 +1367,8 @@ class WillSpendChocTest(unittest.TestCase):
 
     self.assertEqual(actual_return, expected_return)
 
-  def test_will_spend_choc_returns_False_if_choc_not_in_hand(self):
+  @patch('player.Player.ask_to_spend_chocolate')
+  def test_will_spend_choc_returns_False_if_choc_not_in_hand(self, mock_ask):
     # test 210
     mario = Player("Mario")
     mario.hand = {"cheese": 3}
@@ -1375,6 +1377,19 @@ class WillSpendChocTest(unittest.TestCase):
     actual_return = mario.will_spend_choc()
 
     self.assertEqual(actual_return, expected_return)
+
+  @patch('player.Player.ask_to_spend_chocolate', return_value = True)
+  def test_will_spend_choc_calls_ask_to_spend_choc(self, mock_ask):
+    # test 211
+    mario = Player("Mario")
+    mario.hand = {"cheese": 3}
+
+    mario.will_spend_choc()
+    mock_ask.assert_called_once_with()
+
+
+
+
 
 
 
