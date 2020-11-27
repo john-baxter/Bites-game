@@ -28,7 +28,6 @@ class Player():
     self.name = name
     self.hand = self.initialise_hand()
     self.score = 0
-    self.spent_chocolate_this_turn = False
 
   def initialise_hand(self):
     """Generates the player's hand at the start of the game
@@ -421,7 +420,6 @@ class Player():
       (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
       self.store_food(food_to_hand)
 
-    self.spent_chocolate_this_turn = False
     return (trail, ant_positions, anthill, anthill_food_tokens)
 
   def goes_to_anthill(self, ant, trail, ant_positions):
@@ -597,25 +595,7 @@ class Player():
         self.hand.pop("chocolate")
       else:
         self.hand["chocolate"] -= 1
-    self.spent_chocolate_this_turn = True
     return self.hand
-
-  def can_spend_chocolate(self):
-    """Defines whether the player is allowed to spend a chocolate token at this point.
-
-    Will check if the player has chocolate available, and/or if the player has already 
-    spent a chocolate token earlier in this turn.
-
-    Returns
-    -------
-    (boolean)
-      True if the player is allowed to spend chocolate at this point
-      False if the player is not allowed to spend chocolate at this point.
-    """
-    if "chocolate" not in self.hand:
-      return False
-    else:
-      return not self.spent_chocolate_this_turn
     
   def ask_to_spend_chocolate(self):
     """Checks if the player would like to spend a chocolate token.
@@ -637,6 +617,3 @@ class Player():
       return True
     else:
       return self.ask_to_spend_chocolate()
-
-
-

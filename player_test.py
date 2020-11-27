@@ -23,12 +23,6 @@ class PlayerInitTest(unittest.TestCase):
     expected_name = "Mario Mario"
     self.assertEqual(mario.name, expected_name)
 
-  def test_player_has_attribute_spent_choc_this_turn(self):
-    # test 201
-    mario = Player("Mario")
-    expected_spent_choc_bool = False
-    self.assertEqual(mario.spent_chocolate_this_turn, expected_spent_choc_bool)
-
 class InitialiseHandTest(unittest.TestCase):
   def test_can_initialise_player_hand(self):
     # test 9
@@ -953,36 +947,6 @@ class TakeTurnTest(unittest.TestCase):
     input_patcher.stop()
     print_patcher.stop()
 
-  @patch('player.Player.store_food')
-  @patch('player.Player.take_food_from_trail', return_value = ("", []))
-  @patch('player.Player.define_allowed_choices_direction')
-  @patch('player.Player.move_ant_along_trail')
-  @patch('player.Player.goes_to_anthill', return_value = False)
-  @patch('player.Player.make_choice', side_effect = ["red", "front"])
-  @patch('player.Player.define_allowed_choices_ants')
-  def test_take_turn_sets_spent_choc_bool_to_false(
-    self,
-    mock_allowed_ants,
-    mock_make_choice,
-    mock_goes_to_anthill,
-    mock_move_along,
-    mock_allowed_direction,
-    mock_take_food,
-    mock_store_food,
-    ):
-    # test 202
-    mario = Player("Mario")
-    trail = []
-    ant_positions = {}
-    anthill = []
-    anthill_rule = ""
-    anthill_food_tokens = {}
-    mario.spent_chocolate_this_turn = True
-    expected_new_spent_choc_bool = False
-    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
-
-    self.assertEqual(mario.spent_chocolate_this_turn, expected_new_spent_choc_bool)
-
 class GoesToAnthillTest(unittest.TestCase):
   def test_returns_true_when_ant_is_at_end_of_trail(self):
     # test 68
@@ -1339,51 +1303,6 @@ class SpendChocolateTest(unittest.TestCase):
 
     self.assertEqual(actual_new_hand, expected_new_hand)
 
-  def test_spend_choc_changes_spent_choc_to_True(self):
-    # test 200
-    mario = Player("Mario")
-    mario.hand = {"chocolate": 1}
-
-    expected_new_spent_choc_bool = True
-    mario.spend_chocolate()
-
-    self.assertEqual(mario.spent_chocolate_this_turn, expected_new_spent_choc_bool)
-
-
-
-
-class CanSpendChocolateTest(unittest.TestCase):
-  def test_can_spend_chocolate_returns_false_if_no_choc_in_hand(self):
-    # test 199
-    mario = Player("Mario")
-    mario.hand = {"cheese": 3}
-
-    expected_return = False
-    actual_return = mario.can_spend_chocolate()
-
-    self.assertEqual(actual_return, expected_return)
-
-  def test_can_spend_chocolate_returns_true_if_choc_in_hand(self):
-    # test 203
-    mario = Player("Mario")
-    mario.hand = {"cheese": 3, "chocolate": 1}
-
-    expected_return = True
-    actual_return = mario.can_spend_chocolate()
-
-    self.assertEqual(actual_return, expected_return)
-
-  def test_can_spend_chocolate_returns_false_if_choc_in_hand_but_already_spent_is_true(self):
-    # test 204
-    mario = Player("Mario")
-    mario.hand = {"cheese": 3, "chocolate": 1}
-    mario.spent_chocolate_this_turn = True
-
-    expected_return = False
-    actual_return = mario.can_spend_chocolate()
-
-    self.assertEqual(actual_return, expected_return)
-
 class AskToSpendChocolateTest(unittest.TestCase):
   @patch('builtins.print')
   @patch('builtins.input', return_value = "yes")
@@ -1410,7 +1329,7 @@ class AskToSpendChocolateTest(unittest.TestCase):
     mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?\n")
 
   @patch('builtins.print')
-  @patch('builtins.input')
+  @patch('builtins.input', return_value = "yes")
   def test_ask_to_spend_choc_shows_user_the_options(self, mock_builtin_input, mock_builtin_print):
     # test 207
     mario = Player("Mario")
@@ -1435,8 +1354,6 @@ class AskToSpendChocolateTest(unittest.TestCase):
     self.assertEqual(mock_builtin_input.call_args_list[0], call("Would you like to spend a chocolate token?\n"))
     self.assertEqual(mock_builtin_input.call_args_list[1], call("Would you like to spend a chocolate token?\n"))
     self.assertEqual(len(mock_builtin_input.call_args_list), 2)
-
-
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
