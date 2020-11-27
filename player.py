@@ -580,6 +580,18 @@ class Player():
     return wine_score
 
   def spend_chocolate(self):
+    """Removes one chocolate token from player's hand
+
+    Reduces chocolate by 1, or removes completelt from hand if only one is present.
+    Will return unchanged hand if hand already has no chocolate.
+
+    Returns
+    -------
+    hand : (dict)
+      The updated player's hand with one less chocolate token.
+      Keys are foods as strings.
+      Values are integers.
+    """
     if "chocolate" in self.hand:
       if self.hand["chocolate"] == 1:
         self.hand.pop("chocolate")
