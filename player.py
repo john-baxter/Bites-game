@@ -619,7 +619,17 @@ class Player():
       return self.ask_to_spend_chocolate()
 
   def will_spend_choc(self):
-    
+    """Checks if the player is going to spend chocolate this turn. 
+
+    Verifies if player is able and willing to spend a chocolate token this turn.
+
+    Returns
+    -------
+    (boolean)
+      False if no chocolate in player's hand
+      False if chocolate in player's hand but player opts not to spend chocolate
+      True if chocolate in player's hand and player does opt to dpend chocolate.
+    """
     if "chocolate" in self.hand:
       return self.ask_to_spend_chocolate()
     else:
