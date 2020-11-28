@@ -885,7 +885,7 @@ class DefineAllowedChoicesDirectionTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
-class TakeTurnTest(unittest.TestCase):
+class TakeStandardTurnTest(unittest.TestCase):
   def test_single_ant_moves_to_centre_of_three_element_trail_picks_front(self):
     # test 66
     # Given
@@ -901,7 +901,7 @@ class TakeTurnTest(unittest.TestCase):
     print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      mario.(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     # Then
     expected_new_hand = {"cheese": 1}
     expected_new_trail = ["pepper", "apple", None]
@@ -932,7 +932,7 @@ class TakeTurnTest(unittest.TestCase):
     print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      mario.(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     # Then
     expected_new_trail = trail
     expected_new_ant_positions = {"red": "anthill"}
