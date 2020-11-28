@@ -1525,6 +1525,10 @@ class TakeTurboTurnTest(unittest.TestCase):
 
     self.assertEqual(manager.mock_calls, expected_calls)
 
+  def test_take_turbo_turn_can_skip_last_available_token_and_second_move_ends_on_anthill(
+    self,
+  )
+    pass
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
