@@ -1396,11 +1396,5 @@ class WillSpendChocTest(unittest.TestCase):
     mario.will_spend_choc()
     assert not mock_ask.called
 
-
-
-
-
-
-
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

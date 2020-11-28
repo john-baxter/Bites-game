@@ -356,7 +356,7 @@ class Player():
 
     return allowed_choices_direction
 
-  def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
+  def take_standard_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
     """Perform necessary steps to complete one player's move
 
     Parameters
