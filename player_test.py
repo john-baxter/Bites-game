@@ -1396,5 +1396,41 @@ class WillSpendChocTest(unittest.TestCase):
     mario.will_spend_choc()
     assert not mock_ask.called
 
+class TakeTurboTurnTest(unittest.TestCase):
+  # test 213
+  @patch('player.Player.make_choice', return_value = "yellow")
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_take_turbo_turn_starts_with_player_choosing_ant(
+    self,
+    mock_allowed_ants,
+    mock_ant_choice,
+  ):
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_ant_choice, 'mock_ant_choice')
+
+    mario.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_ant_choice(["yellow"], "please enter your choice of ant"),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+
+
+
+
+
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

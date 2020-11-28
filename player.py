@@ -634,3 +634,7 @@ class Player():
       return self.ask_to_spend_chocolate()
     else:
       return False
+
+  def take_turbo_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
+    allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
+    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
