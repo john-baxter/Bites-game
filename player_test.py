@@ -1397,14 +1397,14 @@ class WillSpendChocTest(unittest.TestCase):
     assert not mock_ask.called
 
 class TakeTurboTurnTest(unittest.TestCase):
-  # test 213
-  @patch('player.Player.make_choice', return_value = "yellow")
+  @patch('player.Player.make_choice', side_effect = ["yellow", "back"])
   @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
   def test_take_turbo_turn_starts_with_player_choosing_ant(
     self,
     mock_allowed_ants,
     mock_ant_choice,
   ):
+    # test 213
     trail = ["cheese", "cheese", "cheese"]
     ant = "yellow"
     ant_positions = {"yellow": 0}
@@ -1423,9 +1423,56 @@ class TakeTurboTurnTest(unittest.TestCase):
       mock.call.mock_allowed_ants(ant_positions),
       mock.call.mock_ant_choice(["yellow"], "please enter your choice of ant"),
     ]
+    self.assertEqual(manager.mock_calls[0:2], expected_calls)
+
+  @patch('player.Player.store_food')
+  @patch('player.Player.take_food_from_trail', return_value = ("cheese", ["cheese", None, "cheese"]))
+  @patch('player.Player.define_allowed_choices_direction', return_value = ["back"])
+  @patch('player.Player.move_ant_along_trail', side_effect = [
+    {"yellow": 1},
+    {"yellow": 2},
+  ])
+  @patch('player.Player.make_choice', side_effect = ["yellow", "back"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_take_turbo_turn_calls_relevant_steps_to_complete_a_move_along_the_trail_inc_two_times_calling_move_along_trail_method(
+    self,
+    mock_allowed_ants,
+    mock_make_choice,
+    mock_move_ant,
+    mock_allowed_directions,
+    mock_take_food,
+    mock_store_food,
+  ):
+  # test 214
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_move_ant, 'mock_move_ant')
+    manager.attach_mock(mock_move_ant, 'mock_move_ant')
+    manager.attach_mock(mock_allowed_directions, 'mock_allowed_directions')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_take_food, 'mock_take_food')
+    manager.attach_mock(mock_store_food, 'mock_store_food')
+
+    mario.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_make_choice(["yellow"], "please enter your choice of ant"),
+      mock.call.mock_move_ant(trail, ant_positions, ant),
+      mock.call.mock_move_ant(trail, {"yellow": 1}, ant),
+      mock.call.mock_allowed_directions(ant, trail, {"yellow": 2}),
+      mock.call.mock_make_choice(["back"], "please pick a direction to collect food from"),
+      mock.call.mock_take_food(trail, {"yellow": 2}, ant, "back"),
+      mock.call.mock_store_food("cheese"),
+    ]
 
     self.assertEqual(manager.mock_calls, expected_calls)
-
 
 
 
