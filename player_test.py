@@ -1522,19 +1522,9 @@ class TakeTurboTurnTest(unittest.TestCase):
       mock.call.mock_take_anthill_food(anthill_food_tokens, "cheese"),
       mock.call.mock_store_food("cheese"),
     ]
-    # print("*****************")
-    # print("*****************")
-    # print(manager.mock_calls)
+
     self.assertEqual(manager.mock_calls, expected_calls)
 
-    # mock_allowed_ants.assert_called_once_with(ant_positions)
-    # self.assertEqual(mock_make_choice.call_args_list[0], call(["yellow"], "please enter your choice of ant"))
-    # mock_goes_to_anthill.assert_called_once_with(ant, trail, ant_positions)
-    # mock_place_on_anthill.assert_called_once_with(ant_positions, anthill, anthill_rule, ant)
-    # mock_allowed_anthill_food.assert_called_once_with(anthill_food_tokens)
-    # self.assertEqual(mock_make_choice.call_args_list[1], call(["cheese"], "please enter your choice of food"))
-    # mock_take_anthill_food.assert_called_once_with(anthill_food_tokens, "cheese")
-    # mock_store_food.assert_called_once_with("cheese")
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
