@@ -1581,17 +1581,54 @@ class TakeTurboTurnTest(unittest.TestCase):
     self.assertEqual(manager.mock_calls, expected_calls)
 
 class TakeTurnTest(unittest.TestCase):
+  @patch('player.Player.take_standard_turn')
   @patch('player.Player.will_spend_choc')
   def test_take_turn_starts_by_calling_will_spend_choc(
     self,
     mock_will_spend_choc,
+    mock_take_standard_turn,
     ):
     # test 217
+    trail = ["cheese", "cheese", "bread"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
     mario = Player("Mario")
 
-    mario.take_turn()
+    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
 
     mock_will_spend_choc.assert_called_once_with()
+
+  @patch('player.Player.take_standard_turn')
+  @patch('player.Player.will_spend_choc', return_value = False)
+  def test_take_turn_calls_take_standard_turn_when_will_spend_choc_is_False(
+    self,
+    mock_will_spend_choc,
+    mock_take_standard_turn,
+    ):
+    # test 218
+    trail = ["cheese", "cheese", "bread"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_will_spend_choc, 'mock_will_spend_choc')
+    manager.attach_mock(mock_take_standard_turn, 'mock_take_standard_turn')
+    
+    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_will_spend_choc(),
+      mock.call.mock_take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
