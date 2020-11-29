@@ -661,6 +661,9 @@ class Player():
         self.store_food(food_to_hand)
 
   def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
-    self.will_spend_choc()
-    self.take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+    if self.will_spend_choc():
+      self.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+    else:
+      self.take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
 
