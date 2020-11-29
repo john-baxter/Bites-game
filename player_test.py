@@ -1656,6 +1656,34 @@ class TakeTurnTest(unittest.TestCase):
 
     self.assertEqual(manager.mock_calls, expected_calls)
     
+class TakeDoublerTurnTest(unittest.TestCase):
+  @patch('player.Player.make_choice', side_effect = ["yellow", "back"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_take_doubler_turn_starts_with_player_choosing_ant(
+    self,
+    mock_allowed_ants,
+    mock_ant_choice,
+    ):
+    # test 220
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_ant_choice, 'mock_ant_choice')
+
+    mario.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_ant_choice(["yellow"], "please enter your choice of ant"),
+    ]
+    self.assertEqual(manager.mock_calls[0:2], expected_calls)
 
 
 if __name__ == '__main__':
