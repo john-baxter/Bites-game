@@ -1685,6 +1685,56 @@ class TakeDoublerTurnTest(unittest.TestCase):
     ]
     self.assertEqual(manager.mock_calls[0:2], expected_calls)
 
+  @patch('player.Player.store_food')
+  @patch('player.Player.take_food_from_anthill', return_value = {"cheese": 0})
+  @patch('player.Player.define_allowed_choices_anthill_food', return_value = ["cheese"])
+  @patch('player.Player.place_ant_on_anthill', return_value = (["yellow"], {"yellow": "anthill"}))
+  @patch('player.Player.goes_to_anthill', return_value = True)
+  @patch('player.Player.make_choice', side_effect = ["yellow", "cheese"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_goes_to_anthill_is_True_and_take_doubler_turn_carries_out_a_regular_go_to_anthill_move(
+    self,
+    mock_allowed_ants,
+    mock_make_choice, #x2
+    mock_goes_to_anthill,
+    mock_place_on_anthill,
+    mock_allowed_anthill_food,
+    mock_take_anthill_food,
+    mock_store_food,
+    ):
+
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_goes_to_anthill, 'mock_goes_to_anthill')
+    manager.attach_mock(mock_place_on_anthill, 'mock_place_on_anthill')
+    manager.attach_mock(mock_allowed_anthill_food, 'mock_allowed_anthill_food')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_take_anthill_food, 'mock_take_anthill_food')
+    manager.attach_mock(mock_store_food, 'mock_store_food')
+
+    mario.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_make_choice(["yellow"], "please enter your choice of ant"),
+      mock.call.mock_goes_to_anthill(ant, trail, ant_positions),
+      mock.call.mock_place_on_anthill(ant_positions, anthill, anthill_rule, ant),
+      mock.call.mock_allowed_anthill_food(anthill_food_tokens),
+      mock.call.mock_make_choice(["cheese"], "please enter your choice of food"),
+      mock.call.mock_take_anthill_food({"cheese": 1}, "cheese"),
+      mock.call.mock_store_food("cheese"),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

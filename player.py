@@ -670,3 +670,9 @@ class Player():
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
     
+    if self.goes_to_anthill(ant, trail, ant_positions):
+      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
+      allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
+      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
+      anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
+      self.store_food(user_choice_food)
