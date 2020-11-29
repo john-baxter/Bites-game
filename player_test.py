@@ -1580,8 +1580,18 @@ class TakeTurboTurnTest(unittest.TestCase):
 
     self.assertEqual(manager.mock_calls, expected_calls)
 
+class TakeTurnTest(unittest.TestCase):
+  @patch('player.Player.will_spend_choc')
+  def test_take_turn_starts_by_calling_will_spend_choc(
+    self,
+    mock_will_spend_choc,
+    ):
+    # test 217
+    mario = Player("Mario")
 
+    mario.take_turn()
 
+    mock_will_spend_choc.assert_called_once_with()
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

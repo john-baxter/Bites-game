@@ -659,3 +659,7 @@ class Player():
         direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_GAME_CHOICE_DIRECTION)
         (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
         self.store_food(food_to_hand)
+
+  def take_turn(self):
+    self.will_spend_choc()
+
