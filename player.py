@@ -877,7 +877,22 @@ class Player():
     return (trail, ant_positions, anthill, anthill_food_tokens)
 
   def choose_ant(self, ant_positions, prompt_text):
-    """
+    """Performs the actions for a player to select which ant they will move this turn.
+
+    Parameters
+    ----------
+    ant_positions : (dict)
+      Dictionary containing the current locations of each ant.
+      Keys are ants as strings.
+      Values are ant positions as None, int or "anthill" (string).
+
+    prompt_text : (string)
+      A sentence which will prompt the player to make the appropriate choice
+
+    Returns
+    -------
+    ant : (string)
+      The ID of the ant which has been chosen to be moved.
     """
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
     ant = self.make_choice(allowed_choices_ants, prompt_text)
