@@ -582,20 +582,12 @@ class Player():
 
     Reduces chocolate by 1, or removes completely from hand if only one is present.
     Will return unchanged hand if hand already has no chocolate.
-
-    Returns
-    -------
-    hand : (dict)
-      The updated player's hand with one less chocolate token.
-      Keys are foods as strings.
-      Values are integers.
     """
     if "chocolate" in self.hand:
       if self.hand["chocolate"] == 1:
         self.hand.pop("chocolate")
       else:
         self.hand["chocolate"] -= 1
-    return self.hand
     
   def ask_to_spend_chocolate(self):
     """Checks if the player would like to spend a chocolate token.
@@ -664,9 +656,13 @@ class Player():
 
   def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
     if self.will_spend_choc():
-      self.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      (trail, ant_positions, anthill, anthill_food_tokens) =\
+        self.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     else:
-      self.take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      (trail, ant_positions, anthill, anthill_food_tokens) =\
+        self.take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+    
+    return (trail, ant_positions, anthill, anthill_food_tokens)
 
   def take_doubler_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
     allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
