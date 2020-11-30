@@ -404,8 +404,7 @@ class Player():
       Keys are food IDs as strings.
       Values are integers >= 0
     """
-    allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
-    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
+    ant = self.choose_ant(ant_positions, PROMPT_TEXT_GAME_CHOICE_ANT)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
       return self.go_to_anthill(trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens)
@@ -624,8 +623,7 @@ class Player():
       return False
 
   def take_turbo_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
-    allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
-    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
+    ant = self.choose_ant(ant_positions, PROMPT_TEXT_GAME_CHOICE_ANT)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
       return self.go_to_anthill(trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens)
@@ -654,8 +652,7 @@ class Player():
     return (trail, ant_positions, anthill, anthill_food_tokens)
 
   def take_doubler_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
-    allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
-    ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
+    ant = self.choose_ant(ant_positions, PROMPT_TEXT_GAME_CHOICE_ANT)
     
     if self.goes_to_anthill(ant, trail, ant_positions):
       return self.go_to_anthill(trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens)
@@ -677,3 +674,8 @@ class Player():
     self.store_food(user_choice_food)
 
     return (trail, ant_positions, anthill, anthill_food_tokens)
+
+  def choose_ant(self, ant_positions, prompt_text):
+    allowed_choices_ants = self.define_allowed_choices_ants(ant_positions)
+    ant = self.make_choice(allowed_choices_ants, prompt_text)
+    return ant
