@@ -660,6 +660,8 @@ class Player():
         (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
         self.store_food(food_to_hand)
 
+    return (trail, ant_positions, anthill, anthill_food_tokens)
+
   def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
     if self.will_spend_choc():
       self.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
