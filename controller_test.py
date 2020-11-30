@@ -306,5 +306,10 @@ class Use_choose_game_rule_ToChooseWineRuleTest(unittest.TestCase):
     expected_results = ["collector", "oenophile"]
     self.assertIn(choose_game_rule(wine_card_dict, prompt_text), expected_results)
 
+class Use_choose_game_rule_ToChooseChocolateRuleTest(unittest.TestCase):
+  def test_choose_game_rule_allows_choice_of_turbo(self):
+    # test 227
+    pass
+
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
