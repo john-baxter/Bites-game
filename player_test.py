@@ -1608,8 +1608,6 @@ class TakeTurboTurnTest(unittest.TestCase):
     self.assertEqual(actual_new_anthill, expected_new_anthill)
     self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
-
-
 class TakeTurnTest(unittest.TestCase):
   @patch('player.Player.take_standard_turn')
   @patch('player.Player.will_spend_choc', return_value = False)
@@ -1826,6 +1824,34 @@ class TakeDoublerTurnTest(unittest.TestCase):
     ]
 
     self.assertEqual(manager.mock_calls, expected_calls)
+
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["yellow", "front", "back"])
+  def test_take_doubler_turn_returns_updated_trail__ant_positions__anthill_and_anthill_food_tokens(
+    self,
+    mock_builtin_input,
+    mock_builtin_print,
+    ):
+    # test 224
+    trail = ["cheese", "cheese", "cheese", "cheese"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese": 1}
+    mario = Player("Mario")
+
+    expected_new_trail = [None, "cheese", None, "cheese"]
+    expected_new_ant_positions = {"yellow": 1}
+    expected_new_anthill = [None]
+    expected_new_anthill_food = {"cheese": 1}
+
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
+      mario.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    self.assertEqual(actual_new_trail, expected_new_trail)
+    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
 
 
