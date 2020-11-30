@@ -623,7 +623,7 @@ class Player():
       return False
 
   def take_turbo_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
-    """Performs actions for player to carry out the 'Turbo'special chocolate action
+    """Performs actions for player to carry out the 'Turbo' special chocolate action
 
     Makes up to two moves along the trail; or moves ant to anthill after one or two moves 
     if appropriate. At the end of the move(s) the player will pick a food from the trail 
@@ -673,7 +673,6 @@ class Player():
       The newly updated (if necessary) collection of food tokens stored by the anthill.
       Keys are food IDs as strings.
       Values are integers >= 0
-    
     """
     ant = self.choose_ant(ant_positions, PROMPT_TEXT_GAME_CHOICE_ANT)
 
@@ -704,6 +703,57 @@ class Player():
     return (trail, ant_positions, anthill, anthill_food_tokens)
 
   def take_doubler_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
+    """Performs actions for player to carry out the 'Doubler' special chocolate action
+
+    Makes one move either along the trail or onto anthill as appropriate. If move ends 
+    on anthill; player chooses one food and adds this to their hand; if move ends on the 
+    trail; player chooses food twice and adds both to their hand.
+
+    Parameters
+    ----------
+    trail : (list)
+      The shuffled list of all the food tiles being used in the game.
+      Elements are food types as strings or None.
+    
+    ant_positions : (dict)
+      Dictionary containing the current locations of each ant.
+      Keys are ants as strings.
+      Values are ant positions as None, int or "anthill" (string).
+
+    anthill : (list)
+      List of equivalent length as the number of ants in the game. 
+      Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
+      Elements are None or ant IDs as strings.
+
+    anthill_rule : (list)
+      A list defining the order in which the anthill should be filled as ants arrive 
+      throughout the game. 
+
+    anthill_food_tokens : (dict)
+      Contains the record of which and how many of each food token are stored at the anthill.
+      Keys are food types as strings.
+      Values are integers >=0
+
+    Returns
+    -------
+    trail : (list)
+      The newly updated (if neccessary) food trail.
+      Elements are food types as strings or None
+    
+    ant_positions : (dict)
+      The newly updated dictionary showing the positions of the ants. 
+      Keys are ant IDs as strings.
+      Values are None, int or "anthill" (string).
+    
+    anthill : (list)
+      The newly updated (if neccessary) anthill list
+      Elements are None or ant IDs as strings.
+
+    anthill_food_tokens : (dict)
+      The newly updated (if necessary) collection of food tokens stored by the anthill.
+      Keys are food IDs as strings.
+      Values are integers >= 0
+    """
     ant = self.choose_ant(ant_positions, PROMPT_TEXT_GAME_CHOICE_ANT)
     
     if self.goes_to_anthill(ant, trail, ant_positions):
