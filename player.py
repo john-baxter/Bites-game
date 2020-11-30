@@ -408,11 +408,7 @@ class Player():
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
-      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
-      allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
-      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
-      anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
-      self.store_food(user_choice_food)
+      return self.go_to_anthill(trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens)
     else:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
       allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
@@ -620,7 +616,7 @@ class Player():
     (boolean)
       False if no chocolate in player's hand
       False if chocolate in player's hand but player opts not to spend chocolate
-      True if chocolate in player's hand and player does opt to dpend chocolate.
+      True if chocolate in player's hand and player does opt to spend chocolate.
     """
     if "chocolate" in self.hand:
       return self.ask_to_spend_chocolate()
@@ -632,19 +628,11 @@ class Player():
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
 
     if self.goes_to_anthill(ant, trail, ant_positions):
-      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
-      allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
-      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
-      anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
-      self.store_food(user_choice_food)
+      return self.go_to_anthill(trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens)
     else:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
       if self.goes_to_anthill(ant, trail, ant_positions):
-        (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
-        allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
-        user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
-        anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
-        self.store_food(user_choice_food)
+        return self.go_to_anthill(trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens)
       else:
         ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
         allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
@@ -656,6 +644,7 @@ class Player():
 
   def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
     if self.will_spend_choc():
+      self.spend_chocolate()
       (trail, ant_positions, anthill, anthill_food_tokens) =\
         self.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     else:
@@ -669,21 +658,22 @@ class Player():
     ant = self.make_choice(allowed_choices_ants, PROMPT_TEXT_GAME_CHOICE_ANT)
     
     if self.goes_to_anthill(ant, trail, ant_positions):
-      (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
-      allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
-      user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
-      anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
-      self.store_food(user_choice_food)
+      return self.go_to_anthill(trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens)
     else:
       ant_positions = self.move_ant_along_trail(trail, ant_positions, ant)
-      allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
-      direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_GAME_CHOICE_DIRECTION)
-      (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
-      self.store_food(food_to_hand)
-      allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
-      direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_GAME_CHOICE_DIRECTION)
-      (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
-      self.store_food(food_to_hand)
+      for i in range(2):
+        allowed_choices_direction = self.define_allowed_choices_direction(ant, trail, ant_positions)
+        direction = self.make_choice(allowed_choices_direction, PROMPT_TEXT_GAME_CHOICE_DIRECTION)
+        (food_to_hand, trail) = self.take_food_from_trail(trail, ant_positions, ant, direction)
+        self.store_food(food_to_hand)
 
     return (trail, ant_positions, anthill, anthill_food_tokens)
 
+  def go_to_anthill(self, trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens):
+    (anthill, ant_positions) = self.place_ant_on_anthill(ant_positions, anthill, anthill_rule, ant)
+    allowed_choices_anthill_food = self.define_allowed_choices_anthill_food(anthill_food_tokens)
+    user_choice_food = self.make_choice(allowed_choices_anthill_food, PROMPT_TEXT_GAME_CHOICE_FOOD) 
+    anthill_food_tokens = self.take_food_from_anthill(anthill_food_tokens, user_choice_food)
+    self.store_food(user_choice_food)
+
+    return (trail, ant_positions, anthill, anthill_food_tokens)
