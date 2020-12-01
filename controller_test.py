@@ -140,6 +140,13 @@ class StartNewGameTest(unittest.TestCase):
     start_new_game()
     mock_bites_play.assert_called_once()
 
+  def test_start_new_game___________(self):
+    # test 231
+    pass
+    """Use manager.mock thing to go through every call in start new game, and 
+    include/add selecting the chocolate rule.
+    """
+
 class Use_choose_game_rule_ToChooseAnthillRuleTest(unittest.TestCase):
   @patch('builtins.input', return_value = "top down")
   @patch('builtins.print')
