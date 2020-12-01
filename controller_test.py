@@ -307,9 +307,49 @@ class Use_choose_game_rule_ToChooseWineRuleTest(unittest.TestCase):
     self.assertIn(choose_game_rule(wine_card_dict, prompt_text), expected_results)
 
 class Use_choose_game_rule_ToChooseChocolateRuleTest(unittest.TestCase):
-  def test_choose_game_rule_allows_choice_of_turbo(self):
+  @patch('builtins.input', return_value = "turbo")
+  @patch('builtins.print')
+  def test_choose_game_rule_allows_choice_of_turbo(self, mock_builtin_print, mock_builtin_input):
     # test 227
-    pass
+    chocolate_card_dict = {"turbo": None}
+    prompt_text = "Please enter your choice of chocolate card: "
+    expected_result = "turbo"
+    self.assertEqual(choose_game_rule(chocolate_card_dict, prompt_text), expected_result)
+
+  @patch('builtins.input', return_value = "doubler")
+  @patch('builtins.print')
+  def test_check_game_rule_allows_choice_of_doubler(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 228
+    chocolate_card_dict = {"turbo": None, "doubler": None}
+    prompt_text = "Please enter your choice of chocolate card: "
+    expected_result = "doubler"
+    self.assertEqual(choose_game_rule(chocolate_card_dict, prompt_text), expected_result)
+
+  @patch('builtins.input', side_effect = ["doubleupagus", "doubler"])
+  @patch('builtins.print')
+  def test_check_user_makes_typo_no_error_redo_choice_select_doubler(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 229
+    chocolate_card_dict = {"turbo": None, "doubler": None}
+    prompt_text = "Please enter your choice of chocolate card: "
+    expected_result = "doubler"
+    self.assertEqual(choose_game_rule(chocolate_card_dict, prompt_text), expected_result)
+
+  @patch('builtins.input', return_value = "random")
+  @patch('builtins.print')
+  def test_check_user_can_enter_random_and_one_of_the_other_wine_options_is_selected(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 230
+    chocolate_card_dict = {"turbo": None, "doubler": None}
+    prompt_text = "Please enter your choice of chocolate card: "
+    expected_results = ["turbo", "doubler"]
+    self.assertIn(choose_game_rule(chocolate_card_dict, prompt_text), expected_results)
+
+
+
+
+
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
