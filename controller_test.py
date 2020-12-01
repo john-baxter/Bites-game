@@ -140,12 +140,66 @@ class StartNewGameTest(unittest.TestCase):
     start_new_game()
     mock_bites_play.assert_called_once()
 
-  def test_start_new_game___________(self):
+  @patch.dict('controller.CHOCOLATE_TOKENS_FOR_TRAIL', {"chocolate": 1})
+  @patch.dict('controller.WINE_TOKENS_FOR_TRAIL', {"wine": 1})
+  @patch.dict('controller.STANDARD_TOKENS_FOR_TRAIL', {
+    "grapes": 1,
+    "apple": 1,
+    "bread": 1,
+    "cheese": 1,
+    "pepper": 1,
+    })
+  @patch.dict('controller.CHOCOLATE_CARD_DICT', {"doubler": None, "turbo": None})
+  @patch.dict('controller.ANTHILL_CARD_DICT', {"top down": None, "bottom up": None, "leave gaps": None, "user choice": None})
+  @patch.dict('controller.WINE_CARD_DICT', {"collector": None, "oenophile": None})
+  @patch('bites.Bites.play_full_game')
+  @patch('bites.Bites.__init__', return_value = None)
+  @patch('controller.choose_game_rule', side_effect = [
+    "top down",
+    "oenophile",
+    "doubler",
+    ])
+  @patch('controller.prepare_list_of_players', return_value = [])
+  def test_start_new_game_calls_all_relevant_functions_as_before_plus_inc_chocolate_rule(
+    self,
+    mock_prepare_players,
+    mock_choose_game_rule,
+    mock_bites_init,
+    mock_bites_play,
+    ):
     # test 231
-    pass
-    """Use manager.mock thing to go through every call in start new game, and 
-    include/add selecting the chocolate rule.
-    """
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_prepare_players, 'mock_prepare_players')
+    manager.attach_mock(mock_choose_game_rule, 'mock_choose_game_rule')
+    manager.attach_mock(mock_choose_game_rule, 'mock_choose_game_rule')
+    manager.attach_mock(mock_choose_game_rule, 'mock_choose_game_rule')
+    manager.attach_mock(mock_bites_init, 'mock_bites_init')
+    manager.attach_mock(mock_bites_play, 'mock_bites_play')
+
+    start_new_game()
+
+    expected_calls = [
+      mock.call.mock_prepare_players(),
+      mock.call.mock_choose_game_rule({"top down": None, "bottom up": None, "leave gaps": None, "user choice": None}, "Please enter your choice of anthill card: "),
+      mock.call.mock_choose_game_rule({"collector": None, "oenophile": None}, "Please enter your choice of wine card: "),
+      mock.call.mock_choose_game_rule({"turbo": None, "doubler": None}, "Please enter your choice of chocolate card: "),
+      mock.call.mock_bites_init(
+      {"purple": "grapes", "red": "apple", "brown": "bread", "yellow": "cheese", "green": "pepper"}.keys(),
+      {"grapes": 1, "apple": 1, "bread": 1, "cheese": 1, "pepper": 1},
+      {"wine": 1},
+      {"chocolate": 1},
+      [],
+      "top down",
+      "oenophile",
+      "doubler",
+      ),
+      mock.call.mock_bites_play(),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+
 
 class Use_choose_game_rule_ToChooseAnthillRuleTest(unittest.TestCase):
   @patch('builtins.input', return_value = "top down")
