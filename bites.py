@@ -40,6 +40,9 @@ class Bites():
     wine_rule : (string)
       The identity of the wine rule that has been chosen during the setup of the game.
 
+    chocolate_rule : (string)
+      The identity of the chocolate rule that has been chosen during the setup of the game.
+
     Attributes
     ----------
     ant_positions : (dict)
@@ -77,6 +80,9 @@ class Bites():
 
     wine_rule : (string)
       The identity of the wine rule that has been chosen during the setup of the game.
+    
+    chocolate_rule : (string)
+      The identity of the chocolate rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     self.standard_tokens_for_trail = standard_tokens_for_trail
@@ -372,4 +378,3 @@ class Bites():
     partial_trail = self.create_partial_trail_of_standard_and_wine(wine_tokens_for_trail)
     trail = self.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail)
     return trail
-    
