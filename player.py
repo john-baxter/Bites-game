@@ -744,9 +744,6 @@ class Player():
       Keys are food IDs as strings.
       Values are integers >= 0
     """
-    print("***********")
-    print("***********")
-    print(chocolate_rule)
     if self.will_spend_choc():
       self.spend_chocolate()
       if chocolate_rule == "doubler":

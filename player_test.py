@@ -1628,10 +1628,11 @@ class TakeTurnTest(unittest.TestCase):
     anthill = [None]
     anthill_rule = ""
     anthill_food_tokens = {"cheese" : 1}
+    chocolate_rule = ""
     mario = Player("Mario")
 
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
 
     mock_will_spend_choc.assert_called_once_with()
 
@@ -1653,13 +1654,14 @@ class TakeTurnTest(unittest.TestCase):
     anthill = [None]
     anthill_rule = ""
     anthill_food_tokens = {"cheese" : 1}
+    chocolate_rule = ""
     mario = Player("Mario")
 
     manager = mock.Mock()
     manager.attach_mock(mock_will_spend_choc, 'mock_will_spend_choc')
     manager.attach_mock(mock_take_standard_turn, 'mock_take_standard_turn')
     
-    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
 
     expected_calls = [
       mock.call.mock_will_spend_choc(),
@@ -1688,6 +1690,7 @@ class TakeTurnTest(unittest.TestCase):
     anthill = [None]
     anthill_rule = ""
     anthill_food_tokens = {"cheese" : 1}
+    chocolate_rule = ""
     mario = Player("Mario")
 
     manager = mock.Mock()
@@ -1695,7 +1698,7 @@ class TakeTurnTest(unittest.TestCase):
     manager.attach_mock(mock_spend_choc, 'mock_spend_choc')
     manager.attach_mock(mock_take_turbo_turn, 'mock_take_turbo_turn')
     
-    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
 
     expected_calls = [
       mock.call.mock_will_spend_choc(),
@@ -1720,6 +1723,7 @@ class TakeTurnTest(unittest.TestCase):
     anthill = [None]
     anthill_rule = ""
     anthill_food_tokens = {"cheese": 1}
+    chocolate_rule = ""
     mario = Player("Mario")
     mario.hand = {"chocolate": 3}
 
@@ -1729,7 +1733,7 @@ class TakeTurnTest(unittest.TestCase):
     expected_new_anthill_food = anthill_food_tokens
 
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
 
     self.assertEqual(actual_new_trail, expected_new_trail)
     self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
@@ -1751,6 +1755,7 @@ class TakeTurnTest(unittest.TestCase):
     anthill = [None]
     anthill_rule = ""
     anthill_food_tokens = {"cheese": 1}
+    chocolate_rule = ""
     mario = Player("Mario")
     mario.hand = {"chocolate": 3}
 
@@ -1760,7 +1765,7 @@ class TakeTurnTest(unittest.TestCase):
     expected_new_anthill_food = anthill_food_tokens
 
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
 
     self.assertEqual(actual_new_trail, expected_new_trail)
     self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
