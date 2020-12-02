@@ -1766,7 +1766,33 @@ class TakeTurnTest(unittest.TestCase):
     self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
     self.assertEqual(actual_new_anthill, expected_new_anthill)
     self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
-    
+
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["yellow", "front", "back"])
+  @patch('player.Player.spend_chocolate')
+  @patch('player.Player.will_spend_choc', return_value = True)
+  @patch('player.Player.take_doubler_turn', return_value = (None, None, None, None))
+  def test_take_turn_has_chocolate_rule_argument_of_doubler_and_calls_take_doubler_turn(
+    self,
+    mock_doubler_turn,
+    mock_will_spend_choc,
+    mock_spend_choc,
+    mock_builtin_input,
+    mock_builtin_print,
+    ):
+    trail = ["cheese", "cheese", "cheese", "cheese"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese": 1}
+    chocolate_rule = "doubler"
+    mario = Player("Mario")
+
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) =\
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
+
+    mock_doubler_turn.assert_called_once_with(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
 class TakeDoublerTurnTest(unittest.TestCase):
   @patch('player.Player.make_choice', side_effect = ["yellow", "front", "back"])
   @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])

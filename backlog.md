@@ -22,6 +22,7 @@ Chocolate:
 
 
 ### Future
+Scan through entire project looking for obvious typos/formatting issues to correct.\
 Change printing of '--' in trail so that it only prints one if there are multiple in a row.\
 Check the justification wrt chocolate.\
 Consider changing player hand to a counter instead of a dict\

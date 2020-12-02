@@ -691,7 +691,7 @@ class Player():
 
     return (trail, ant_positions, anthill, anthill_food_tokens)
 
-  def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens):
+  def take_turn(self, trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule):
     """Checks if player is taking a standard turn or using the special chocolate action.
 
     Calls the appropriate methods to check if player is able & willing to use a chocolate 
@@ -699,57 +699,64 @@ class Player():
     then perform the actions corresponding to a standard turn or a special chocolate turn 
     accordingly.
 
-    Parameters
-    ----------
-    trail : (list)
-      The shuffled list of all the food tiles being used in the game.
-      Elements are food types as strings or None.
-    
-    ant_positions : (dict)
-      Dictionary containing the current locations of each ant.
-      Keys are ants as strings.
-      Values are ant positions as None, int or "anthill" (string).
+      Parameters
+      ----------
+      trail : (list)
+        The shuffled list of all the food tiles being used in the game.
+        Elements are food types as strings or None.
+      
+      ant_positions : (dict)
+        Dictionary containing the current locations of each ant.
+        Keys are ants as strings.
+        Values are ant positions as None, int or "anthill" (string).
 
-    anthill : (list)
-      List of equivalent length as the number of ants in the game. 
-      Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
-      Elements are None or ant IDs as strings.
+      anthill : (list)
+        List of equivalent length as the number of ants in the game. 
+        Shows which (if any) ants have moved past the end of the trail and their positions on the anthill.
+        Elements are None or ant IDs as strings.
 
-    anthill_rule : (list)
-      A list defining the order in which the anthill should be filled as ants arrive 
-      throughout the game. 
+      anthill_rule : (list)
+        A list defining the order in which the anthill should be filled as ants arrive 
+        throughout the game. 
 
-    anthill_food_tokens : (dict)
-      Contains the record of which and how many of each food token are stored at the anthill.
-      Keys are food types as strings.
-      Values are integers >=0
+      anthill_food_tokens : (dict)
+        Contains the record of which and how many of each food token are stored at the anthill.
+        Keys are food types as strings.
+        Values are integers >=0
 
-    Returns
-    -------
-    trail : (list)
-      The newly updated (if neccessary) food trail.
-      Elements are food types as strings or None
-    
-    ant_positions : (dict)
-      The newly updated dictionary showing the positions of the ants. 
-      Keys are ant IDs as strings.
-      Values are None, int or "anthill" (string).
-    
-    anthill : (list)
-      The newly updated (if neccessary) anthill list
-      Elements are None or ant IDs as strings.
+      Returns
+      -------
+      trail : (list)
+        The newly updated (if neccessary) food trail.
+        Elements are food types as strings or None
+      
+      ant_positions : (dict)
+        The newly updated dictionary showing the positions of the ants. 
+        Keys are ant IDs as strings.
+        Values are None, int or "anthill" (string).
+      
+      anthill : (list)
+        The newly updated (if neccessary) anthill list
+        Elements are None or ant IDs as strings.
 
-    anthill_food_tokens : (dict)
+      anthill_food_tokens : (dict)
       The newly updated (if necessary) collection of food tokens stored by the anthill.
       Keys are food IDs as strings.
       Values are integers >= 0
     """
+    print("***********")
+    print("***********")
+    print(chocolate_rule)
     if self.will_spend_choc():
       self.spend_chocolate()
-      (trail, ant_positions, anthill, anthill_food_tokens) =\
-        self.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      if chocolate_rule == "doubler":
+        (trail, ant_positions, anthill, anthill_food_tokens) = \
+          self.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      else:
+        (trail, ant_positions, anthill, anthill_food_tokens) = \
+          self.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     else:
-      (trail, ant_positions, anthill, anthill_food_tokens) =\
+      (trail, ant_positions, anthill, anthill_food_tokens) = \
         self.take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     
     return (trail, ant_positions, anthill, anthill_food_tokens)
