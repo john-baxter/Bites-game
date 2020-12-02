@@ -22,7 +22,8 @@ that has tables explaining each rule\
 Create a selection (possibly all) of the wine rules
 - if doing Protégé remember to address the 0wine=/=0pts situation.
 
-Create a selection (possibly all) of the chocolate rules\
+### Future
+Chocolate\
 Extra rules\
 Fancy CLI\
 Look at 

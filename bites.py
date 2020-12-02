@@ -19,16 +19,10 @@ class Bites():
       The keys are names of food as strings.
       The values are the amount of the food as integers.
     
-    wine_tokens_for_trail : (dict)
-      A single key-value pair showing the number of wine tokens used in the trail for this game
-      The key is 'wine'.
-      The value is an integer.
-
-    chocolate_tokens_for_trail : (dict)
-      A single key-value pair showing the number of chocolate tokens used 
-      in the trail for this game
-      The key is 'chocolate'.
-      The value is an integer.
+    special_tokens_for_trail : (dict)
+      The names of each type of special food token and their quantities
+      The keys are names of food as strings.
+      The values are the amount of the food as integers.
 
     players : (list)
       A list of Player objects representing the players of this game.
@@ -85,11 +79,12 @@ class Bites():
       The identity of the chocolate rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
+    tokens_for_trail = dict(standard_tokens_for_trail, ** special_tokens_for_trail)
     self.standard_tokens_for_trail = standard_tokens_for_trail
-    self.trail = self.initialise_trail(wine_tokens_for_trail, chocolate_tokens_for_trail)
+    self.trail = self.initialise_trail(tokens_for_trail)
     self.anthill = self.initialise_anthill(ants)
     self.players = players
-    self.anthill_food_tokens = self.initialise_anthill_food_tokens()
+    self.anthill_food_tokens = self.initialise_anthill_food_tokens(standard_tokens_for_trail)
     self.anthill_rule = anthill_rule
     self.wine_rule = wine_rule
     self.chocolate_rule = chocolate_rule
@@ -141,7 +136,7 @@ class Bites():
     anthill = [None] * len(ants)
     return anthill
   
-  def create_partial_trail_of_standard_and_wine(self, wine_tokens_for_trail):
+  def initialise_trail(self, tokens_for_trail):
     """Create the path of tokens that the game is played on
     
     Parameters
@@ -157,11 +152,11 @@ class Bites():
       A random shuffled list of all the tokens given in the tokens_for_trail argument
       Each element is a string.
     """
-    partial_trail = []
-    for food, amount in dict(self.standard_tokens_for_trail, ** wine_tokens_for_trail).items():
-      partial_trail = partial_trail + ([food] * amount)
-    random.shuffle(partial_trail)
-    return partial_trail
+    trail = []
+    for food, amount in tokens_for_trail.items():
+      trail = trail + ([food] * amount)
+    random.shuffle(trail)
+    return trail
 
   def take_all_turns(self):
     """Cycles through all players and performs actions needed to take their turns.
@@ -257,7 +252,7 @@ class Bites():
       else:
         print("The %s ant is in level %s" % (self.anthill[i], i))
 
-  def initialise_anthill_food_tokens(self):
+  def initialise_anthill_food_tokens(self, standard_tokens_for_trail):
     """Prepare the stack of tokens next to the anthill
 
     The stack has one of each standard food. Does not include special food.
@@ -277,7 +272,7 @@ class Bites():
       Keys are foods as strings
       Values are integers initialised as 1
     """
-    self.anthill_food_tokens = { token : 1 for token in self.standard_tokens_for_trail }
+    self.anthill_food_tokens = { token : 1 for token in standard_tokens_for_trail }
     return self.anthill_food_tokens
 
   def print_anthill_food_tokens(self):
