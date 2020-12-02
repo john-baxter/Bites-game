@@ -66,10 +66,10 @@ Values are integers
 
 
 WINE_TOKENS_FOR_TRAIL = {"wine" : NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN}
+CHOCOLATE_TOKENS_FOR_TRAIL = {"chocolate" : NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN}
 """The standard number of each special food token
 
-A dictionary showing how many winetokens will be 
-used as per the rules.
+Dictionarys showing how many special tokens will be used as per the rules.
 Keys are foods as strings
 Values are integers
 """
@@ -82,7 +82,8 @@ PROMPT_TEXT_GAME_CHOICE_ANTHILL_PLACEMENT = "please enter your choice of anthill
 
 PROMPT_TEXT_RULE_CHOICE_ANTHILL = "Please enter your choice of anthill card: "
 PROMPT_TEXT_RULE_CHOICE_WINE = "Please enter your choice of wine card: "
-"""The text statements that are used during the various call of Player.make_choice()
+PROMPT_TEXT_RULE_CHOICE_CHOCOLATE = "Please enter your choice of chocolate card: "
+"""The text statements that are used during the various calls for player input.
 """
 
 
@@ -96,7 +97,8 @@ ANTHILL_CARD_DICT = {
   "top down": [4, 3, 2, 1, 0],
   "bottom up": [0, 1, 2, 3, 4],
   "leave gaps": [4, 2, 0, 3, 1],
-  "user choice": None}
+  "user choice": None
+  }
 """The various lists that are used to determine the order that the anthill is filled
 """
 
@@ -106,4 +108,12 @@ WINE_CARD_DICT = {
   }
 """The various methods that calculate the wine score, with their parameters. Will be 
 called when needed as part of calculation the player score.
+"""
+
+CHOCOLATE_CARD_DICT = {
+  "turbo": "take_turbo_turn",
+  "doubler": "take_doubler_turn",
+  }
+"""The various  methods that will be used to execute a 'chocolate turn'; when the 
+player opts to spend a chocolate token during their turn.
 """

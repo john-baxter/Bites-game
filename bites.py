@@ -3,7 +3,7 @@ from constants import K_COLOUR_V_FOOD_DICT, STANDARD_TOKENS_FOR_TRAIL
 from constants import ANTHILL_CARD_DICT
 
 class Bites():
-  def __init__(self, ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule):
+  def __init__(self, ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule, chocolate_rule):
     """Initialises an instance of the Bites class
 
     This is the equivalent of setting up the game on the table ready to start playing.
@@ -39,6 +39,9 @@ class Bites():
 
     wine_rule : (string)
       The identity of the wine rule that has been chosen during the setup of the game.
+
+    chocolate_rule : (string)
+      The identity of the chocolate rule that has been chosen during the setup of the game.
 
     Attributes
     ----------
@@ -77,6 +80,9 @@ class Bites():
 
     wine_rule : (string)
       The identity of the wine rule that has been chosen during the setup of the game.
+    
+    chocolate_rule : (string)
+      The identity of the chocolate rule that has been chosen during the setup of the game.
     """
     self.ant_positions = self.initialise_ant_positions(ants)
     self.standard_tokens_for_trail = standard_tokens_for_trail
@@ -86,6 +92,7 @@ class Bites():
     self.anthill_food_tokens = self.initialise_anthill_food_tokens()
     self.anthill_rule = anthill_rule
     self.wine_rule = wine_rule
+    self.chocolate_rule = chocolate_rule
 
   def initialise_ant_positions(self, ants):
     """Create a record of the starting positions of each insect meeple
@@ -196,6 +203,7 @@ class Bites():
     Calls other methods, each of which shows a section of the game setup.
     """
     self.print_wine_rule_statement()
+    self.print_chocolate_rule_statement()
     self.print_players_names_and_hands()
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()
@@ -371,4 +379,7 @@ class Bites():
     partial_trail = self.create_partial_trail_of_standard_and_wine(wine_tokens_for_trail)
     trail = self.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail)
     return trail
-    
+
+  def print_chocolate_rule_statement(self):
+    print("\nThe chocolate action card currently in play is: ")
+    print("%s" % self.chocolate_rule.capitalize())
