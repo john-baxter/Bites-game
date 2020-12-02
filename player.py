@@ -1,6 +1,6 @@
 from constants import K_COLOUR_V_FOOD_DICT, K_FOOD_V_COLOUR_DICT, STANDARD_FOOD_TYPES
 from constants import PROMPT_TEXT_GAME_CHOICE_ANT, PROMPT_TEXT_GAME_CHOICE_DIRECTION, PROMPT_TEXT_GAME_CHOICE_FOOD, PROMPT_TEXT_GAME_CHOICE_ANTHILL_PLACEMENT
-from constants import ANTHILL_CARD_DICT, WINE_CARD_DICT
+from constants import ANTHILL_CARD_DICT, WINE_CARD_DICT, CHOCOLATE_CARD_DICT
 from functions import show_allowed_choices_from_list
 
 class Player():
@@ -746,12 +746,9 @@ class Player():
     """
     if self.will_spend_choc():
       self.spend_chocolate()
-      if chocolate_rule == "doubler":
-        (trail, ant_positions, anthill, anthill_food_tokens) = \
-          self.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
-      else:
-        (trail, ant_positions, anthill, anthill_food_tokens) = \
-          self.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      chocolate_method = getattr(self, CHOCOLATE_CARD_DICT[chocolate_rule])
+      (trail, ant_positions, anthill, anthill_food_tokens) = \
+        chocolate_method(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     else:
       (trail, ant_positions, anthill, anthill_food_tokens) = \
         self.take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)

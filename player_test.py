@@ -1690,7 +1690,7 @@ class TakeTurnTest(unittest.TestCase):
     anthill = [None]
     anthill_rule = ""
     anthill_food_tokens = {"cheese" : 1}
-    chocolate_rule = ""
+    chocolate_rule = "turbo"
     mario = Player("Mario")
 
     manager = mock.Mock()
@@ -1705,7 +1705,9 @@ class TakeTurnTest(unittest.TestCase):
       mock.call.mock_spend_choc(),
       mock.call.mock_take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens),
     ]
-
+    print("*************")
+    print("*************")
+    print(manager.mock_calls)
     self.assertEqual(manager.mock_calls, expected_calls)
 
   @patch('builtins.print')
@@ -1723,7 +1725,7 @@ class TakeTurnTest(unittest.TestCase):
     anthill = [None]
     anthill_rule = ""
     anthill_food_tokens = {"cheese": 1}
-    chocolate_rule = ""
+    chocolate_rule = "turbo"
     mario = Player("Mario")
     mario.hand = {"chocolate": 3}
 
