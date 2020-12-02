@@ -919,6 +919,7 @@ class PlayFullGameTest(unittest.TestCase):
     self.assertEqual(manager.mock_calls, expected_calls)
 
 class RenderGameTest(unittest.TestCase):
+  @patch('bites.Bites.print_chocolate_rule_statement')
   @patch('bites.Bites.print_wine_rule_statement')
   @patch('bites.Bites.print_players_names_and_hands')
   @patch('bites.Bites.print_ants_positioned_before_the_trail')
@@ -933,10 +934,12 @@ class RenderGameTest(unittest.TestCase):
     mock_ants_pre_trail_print,
     mock_player_details_print,
     mock_wine_rule_print,
+    mock_choc_rule_print,
     ):
     # test 183
     manager = mock.Mock()
     manager.attach_mock(mock_wine_rule_print, 'mock_wine_rule_print')
+    manager.attach_mock(mock_choc_rule_print, 'mock_choc_rule_print')
     manager.attach_mock(mock_player_details_print, 'mock_player_details_print')
     manager.attach_mock(mock_ants_pre_trail_print, 'mock_ants_pre_trail_print')
     manager.attach_mock(mock_trail_and_ants_print, 'mock_trail_and_ants_print')
@@ -963,13 +966,14 @@ class RenderGameTest(unittest.TestCase):
     bites_game.render_game()
 
     expected_mock_calls = [
-    mock.call.mock_wine_rule_print(),
-    mock.call.mock_player_details_print(),
-    mock.call.mock_ants_pre_trail_print(),
-    mock.call.mock_trail_and_ants_print(),
-    mock.call.mock_anthill_placement_print(),
-    mock.call.mock_anthill_food_print(),
-    ]
+      mock.call.mock_wine_rule_print(),
+      mock.call.mock_choc_rule_print(),
+      mock.call.mock_player_details_print(),
+      mock.call.mock_ants_pre_trail_print(),
+      mock.call.mock_trail_and_ants_print(),
+      mock.call.mock_anthill_placement_print(),
+      mock.call.mock_anthill_food_print(),
+      ]
 
     self.assertEqual(manager.mock_calls, expected_mock_calls)
     mock_anthill_food_print.assert_called_once()
@@ -978,6 +982,7 @@ class RenderGameTest(unittest.TestCase):
     mock_ants_pre_trail_print.assert_called_once()
     mock_player_details_print.assert_called_once()
     mock_wine_rule_print.assert_called_once()
+    mock_choc_rule_print.assert_called_once()
 
   def test_print_players_names_and_hands_prints_player_name_and_hand_for_one_player(self):
     # test 85
@@ -1464,6 +1469,7 @@ class RenderGameTest(unittest.TestCase):
 
     self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
     self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
+
 
 class InitialiseAnthillFoodTokensTest(unittest.TestCase):
   def test_anthill_can_store_food_tokens_in_dict(self):

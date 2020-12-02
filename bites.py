@@ -203,6 +203,7 @@ class Bites():
     Calls other methods, each of which shows a section of the game setup.
     """
     self.print_wine_rule_statement()
+    self.print_chocolate_rule_statement()
     self.print_players_names_and_hands()
     self.print_ants_positioned_before_the_trail()
     self.print_trail_and_ants_positioned_thereon()
@@ -379,3 +380,5 @@ class Bites():
     trail = self.add_chocolate_into_trail(partial_trail, chocolate_tokens_for_trail)
     return trail
 
+  def print_chocolate_rule_statement(self):
+    pass

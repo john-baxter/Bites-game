@@ -5,8 +5,6 @@
 Liaise with Peter about the front-end
 
 ### Current
-
-### Next
 Chocolate:
 - ~~include chocolate in the trail~~
 - ~~figure out how/where to position it within the trail~~
@@ -17,9 +15,13 @@ Chocolate:
   * ~~Doubler~~
   * ~~Theif~~
 - ~~update `choose_game_rule()` to allow players to choose chocolate rule~~
-- update the `take_turn()` method so that it recieves the chocolate_rule as a parameter and calls the appropriate rule from the CHOC_RULES dict.
+- ~~update the `take_turn()` method so that it recieves the chocolate_rule as a parameter and calls the appropriate rule from the CHOC_RULES dict.~~
 - include an extra print statement in `render_game()` to show the choc rule while playing.
 
+### Next
+
+### Bugs discovered
+Game crashing at end (calc score phase). Incorrect number of arguments in score_hand().
 
 ### Future
 Scan through entire project looking for obvious typos/formatting issues to correct.\
@@ -39,6 +41,3 @@ Look at
 [comment](https://github.com/john-baxter/Bites-game/pull/27#discussion_r520486699) 
 from feature-wine pull request\
 Investigate the possibility of refactoring the chocolate methods into their own class Chocolate(), which could be inherited by Player
-
-### Bugs discovered:
-Game crashing at end (calc score phase). Incorrect number of arguments in score_hand().
