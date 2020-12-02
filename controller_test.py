@@ -124,7 +124,7 @@ class StartNewGameTest(unittest.TestCase):
     "doubler",
     ])
   @patch('controller.prepare_list_of_players', return_value = [])
-  def test_start_new_game_calls_all_relevant_functions_as_before_plus_inc_chocolate_rule(
+  def test_start_new_game_calls_all_relevant_functions_inc_chocolate_rule_in_correct_order(
     self,
     mock_prepare_players,
     mock_choose_game_rule,
@@ -162,8 +162,6 @@ class StartNewGameTest(unittest.TestCase):
     ]
 
     self.assertEqual(manager.mock_calls, expected_calls)
-
-
 
 class Use_choose_game_rule_ToChooseAnthillRuleTest(unittest.TestCase):
   @patch('builtins.input', return_value = "top down")
@@ -370,11 +368,6 @@ class Use_choose_game_rule_ToChooseChocolateRuleTest(unittest.TestCase):
     prompt_text = "Please enter your choice of chocolate card: "
     expected_results = ["turbo", "doubler"]
     self.assertIn(choose_game_rule(chocolate_card_dict, prompt_text), expected_results)
-
-
-
-
-
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
