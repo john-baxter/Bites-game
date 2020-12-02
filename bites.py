@@ -381,4 +381,5 @@ class Bites():
     return trail
 
   def print_chocolate_rule_statement(self):
-    pass
+    print("\nThe chocolate action card currently in play is: ")
+    print("Doubler")
