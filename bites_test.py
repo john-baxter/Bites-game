@@ -1414,7 +1414,6 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
     self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
 
-
 class InitialiseAnthillFoodTokensTest(unittest.TestCase):
   def test_anthill_can_store_food_tokens_in_dict(self):
     # test 116
