@@ -822,7 +822,7 @@ class Player():
     return (trail, ant_positions, anthill, anthill_food_tokens)
 
   def go_to_anthill(self, trail, ant_positions, anthill, anthill_rule, ant, anthill_food_tokens):
-    """Performs actions foran ant to move onto the anthill.
+    """Performs actions for an ant to move onto the anthill.
 
     Parameters
     ----------
