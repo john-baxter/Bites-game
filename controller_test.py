@@ -104,42 +104,6 @@ class PrepareListOfPlayersTest(unittest.TestCase):
     self.assertEqual(generate_player_mock.call_count, 3)
 
 class StartNewGameTest(unittest.TestCase):
-  @patch('builtins.print')
-  @patch('bites.Bites.__init__', return_value = None)
-  @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', side_effect = [2, 'Mario', 'Luigi', 'top down', 'collector'])
-  def test_start_new_2player_game_calls_prepare_list_of_players_and_associated_functions_in_correct_order_and_with_correct_callcount(
-    self, mock_builtin_input, mock_bites_play, mock_bites_init, mock_builtin_print):
-    # test 110
-    start_new_game()
-    self.assertEqual(mock_builtin_input.call_args_list[0], mock.call(
-      "Please enter the number of players: "))
-    self.assertEqual(mock_builtin_input.call_args_list[1], mock.call(
-      "Please enter your name: "))
-    self.assertEqual(mock_builtin_input.call_args_list[2], mock.call(
-      "Please enter your name: "))
-    self.assertGreaterEqual(len(mock_builtin_input.call_args_list), 3)
-
-  @patch('builtins.print')
-  @patch('bites.Bites.__init__', return_value = None)
-  @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', side_effect = [2,'Mario', 'Luigi', 'top down', 'collector'])
-  def test_start_new_game_creates_instance_of_Bites_class(
-    self, mock_builtin_input, mock_bites_play, mock_bites_init, mock_builtin_print):
-    # test 111
-    start_new_game()
-    self.assertEqual(mock_bites_init.call_count, 1)
-
-  @patch('builtins.print')
-  @patch('bites.Bites.__init__', return_value = None)
-  @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', side_effect = [2,'Mario', 'Luigi', 'top down', 'collector'])
-  def test_start_new_game_calls_Bites_play_full_game_method(
-    self, mock_builtin_input, mock_bites_play, mock_bites_init, mock_builtin_print):
-    # test 112
-    start_new_game()
-    mock_bites_play.assert_called_once()
-
   @patch.dict('controller.CHOCOLATE_TOKENS_FOR_TRAIL', {"chocolate": 1})
   @patch.dict('controller.WINE_TOKENS_FOR_TRAIL', {"wine": 1})
   @patch.dict('controller.STANDARD_TOKENS_FOR_TRAIL', {
