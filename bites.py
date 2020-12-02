@@ -382,4 +382,4 @@ class Bites():
 
   def print_chocolate_rule_statement(self):
     print("\nThe chocolate action card currently in play is: ")
-    print("Doubler")
+    print("%s" % self.chocolate_rule.capitalize())

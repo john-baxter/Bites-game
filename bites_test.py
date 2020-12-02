@@ -1471,7 +1471,7 @@ class RenderGameTest(unittest.TestCase):
     self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
   
   @patch('builtins.print')
-  def test_print_chocolate_rule_statement_prints_statement_about_chocolate_rule(self, mock_builtin_print):
+  def test_print_chocolate_rule_statement_prints_statement_about_chocolate_rule_doubler(self, mock_builtin_print):
     # test 233
     ants = []
     standard_tokens_for_trail = {
@@ -1494,6 +1494,34 @@ class RenderGameTest(unittest.TestCase):
 
     expected_print_result_0 = call("\nThe chocolate action card currently in play is: ")
     expected_print_result_1 = call("Doubler")
+
+    self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
+    self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
+  
+  @patch('builtins.print')
+  def test_print_chocolate_rule_statement_prints_statement_about_chocolate_rule_turbo(self, mock_builtin_print):
+    # test 234
+    ants = []
+    standard_tokens_for_trail = {
+      "cheese": 3, 
+      "bread": 3,
+      "grapes": 3,
+      "apple": 3,
+      "pepper": 3,
+      }
+    wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
+    players = []
+    anthill_rule = ""
+    wine_rule = "oenophile"
+    chocolate_rule = "turbo"
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule, chocolate_rule)
+    bites_game.ant_positions = {"random key": None}
+
+    bites_game.print_chocolate_rule_statement()
+
+    expected_print_result_0 = call("\nThe chocolate action card currently in play is: ")
+    expected_print_result_1 = call("Turbo")
 
     self.assertEqual(mock_builtin_print.call_args_list[0], expected_print_result_0)
     self.assertEqual(mock_builtin_print.call_args_list[1], expected_print_result_1)
