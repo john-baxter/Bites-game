@@ -104,41 +104,62 @@ class PrepareListOfPlayersTest(unittest.TestCase):
     self.assertEqual(generate_player_mock.call_count, 3)
 
 class StartNewGameTest(unittest.TestCase):
-  @patch('builtins.print')
-  @patch('bites.Bites.__init__', return_value = None)
+  @patch.dict('controller.CHOCOLATE_TOKENS_FOR_TRAIL', {"chocolate": 1})
+  @patch.dict('controller.WINE_TOKENS_FOR_TRAIL', {"wine": 1})
+  @patch.dict('controller.STANDARD_TOKENS_FOR_TRAIL', {
+    "grapes": 1,
+    "apple": 1,
+    "bread": 1,
+    "cheese": 1,
+    "pepper": 1,
+    })
+  @patch.dict('controller.CHOCOLATE_CARD_DICT', {"doubler": None, "turbo": None})
+  @patch.dict('controller.ANTHILL_CARD_DICT', {"top down": None, "bottom up": None, "leave gaps": None, "user choice": None})
+  @patch.dict('controller.WINE_CARD_DICT', {"collector": None, "oenophile": None})
   @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', side_effect = [2, 'Mario', 'Luigi', 'top down', 'collector'])
-  def test_start_new_2player_game_calls_prepare_list_of_players_and_associated_functions_in_correct_order_and_with_correct_callcount(
-    self, mock_builtin_input, mock_bites_play, mock_bites_init, mock_builtin_print):
-    # test 110
-    start_new_game()
-    self.assertEqual(mock_builtin_input.call_args_list[0], mock.call(
-      "Please enter the number of players: "))
-    self.assertEqual(mock_builtin_input.call_args_list[1], mock.call(
-      "Please enter your name: "))
-    self.assertEqual(mock_builtin_input.call_args_list[2], mock.call(
-      "Please enter your name: "))
-    self.assertGreaterEqual(len(mock_builtin_input.call_args_list), 3)
+  @patch('bites.Bites.__init__', return_value = None)
+  @patch('controller.choose_game_rule', side_effect = [
+    "top down",
+    "oenophile",
+    "doubler",
+    ])
+  @patch('controller.prepare_list_of_players', return_value = [])
+  def test_start_new_game_calls_all_relevant_functions_inc_chocolate_rule_in_correct_order(
+    self,
+    mock_prepare_players,
+    mock_choose_game_rule,
+    mock_bites_init,
+    mock_bites_play,
+    ):
+    # test 231
 
-  @patch('builtins.print')
-  @patch('bites.Bites.__init__', return_value = None)
-  @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', side_effect = [2,'Mario', 'Luigi', 'top down', 'collector'])
-  def test_start_new_game_creates_instance_of_Bites_class(
-    self, mock_builtin_input, mock_bites_play, mock_bites_init, mock_builtin_print):
-    # test 111
-    start_new_game()
-    self.assertEqual(mock_bites_init.call_count, 1)
+    manager = mock.Mock()
+    manager.attach_mock(mock_prepare_players, 'mock_prepare_players')
+    manager.attach_mock(mock_choose_game_rule, 'mock_choose_game_rule')
+    manager.attach_mock(mock_bites_init, 'mock_bites_init')
+    manager.attach_mock(mock_bites_play, 'mock_bites_play')
 
-  @patch('builtins.print')
-  @patch('bites.Bites.__init__', return_value = None)
-  @patch('bites.Bites.play_full_game')
-  @patch('builtins.input', side_effect = [2,'Mario', 'Luigi', 'top down', 'collector'])
-  def test_start_new_game_calls_Bites_play_full_game_method(
-    self, mock_builtin_input, mock_bites_play, mock_bites_init, mock_builtin_print):
-    # test 112
     start_new_game()
-    mock_bites_play.assert_called_once()
+
+    expected_calls = [
+      mock.call.mock_prepare_players(),
+      mock.call.mock_choose_game_rule({"top down": None, "bottom up": None, "leave gaps": None, "user choice": None}, "Please enter your choice of anthill card: "),
+      mock.call.mock_choose_game_rule({"collector": None, "oenophile": None}, "Please enter your choice of wine card: "),
+      mock.call.mock_choose_game_rule({"turbo": None, "doubler": None}, "Please enter your choice of chocolate card: "),
+      mock.call.mock_bites_init(
+      {"purple": "grapes", "red": "apple", "brown": "bread", "yellow": "cheese", "green": "pepper"}.keys(),
+      {"grapes": 1, "apple": 1, "bread": 1, "cheese": 1, "pepper": 1},
+      {"wine": 1},
+      {"chocolate": 1},
+      [],
+      "top down",
+      "oenophile",
+      "doubler",
+      ),
+      mock.call.mock_bites_play(),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
 
 class Use_choose_game_rule_ToChooseAnthillRuleTest(unittest.TestCase):
   @patch('builtins.input', return_value = "top down")
@@ -305,6 +326,46 @@ class Use_choose_game_rule_ToChooseWineRuleTest(unittest.TestCase):
     prompt_text = "Please enter your choice of wine card: "
     expected_results = ["collector", "oenophile"]
     self.assertIn(choose_game_rule(wine_card_dict, prompt_text), expected_results)
+
+class Use_choose_game_rule_ToChooseChocolateRuleTest(unittest.TestCase):
+  @patch('builtins.input', return_value = "turbo")
+  @patch('builtins.print')
+  def test_choose_game_rule_allows_choice_of_turbo(self, mock_builtin_print, mock_builtin_input):
+    # test 227
+    chocolate_card_dict = {"turbo": None}
+    prompt_text = "Please enter your choice of chocolate card: "
+    expected_result = "turbo"
+    self.assertEqual(choose_game_rule(chocolate_card_dict, prompt_text), expected_result)
+
+  @patch('builtins.input', return_value = "doubler")
+  @patch('builtins.print')
+  def test_check_game_rule_allows_choice_of_doubler(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 228
+    chocolate_card_dict = {"turbo": None, "doubler": None}
+    prompt_text = "Please enter your choice of chocolate card: "
+    expected_result = "doubler"
+    self.assertEqual(choose_game_rule(chocolate_card_dict, prompt_text), expected_result)
+
+  @patch('builtins.input', side_effect = ["doubleupagus", "doubler"])
+  @patch('builtins.print')
+  def test_check_user_makes_typo_no_error_redo_choice_select_doubler(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 229
+    chocolate_card_dict = {"turbo": None, "doubler": None}
+    prompt_text = "Please enter your choice of chocolate card: "
+    expected_result = "doubler"
+    self.assertEqual(choose_game_rule(chocolate_card_dict, prompt_text), expected_result)
+
+  @patch('builtins.input', return_value = "random")
+  @patch('builtins.print')
+  def test_check_user_can_enter_random_and_one_of_the_other_wine_options_is_selected(
+    self, mock_builtin_print, mock_builtin_input):
+    # test 230
+    chocolate_card_dict = {"turbo": None, "doubler": None}
+    prompt_text = "Please enter your choice of chocolate card: "
+    expected_results = ["turbo", "doubler"]
+    self.assertIn(choose_game_rule(chocolate_card_dict, prompt_text), expected_results)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)

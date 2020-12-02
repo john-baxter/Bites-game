@@ -574,7 +574,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
 
     anthill_after_turn_1 =[None, None, None, None, "red"]
     ant_pos_after_turn_1 = {"red": "anthill", "green": None, "yellow": None, "purple": None, "brown": None}
-    secont_ant = "green"
+    second_ant = "green"
 
     anthill_after_turn_2 = [None, None, "green", None, "red"]
     ant_pos_after_turn_2 = {"red": "anthill", "green": "anthill", "yellow": None, "purple": None, "brown": None}
@@ -600,7 +600,7 @@ class PlaceAntOnAnthillTest(unittest.TestCase):
       starting_ant_positions, starting_anthill, anthill_rule, first_ant), (
         anthill_after_turn_1, ant_pos_after_turn_1))
     self.assertEqual(mario.place_ant_on_anthill(
-      ant_pos_after_turn_1, anthill_after_turn_1, anthill_rule , secont_ant), (
+      ant_pos_after_turn_1, anthill_after_turn_1, anthill_rule , second_ant), (
         anthill_after_turn_2, ant_pos_after_turn_2))
     self.assertEqual(mario.place_ant_on_anthill(
       ant_pos_after_turn_2, anthill_after_turn_2, anthill_rule, third_ant), (
@@ -885,7 +885,7 @@ class DefineAllowedChoicesDirectionTest(unittest.TestCase):
     self.assertEqual(mario.define_allowed_choices_direction(ant, trail, ant_positions), expected_allowed_choices)
     self.assertIn("front", mario.define_allowed_choices_direction(ant, trail, ant_positions))
 
-class TakeTurnTest(unittest.TestCase):
+class TakeStandardTurnTest(unittest.TestCase):
   def test_single_ant_moves_to_centre_of_three_element_trail_picks_front(self):
     # test 66
     # Given
@@ -901,7 +901,7 @@ class TakeTurnTest(unittest.TestCase):
     print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      mario.take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     # Then
     expected_new_hand = {"cheese": 1}
     expected_new_trail = ["pepper", "apple", None]
@@ -932,7 +932,7 @@ class TakeTurnTest(unittest.TestCase):
     print_mock = print_patcher.start()
     # When
     (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
-      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+      mario.take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
     # Then
     expected_new_trail = trail
     expected_new_ant_positions = {"red": "anthill"}
@@ -1200,6 +1200,7 @@ class ScoreWineTest(unittest.TestCase):
     standard_tokens_for_trail = {"apple": 0}
     standard_tokens_for_trail = {}
     wine_rule = ""
+    chocolate_rule = ""
     actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
     self.assertIsInstance(actual_result, int)
 
@@ -1261,6 +1262,703 @@ class ScoreWineTest(unittest.TestCase):
       actual_wine_score = mario.score_wine(standard_tokens_for_trail, wine_rule)
       const_mock_wine_card["oenophile"].assert_called_once_with(mario.hand, standard_tokens_for_trail)
     self.assertEqual(actual_wine_score, 4)
+
+class SpendChocolateTest(unittest.TestCase):
+  def test_spend_chocolate_can_reduce_chocolate_in_hand_from_5_to_4(self):
+    # test 195
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 5}
+    
+    expected_new_hand = {"chocolate": 4}
+    mario.spend_chocolate()
+
+    self.assertEqual(mario.hand, expected_new_hand)
+
+  def test_spend_chocolate_can_reduce_chocolate_in_hand_from_3_to_2(self):
+    # test 196
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 3}
+    
+    expected_new_hand = {"chocolate": 2}
+    mario.spend_chocolate()
+
+    self.assertEqual(mario.hand, expected_new_hand)
+
+  def test_spend_chocolate_returns_same_hand_if_hand_has_no_choc(self):
+    # test 197
+    mario = Player("Mario")
+    mario.hand = {"cheese": 3}
+    
+    expected_new_hand = {"cheese": 3}
+    mario.spend_chocolate()
+
+    self.assertEqual(mario.hand, expected_new_hand)
+
+  def test_spend_chocolate_removes_chocolate_completely_if_only_1_in_hand(self):
+    # test 198
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 1}
+    
+    expected_new_hand = {}
+    mario.spend_chocolate()
+
+    self.assertEqual(mario.hand, expected_new_hand)
+
+class AskToSpendChocolateTest(unittest.TestCase):
+  @patch('builtins.print')
+  @patch('builtins.input', return_value = "yes")
+  def test_ask_to_spend_choc_returns_True_for_input_yes(self, mock_builtin_input, mock_builtin_print):
+    # test 205
+    mario = Player("Mario")
+    expected_result = True
+
+    actual_result = mario.ask_to_spend_chocolate()
+
+    self.assertEqual(actual_result, expected_result)
+    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?\n")
+
+  @patch('builtins.print')
+  @patch('builtins.input', return_value = "no")
+  def test_ask_to_spend_choc_returns_False_for_input_no(self, mock_builtin_input, mock_builtin_print):
+    # test 206
+    mario = Player("Mario")
+    expected_result = False
+
+    actual_result = mario.ask_to_spend_chocolate()
+
+    self.assertEqual(actual_result, expected_result)
+    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?\n")
+
+  @patch('builtins.print')
+  @patch('builtins.input', return_value = "yes")
+  def test_ask_to_spend_choc_shows_user_the_options(self, mock_builtin_input, mock_builtin_print):
+    # test 207
+    mario = Player("Mario")
+    mario.ask_to_spend_chocolate()
+
+    mock_builtin_print.assert_called_once_with("Please enter 'yes' or 'no'.")
+
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["maybe", "no"])
+  def test_ask_to_spend_choc_asks_again_if_incorrect_input(
+    self, 
+    mock_builtin_input, 
+    mock_builtin_print,
+    ):
+    # test 208
+    mario = Player("Mario")
+
+    expected_result = False
+    actual_result = mario.ask_to_spend_chocolate()
+
+    self.assertEqual(actual_result, expected_result)
+    self.assertEqual(mock_builtin_input.call_args_list[0], call("Would you like to spend a chocolate token?\n"))
+    self.assertEqual(mock_builtin_input.call_args_list[1], call("Would you like to spend a chocolate token?\n"))
+    self.assertEqual(len(mock_builtin_input.call_args_list), 2)
+
+class WillSpendChocTest(unittest.TestCase):
+  @patch('player.Player.ask_to_spend_chocolate', return_value = True)
+  def test_will_spend_choc_returns_True_if_choc_in_hand(self, mock_ask):
+    # test 209
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 3}
+
+    expected_return = True
+    actual_return = mario.will_spend_choc()
+
+    self.assertEqual(actual_return, expected_return)
+
+  @patch('player.Player.ask_to_spend_chocolate')
+  def test_will_spend_choc_returns_False_if_choc_not_in_hand(self, mock_ask):
+    # test 210
+    mario = Player("Mario")
+    mario.hand = {"cheese": 3}
+
+    expected_return = False
+    actual_return = mario.will_spend_choc()
+
+    self.assertEqual(actual_return, expected_return)
+
+  @patch('player.Player.ask_to_spend_chocolate')
+  def test_will_spend_choc_calls_ask_to_spend_choc(self, mock_ask):
+    # test 211
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 3}
+
+    mario.will_spend_choc()
+    mock_ask.assert_called_once_with()
+
+  @patch('player.Player.ask_to_spend_chocolate')
+  def test_will_spend_choc_only_calls_ask_to_spend_if_choc_in_hand(self, mock_ask):
+    # test 212
+    mario = Player("Mario")
+    mario.hand = {"cheese": 3}
+
+    mario.will_spend_choc()
+    mock_ask.assert_not_called()
+
+class TakeTurboTurnTest(unittest.TestCase):
+  @patch('player.Player.make_choice', side_effect = ["yellow", "back"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_take_turbo_turn_starts_with_player_spending_choc_and_choosing_ant(
+    self,
+    mock_allowed_ants,
+    mock_ant_choice,
+  ):
+    # test 213
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_ant_choice, 'mock_ant_choice')
+
+    mario.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_ant_choice(["yellow"], "please enter your choice of ant"),
+    ]
+    self.assertEqual(manager.mock_calls[0:2], expected_calls)
+
+  @patch('player.Player.store_food')
+  @patch('player.Player.take_food_from_trail', return_value = ("cheese", ["cheese", None, "cheese"]))
+  @patch('player.Player.define_allowed_choices_direction', return_value = ["back"])
+  @patch('player.Player.move_ant_along_trail', side_effect = [
+    {"yellow": 1},
+    {"yellow": 2},
+  ])
+  @patch('player.Player.make_choice', side_effect = ["yellow", "back"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_take_turbo_turn_calls_relevant_steps_to_complete_a_move_along_the_trail_inc_two_times_calling_move_along_trail_method(
+    self,
+    mock_allowed_ants,
+    mock_make_choice,
+    mock_move_ant,
+    mock_allowed_directions,
+    mock_take_food,
+    mock_store_food,
+  ):
+  # test 214
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_move_ant, 'mock_move_ant')
+    manager.attach_mock(mock_allowed_directions, 'mock_allowed_directions')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_take_food, 'mock_take_food')
+    manager.attach_mock(mock_store_food, 'mock_store_food')
+
+    mario.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_make_choice(["yellow"], "please enter your choice of ant"),
+      mock.call.mock_move_ant(trail, ant_positions, ant),
+      mock.call.mock_move_ant(trail, {"yellow": 1}, ant),
+      mock.call.mock_allowed_directions(ant, trail, {"yellow": 2}),
+      mock.call.mock_make_choice(["back"], "please pick a direction to collect food from"),
+      mock.call.mock_take_food(trail, {"yellow": 2}, ant, "back"),
+      mock.call.mock_store_food("cheese"),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+  @patch('player.Player.store_food')
+  @patch('player.Player.take_food_from_anthill', return_value = ({"cheese": 0}, ["cheese", "apple", "bread"]))
+  @patch('player.Player.define_allowed_choices_anthill_food', return_value = ["cheese"])
+  @patch('player.Player.place_ant_on_anthill', return_value = (["yellow", {"yellow": "anthill"}]))
+  @patch('player.Player.goes_to_anthill', return_value = True)
+  @patch('player.Player.make_choice', side_effect = ["yellow", "cheese"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_take_turbo_turn_but_goes_to_anthill_is_True_is_same_as_regular_goes_to_anthill_situation(
+    self,
+    mock_allowed_ants,
+    mock_make_choice,
+    mock_goes_to_anthill,
+    mock_place_on_anthill,
+    mock_allowed_anthill_food,
+    mock_take_anthill_food,
+    mock_store_food,
+  ):
+    # test 215
+    trail = ["cheese", "apple", "bread"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_goes_to_anthill, 'mock_goes_to_anthill')
+    manager.attach_mock(mock_place_on_anthill, 'mock_place_on_anthill')
+    manager.attach_mock(mock_allowed_anthill_food, 'mock_allowed_anthill_food')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_take_anthill_food, 'mock_take_anthill_food')
+    manager.attach_mock(mock_store_food, 'mock_store_food')
+
+    mario.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_make_choice(["yellow"], "please enter your choice of ant"),
+      mock.call.mock_goes_to_anthill(ant, trail, ant_positions),
+      mock.call.mock_place_on_anthill(ant_positions, anthill, anthill_rule, ant),
+      mock.call.mock_allowed_anthill_food(anthill_food_tokens),
+      mock.call.mock_make_choice(["cheese"], "please enter your choice of food"),
+      mock.call.mock_take_anthill_food(anthill_food_tokens, "cheese"),
+      mock.call.mock_store_food("cheese"),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+  @patch('player.Player.store_food')
+  @patch('player.Player.take_food_from_anthill', return_value = ({"cheese": 0}, ["cheese", "apple", "bread"]))
+  @patch('player.Player.define_allowed_choices_anthill_food', return_value = ["cheese"])
+  @patch('player.Player.place_ant_on_anthill', return_value = (["yellow", {"yellow": "anthill"}]))
+  @patch('player.Player.move_ant_along_trail', return_value = {"yellow": 1})
+  @patch('player.Player.goes_to_anthill', side_effect = [False, True])
+  @patch('player.Player.make_choice', side_effect = ["yellow", "cheese"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_take_turbo_turn_can_skip_last_available_token_and_second_move_ends_on_anthill(
+    self,
+    mock_allowed_ants,
+    mock_make_choice,
+    mock_goes_to_anthill,
+    mock_move_ant,
+    mock_place_on_anthill,
+    mock_allowed_anthill_food,
+    mock_take_anthill_food,
+    mock_store_food,
+    ):
+    # test 216
+    trail = ["cheese", "cheese", "bread"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_goes_to_anthill, 'mock_goes_to_anthill')
+    manager.attach_mock(mock_move_ant, 'mock_move_ant')
+    manager.attach_mock(mock_place_on_anthill, 'mock_place_on_anthill')
+    manager.attach_mock(mock_allowed_anthill_food, 'mock_allowed_anthill_food')
+    manager.attach_mock(mock_take_anthill_food, 'mock_take_anthill_food')
+    manager.attach_mock(mock_store_food, 'mock_store_food')
+
+    mario.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_make_choice(["yellow"], "please enter your choice of ant"),
+      mock.call.mock_goes_to_anthill(ant, trail, ant_positions),
+      mock.call.mock_move_ant(trail, ant_positions, ant),
+      mock.call.mock_goes_to_anthill(ant, trail, {"yellow": 1}),
+      mock.call.mock_place_on_anthill({"yellow": 1}, anthill, anthill_rule, ant),
+      mock.call.mock_allowed_anthill_food(anthill_food_tokens),
+      mock.call.mock_make_choice(["cheese"], "please enter your choice of food"),
+      mock.call.mock_take_anthill_food(anthill_food_tokens, "cheese"),
+      mock.call.mock_store_food("cheese"),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["yellow", "front"])
+  def test_take_turbo_turn_returns_updated_trail__ant_positions__anthill_and_anthill_food_tokens(
+    self,
+    mock_builtin_input,
+    mock_builtin_print,
+    ):
+    # test 223
+    trail = ["cheese", "cheese", "cheese", "cheese"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese": 1}
+    mario = Player("Mario")
+
+    expected_new_trail = ["cheese", "cheese", "cheese", None]
+    expected_new_ant_positions = {"yellow": 2}
+    expected_new_anthill = [None]
+    expected_new_anthill_food = {"cheese": 1}
+
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
+      mario.take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    self.assertEqual(actual_new_trail, expected_new_trail)
+    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
+
+class TakeTurnTest(unittest.TestCase):
+  @patch('player.Player.take_standard_turn', return_value = (
+    ["cheese", "cheese", None],
+    {"yellow": 1},
+    [None],
+    {"cheese": 1},
+    ))
+  @patch('player.Player.will_spend_choc', return_value = False)
+  def test_take_turn_starts_by_calling_will_spend_choc(
+    self,
+    mock_will_spend_choc,
+    mock_take_standard_turn,
+    ):
+    # test 217
+    trail = ["cheese", "cheese", "bread"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    chocolate_rule = ""
+    mario = Player("Mario")
+
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
+
+    mock_will_spend_choc.assert_called_once_with()
+
+  @patch('player.Player.take_standard_turn', return_value = (
+    ["cheese", "cheese", None],
+    {"yellow": 1},
+    [None],
+    {"cheese": 1},
+    ))
+  @patch('player.Player.will_spend_choc', return_value = False)
+  def test_take_turn_calls_take_standard_turn_when_will_spend_choc_is_False(
+    self,
+    mock_will_spend_choc,
+    mock_take_standard_turn,
+    ):
+    # test 218
+    trail = ["cheese", "cheese", "bread"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    chocolate_rule = ""
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_will_spend_choc, 'mock_will_spend_choc')
+    manager.attach_mock(mock_take_standard_turn, 'mock_take_standard_turn')
+    
+    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
+
+    expected_calls = [
+      mock.call.mock_will_spend_choc(),
+      mock.call.mock_take_standard_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+  @patch('player.Player.take_turbo_turn', return_value = (
+    ["cheese", "cheese", "bread"],
+    {"yellow": "anthill"},
+    ["yellow"],
+    {"cheese": 0,}
+    ))
+  @patch('player.Player.spend_chocolate')
+  @patch('player.Player.will_spend_choc', return_value = True)
+  def test_take_turn_calls_spend_choc_and_take_turbo_turn_when_will_spend_choc_is_True(
+    self,
+    mock_will_spend_choc,
+    mock_spend_choc,
+    mock_take_turbo_turn,
+    ):
+    # test 219
+    trail = ["cheese", "cheese", "bread"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    chocolate_rule = "turbo"
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_will_spend_choc, 'mock_will_spend_choc')
+    manager.attach_mock(mock_spend_choc, 'mock_spend_choc')
+    manager.attach_mock(mock_take_turbo_turn, 'mock_take_turbo_turn')
+    
+    mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
+
+    expected_calls = [
+      mock.call.mock_will_spend_choc(),
+      mock.call.mock_spend_choc(),
+      mock.call.mock_take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens),
+    ]
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["yellow", "front"])
+  @patch('player.Player.will_spend_choc', return_value = True)
+  def test_take_turn_returns_updated_trail__ant_positions__anthill_and_anthill_food_tokens_for_will_spend_is_True(
+    self,
+    mock_will_spend_choc,
+    mock_builtin_input,
+    mock_builtin_print,
+    ):
+    # test 225
+    trail = ["cheese", "cheese", "cheese", "cheese"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese": 1}
+    chocolate_rule = "turbo"
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 3}
+
+    expected_new_trail = ["cheese", "cheese", "cheese", None]
+    expected_new_ant_positions = {"yellow": 2}
+    expected_new_anthill = anthill
+    expected_new_anthill_food = anthill_food_tokens
+
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
+
+    self.assertEqual(actual_new_trail, expected_new_trail)
+    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
+  
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["yellow", "front"])
+  @patch('player.Player.will_spend_choc', return_value = False)
+  def test_take_turn_returns_updated_trail__ant_positions__anthill_and_anthill_food_tokens_for_will_spend_is_False(
+    self,
+    mock_will_spend_choc,
+    mock_builtin_input,
+    mock_builtin_print,
+    ):
+    # test 226
+    trail = ["cheese", "cheese", "cheese", "cheese"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese": 1}
+    chocolate_rule = ""
+    mario = Player("Mario")
+    mario.hand = {"chocolate": 3}
+
+    expected_new_trail = ["cheese", "cheese",  None, "cheese"]
+    expected_new_ant_positions = {"yellow": 1}
+    expected_new_anthill = anthill
+    expected_new_anthill_food = anthill_food_tokens
+
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
+
+    self.assertEqual(actual_new_trail, expected_new_trail)
+    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
+
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["yellow", "front", "back"])
+  @patch('player.Player.spend_chocolate')
+  @patch('player.Player.will_spend_choc', return_value = True)
+  @patch('player.Player.take_doubler_turn', return_value = (None, None, None, None))
+  def test_take_turn_has_chocolate_rule_argument_of_doubler_and_calls_take_doubler_turn(
+    self,
+    mock_doubler_turn,
+    mock_will_spend_choc,
+    mock_spend_choc,
+    mock_builtin_input,
+    mock_builtin_print,
+    ):
+    trail = ["cheese", "cheese", "cheese", "cheese"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese": 1}
+    chocolate_rule = "doubler"
+    mario = Player("Mario")
+
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) =\
+      mario.take_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens, chocolate_rule)
+
+    mock_doubler_turn.assert_called_once_with(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+class TakeDoublerTurnTest(unittest.TestCase):
+  @patch('player.Player.make_choice', side_effect = ["yellow", "front", "back"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_take_doubler_turn_starts_with_player_choosing_ant(
+    self,
+    mock_allowed_ants,
+    mock_ant_choice,
+    ):
+    # test 220
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_ant_choice, 'mock_ant_choice')
+
+    mario.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_ant_choice(["yellow"], "please enter your choice of ant"),
+    ]
+    self.assertEqual(manager.mock_calls[0:2], expected_calls)
+
+  @patch('player.Player.store_food')
+  @patch('player.Player.take_food_from_anthill', return_value = {"cheese": 0})
+  @patch('player.Player.define_allowed_choices_anthill_food', return_value = ["cheese"])
+  @patch('player.Player.place_ant_on_anthill', return_value = (["yellow"], {"yellow": "anthill"}))
+  @patch('player.Player.goes_to_anthill', return_value = True)
+  @patch('player.Player.make_choice', side_effect = ["yellow", "cheese"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_goes_to_anthill_is_True_and_take_doubler_turn_carries_out_a_regular_go_to_anthill_move(
+    self,
+    mock_allowed_ants,
+    mock_make_choice,
+    mock_goes_to_anthill,
+    mock_place_on_anthill,
+    mock_allowed_anthill_food,
+    mock_take_anthill_food,
+    mock_store_food,
+    ):
+    # test 221
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_goes_to_anthill, 'mock_goes_to_anthill')
+    manager.attach_mock(mock_place_on_anthill, 'mock_place_on_anthill')
+    manager.attach_mock(mock_allowed_anthill_food, 'mock_allowed_anthill_food')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_take_anthill_food, 'mock_take_anthill_food')
+    manager.attach_mock(mock_store_food, 'mock_store_food')
+
+    mario.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_make_choice(["yellow"], "please enter your choice of ant"),
+      mock.call.mock_goes_to_anthill(ant, trail, ant_positions),
+      mock.call.mock_place_on_anthill(ant_positions, anthill, anthill_rule, ant),
+      mock.call.mock_allowed_anthill_food(anthill_food_tokens),
+      mock.call.mock_make_choice(["cheese"], "please enter your choice of food"),
+      mock.call.mock_take_anthill_food({"cheese": 1}, "cheese"),
+      mock.call.mock_store_food("cheese"),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+  @patch('player.Player.store_food', side_effect = ["cheese", "cheese"])
+  @patch('player.Player.take_food_from_trail', side_effect = [
+    ("cheese", ["cheese", "cheese", None]), 
+    ("cheese", [None, "cheese", None])])
+  @patch('player.Player.define_allowed_choices_direction', side_effect = [["front", "back"], ["back"]])
+  @patch('player.Player.move_ant_along_trail', return_value = {"yellow": 1})
+  @patch('player.Player.goes_to_anthill', return_value = False)
+  @patch('player.Player.make_choice', side_effect = ["yellow", "front", "back"])
+  @patch('player.Player.define_allowed_choices_ants', return_value = ["yellow"])
+  def test_goes_to_anthill_is_False_and_take_doubler_turn_moves_along_trail_once_as_normal_and_offers_to_take_food_twice(
+    self,
+    mock_allowed_ants,
+    mock_make_choice,
+    mock_goes_to_anthill,
+    mock_move_ant,
+    mock_allowed_directions,
+    mock_take_food,
+    mock_store_food,
+    ):
+    # test 222
+    trail = ["cheese", "cheese", "cheese"]
+    ant = "yellow"
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese" : 1}
+    mario = Player("Mario")
+
+    manager = mock.Mock()
+    manager.attach_mock(mock_allowed_ants, 'mock_allowed_ants')
+    manager.attach_mock(mock_make_choice, 'mock_make_choice')
+    manager.attach_mock(mock_goes_to_anthill, 'mock_goes_to_anthill')
+    manager.attach_mock(mock_move_ant, 'mock_move_ant')
+    manager.attach_mock(mock_allowed_directions, 'mock_allowed_directions')
+    manager.attach_mock(mock_take_food, 'mock_take_food')
+    manager.attach_mock(mock_store_food, 'mock_store_food')
+
+    mario.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    expected_calls = [
+      mock.call.mock_allowed_ants(ant_positions),
+      mock.call.mock_make_choice(["yellow"], "please enter your choice of ant"),
+      mock.call.mock_goes_to_anthill(ant, trail, ant_positions),
+      mock.call.mock_move_ant(trail, ant_positions, ant),
+      mock.call.mock_allowed_directions(ant, trail, {"yellow": 1}),
+      mock.call.mock_make_choice(["front", "back"], "please pick a direction to collect food from"),
+      mock.call.mock_take_food(trail, {"yellow": 1}, ant, "front"),
+      mock.call.mock_store_food("cheese"),
+      mock.call.mock_allowed_directions(ant, ["cheese", "cheese", None], {"yellow": 1}),
+      mock.call.mock_make_choice(["back"], "please pick a direction to collect food from"),
+      mock.call.mock_take_food(["cheese", "cheese", None],{"yellow": 1}, ant, "back"),
+      mock.call.mock_store_food("cheese"),
+    ]
+
+    self.assertEqual(manager.mock_calls, expected_calls)
+
+  @patch('builtins.print')
+  @patch('builtins.input', side_effect = ["yellow", "front", "back"])
+  def test_take_doubler_turn_returns_updated_trail__ant_positions__anthill_and_anthill_food_tokens(
+    self,
+    mock_builtin_input,
+    mock_builtin_print,
+    ):
+    # test 224
+    trail = ["cheese", "cheese", "cheese", "cheese"]
+    ant_positions = {"yellow": 0}
+    anthill = [None]
+    anthill_rule = ""
+    anthill_food_tokens = {"cheese": 1}
+    mario = Player("Mario")
+
+    expected_new_trail = [None, "cheese", None, "cheese"]
+    expected_new_ant_positions = {"yellow": 1}
+    expected_new_anthill = [None]
+    expected_new_anthill_food = {"cheese": 1}
+
+    (actual_new_trail, actual_new_ant_positions, actual_new_anthill, actual_new_anthill_food) = \
+      mario.take_doubler_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens)
+
+    self.assertEqual(actual_new_trail, expected_new_trail)
+    self.assertEqual(actual_new_ant_positions, expected_new_ant_positions)
+    self.assertEqual(actual_new_anthill, expected_new_anthill)
+    self.assertEqual(actual_new_anthill_food, expected_new_anthill_food)
 
 if __name__ == '__main__':
   unittest.main(verbosity = 2)
