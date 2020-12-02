@@ -1705,9 +1705,6 @@ class TakeTurnTest(unittest.TestCase):
       mock.call.mock_spend_choc(),
       mock.call.mock_take_turbo_turn(trail, ant_positions, anthill, anthill_rule, anthill_food_tokens),
     ]
-    print("*************")
-    print("*************")
-    print(manager.mock_calls)
     self.assertEqual(manager.mock_calls, expected_calls)
 
   @patch('builtins.print')
