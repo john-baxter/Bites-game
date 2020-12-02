@@ -111,7 +111,13 @@ class BitesInitTest(unittest.TestCase):
   def test_Bites_receives_wine_rule_as_string_and_stores_it_as_attribute(self):
     # test 175
     ants = []
-    standard_tokens_for_trail = {"apple": 0}
+    standard_tokens_for_trail = {
+      "cheese": 3, 
+      "bread": 3,
+      "grapes": 3,
+      "apple": 3,
+      "pepper": 3,
+      }
     wine_tokens_for_trail = {}
     chocolate_tokens_for_trail = {}
     players = []
@@ -124,6 +130,30 @@ class BitesInitTest(unittest.TestCase):
 
     self.assertEqual(type(bites_game.wine_rule), expected_wine_rule_attribute_type)
     self.assertEqual(bites_game.wine_rule, expected_wine_rule_attribute)
+
+  def test_Bites_receives_chocolate_rule_as_string_and_stores_it_as_attribute(self):
+    # test 232
+    ants = []
+    standard_tokens_for_trail = {
+      "cheese": 3, 
+      "bread": 3,
+      "grapes": 3,
+      "apple": 3,
+      "pepper": 3,
+      }
+    wine_tokens_for_trail = {}
+    chocolate_tokens_for_trail = {}
+    players = []
+    anthill_rule = "test anthill order"
+    wine_rule = "test wine rule"
+    chocolate_rule = "test chocolate rule"
+    bites_game = Bites(ants, standard_tokens_for_trail, wine_tokens_for_trail, chocolate_tokens_for_trail, players, anthill_rule, wine_rule, chocolate_rule)
+    
+    expected_chocolate_rule_attribute_type = str
+    expected_chocolate_rule_attribute = "test chocolate rule"
+
+    self.assertEqual(type(bites_game.chocolate_rule), expected_chocolate_rule_attribute_type)
+    self.assertEqual(bites_game.chocolate_rule, expected_chocolate_rule_attribute)
 
 class InitialiseAntsTest(unittest.TestCase):
   def test_can_initialise_one_ant(self):
