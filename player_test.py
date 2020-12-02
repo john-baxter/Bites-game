@@ -1395,7 +1395,7 @@ class WillSpendChocTest(unittest.TestCase):
     mario.hand = {"cheese": 3}
 
     mario.will_spend_choc()
-    assert not mock_ask.called
+    mock_ask.assert_not_called()
 
 class TakeTurboTurnTest(unittest.TestCase):
   @patch('player.Player.make_choice', side_effect = ["yellow", "back"])
@@ -1454,7 +1454,6 @@ class TakeTurboTurnTest(unittest.TestCase):
     mario = Player("Mario")
 
     manager = mock.Mock()
-    manager.attach_mock(mock_move_ant, 'mock_move_ant')
     manager.attach_mock(mock_move_ant, 'mock_move_ant')
     manager.attach_mock(mock_allowed_directions, 'mock_allowed_directions')
     manager.attach_mock(mock_make_choice, 'mock_make_choice')
@@ -1911,11 +1910,6 @@ class TakeDoublerTurnTest(unittest.TestCase):
     manager.attach_mock(mock_goes_to_anthill, 'mock_goes_to_anthill')
     manager.attach_mock(mock_move_ant, 'mock_move_ant')
     manager.attach_mock(mock_allowed_directions, 'mock_allowed_directions')
-    manager.attach_mock(mock_make_choice, 'mock_make_choice')
-    manager.attach_mock(mock_take_food, 'mock_take_food')
-    manager.attach_mock(mock_store_food, 'mock_store_food')
-    manager.attach_mock(mock_allowed_directions, 'mock_allowed_directions')
-    manager.attach_mock(mock_make_choice, 'mock_make_choice')
     manager.attach_mock(mock_take_food, 'mock_take_food')
     manager.attach_mock(mock_store_food, 'mock_store_food')
 

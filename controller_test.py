@@ -136,8 +136,6 @@ class StartNewGameTest(unittest.TestCase):
     manager = mock.Mock()
     manager.attach_mock(mock_prepare_players, 'mock_prepare_players')
     manager.attach_mock(mock_choose_game_rule, 'mock_choose_game_rule')
-    manager.attach_mock(mock_choose_game_rule, 'mock_choose_game_rule')
-    manager.attach_mock(mock_choose_game_rule, 'mock_choose_game_rule')
     manager.attach_mock(mock_bites_init, 'mock_bites_init')
     manager.attach_mock(mock_bites_play, 'mock_bites_play')
 
