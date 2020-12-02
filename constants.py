@@ -114,3 +114,6 @@ CHOCOLATE_CARD_DICT = {
   "turbo": "take_turbo_turn",
   "doubler": "take_doubler_turn",
   }
+"""The various  methods that will be used to execute a 'chocolate turn'; when the 
+player opts to spend a chocolate token during their turn.
+"""
