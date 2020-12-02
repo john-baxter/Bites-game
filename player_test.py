@@ -1200,6 +1200,7 @@ class ScoreWineTest(unittest.TestCase):
     standard_tokens_for_trail = {"apple": 0}
     standard_tokens_for_trail = {}
     wine_rule = ""
+    chocolate_rule = ""
     actual_result = mario.score_wine(standard_tokens_for_trail, wine_rule)
     self.assertIsInstance(actual_result, int)
 
