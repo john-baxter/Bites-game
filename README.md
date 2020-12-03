@@ -31,7 +31,7 @@ In the current state the whole project is using the Python standard library with
 The project currently has the following features:
 - The game is playable using a simple text-based interface in the Command Line
 - 2 to 5 players can play at a time
-- Standard food tokens and wine used for the trail
+- Standard food tokens, wine and chocolate used for the trail
 - Standard ant colours used
 - Players can collect food from the anthill
 - Multiple options for anthill filling. The players may choose one or have the game randomly select one for them.
@@ -42,6 +42,13 @@ The project currently has the following features:
 - Multiple options for wine-scoring rule. The players may choose one or have the game randomly select one for them
   * "Collector"
   * "Oenophile"
+- Multiple options for special chocolate actions. The players may choose one or have the game randomly select one for them
+  * "Turbo"
+  * "Doubler"
+
+Extra information about what each rule card refers to is available in
+[this](./card_clarification.md) 
+document.
 
 
 ## [^](#code-written-by-john-baxter)Code example
@@ -50,7 +57,9 @@ The project currently has the following features:
 The following example shows the method within the 
 [Player class](./player.py#L144) 
 which is used after the choice of which ant to move has been made; and is responsible for defining at what position the ant's move will be completed.\
-<b>NB</b> The actual method in [player.py](./player.py) file contains internal documentation whach has been ommited from this example for clarity.
+<b>NB</b> The actual method in 
+[player.py](./player.py) 
+file contains internal documentation whach has been ommited from this example for clarity.
 
 ```python
 def move_ant_along_trail(self, trail, ant_positions, ant):
