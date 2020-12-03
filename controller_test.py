@@ -156,9 +156,8 @@ class StartNewGameTest(unittest.TestCase):
       "oenophile",
       "doubler",
       ),
-      mock.call.mock_bites_play(),
+      mock.call.mock_bites_play("doubler", "oenophile"),
     ]
-
     self.assertEqual(manager.mock_calls, expected_calls)
 
 class Use_choose_game_rule_ToChooseAnthillRuleTest(unittest.TestCase):

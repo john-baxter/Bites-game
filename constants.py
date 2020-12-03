@@ -48,8 +48,8 @@ Values are ant colours as strings.
 """
 
 
-NUMBER_OF_EACH_STANDARD_FOOD_TOKEN = 9
-NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN = 5
+NUMBER_OF_EACH_STANDARD_FOOD_TOKEN = 3
+NUMBER_OF_EACH_SPECIAL_FOOD_TOKEN = 1
 """As per the standard rules of the game, there are this many of each  
 food token.
 """
