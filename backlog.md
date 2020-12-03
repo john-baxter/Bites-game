@@ -5,7 +5,6 @@
 Liaise with Peter about the front-end
 
 ### Current
-Scan through entire project looking for obvious typos/formatting issues to correct.\
 
 ### Next
 
