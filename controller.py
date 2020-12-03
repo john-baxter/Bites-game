@@ -9,7 +9,7 @@ from random import randint
 from functions import show_allowed_choices_from_list
 
 def enter_number_of_players():
-  """Sets the number of players for the game
+  """Sets the number of players for the game.
 
   Prompts the user to input the number of players that will be playing the game. 
   Verifies that the user input is:
@@ -99,12 +99,14 @@ def choose_game_rule(rule_card_dict, prompt_text):
     Keys are names of rules as strings
     Values are the implementation of those rules in various forms including:
       - list
-      - method(with parameters)
+      - method object
+      - method name as string
+      - None
 
   Returns
   -------
   card_choice : (string)
-    The string value from the keys of rule_card_dict that has been selected
+    The string value from the keys of rule_card_dict that has been selected.
   """
   rule_card_allowed_choices = list(rule_card_dict.keys())
   show_allowed_choices_from_list(rule_card_allowed_choices)
