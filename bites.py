@@ -163,7 +163,7 @@ class Bites():
     random.shuffle(partial_trail)
     return partial_trail
 
-  def take_all_turns(self):
+  def take_all_turns(self, chocolate_rule):
     """Cycles through all players and performs actions needed to take their turns.
 
     Continues to cycle through players repeatedly until the end of the game.
@@ -175,27 +175,27 @@ class Bites():
       for player in self.players:
         (self.trail, self.ant_positions, self.anthill, self.anthill_food_tokens) = \
           player.take_turn(
-            self.trail, self.ant_positions, self.anthill, self.anthill_rule, self.anthill_food_tokens)
+            self.trail, self.ant_positions, self.anthill, self.anthill_rule, self.anthill_food_tokens, chocolate_rule)
         self.render_game()
         if None not in self.anthill: return
 
-  def calculate_and_print_scores(self):
+  def calculate_and_print_scores(self, wine_rule):
     """Displays each player's score
 
     Prints each player's name and shows how many points they have.
     """
     print("\nThe results: ")
     for player in self.players:
-      player.score_hand(self.anthill, self.standard_tokens_for_trail)     
+      player.score_hand(self.anthill, self.standard_tokens_for_trail, wine_rule)     
       print ("%s: %i" % (player.name, player.score))
 
-  def play_full_game(self):
+  def play_full_game(self, chocolate_rule, wine_rule):
     """Runs through a full game
 
     Takes all player turns as necessary and prints player scores.
     """
-    self.take_all_turns()
-    self.calculate_and_print_scores()
+    self.take_all_turns(chocolate_rule)
+    self.calculate_and_print_scores(wine_rule)
 
   def render_game(self):
     """Shows the various elements of the game on the screen.
