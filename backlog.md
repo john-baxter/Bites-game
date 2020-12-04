@@ -5,6 +5,7 @@
 Liaise with Peter about the front-end
 
 ### Current
+Update ask to spend chocolate so that it contains the player's name (like the other prompts during the player turn).
 
 ### Next
 

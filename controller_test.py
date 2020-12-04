@@ -156,7 +156,7 @@ class StartNewGameTest(unittest.TestCase):
       "oenophile",
       "doubler",
       ),
-      mock.call.mock_bites_play("doubler", "oenophile"),
+      mock.call.mock_bites_play(),
     ]
     self.assertEqual(manager.mock_calls, expected_calls)
 
