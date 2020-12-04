@@ -431,7 +431,7 @@ class TakeAllTurnsTest(unittest.TestCase):
       trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario),
       ([], {}, [], {})])
     
-    bites_game.take_all_turns(chocolate_rule)
+    bites_game.take_all_turns()
 
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
@@ -584,7 +584,7 @@ class TakeAllTurnsTest(unittest.TestCase):
       (trail_after_turn_2_luigi, ant_pos_after_turn_2_luigi, anthill_after_turn_2_luigi, anthill_food_tokens_after_turn_2_luigi),
       (trail_after_turn_4_luigi, ant_pos_after_turn_4_luigi, anthill_after_turn_4_luigi, anthill_food_tokens_after_turn_4_luigi)])
     
-    bites_game.take_all_turns(chocolate_rule)
+    bites_game.take_all_turns()
     
     self.assertGreaterEqual(fake_mario.take_turn.call_count, 2)
     self.assertEqual(fake_luigi.take_turn.call_count, 2)
@@ -658,7 +658,7 @@ class TakeAllTurnsTest(unittest.TestCase):
     fake_mario.take_turn = mock.MagicMock(return_value = (
       trail_after_turn_1_mario, ant_pos_after_turn_1_mario, anthill_after_turn_1_mario, anthill_food_tokens_after_turn_1_mario))
 
-    bites_game.take_all_turns(chocolate_rule)
+    bites_game.take_all_turns()
 
     self.assertEqual(fake_mario.take_turn.call_count, 1)
     self.assertEqual(fake_mario.take_turn.call_args_list[0], mock.call(
@@ -699,7 +699,7 @@ class PrintScoresTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.calculate_and_print_scores(wine_rule)
+    bites_game.calculate_and_print_scores()
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: 0"))
     self.assertGreaterEqual(print_mock.call_count, 1)
     print_patcher.stop()
@@ -735,7 +735,7 @@ class PrintScoresTest(unittest.TestCase):
 
     print_patcher = mock.patch('builtins.print')
     print_mock = print_patcher.start()
-    bites_game.calculate_and_print_scores(wine_rule)
+    bites_game.calculate_and_print_scores()
     self.assertGreaterEqual(print_mock.call_count, 2)
     self.assertEqual(print_mock.call_args_list[1], mock.call("mario: 3"))
     self.assertEqual(print_mock.call_args_list[2], mock.call("luigi: 9"))
@@ -756,7 +756,7 @@ class PlayFullGameTest(unittest.TestCase):
     wine_rule = ""
     chocolate_rule = ""
     bites_game = Bites([], standard_tokens_for_trail, {}, {}, [], "", wine_rule, chocolate_rule)
-    bites_game.play_full_game(chocolate_rule, wine_rule)
+    bites_game.play_full_game()
     self.assertTrue(take_all_turns_mock.called)
 
   @patch('bites.Bites.take_all_turns')
@@ -785,8 +785,8 @@ class PlayFullGameTest(unittest.TestCase):
     fake_luigi = FakePlayer("luigi", 9)
     players = [fake_mario, fake_luigi]
     bites_game = Bites([], standard_tokens_for_trail, {}, {}, players, "", "", "")
-    bites_game.play_full_game(chocolate_rule, wine_rule)
-    calculate_and_print_scores_mock.assert_called_once_with(wine_rule)
+    bites_game.play_full_game()
+    calculate_and_print_scores_mock.assert_called_once_with()
 
   @patch('bites.Bites.take_all_turns')
   @patch('bites.Bites.calculate_and_print_scores')
@@ -806,11 +806,10 @@ class PlayFullGameTest(unittest.TestCase):
     wine_rule = "oenophile"
     chocolate_rule = "doubler"
     bites_game = Bites([], standard_tokens_for_trail, {}, {}, [], "", wine_rule, chocolate_rule)
-    bites_game.play_full_game(chocolate_rule, wine_rule)
+    bites_game.play_full_game()
     expected_calls = [
-      mock.call.taking_all_the_turns(chocolate_rule), 
-      mock.call.printing_the_score(wine_rule)]
-    print(manager.mock_calls)
+      mock.call.taking_all_the_turns(), 
+      mock.call.printing_the_score()]
     self.assertEqual(manager.mock_calls, expected_calls)
 
 class RenderGameTest(unittest.TestCase):
