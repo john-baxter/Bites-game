@@ -5,12 +5,11 @@
 Liaise with Peter about the front-end
 
 ### Current
-Update ask to spend chocolate so that it contains the player's name (like the other prompts during the player turn).
 
 ### Next
+Change printing of '--' in trail so that it only prints one if there are multiple in a row.\
 
 ### Future
-Change printing of '--' in trail so that it only prints one if there are multiple in a row.\
 Check the justification wrt chocolate.\
 Consider changing player hand to a counter instead of a dict\
 Create a selection (possibly all) of the wine rules
