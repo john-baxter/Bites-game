@@ -591,8 +591,8 @@ class Player():
       True if the player chooses to spend a chocolate.
       False if the player chooses not to spend a chocolate.
     """
-    print("Please enter 'yes' or 'no'.")
-    user_choice = input("Would you like to spend a chocolate token?\n")
+    print("\nPlease enter 'yes' or 'no'.")
+    user_choice = input("%s; would you like to spend a chocolate token?\n" % self.name)
     if user_choice == "no":
       return False
     elif user_choice == "yes":

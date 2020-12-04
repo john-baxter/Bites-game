@@ -1315,7 +1315,7 @@ class AskToSpendChocolateTest(unittest.TestCase):
     actual_result = mario.ask_to_spend_chocolate()
 
     self.assertEqual(actual_result, expected_result)
-    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?\n")
+    mock_builtin_input.assert_called_once_with("Mario; would you like to spend a chocolate token?\n")
 
   @patch('builtins.print')
   @patch('builtins.input', return_value = "no")
@@ -1327,7 +1327,7 @@ class AskToSpendChocolateTest(unittest.TestCase):
     actual_result = mario.ask_to_spend_chocolate()
 
     self.assertEqual(actual_result, expected_result)
-    mock_builtin_input.assert_called_once_with("Would you like to spend a chocolate token?\n")
+    mock_builtin_input.assert_called_once_with("Mario; would you like to spend a chocolate token?\n")
 
   @patch('builtins.print')
   @patch('builtins.input', return_value = "yes")
@@ -1336,7 +1336,7 @@ class AskToSpendChocolateTest(unittest.TestCase):
     mario = Player("Mario")
     mario.ask_to_spend_chocolate()
 
-    mock_builtin_print.assert_called_once_with("Please enter 'yes' or 'no'.")
+    mock_builtin_print.assert_called_once_with("\nPlease enter 'yes' or 'no'.")
 
   @patch('builtins.print')
   @patch('builtins.input', side_effect = ["maybe", "no"])
@@ -1352,8 +1352,8 @@ class AskToSpendChocolateTest(unittest.TestCase):
     actual_result = mario.ask_to_spend_chocolate()
 
     self.assertEqual(actual_result, expected_result)
-    self.assertEqual(mock_builtin_input.call_args_list[0], call("Would you like to spend a chocolate token?\n"))
-    self.assertEqual(mock_builtin_input.call_args_list[1], call("Would you like to spend a chocolate token?\n"))
+    self.assertEqual(mock_builtin_input.call_args_list[0], call("Mario; would you like to spend a chocolate token?\n"))
+    self.assertEqual(mock_builtin_input.call_args_list[1], call("Mario; would you like to spend a chocolate token?\n"))
     self.assertEqual(len(mock_builtin_input.call_args_list), 2)
 
 class WillSpendChocTest(unittest.TestCase):

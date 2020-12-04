@@ -84,7 +84,7 @@ def start_new_game():
     wine_rule, 
     chocolate_rule,
     )
-  play_bites.play_full_game(chocolate_rule, wine_rule)
+  play_bites.play_full_game()
 
 def choose_game_rule(rule_card_dict, prompt_text):
   """Allows the user to choose a rule for this game
