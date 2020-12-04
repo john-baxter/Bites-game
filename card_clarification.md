@@ -22,7 +22,7 @@ The meanings of the wine card rules are in the table below:
 |Card name|How is it referred to in the game box|What does it mean|
 |:---|:---|:---|
 |collector|Collector|Each wine token is worth one point per type of standard food the player has; the number of each food held is not relevant.|
-|oenophile|Oenophile|Each wine token is worth one point per wine token the player has; i.e. wine points equal winr tokens squared.|
+|oenophile|Oenophile|Each wine token is worth one point per wine token the player has; i.e. wine points equal wine tokens squared.|
 ||||
 
 ## Chocolate special action
@@ -30,6 +30,6 @@ The meanings of the chocolate card rules are in the table below:
 
 |Card name|How is it referred to in the game box|What does it mean|
 |:---|:---|:---|
-|turbo|Turbo|The player moves the ant over the first available food type, and lands on the second available. if less than two are available the ant lands on the anthill. The player chooses one food token in the normal way for where the ant landed.|
-|doubler|Doubler|The player moves the ant as normal. If the ant lands on the trail the player can choose two food tokens, one at a time from any available direction. If the ant lands on the anthill the player takes one token as normal.|
+|turbo|Turbo|The player moves the ant over the first available food type, and lands on the second available. If less than two are available the ant lands on the anthill. The player chooses one food token in the normal way for where the ant landed.|
+|doubler|Doubler|The player moves the ant as normal. If the ant lands on the trail the player can choose two food tokens, one at a time, from any available direction. If the ant lands on the anthill the player takes one token as normal.|
 ||||
