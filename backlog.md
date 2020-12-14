@@ -7,9 +7,11 @@ Liaise with Peter about the front-end
 ### Current
 
 ### Next
-Change printing of '--' in trail so that it only prints one if there are multiple in a row.\
+Change printing of '--' in trail so that it only prints one if there are multiple in a row.
 
 ### Future
+Randomise the player order after the names have been entered.\
+Add links back to <span>README.md</span> from <span>backlog.md</span> and <span>card_clarification.md</span>.\
 Check the justification wrt chocolate.\
 Consider changing player hand to a counter instead of a dict\
 Create a selection (possibly all) of the wine rules
